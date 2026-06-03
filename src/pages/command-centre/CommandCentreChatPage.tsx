@@ -11,6 +11,8 @@ import { buildChatContext, buildChatHistory } from '../../api/buildChatContext';
 import { checkClaudeAvailable, streamClaudeChat } from '../../api/claudeChat';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
 import { IntelCard, IntelCardBody } from '../../command-centre/CcCard';
+import { ChatHistorySheet } from '../../components/chat/ChatHistorySheet';
+import { conversationToUiMessages, nextUiMessageId } from '../../utils/chatMessages';
 import type { Source } from '../../types';
 
 const USE_CLAUDE = import.meta.env.VITE_USE_CLAUDE_API !== 'false';
@@ -54,7 +56,9 @@ export function CommandCentreChatPage() {
     executiveState,
     recordChatTurn,
     createConversation,
+    startNewChat,
     activeConversationId,
+    activeConversation,
     copyMessage,
     setActiveSources,
     setSourcesPanelOpen,
@@ -69,10 +73,22 @@ export function CommandCentreChatPage() {
   const [busy, setBusy] = useState(false);
   const [copiedId, setCopiedId] = useState<number | null>(null);
   const [claudeLive, setClaudeLive] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const msgsRef = useRef(msgs);
   const idRef = useRef(0);
   msgsRef.current = msgs;
+
+  useEffect(() => {
+    if (!activeConversationId || !activeConversation) {
+      setMsgs([]);
+      idRef.current = 0;
+      return;
+    }
+    const loaded = conversationToUiMessages(activeConversation.messages);
+    setMsgs(loaded);
+    idRef.current = nextUiMessageId(loaded);
+  }, [activeConversationId]);
 
   useEffect(() => {
     if (!USE_CLAUDE) return;
@@ -210,6 +226,9 @@ export function CommandCentreChatPage() {
       if (!q || busy) return;
       setInput('');
       setBusy(true);
+      let convId = activeConversationId;
+      if (!convId) convId = createConversation(q.slice(0, 40));
+
       const uid = ++idRef.current;
       setMsgs((m) => [...m, { id: uid, role: 'user', text: q }]);
 
@@ -225,8 +244,6 @@ export function CommandCentreChatPage() {
 
       const aiRow = msgsRef.current.find((m) => m.id === aid && m.role === 'ai');
       if (aiRow && aiRow.role === 'ai' && aiRow.text.trim()) {
-        let convId = activeConversationId;
-        if (!convId) convId = createConversation(q.slice(0, 40));
         recordChatTurn(
           q,
           {
@@ -241,6 +258,14 @@ export function CommandCentreChatPage() {
     },
     [busy, activeConversationId, createConversation, recordChatTurn, fillAiMessage],
   );
+
+  const handleNewChat = useCallback(() => {
+    if (busy) return;
+    startNewChat();
+    setMsgs([]);
+    idRef.current = 0;
+    setInput('');
+  }, [busy, startNewChat]);
 
   const retryAiMessage = useCallback(
     async (aiId: number) => {
@@ -297,8 +322,34 @@ export function CommandCentreChatPage() {
 
   const empty = msgs.length === 0;
 
+  const historyTitle = activeConversation?.title ?? (ar ? 'محادثة جديدة' : 'New chat');
+
   return (
-    <div className="cc-chat-page" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className="cc-chat-page">
+      <ChatHistorySheet ar={ar} open={historyOpen} onClose={() => setHistoryOpen(false)} />
+
+      <header className="cc-chat-toolbar">
+        <div className="cc-chat-toolbar__title-wrap">
+          <span className="cc-chat-toolbar__label muted-3">{ar ? 'المحادثة' : 'Conversation'}</span>
+          <span className="cc-chat-toolbar__title">{historyTitle}</span>
+        </div>
+        <div className="cc-chat-toolbar__actions">
+          <button
+            type="button"
+            className="pill ghost cc-chat-toolbar__history-btn"
+            onClick={() => setHistoryOpen(true)}
+            aria-label={ar ? 'المحادثات السابقة' : 'Past conversations'}
+          >
+            <CcIcon name="history" size={16} />
+            {ar ? 'السجل' : 'History'}
+          </button>
+          <button type="button" className="btn btn-primary cc-chat-toolbar__new" onClick={handleNewChat} disabled={busy}>
+            <CcIcon name="plus" size={15} />
+            {ar ? 'محادثة جديدة' : 'New chat'}
+          </button>
+        </div>
+      </header>
+
       <div ref={scrollRef} className="content content--chat" style={{ padding: '8px 0', flex: 1, overflow: 'auto' }}>
         <div className="cc-chat-inner" style={{ maxWidth: 860, margin: '0 auto', padding: '14px 24px 24px' }}>
           {empty ? (

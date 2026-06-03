@@ -162,15 +162,13 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <div className="sb-user">
-          <img
-            src="https://i.pravatar.cc/80?img=11"
-            alt=""
-            className="sb-user-avatar"
-          />
+          <span className="sb-user-initials" aria-hidden="true">
+            {EXECUTIVE_USER.initials}
+          </span>
           {showSidebarText && (
             <div className="sb-user-meta">
-              <div className="sb-user-name">{EXECUTIVE_USER.title}</div>
-              <div className="sb-user-role">ADGM</div>
+              <div className="sb-user-name">{EXECUTIVE_USER.fullName}</div>
+              <div className="sb-user-role">{EXECUTIVE_USER.orgShort}</div>
             </div>
           )}
         </div>

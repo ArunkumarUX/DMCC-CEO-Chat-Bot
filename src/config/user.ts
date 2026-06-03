@@ -2,8 +2,10 @@
 export const EXECUTIVE_USER = {
   firstName: 'Rajiv',
   fullName: 'Rajiv Sehgal',
+  initials: 'RS',
   title: 'Chief Strategy Officer',
   organisation: 'Abu Dhabi Global Market (ADGM)',
+  orgShort: 'ADGM',
   email: 'rajiv.sehgal@adgm.com',
   role: 'cso' as const,
 };

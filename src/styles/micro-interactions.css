@@ -32,8 +32,9 @@
     transform: none !important;
     transition: none !important;
   }
-  .kb-sheet-layer--open .kb-sheet-layer__backdrop {
-    background: rgba(0, 9, 42, 0.58);
+  .kb-sheet-layer--open .kb-sheet-layer__backdrop,
+  .chat-history-sheet-layer--open .chat-history-sheet-layer__backdrop {
+    background-color: rgba(0, 9, 42, 0.58);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
   }
@@ -391,10 +392,10 @@
     transform-origin: right center;
   }
 
-  .command-centre-app .sb-user-avatar {
+  .command-centre-app .sb-user-initials {
     transition: transform var(--mi-fast) var(--mi-ease), box-shadow var(--mi-med) ease;
   }
-  .command-centre-app .sb-user:hover .sb-user-avatar {
+  .command-centre-app .sb-user:hover .sb-user-initials {
     transform: scale(1.04);
     box-shadow: 0 4px 14px rgba(0, 9, 42, 0.12);
   }

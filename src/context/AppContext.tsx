@@ -57,6 +57,7 @@ interface AppContextValue {
   showToast: (message: string, type?: Toast['type']) => void;
   dismissToast: (id: string) => void;
   createConversation: (title?: string, category?: string) => string;
+  startNewChat: () => void;
   selectConversation: (id: string) => void;
   sendMessage: (content: string) => void;
   recordChatTurn: (
@@ -209,6 +210,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const selectConversation = useCallback((id: string) => {
     setActiveConversationId(id);
     setMobileDrawerOpen(false);
+  }, []);
+
+  const startNewChat = useCallback(() => {
+    setActiveConversationId(null);
+    setMobileDrawerOpen(false);
+    setSearchQuery('');
   }, []);
 
   const appendAssistantFromIntel = useCallback(
@@ -802,6 +809,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     showToast,
     dismissToast,
     createConversation,
+    startNewChat,
     selectConversation,
     sendMessage,
     recordChatTurn,
