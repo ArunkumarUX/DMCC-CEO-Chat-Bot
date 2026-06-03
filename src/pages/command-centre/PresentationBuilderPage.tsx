@@ -1,8 +1,9 @@
 // @ts-nocheck
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CcIcon } from '../../command-centre/CcIcon';
 import { useApp } from '../../context/AppContext';
 import {
+  checkPresentationApiAvailable,
   fetchClarifications,
   fetchOutline,
   fetchSlides,
@@ -44,6 +45,15 @@ export function PresentationBuilderPage() {
   const [previewIndex, setPreviewIndex] = useState(0);
   const [showNotes, setShowNotes] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [apiLive, setApiLive] = useState(true);
+  const [demoMode, setDemoMode] = useState(false);
+
+  useEffect(() => {
+    checkPresentationApiAvailable().then((ok) => {
+      setApiLive(ok);
+      if (!ok) setDemoMode(true);
+    });
+  }, []);
 
   const inputPayload = useCallback(
     () => ({ prompt, notes, link, documentText, slideCount, tone }),
@@ -226,6 +236,24 @@ export function PresentationBuilderPage() {
       {error ? (
         <div className="adgm-info-panel" style={{ marginBottom: 16 }}>
           <div className="adgm-info-panel__body">{error}</div>
+        </div>
+      ) : null}
+
+      {!apiLive ? (
+        <div className="adgm-info-panel" style={{ marginBottom: 16 }}>
+          <div className="adgm-info-panel__body">
+            {ar
+              ? 'وضع العرض التجريبي — أعد تشغيل npm run dev لتفعيل Claude. الخطوات تعمل بدون API.'
+              : 'Demo deck mode — restart npm run dev (Ctrl+C then npm run dev) for live Claude. All steps still work.'}
+          </div>
+        </div>
+      ) : null}
+
+      {demoMode && apiLive ? (
+        <div className="adgm-info-panel" style={{ marginBottom: 16 }}>
+          <div className="adgm-info-panel__body">
+            Using demo slide content (Claude unavailable). Restart dev server if API key is set.
+          </div>
         </div>
       ) : null}
 

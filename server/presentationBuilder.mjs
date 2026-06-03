@@ -119,6 +119,11 @@ function demoSlides(outline) {
 
 export async function handlePresentationRequest(payload) {
   const action = payload?.action;
+
+  if (action === 'ping') {
+    return { ok: true, service: 'presentation' };
+  }
+
   const source = buildSourceBlock(payload);
 
   if (action === 'clarify') {

@@ -1,4 +1,4 @@
-import type { PresentationDeck, PresentationOutline } from '../api/presentationBuilder';
+import type { PresentationDeck, PresentationOutline } from '../types/presentation';
 import { PPT_MASTER_CURSOR_PROMPT } from './exportDeckSource';
 
 export function buildPresentationMarkdown(
