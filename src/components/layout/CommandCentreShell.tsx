@@ -6,6 +6,7 @@ import { DEPARTMENTS } from '../../data/commandCentreData';
 import { useApp } from '../../context/AppContext';
 import { needsTour } from '../../auth/authStorage';
 import { EXECUTIVE_USER } from '../../config/user';
+import { PPT_MASTER_ENABLED } from '../../config/features';
 
 const NAV = [
   {
@@ -31,6 +32,17 @@ const NAV = [
     group: 'System',
     groupAr: 'النظام',
     items: [
+      ...(PPT_MASTER_ENABLED
+        ? [
+            {
+              id: 'deck-builder',
+              path: '/deck-builder',
+              icon: 'presentation',
+              label: 'Deck builder',
+              labelAr: 'منشئ العروض',
+            },
+          ]
+        : []),
       { id: 'architecture', path: '/architecture', icon: 'workflow', label: 'Architecture', labelAr: 'البنية' },
       { id: 'settings', path: '/settings', icon: 'settings', label: 'Settings', labelAr: 'الإعدادات' },
     ],
@@ -44,6 +56,7 @@ function pathToView(pathname: string) {
   if (pathname.startsWith('/regulatory')) return 'regulatory';
   if (pathname.startsWith('/knowledge')) return 'knowledge';
   if (pathname.startsWith('/briefings')) return 'briefings';
+  if (pathname.startsWith('/deck-builder')) return 'deck-builder';
   if (pathname.startsWith('/architecture')) return 'architecture';
   if (pathname.startsWith('/settings')) return 'settings';
   return 'dashboard';

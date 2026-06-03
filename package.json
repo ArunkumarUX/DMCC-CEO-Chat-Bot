@@ -9,7 +9,8 @@
     "dev:api": "node server/dev-api.mjs",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "ppt-master:setup": "bash scripts/setup-ppt-master.sh"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9",

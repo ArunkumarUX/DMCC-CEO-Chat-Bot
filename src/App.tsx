@@ -2,6 +2,7 @@ import { lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import { PRODUCT_NAME, PRODUCT_NAME_AR } from './config/user';
+import { PPT_MASTER_ENABLED } from './config/features';
 import { AppShell } from './components/layout/AppShell';
 import { RequireOnboarding } from './auth/AuthGate';
 import { QrGatePage } from './pages/auth/QrGatePage';
@@ -23,6 +24,9 @@ const WorkflowsPage = lazy(() => import('./pages/WorkflowsPage').then((m) => ({ 
 const PromptsPage = lazy(() => import('./pages/PromptsPage').then((m) => ({ default: m.PromptsPage })));
 const FocusAreaDetailPage = lazy(() =>
   import('./pages/FocusAreaDetailPage').then((m) => ({ default: m.FocusAreaDetailPage })),
+);
+const PptMasterPage = lazy(() =>
+  import('./pages/PptMasterPage').then((m) => ({ default: m.PptMasterPage })),
 );
 
 function RtlSync() {
@@ -69,6 +73,9 @@ function AppRoutes() {
           <Route path="/workflows" element={<WorkflowsPage />} />
           <Route path="/prompts" element={<PromptsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          {PPT_MASTER_ENABLED ? (
+            <Route path="/deck-builder" element={<PptMasterPage />} />
+          ) : null}
           <Route path="/focus/:focusId" element={<FocusAreaDetailPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
