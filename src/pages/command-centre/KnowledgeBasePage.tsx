@@ -977,7 +977,7 @@ function KnowledgeBaseView({ lang, onAsk }) {
       <IntelCard>
         <IntelCardBody className="kb-toolbar">
           <form
-            className="searchbar kb-toolbar__search"
+            className="kb-search"
             onSubmit={(e) => {
               e.preventDefault();
               if (q.trim()) askKb(q.trim());
@@ -985,16 +985,19 @@ function KnowledgeBaseView({ lang, onAsk }) {
             onClick={(e) => e.currentTarget.querySelector('input')?.focus()}
             role="search"
           >
-            <CcIcon name="search" size={18} />
+            <span className="kb-search__icon" aria-hidden>
+              <CcIcon name="search" size={18} />
+            </span>
             <input
+              className="kb-search__input"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={ar ? 'ابحث بالعنوان أو اطرح سؤالاً…' : 'Search by title or ask a question…'}
               aria-label={ar ? 'بحث' : 'Search'}
             />
-            <button type="submit" className="btn btn-primary btn-sm" disabled={!q.trim()}>
-              <CcIcon name="sparkles" size={14} />
-              {ar ? 'اسأل' : 'Ask AI'}
+            <button type="submit" className="kb-search__cta" disabled={!q.trim()}>
+              <CcIcon name="sparkles" size={16} />
+              <span>{ar ? 'اسأل' : 'Ask AI'}</span>
             </button>
           </form>
           <div className="kb-toolbar__row">
