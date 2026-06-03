@@ -1923,7 +1923,7 @@ h1,h2,h3,h4,h5 {
   flex-direction: column;
   gap: 14px;
 }
-/* Knowledge base — search + Ask AI bar */
+/* Knowledge base — search + Ask AI bar (existing ADGM tokens) */
 .kb-search {
   display: flex;
   align-items: center;
@@ -1931,18 +1931,16 @@ h1,h2,h3,h4,h5 {
   width: 100%;
   min-height: 52px;
   padding: 6px 8px 6px 18px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--adgm-clearsky, #0087ff) 22%, var(--line));
-  background: linear-gradient(180deg, #f7fbff 0%, #eef6fc 100%);
-  box-shadow: 0 1px 3px rgba(0, 9, 42, 0.05);
+  border-radius: 13px;
+  border: 1px solid var(--adgm-cyan-border);
+  background: var(--adgm-cyan-50);
+  color: var(--ink-3);
   cursor: text;
-  transition:
-    border-color 0.18s ease,
-    box-shadow 0.18s ease;
+  transition: border-color 0.18s, box-shadow 0.18s;
 }
 .kb-search:focus-within {
-  border-color: color-mix(in oklab, var(--adgm-clearsky, #0087ff) 50%, var(--line));
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--adgm-clearsky, #0087ff) 14%, transparent);
+  border-color: var(--accent-bright);
+  box-shadow: var(--glow);
 }
 .kb-search__icon {
   flex: none;
@@ -1957,7 +1955,7 @@ h1,h2,h3,h4,h5 {
   background: transparent;
   outline: 0;
   font: inherit;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.4;
   color: var(--ink);
   padding: 8px 0;
@@ -1975,8 +1973,8 @@ h1,h2,h3,h4,h5 {
   margin: 0;
   padding: 0 20px;
   border: none;
-  border-radius: 999px;
-  background: var(--adgm-clearsky, #0087ff);
+  border-radius: var(--radius-button);
+  background: var(--adgm-blue-500);
   color: #fff;
   font: inherit;
   font-size: 14px;
@@ -1984,18 +1982,13 @@ h1,h2,h3,h4,h5 {
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 135, 255, 0.28);
-  transition:
-    background 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.15s ease;
+  transition: background 0.15s ease;
 }
 .kb-search__cta:hover:not(:disabled) {
-  background: var(--adgm-blue-600, #006dcc);
-  box-shadow: 0 4px 12px rgba(0, 135, 255, 0.35);
+  background: var(--adgm-blue-600);
 }
 .kb-search__cta:active:not(:disabled) {
-  transform: scale(0.98);
+  background: var(--petrol-500);
 }
 .kb-search__cta:disabled {
   opacity: 0.42;
