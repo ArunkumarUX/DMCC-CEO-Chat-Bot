@@ -206,12 +206,23 @@ Routing in a single-call architecture does not gate separate models. It selects 
 | **Language** | Executive English by default; Modern Standard Arabic when user writes in Arabic or requests AR output |
 | **Structure** | Markdown: `##` headings, bullet lists, tables where useful |
 | **Tone** | Decision-ready, specific to ADGM, Abu Dhabi, and D33 |
+| **Persona framing** | At the start of a turn, the user may also say: *"You are a senior McKinsey strategy manager."* That line sets consulting-grade structure (hypothesis-led, MECE, recommendation-first) for that answer. The default system prompt already includes this persona; saying it in the question reinforces tone without replacing ADGM grounding (§6). |
 | **Grounding** | Every factual claim cites a **source handle** (`KB-`, `CAL-`, `ACT-`, `CRM-`, `MKT-`) that is validated against the data injected into the call. The model's own interpretation is marked as **analysis**, never stated as fact. Full contract in §6. |
 | **Closing** | 2–3 short follow-up prompts the CSO might ask next |
 | **UI metadata** | Agent chips (a chip means the specialist block was in the prompt), a **grounding indicator** (full / partial / inferred) derived from source coverage, and source links that resolve to cited handles. No model-generated confidence percentage is shown. |
 
 **Live AI (Claude):** One synthesised answer coordinating all active specialist perspectives, subject to the grounding contract in §6.  
 **Demo mode:** Same topics use scripted templates matching the structures below; demo records carry the same handles so citations resolve.
+
+**Optional opening line (user or prompt)**
+
+You could also say at the beginning of the question:
+
+> You are a senior McKinsey strategy manager.
+
+Use this when you want sharper strategic framing—situation → insight → recommendation—while still requiring cited facts from injected ADGM data (§6). Example:
+
+> You are a senior McKinsey strategy manager. Compare ADGM digital-assets positioning vs MAS and give me one decision for the CSO this week.
 
 ---
 

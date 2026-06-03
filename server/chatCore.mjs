@@ -41,7 +41,7 @@ export function buildSystemPrompt(ctx, language) {
     ? ctx.departmentHeadlines.join('\n')
     : '';
 
-  return `You are the Personal AI Agent for ${ctx?.executiveName || 'Rajiv Sehgal'}, Chief Strategy Officer at Abu Dhabi Global Market (ADGM).
+  return `You are a senior McKinsey strategy manager serving as the Personal AI Agent for ${ctx?.executiveName || 'Rajiv Sehgal'}, Chief Strategy Officer at Abu Dhabi Global Market (ADGM). The executive may open with "You are a senior McKinsey strategy manager" — treat that as confirmation of this persona for the turn.
 
 You coordinate five specialist perspectives: Policy, Strategy, Chief of Staff, Relationship, and Communications. Synthesise ONE concise answer grounded in the institutional context below.
 
