@@ -1,0 +1,562 @@
+/* ============================================================
+   Command Centre — micro-interactions (respects reduced motion)
+   ============================================================ */
+
+.command-centre-app {
+  --mi-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mi-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --mi-spring: cubic-bezier(0.34, 1.28, 0.64, 1);
+  --mi-fast: 0.14s;
+  --mi-med: 0.22s;
+  --mi-slow: 0.38s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .command-centre-app .mi-stagger > *,
+  .command-centre-app .mi-pop,
+  .command-centre-app .mi-chat-in,
+  .command-centre-app .mi-user-bubble,
+  .command-centre-app .mi-page-enter,
+  .command-centre-app .rise,
+  .command-centre-app .sidebar.mobile-open,
+  .command-centre-app .scrim,
+  .command-centre-app .seg button.on,
+  .command-centre-app .sidebar .nav-item.active[data-nav='market'] .ic,
+  .command-centre-app .sidebar .nav-item.active[data-nav='market'] .nav-label,
+  .command-centre-app .cc-radar-label,
+  .command-centre-app .cf-flow__arc,
+  .command-centre-app .kb-sheet,
+  .command-centre-app .kb-upload-drop:hover,
+  .command-centre-app .kb-upload-drop:hover .kb-upload-drop__icon {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .kb-sheet-layer--open .kb-sheet-layer__backdrop {
+    background: rgba(0, 9, 42, 0.58);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .command-centre-app .nav-item:hover,
+  .command-centre-app .intel-card--interactive:hover,
+  .command-centre-app .btn:hover,
+  .command-centre-app .pill:hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---- Page enter ---- */
+  .mi-page-enter {
+    animation: mi-page-in var(--mi-slow) var(--mi-ease) both;
+  }
+  @keyframes mi-page-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- Stagger children (grids, message lists) ---- */
+  .mi-stagger > *:not(.kb-sheet-layer) {
+    animation: mi-rise 0.48s var(--mi-ease) both;
+  }
+  .mi-stagger > *:nth-child(1) { animation-delay: 0.02s; }
+  .mi-stagger > *:nth-child(2) { animation-delay: 0.05s; }
+  .mi-stagger > *:nth-child(3) { animation-delay: 0.08s; }
+  .mi-stagger > *:nth-child(4) { animation-delay: 0.11s; }
+  .mi-stagger > *:nth-child(5) { animation-delay: 0.14s; }
+  .mi-stagger > *:nth-child(6) { animation-delay: 0.17s; }
+  .mi-stagger > *:nth-child(7) { animation-delay: 0.2s; }
+  .mi-stagger > *:nth-child(8) { animation-delay: 0.23s; }
+  .mi-stagger > *:nth-child(9) { animation-delay: 0.26s; }
+  .mi-stagger > *:nth-child(10) { animation-delay: 0.29s; }
+  .mi-stagger > *:nth-child(11) { animation-delay: 0.32s; }
+  .mi-stagger > *:nth-child(12) { animation-delay: 0.35s; }
+
+  @keyframes mi-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .mi-pop {
+    animation: mi-pop 0.42s var(--mi-spring) both;
+  }
+  @keyframes mi-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .mi-chat-in {
+    animation: mi-chat-in 0.36s var(--mi-ease) both;
+  }
+  @keyframes mi-chat-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .mi-user-bubble {
+    animation: mi-user-bubble 0.32s var(--mi-ease-out) both;
+  }
+  @keyframes mi-user-bubble {
+    from {
+      opacity: 0;
+      transform: translateY(6px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- Sidebar nav ---- */
+  .command-centre-app .nav-item {
+    transition:
+      background var(--mi-med) ease,
+      color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease),
+      box-shadow var(--mi-med) ease;
+  }
+  .command-centre-app .nav-item .ic {
+    transition: transform var(--mi-fast) var(--mi-ease), color var(--mi-med) ease;
+  }
+  .command-centre-app .nav-item:hover:not(.active) {
+    transform: translateX(2px);
+  }
+  [dir='rtl'] .command-centre-app .nav-item:hover:not(.active) {
+    transform: translateX(-2px);
+  }
+  .command-centre-app .nav-item:hover:not(.active) .ic {
+    transform: scale(1.08);
+  }
+  .command-centre-app .nav-item:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  .command-centre-app .nav-item.active {
+    transition:
+      background var(--mi-med) ease,
+      box-shadow var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .nav-badge {
+    transition: transform var(--mi-fast) var(--mi-spring);
+  }
+  .command-centre-app .nav-item:hover .nav-badge {
+    transform: scale(1.06);
+  }
+
+  /* ---- Buttons ---- */
+  .command-centre-app .btn {
+    transition:
+      background var(--mi-med) ease,
+      color var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease),
+      box-shadow var(--mi-med) ease;
+  }
+  .command-centre-app .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+  .command-centre-app .btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.97);
+  }
+  .command-centre-app .btn .ic {
+    transition: transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .btn:hover:not(:disabled) .ic {
+    transform: scale(1.06);
+  }
+
+  .command-centre-app .icon-btn {
+    transition:
+      background var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .icon-btn:hover {
+    transform: scale(1.06);
+  }
+  .command-centre-app .icon-btn:active {
+    transform: scale(0.94);
+  }
+
+  /* ---- Pills & chips ---- */
+  .command-centre-app .pill {
+    transition:
+      background var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease),
+      box-shadow var(--mi-med) ease;
+  }
+  .command-centre-app .pill:hover {
+    transform: translateY(-1px);
+  }
+  .command-centre-app .pill:active {
+    transform: scale(0.97);
+  }
+
+  .command-centre-app .card-adgm-dark__chip {
+    transition:
+      background var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease),
+      box-shadow var(--mi-med) ease;
+  }
+  .command-centre-app .card-adgm-dark__chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+  .command-centre-app .card-adgm-dark__chip:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* ---- Intel / cards ---- */
+  .command-centre-app .intel-card--interactive {
+    transition:
+      transform var(--mi-med) var(--mi-ease),
+      box-shadow var(--mi-med) ease,
+      border-color var(--mi-med) ease;
+  }
+  .command-centre-app .intel-card--interactive:hover {
+    transform: translateY(-3px);
+  }
+  .command-centre-app .intel-card--interactive:active {
+    transform: translateY(-1px) scale(0.995);
+    transition-duration: 0.08s;
+  }
+
+  .command-centre-app .esc-tile {
+    transition:
+      transform var(--mi-fast) var(--mi-ease),
+      box-shadow var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      background var(--mi-med) ease;
+  }
+
+  .command-centre-app .intel-card__head-icon {
+    transition: transform var(--mi-med) var(--mi-ease);
+  }
+  .command-centre-app .intel-card:hover .intel-card__head-icon {
+    transform: scale(1.05) rotate(-3deg);
+  }
+
+  /* ---- Greeting hero ---- */
+  .command-centre-app .greeting-hero__meta-chip,
+  .command-centre-app .greeting-hero__meta-time {
+    transition:
+      background var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .greeting-hero__meta-chip:hover {
+    transform: translateY(-1px);
+  }
+
+  /* ---- Chat composer ---- */
+  .command-centre-app .chat-composer__input-wrap {
+    transition:
+      border-color var(--mi-med) ease,
+      box-shadow var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .chat-composer__input-wrap:focus-within {
+    transform: translateY(-1px);
+  }
+
+  .command-centre-app .chat-ai-actions__btn {
+    transition:
+      background var(--mi-fast) ease,
+      color var(--mi-fast) ease,
+      transform var(--mi-fast) var(--mi-spring);
+  }
+  .command-centre-app .chat-ai-actions__btn:hover:not(:disabled) {
+    transform: scale(1.08);
+  }
+  .command-centre-app .chat-ai-actions__btn:active:not(:disabled) {
+    transform: scale(0.92);
+  }
+  .command-centre-app .chat-ai-meta__sources-btn {
+    transition:
+      background var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .chat-ai-meta__sources-btn:hover {
+    transform: translateY(-1px);
+  }
+  .command-centre-app .chat-ai-sources__item {
+    animation: mi-rise 0.32s var(--mi-ease) both;
+  }
+  .command-centre-app .chat-ai-sources__item:nth-child(2) { animation-delay: 0.04s; }
+  .command-centre-app .chat-ai-sources__item:nth-child(3) { animation-delay: 0.08s; }
+  .command-centre-app .chat-ai-sources__item:nth-child(4) { animation-delay: 0.12s; }
+
+  /* ---- Info panel ---- */
+  .command-centre-app .adgm-info-panel {
+    transition:
+      box-shadow var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .adgm-info-panel:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+
+  /* ---- Segmented control ---- */
+  .command-centre-app .seg button {
+    transition:
+      background var(--mi-med) ease,
+      color var(--mi-med) ease,
+      box-shadow var(--mi-med) ease,
+      transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .seg button:hover:not(.on) {
+    color: var(--ink);
+  }
+  .command-centre-app .seg button.on {
+    animation: mi-pop 0.28s var(--mi-spring) both;
+  }
+
+  /* ---- Mobile scrim ---- */
+  .command-centre-app .scrim {
+    animation: mi-fade-in 0.25s ease both;
+  }
+  @keyframes mi-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .command-centre-app .sidebar.mobile-open {
+    animation: mi-slide-in 0.32s var(--mi-ease) both;
+  }
+  @keyframes mi-slide-in {
+    from {
+      opacity: 0.6;
+      transform: translateX(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  [dir='rtl'] .command-centre-app .sidebar.mobile-open {
+    animation-name: mi-slide-in-rtl;
+  }
+  @keyframes mi-slide-in-rtl {
+    from {
+      opacity: 0.6;
+      transform: translateX(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- KPI / sparkline hover ---- */
+  .command-centre-app .kpi-num {
+    transition: color var(--mi-med) ease, transform var(--mi-fast) var(--mi-ease);
+  }
+  .command-centre-app .intel-card:hover .kpi-num {
+    transform: scale(1.02);
+    transform-origin: left center;
+  }
+  [dir='rtl'] .command-centre-app .intel-card:hover .kpi-num {
+    transform-origin: right center;
+  }
+
+  .command-centre-app .sb-user-avatar {
+    transition: transform var(--mi-fast) var(--mi-ease), box-shadow var(--mi-med) ease;
+  }
+  .command-centre-app .sb-user:hover .sb-user-avatar {
+    transform: scale(1.04);
+    box-shadow: 0 4px 14px rgba(0, 9, 42, 0.12);
+  }
+
+  /* ---- Copy success flash ---- */
+  .command-centre-app .chat-ai-actions__btn.mi-copied {
+    animation: mi-copied 0.5s var(--mi-ease) both;
+  }
+  @keyframes mi-copied {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.15); color: var(--status-good); }
+    100% { transform: scale(1); }
+  }
+
+  /* ---- Market Intelligence nav (globe) ---- */
+  .command-centre-app .sidebar .nav-item.active[data-nav='market'] .ic {
+    animation: nav-globe-orbit 22s linear infinite;
+  }
+  .command-centre-app .sidebar .nav-item.active[data-nav='market'] .nav-label {
+    animation: nav-label-glow 0.42s var(--mi-ease) both;
+  }
+  @keyframes nav-globe-orbit {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes nav-label-glow {
+    from {
+      opacity: 0.72;
+      transform: translateX(-3px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  [dir='rtl'] .command-centre-app .sidebar .nav-item.active[data-nav='market'] .nav-label {
+    animation-name: nav-label-glow-rtl;
+  }
+  @keyframes nav-label-glow-rtl {
+    from {
+      opacity: 0.72;
+      transform: translateX(3px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---- Intel viz cards (Market Intelligence) ---- */
+  .command-centre-app .mi-intel-viz__card {
+    transition:
+      box-shadow var(--mi-med) ease,
+      border-color var(--mi-med) ease,
+      transform var(--mi-med) var(--mi-ease);
+  }
+  .command-centre-app .mi-intel-viz:hover .mi-intel-viz__card {
+    box-shadow:
+      0 4px 24px color-mix(in oklab, var(--adgm-blue-500) 10%, transparent),
+      var(--shadow-sm);
+    border-color: color-mix(in oklab, var(--adgm-blue-500) 22%, var(--line));
+  }
+
+  /* ---- Chart SVG ---- */
+  .command-centre-app .cc-radar-label {
+    animation: cc-label-in 0.35s var(--mi-ease) both;
+  }
+  @keyframes cc-label-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ---- Knowledge base sheets & upload ---- */
+  .command-centre-app .settings-agent:hover {
+    transform: translateY(-1px);
+  }
+  .command-centre-app .settings-agent:active {
+    transform: translateY(0) scale(0.99);
+  }
+  .command-centre-app .settings-save:hover {
+    transform: translateY(-1px);
+  }
+  .command-centre-app .kb-toolbar__add,
+  .command-centre-app .kb-toolbar__quick-btn {
+    transition:
+      transform var(--mi-fast) var(--mi-ease),
+      background var(--mi-fast) ease,
+      border-color var(--mi-fast) ease;
+  }
+  .command-centre-app .kb-toolbar__add:hover,
+  .command-centre-app .kb-toolbar__quick-btn:hover {
+    transform: translateY(-1px);
+  }
+  .command-centre-app .kb-toolbar__add:active,
+  .command-centre-app .kb-toolbar__quick-btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+  .command-centre-app .kb-upload-panel__form--enter .kb-upload-panel__file {
+    animation: mi-rise 0.42s var(--mi-ease) both;
+  }
+  .command-centre-app .kb-upload-panel__form--enter .kb-upload-panel__field {
+    animation: mi-rise 0.42s var(--mi-ease) both;
+  }
+  .command-centre-app .kb-upload-panel__form--enter .kb-upload-panel__field:nth-of-type(1) {
+    animation-delay: 0.06s;
+  }
+  .command-centre-app .kb-upload-panel__form--enter .kb-upload-panel__field:nth-of-type(2) {
+    animation-delay: 0.12s;
+  }
+  .command-centre-app .kb-upload-panel__form--enter .kb-upload-panel__field:nth-of-type(3) {
+    animation-delay: 0.18s;
+  }
+  .command-centre-app .kb-upload-panel__form--enter .kb-upload-panel__note {
+    animation: mi-rise 0.42s var(--mi-ease) 0.22s both;
+  }
+  .command-centre-app .kb-upload-submit--ready:not(:disabled) {
+    animation: kb-submit-glow 1.8s ease-in-out infinite;
+  }
+  @keyframes kb-submit-glow {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-1px);
+    }
+  }
+  .command-centre-app .kb-upload-submit:not(:disabled):active {
+    transform: scale(0.98);
+  }
+  .command-centre-app .kb-upload-steps__item--active .kb-upload-steps__dot {
+    animation: kb-step-pulse 1.4s ease-in-out infinite;
+  }
+  .command-centre-app .kb-upload-panel__phase-icon:not(.kb-upload-panel__phase-icon--done) .intel-icon-box {
+    animation: kb-step-pulse 1.2s ease-in-out infinite;
+  }
+  .command-centre-app .kb-progress__fill {
+    transition: width 0.55s var(--mi-ease);
+  }
+  .command-centre-app .kb-progress__step--active .kb-progress__dot {
+    animation: kb-step-pulse 1.2s ease-in-out infinite;
+  }
+  .kb-sheet-layer--open .kb-sheet--upload {
+    animation: kb-sheet-in 0.36s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes kb-sheet-in {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  [dir='rtl'] .kb-sheet-layer--open .kb-sheet--upload {
+    animation-name: kb-sheet-in-rtl;
+  }
+  @keyframes kb-sheet-in-rtl {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}

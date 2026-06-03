@@ -1,0 +1,216 @@
+/* In-app tour — ADGM brand, precise spotlight */
+
+.feature-tour {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  font-family: var(--font-sans, 'adgm-gilroy', 'Gilroy', system-ui, sans-serif);
+}
+
+.feature-tour__shade {
+  position: fixed;
+  background: rgba(0, 9, 42, 0.5);
+  pointer-events: auto;
+}
+
+.feature-tour__shade--full {
+  inset: 0;
+}
+
+.feature-tour__ring {
+  position: fixed;
+  box-sizing: border-box;
+  border: none;
+  outline: 2px solid #0087ff;
+  outline-offset: 0;
+  background: transparent;
+  pointer-events: none;
+  z-index: 1;
+  box-shadow: none;
+}
+
+/* Lift target above dim layers — fits element exactly */
+.feature-tour-target {
+  position: relative !important;
+  z-index: 100001 !important;
+  isolation: isolate;
+}
+
+.sidebar .feature-tour-target.nav-item {
+  z-index: 100001 !important;
+}
+
+.feature-tour__card {
+  position: fixed;
+  z-index: 2;
+  width: min(280px, calc(100vw - 24px));
+  padding: 0.95rem 1rem 0.85rem;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #00092a;
+  border: 1px solid rgba(0, 135, 255, 0.14);
+  box-shadow: 0 16px 40px rgba(0, 9, 42, 0.12);
+  pointer-events: auto;
+  transition: top 0.28s ease, left 0.28s ease, opacity 0.2s ease;
+  opacity: 0.88;
+}
+
+.feature-tour__card--ready {
+  opacity: 1;
+}
+
+.feature-tour__accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(90deg, #0087ff, #66b8ff);
+}
+
+.feature-tour__card::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 135, 255, 0.14);
+  box-sizing: border-box;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.feature-tour__card--top::before {
+  bottom: -6px;
+  left: 50%;
+  margin-left: -5px;
+  border-top: none;
+  border-left: none;
+}
+
+.feature-tour__card--bottom::before {
+  top: -6px;
+  left: 50%;
+  margin-left: -5px;
+  border-bottom: none;
+  border-right: none;
+}
+
+.feature-tour__card--right::before {
+  left: -6px;
+  top: 50%;
+  margin-top: -5px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.feature-tour__card--left::before {
+  right: -6px;
+  top: 50%;
+  margin-top: -5px;
+  border-right: none;
+  border-top: none;
+}
+
+.feature-tour__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+  padding-top: 0.1rem;
+}
+
+.feature-tour__step {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0087ff;
+}
+
+.feature-tour__skip-tour {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6f8897;
+  cursor: pointer;
+}
+
+.feature-tour__skip-tour:hover {
+  color: #00092a;
+}
+
+.feature-tour__title {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #00092a;
+}
+
+.feature-tour__body {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #6f8897;
+}
+
+.feature-tour__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.feature-tour__dots {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.feature-tour__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #dadee7;
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.feature-tour__dot--on {
+  width: 16px;
+  background: #0087ff;
+}
+
+.feature-tour__next {
+  padding: 0.4rem 0.9rem;
+  border: none;
+  border-radius: 999px;
+  background: #0087ff;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.feature-tour__next:hover {
+  background: #006dcc;
+}
+
+/* Chat composer — lift full pill (input + send) above dim */
+.chat-composer__input-wrap.feature-tour-target {
+  background: var(--surface, #fff);
+  box-shadow: 0 0 0 2px var(--surface, #fff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-tour__card,
+  .feature-tour__ring {
+    transition: none;
+  }
+}

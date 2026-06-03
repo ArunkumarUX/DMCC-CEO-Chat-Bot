@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Personal AI ADGM">
+  <defs>
+    <linearGradient id="pai-bg" x1="8" y1="6" x2="40" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#005299"/>
+      <stop offset="0.5" stop-color="#001C7D"/>
+      <stop offset="1" stop-color="#00092A"/>
+    </linearGradient>
+    <linearGradient id="pai-wing" x1="24" y1="8" x2="24" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3EF0FF"/>
+      <stop offset="1" stop-color="#0087FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="url(#pai-bg)"/>
+  <!-- ADGM-style symmetric emblem -->
+  <g fill="url(#pai-wing)">
+    <rect x="22" y="9" width="4" height="30" rx="2"/>
+    <path d="M22 13 9 20.5v5L22 35V13z"/>
+    <path d="M26 13 39 20.5v5L26 35V13z"/>
+    <path d="M22 22 9 28.5v3.5L22 31V22z"/>
+    <path d="M26 22 39 28.5v3.5L26 31V22z"/>
+  </g>
+  <!-- AI accent dot -->
+  <circle cx="37" cy="11" r="6" fill="#AFFAFF" stroke="#00092A" stroke-width="1"/>
+  <circle cx="37" cy="11" r="2.5" fill="#0087FF"/>
+</svg>

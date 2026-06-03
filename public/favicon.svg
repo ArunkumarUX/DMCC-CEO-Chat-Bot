@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Personal AI">
+  <defs>
+    <linearGradient id="f-bg" x1="4" y1="2" x2="28" y2="30">
+      <stop offset="0" stop-color="#005299"/>
+      <stop offset="1" stop-color="#00092A"/>
+    </linearGradient>
+    <linearGradient id="f-wing" x1="16" y1="6" x2="16" y2="26">
+      <stop offset="0" stop-color="#3EF0FF"/>
+      <stop offset="1" stop-color="#0087FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="url(#f-bg)"/>
+  <g fill="url(#f-wing)">
+    <rect x="14.5" y="6" width="3" height="20" rx="1.5"/>
+    <path d="M14.5 9 6 14v3.5L14.5 23V9z"/>
+    <path d="M17.5 9 26 14v3.5L17.5 23V9z"/>
+  </g>
+  <circle cx="25" cy="7" r="4" fill="#AFFAFF" stroke="#00092A" stroke-width="0.8"/>
+  <circle cx="25" cy="7" r="1.6" fill="#0087FF"/>
+</svg>
