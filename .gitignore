@@ -29,6 +29,12 @@ dist-ssr
 # Local Netlify folder
 .netlify
 
+# Claude Design AI upstream clone (npm run claude-design:setup)
+tools/claude-design-ai/upstream/
+
+# Open Design upstream clone (local deck skills — npm run open-design:setup)
+tools/open-design/
+
 # PPT Master upstream clone (local only — run npm run ppt-master:setup)
 tools/ppt-master/
 tools/ppt-master/**/exports/

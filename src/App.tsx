@@ -2,7 +2,7 @@ import { lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import { PRODUCT_NAME, PRODUCT_NAME_AR } from './config/user';
-import { PPT_MASTER_ENABLED } from './config/features';
+import { ARCHITECTURE_ENABLED, PPT_MASTER_ENABLED } from './config/features';
 import { AppShell } from './components/layout/AppShell';
 import { RequireOnboarding } from './auth/AuthGate';
 import { QrGatePage } from './pages/auth/QrGatePage';
@@ -68,7 +68,11 @@ function AppRoutes() {
           <Route path="/regulatory" element={<RegulatoryPage />} />
           <Route path="/knowledge" element={<KnowledgePage />} />
           <Route path="/briefings" element={<BriefingsPage />} />
-          <Route path="/architecture" element={<ArchitecturePage />} />
+          {ARCHITECTURE_ENABLED ? (
+            <Route path="/architecture" element={<ArchitecturePage />} />
+          ) : (
+            <Route path="/architecture" element={<Navigate to="/dashboard" replace />} />
+          )}
           <Route path="/documents" element={<DocumentsPage />} />
           <Route path="/workflows" element={<WorkflowsPage />} />
           <Route path="/prompts" element={<PromptsPage />} />
@@ -78,7 +82,12 @@ function AppRoutes() {
               <Route path="/create-ppt" element={<PptMasterPage />} />
               <Route path="/deck-builder" element={<Navigate to="/create-ppt" replace />} />
             </>
-          ) : null}
+          ) : (
+            <>
+              <Route path="/create-ppt" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/deck-builder" element={<Navigate to="/dashboard" replace />} />
+            </>
+          )}
           <Route path="/focus/:focusId" element={<FocusAreaDetailPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

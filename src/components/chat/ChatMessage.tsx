@@ -4,9 +4,9 @@ import {
   ThumbsUp,
   ThumbsDown,
   RotateCcw,
-  BookOpen,
   Sparkles,
 } from 'lucide-react';
+import { SourceCitationChip } from './SourceCitationChip';
 import { MarkdownLite } from '../ui/MarkdownLite';
 import { useApp } from '../../context/AppContext';
 import { AGENT_LABELS } from '../../data/agents';
@@ -88,17 +88,13 @@ export function ChatMessageBubble({ message, conversationId }: Props) {
                 Confidence: {Math.round(message.confidence * 100)}%
               </span>
               {message.sources && message.sources.length > 0 && (
-                <button
-                  type="button"
+                <SourceCitationChip
+                  sources={message.sources}
                   onClick={() => {
                     setActiveSources(message.sources!);
                     setSourcesPanelOpen(true);
                   }}
-                  className="flex items-center gap-1 text-xs font-medium text-adgm-navy hover:text-adgm-primary"
-                >
-                  <BookOpen className="h-3.5 w-3.5" />
-                  {message.sources.length} sources
-                </button>
+                />
               )}
             </div>
           )}

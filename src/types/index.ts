@@ -15,6 +15,8 @@ export type LanguagePref = 'en' | 'ar' | 'bilingual';
 
 export type ThemePref = 'light' | 'system';
 
+export type SourceType = 'knowledge' | 'calendar' | 'action' | 'crm' | 'external';
+
 export interface Source {
   id: string;
   title: string;
@@ -23,7 +25,21 @@ export interface Source {
   confidence: number;
   excerpt: string;
   url?: string;
+  /** Stable citation handle, e.g. KB-001, MKT-2026-06-03 */
+  handle?: string;
+  /** internal = institutional; external = market/regulatory feed */
+  kind?: 'internal' | 'external';
+  sourceType?: SourceType;
+  /** Knowledge-base document id — opens preview on /knowledge */
+  documentId?: string;
+  /** In-app route or external https URL for primary open action */
+  href?: string;
+  /** Secondary public website when available (e.g. MAS, ADGM) */
+  externalUrl?: string;
+  openLabel?: string;
 }
+
+export type GroundingLevel = 'full' | 'partial';
 
 export interface ChatMessage {
   id: string;
@@ -33,6 +49,7 @@ export interface ChatMessage {
   agents?: AgentType[];
   confidence?: number;
   sources?: Source[];
+  grounding?: GroundingLevel;
   followUps?: string[];
   liked?: boolean | null;
 }

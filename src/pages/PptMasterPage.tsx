@@ -1,1 +1,1 @@
-export { PresentationBuilderPage as PptMasterPage } from './command-centre/PresentationBuilderPage';
+export { SlideAIPage as PptMasterPage } from '../features/slideai/SlideAIPage';

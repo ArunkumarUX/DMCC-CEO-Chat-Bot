@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CcIcon } from '../../command-centre/CcIcon';
 import { buildKbCorpus, countKbByCategory, humanizeFileName } from '../../command-centre/kbCorpus';
 import { Emblem, AnimatedNumber, Sparkline, RingGauge, RagPill } from '../../command-centre/CcPrimitives';
@@ -784,6 +784,7 @@ function todayIso() {
 function KnowledgeBaseView({ lang, onAsk }) {
   const ar = lang === 'ar';
   const { documents, uploadDocument, removeKnowledgeBaseDocument } = useApp();
+  const [searchParams, setSearchParams] = useSearchParams();
   const fileRef = useRef(null);
   const [cat, setCat] = useState('all');
   const [q, setQ] = useState('');
@@ -802,6 +803,15 @@ function KnowledgeBaseView({ lang, onAsk }) {
   const corpus = useMemo(() => buildKbCorpus(documents, ar), [documents, ar]);
   const catMap = Object.fromEntries(KB_CATS.map((c) => [c.id, c]));
   const query = q.trim().toLowerCase();
+
+  useEffect(() => {
+    const docId = searchParams.get('doc');
+    if (!docId) return;
+    const match = corpus.find((d) => d.id === docId || d.fileId === docId);
+    if (match) setSheetDoc(match);
+    setSearchParams({}, { replace: true });
+  }, [corpus, searchParams, setSearchParams]);
+
   const filtered = corpus.filter((d) => {
     if (cat !== 'all' && d.cat !== cat) return false;
     if (query && !d.t.toLowerCase().includes(query)) return false;

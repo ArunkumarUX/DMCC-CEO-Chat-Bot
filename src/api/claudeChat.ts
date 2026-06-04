@@ -3,11 +3,32 @@ import type { ChatHistoryItem } from './buildChatContext';
 export type ChatStreamContext = {
   executiveName?: string;
   organisation?: string;
-  documents?: { id: string; name: string; summary?: string }[];
+  lastSync?: string;
+  validHandles?: string[];
+  documents?: { id: string; handle?: string; name: string; summary?: string; asOf?: string }[];
   metrics?: Record<string, number>;
   departmentHeadlines?: string[];
   language?: 'en' | 'ar';
   briefingFormat?: string;
+  marketHandle?: string;
+  meetingsDetailed?: {
+    id: string;
+    handle?: string;
+    crmHandle?: string;
+    title: string;
+    time: string;
+    attendees: string;
+    location: string;
+    prepStatus: string;
+  }[];
+  actionsDetailed?: {
+    id: string;
+    handle?: string;
+    title: string;
+    due: string;
+    status: string;
+    owner: string;
+  }[];
   meetings?: {
     title: string;
     time: string;

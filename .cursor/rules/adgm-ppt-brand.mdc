@@ -1,0 +1,39 @@
+---
+description: ADGM Brand Book 2025 rules for all PowerPoint and deck creation
+globs: "**/*{ppt,pptx,deck,presentation}*,**/presentation*,**/adgm-deck-craft/**,**/PPT*.md,**/brand-2025/**"
+alwaysApply: false
+---
+
+# ADGM PPT — Brand Book 2025 (mandatory)
+
+When creating, editing, or exporting **any** ADGM presentation (in-app, PPT Master, HTML deck, or Cursor-generated slides), always follow the shared brand guidelines.
+
+## Read first
+
+1. `docs/brand-2025/PPT-BRAND-RULES.md`
+2. `src/config/adgmBrandForDeck.ts` (export tokens)
+3. `src/config/brand.ts` (full Brand Book 2025)
+4. `tools/adgm-deck-craft/MASTER.md` (craft + brand combined)
+
+## Non-negotiable brand rules
+
+- **Tagline:** Path to Forward (title or closing slide)
+- **Short name:** ADGM on slides (not full legal name in marketing style)
+- **Primary colours:** Clearsky `#0087FF`, Slate `#A3ADC2`, Cyan `#AFFAFF`
+- **Navy:** `#00092A` (headers, title hero), mid `#001C7D`, deep `#002ED1`
+- **Secondary:** Royal `#002ED1`, Mint `#E5F0F0`, Sand `#F0E8D8`
+- **Typography:** Gilroy display, Aptos body, Madani Arabic for Arabic
+- **Layout:** 16:9, white canvas; Clearsky for accents only (full navy allowed on title hero)
+- **Footer:** `ADGM · Path to Forward · Confidential` + slide number
+- **Do not use:** off-brand purples, generic template blues, non-ADGM gradients
+
+## Code integration
+
+- AI prompts: `server/adgmBrandGuidelines.mjs` + `server/presentationBuilderPrompts.mjs`
+- PPTX export: `src/utils/presentationPptxExport.ts` + `mckinseyDeckDesign.ts`
+- HTML export: `src/utils/presentationHtmlDeckExport.ts`
+- Always merge `brandCheck` via `mergeBrandCheck()` / `applyBrandToDeck()`
+
+## With craft skills
+
+Apply brand **first**, then McKinsey + Open Design + Claude Design + PPT Master per `UNIFIED_PPT_CURSOR_PROMPT`.

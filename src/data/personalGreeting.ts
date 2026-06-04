@@ -1,0 +1,65 @@
+import { EXECUTIVE_USER, greetingForTime } from '../config/user';
+import type { ExecutiveState } from './executiveStore';
+import type { IntelligentResponse } from './executiveStore';
+import { calHandle, mktHandle } from '../utils/sourceHandles';
+import { agentTag, plainTerms } from '../utils/executiveAnswerVisuals';
+
+function formatMeetingTime(iso: string): string {
+  try {
+    return new Date(iso).toLocaleString('en-GB', {
+      weekday: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Asia/Dubai',
+    });
+  } catch {
+    return iso;
+  }
+}
+
+/** Warm, personalized day opener for Rajiv — demo + Claude grounding template */
+export function buildPersonalGreetingResponse(
+  _query: string,
+  state: ExecutiveState,
+): IntelligentResponse {
+  const firstName = EXECUTIVE_USER.firstName;
+  const part = greetingForTime();
+  const meetings = [...state.meetings].sort(
+    (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime(),
+  );
+  const nextMeeting = meetings.find((m) => new Date(m.time).getTime() >= Date.now() - 3_600_000) ?? meetings[0];
+  const overdue = state.actionRegister.filter((a) => a.status === 'overdue');
+  const open = state.actionRegister.filter((a) => a.status !== 'done');
+  const m = state.marketSnapshot;
+  const mktH = mktHandle(state.lastSync);
+  const calH = nextMeeting ? calHandle(nextMeeting.id, nextMeeting.time) : null;
+
+  const overdueLine =
+    overdue.length > 0
+      ? `${overdue.length} overdue — top: *${overdue[0].title}*`
+      : 'No overdue actions right now';
+
+  return {
+    agents: ['cos'],
+    confidence: 0.96,
+    sourceDocIds: ['d1'],
+    followUps: [
+      nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
+      'What needs my attention today?',
+      'Compare ADGM vs MAS digital assets',
+    ],
+    content: `${part}, **${firstName}** — good to see you.
+
+${plainTerms(`You're broadly on track; ${overdue.length ? 'a couple of actions need your eye' : 'your action register is clean'} and ${meetings.length ? 'the calendar is active today' : 'the calendar is light'}.`)}
+
+**What's happened today**
+- Markets: GCC ${m.gccEquities}, digital assets ${m.digitalAssetsWoW} [${mktH}]
+- Teams: **${state.metrics.departmentsOnTrack}/9** departments green · **${open.length}** open actions
+- Actions: ${overdueLine}${overdue[0] ? ` [ACT-01]` : ''}
+${nextMeeting ? `- Next: **${nextMeeting.title}** (${formatMeetingTime(nextMeeting.time)} GST) [${calH}]` : ''}
+
+I'm here when you're ready — meeting brief, regulatory compare, or a deeper performance look?
+
+${agentTag(['Chief of Staff AI'])}`,
+  };
+}

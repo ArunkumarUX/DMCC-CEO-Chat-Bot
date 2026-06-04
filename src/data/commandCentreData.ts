@@ -343,6 +343,8 @@ export const DIFFERENTIATION = [
 
 // ---------- Scripted chat suggestions + canned answers ----------
 export const SUGGESTIONS = [
+  { q: 'Hi', agents: ['cos'] },
+  { q: "Good morning — what's happened today?", agents: ['cos'] },
   { q: "Compare ADGM's digital assets framework against Singapore MAS.", agents:['strategy','policy'] },
   { q: "What strategic decisions did ADGM make in 2024 and how do they track against D33?", agents:['strategy','cos'] },
   { q: "Brief me on my 3pm meeting tomorrow.", agents:['cos','relationship'] },

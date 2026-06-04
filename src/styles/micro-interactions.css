@@ -300,6 +300,15 @@
   .command-centre-app .chat-ai-actions__btn:active:not(:disabled) {
     transform: scale(0.92);
   }
+  .command-centre-app .chat-source-citation {
+    transition: color 0.2s ease, background 0.2s ease;
+  }
+  .command-centre-app .chat-source-citation__avatar {
+    transition: transform 0.2s ease;
+  }
+  .command-centre-app .chat-source-citation:hover .chat-source-citation__avatar {
+    transform: translateY(-1px);
+  }
   .command-centre-app .chat-ai-meta__sources-btn {
     transition:
       background var(--mi-med) ease,

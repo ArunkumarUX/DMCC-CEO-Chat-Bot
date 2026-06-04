@@ -10,16 +10,21 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "ppt-master:setup": "bash scripts/setup-ppt-master.sh"
+    "verify:slideai": "node scripts/verify-slideai-local.mjs",
+    "ppt-master:setup": "bash scripts/setup-ppt-master.sh",
+    "open-design:setup": "bash scripts/setup-open-design.sh",
+    "claude-design:setup": "bash scripts/setup-claude-design-ai.sh"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9",
     "framer-motion": "^12.40.0",
     "lucide-react": "^1.17.0",
+    "pptxgenjs": "^4.0.1",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^7.16.0"
+    "react-router-dom": "^7.16.0",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

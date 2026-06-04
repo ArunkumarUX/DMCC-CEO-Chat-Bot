@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { getAnthropicConfig, streamChat } from './chatCore.mjs';
 import { handlePresentationRequest } from './presentationBuilder.mjs';
+import { handleSlideAiRequest } from './slideAi.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -26,7 +27,7 @@ function loadEnvFile(name) {
     if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
       val = val.slice(1, -1);
     }
-    if (!process.env[key]) process.env[key] = val;
+    if (!process.env[key] || process.env[key] === '') process.env[key] = val;
   }
 }
 
@@ -186,6 +187,21 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       sendJson(res, 500, { error: err?.message || 'Presentation failed' });
     }
+    return;
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/slideai') {
+    const payload = await readJsonBody(req);
+    if (payload === null) {
+      sendJson(res, 400, { error: 'Invalid JSON' });
+      return;
+    }
+    const result = await handleSlideAiRequest(payload);
+    if (!result.ok) {
+      sendJson(res, result.status || 500, { error: result.error });
+      return;
+    }
+    sendJson(res, 200, { text: result.text });
     return;
   }
 

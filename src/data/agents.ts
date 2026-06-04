@@ -1,6 +1,7 @@
 import type { AgentType } from '../types';
 import { resolveFocusAreaForQuery } from './focusAreas';
 import { FOCUS_AREA_MAP } from './focusAreas';
+import { detectChatIntent } from '../utils/chatIntent';
 
 export interface AgentDefinition {
   id: AgentType;
@@ -92,6 +93,9 @@ export function routeAgentsForQuery(
   autoRoute: boolean,
 ): AgentType[] {
   const q = query.toLowerCase();
+  const intent = detectChatIntent(query);
+  if (intent === 'greeting' || intent === 'thanks') return ['cos'];
+
   const mentions: AgentType[] = [];
   if (q.includes('@policy') || q.includes('policy ai')) mentions.push('policy');
   if (q.includes('@strategy') || q.includes('strategy ai')) mentions.push('strategy');

@@ -11,7 +11,7 @@ import {
   saveExecutiveState,
   buildIntelligentResponse,
   deriveMorningSignals,
-  getSourcesForQuery,
+  resolveAnswerGrounding,
   bumpQueryMetrics,
   completeAction,
   DEMO_PROMPTS,
@@ -20,7 +20,8 @@ import {
 import { FOCUS_AREA_MAP, resolveFocusAreaForQuery } from '../data/focusAreas';
 import { EXECUTIVE_USER } from '../config/user';
 import { guessKbCategory } from '../command-centre/kbCorpus';
-import { buildChatContext, buildChatHistoryFromMessages } from '../api/buildChatContext';
+import { buildChatHistoryFromMessages } from '../api/buildChatContext';
+import { prepareChatTurn } from '../api/prepareChatTurn';
 import { checkClaudeAvailable, streamClaudeChat } from '../api/claudeChat';
 
 const USE_CLAUDE = import.meta.env.VITE_USE_CLAUDE_API !== 'false';
@@ -220,17 +221,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const appendAssistantFromIntel = useCallback(
     (convId: string, content: string, state: ExecutiveState) => {
+      const turn = prepareChatTurn(content, state, {
+        manualAgents: selectedAgents,
+        autoRoute: autoRouteAgents,
+      });
       const intel = buildIntelligentResponse(content, state);
-      const sources = getSourcesForQuery(state, intel.sourceDocIds);
-      setActiveSources(sources);
+      const grounded = resolveAnswerGrounding(intel.content, state, intel.sourceDocIds);
+      setActiveSources(grounded.sources);
       const msg: ChatMessage = {
         id: `m-${++msgCounter}`,
         role: 'assistant',
         content: intel.content,
         timestamp: new Date().toISOString(),
-        agents: intel.agents,
-        confidence: intel.confidence,
-        sources,
+        agents: turn.routedAgents,
+        grounding: grounded.grounding,
+        sources: grounded.sources,
         followUps: intel.followUps,
       };
       persistExecutive((current) => ({
@@ -247,7 +252,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ),
       }));
     },
-    [persistExecutive],
+    [persistExecutive, selectedAgents, autoRouteAgents],
   );
 
   const recordChatTurn = useCallback(
@@ -384,11 +389,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
               ),
             }));
 
+            const turn = prepareChatTurn(content.trim(), executiveState, {
+              manualAgents: selectedAgents,
+              autoRoute: autoRouteAgents,
+            }, history.length);
+
             await streamClaudeChat({
-              message: content.trim(),
+              message: turn.userMessage,
               language: lang,
               history,
-              context: buildChatContext(executiveState),
+              context: turn.context,
               onToken: (chunk) => {
                 if (streamingRef.cancelled) return;
                 streamed += chunk;
@@ -411,8 +421,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
             if (!streamingRef.cancelled && streamed.trim()) {
               const intel = buildIntelligentResponse(content, executiveState);
-              const sources = getSourcesForQuery(executiveState, intel.sourceDocIds);
-              setActiveSources(sources);
+              const grounded = resolveAnswerGrounding(streamed, executiveState, intel.sourceDocIds);
+              setActiveSources(grounded.sources);
               persistExecutive((s) => ({
                 ...s,
                 conversations: s.conversations.map((c) =>
@@ -424,9 +434,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
                             ? {
                                 ...m,
                                 content: streamed,
-                                agents: intel.agents,
-                                confidence: intel.confidence,
-                                sources,
+                                agents: turn.routedAgents,
+                                grounding: grounded.grounding,
+                                sources: grounded.sources,
                                 followUps: intel.followUps,
                               }
                             : m,
@@ -462,11 +472,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [
       activeConversationId,
       appendAssistantFromIntel,
+      autoRouteAgents,
       conversations,
       createConversation,
       executiveState,
       isStreaming,
       persistExecutive,
+      selectedAgents,
       settings.language,
     ],
   );
@@ -484,8 +496,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (!lastUser) return;
     setIsStreaming(true);
     setTimeout(() => {
+      const turn = prepareChatTurn(lastUser.content, executiveState, {
+        manualAgents: selectedAgents,
+        autoRoute: autoRouteAgents,
+      });
       const intel = buildIntelligentResponse(lastUser.content, executiveState);
-      const sources = getSourcesForQuery(executiveState, intel.sourceDocIds);
+      const answer = intel.content + '\n\n*Regenerated from live store*';
+      const grounded = resolveAnswerGrounding(answer, executiveState, intel.sourceDocIds);
       persistExecutive((s) => ({
         ...s,
         conversations: s.conversations.map((c) => {
@@ -495,22 +512,22 @@ export function AppProvider({ children }: { children: ReactNode }) {
           if (lastIdx >= 0) {
             msgs[lastIdx] = {
               ...msgs[lastIdx],
-              content: intel.content + '\n\n*Regenerated from live store*',
+              content: answer,
               timestamp: new Date().toISOString(),
-              agents: intel.agents,
-              confidence: intel.confidence,
-              sources,
+              agents: turn.routedAgents,
+              grounding: grounded.grounding,
+              sources: grounded.sources,
               followUps: intel.followUps,
             };
           }
           return { ...c, messages: msgs };
         }),
       }));
-      setActiveSources(sources);
+      setActiveSources(grounded.sources);
       setIsStreaming(false);
       showToast('Answer regenerated from live data');
     }, 1200);
-  }, [activeConversationId, conversations, executiveState, persistExecutive, showToast]);
+  }, [activeConversationId, autoRouteAgents, conversations, executiveState, persistExecutive, selectedAgents, showToast]);
 
   const renameConversation = useCallback(
     (id: string, title: string) => {

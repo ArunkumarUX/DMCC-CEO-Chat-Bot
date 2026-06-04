@@ -7,6 +7,8 @@ description: >
 
 # ADGM PPT deck (PPT Master integration)
 
+> **Use the unified master first:** `.cursor/skills/adgm-ppt-master/SKILL.md` + `tools/adgm-deck-craft/MASTER.md`
+
 This repo integrates [ppt-master](https://github.com/hugohe3/ppt-master) **locally only** — not deployed to Netlify.
 
 ## Prerequisites

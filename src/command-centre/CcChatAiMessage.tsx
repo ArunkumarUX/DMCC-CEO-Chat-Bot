@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useState } from 'react';
+import { SourceCitationChip } from '../components/chat/SourceCitationChip';
 import { CcIcon } from './CcIcon';
 import { Emblem } from './CcPrimitives';
 import { mdToNodes } from './CcMarkdown';
@@ -40,7 +40,6 @@ export type CcChatAiMsg = {
   agents?: string[];
   thinking?: boolean;
   activeAgent?: number | null;
-  confidence?: number;
   sources?: Source[];
 };
 
@@ -61,13 +60,8 @@ export function CcChatAiMessage({
   onRetry: () => void;
   onOpenSources: (sources: Source[]) => void;
 }) {
-  const [sourcesOpen, setSourcesOpen] = useState(false);
-  const hasMeta = !m.thinking && m.text && (m.confidence != null || (m.sources?.length ?? 0) > 0);
-  const confPct = m.confidence != null ? Math.round(m.confidence * 100) : null;
-  const confClass =
-    m.confidence != null && m.confidence >= 0.85
-      ? 'chat-ai-meta__conf--high'
-      : 'chat-ai-meta__conf--mid';
+  const sourceCount = m.sources?.length ?? 0;
+  const hasMeta = !m.thinking && m.text && sourceCount > 0;
 
   return (
     <div className="chat-ai-msg mi-chat-in">
@@ -88,50 +82,12 @@ export function CcChatAiMessage({
         {hasMeta && (
           <div className="chat-ai-meta">
             <div className="chat-ai-meta__row">
-              {confPct != null && (
-                <span className={`chat-ai-meta__conf ${confClass}`}>
-                  {ar ? `ثقة ${confPct}%` : `${confPct}% confidence`}
-                </span>
-              )}
-              {(m.sources?.length ?? 0) > 0 && (
-                <button
-                  type="button"
-                  className="chat-ai-meta__sources-btn"
-                  onClick={() => {
-                    setSourcesOpen((o) => !o);
-                    if (!sourcesOpen) onOpenSources(m.sources!);
-                  }}
-                  aria-expanded={sourcesOpen}
-                >
-                  <CcIcon name="book-open" size={14} />
-                  {ar
-                    ? `${m.sources!.length} مصادر`
-                    : `${m.sources!.length} source${m.sources!.length === 1 ? '' : 's'}`}
-                  <CcIcon name={sourcesOpen ? 'chevron-up' : 'chevron-down'} size={14} />
-                </button>
-              )}
-              {(m.sources?.length ?? 0) > 0 && (
-                <button
-                  type="button"
-                  className="chat-ai-meta__sources-btn chat-ai-meta__sources-btn--panel"
-                  onClick={() => onOpenSources(m.sources!)}
-                >
-                  {ar ? 'عرض الكل' : 'View all'}
-                </button>
-              )}
+              <SourceCitationChip
+                sources={m.sources!}
+                ar={ar}
+                onClick={() => onOpenSources(m.sources!)}
+              />
             </div>
-            {sourcesOpen && m.sources && m.sources.length > 0 && (
-              <ul className="chat-ai-sources">
-                {m.sources.map((src) => (
-                  <li key={src.id} className="chat-ai-sources__item">
-                    <span className="chat-ai-sources__title">{src.title}</span>
-                    <span className="chat-ai-sources__meta">
-                      {src.documentName} · {Math.round(src.confidence * 100)}% match
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
           </div>
         )}
 

@@ -1,113 +1,174 @@
-import { X, ExternalLink, Copy, ChevronDown, ChevronUp } from 'lucide-react';
-import { useState } from 'react';
+import { X, ExternalLink, Copy, Library } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '../../context/AppContext';
+import type { Source } from '../../types';
+
+function openHref(href: string) {
+  if (href.startsWith('http')) {
+    window.open(href, '_blank', 'noopener,noreferrer');
+    return;
+  }
+  window.location.assign(href);
+}
+
+function SourceCard({
+  src,
+  onCopy,
+  onOpen,
+}: {
+  src: Source;
+  onCopy: (text: string) => void;
+  onOpen: (src: Source) => void;
+}) {
+  const isKb = src.sourceType === 'knowledge';
+  const isExternal = src.sourceType === 'external' || Boolean(src.externalUrl);
+  const badge = isKb
+    ? 'Knowledge base'
+    : isExternal
+      ? 'External'
+      : src.documentName;
+
+  return (
+    <article className="cc-sources-panel__card">
+      <div className="cc-sources-panel__card-head">
+        <div>
+          {src.handle && <code className="cc-sources-panel__handle">{src.handle}</code>}
+          <p className="cc-sources-panel__title">{src.title}</p>
+          <p className="cc-sources-panel__meta">{badge} · {src.date}</p>
+        </div>
+      </div>
+      {src.excerpt && (
+        <p className="cc-sources-panel__excerpt">"{src.excerpt}"</p>
+      )}
+      <div className="cc-sources-panel__actions">
+        {isKb && src.href && (
+          <button type="button" className="cc-sources-panel__btn cc-sources-panel__btn--primary" onClick={() => onOpen(src)}>
+            <Library className="h-3.5 w-3.5" />
+            {src.openLabel ?? 'Open in Knowledge Base'}
+          </button>
+        )}
+        {src.externalUrl && (
+          <button
+            type="button"
+            className="cc-sources-panel__btn"
+            onClick={() => openHref(src.externalUrl!)}
+          >
+            <ExternalLink className="h-3.5 w-3.5" />
+            Open website
+          </button>
+        )}
+        {!isKb && src.href && !src.externalUrl && (
+          <button type="button" className="cc-sources-panel__btn" onClick={() => onOpen(src)}>
+            <ExternalLink className="h-3.5 w-3.5" />
+            {src.openLabel ?? 'Open'}
+          </button>
+        )}
+        {isExternal && src.href && !src.externalUrl && (
+          <button type="button" className="cc-sources-panel__btn cc-sources-panel__btn--primary" onClick={() => openHref(src.href!)}>
+            <ExternalLink className="h-3.5 w-3.5" />
+            {src.openLabel ?? 'Open website'}
+          </button>
+        )}
+        <button
+          type="button"
+          className="cc-sources-panel__btn cc-sources-panel__btn--ghost"
+          onClick={() => onCopy(`"${src.excerpt}" — ${src.title}${src.handle ? ` [${src.handle}]` : ''}`)}
+        >
+          <Copy className="h-3.5 w-3.5" />
+          Copy citation
+        </button>
+      </div>
+    </article>
+  );
+}
 
 export function SourcePanel() {
   const { sourcesPanelOpen, setSourcesPanelOpen, activeSources, copyMessage } = useApp();
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const kbSources = activeSources.filter((s) => s.sourceType === 'knowledge');
+  const externalSources = activeSources.filter(
+    (s) => s.sourceType === 'external' || (s.externalUrl && s.sourceType !== 'knowledge'),
+  );
+
+  const handleOpen = (src: Source) => {
+    if (src.sourceType === 'knowledge' && src.href) {
+      setSourcesPanelOpen(false);
+      navigate(src.href);
+      return;
+    }
+    if (src.href) openHref(src.href);
+  };
 
   return (
     <AnimatePresence>
       {sourcesPanelOpen && (
-    <>
-      <motion.div
-        className="fixed inset-0 z-40 bg-adgm-navy/20 md:bg-transparent md:pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        onClick={() => setSourcesPanelOpen(false)}
-        aria-hidden
-      />
-      <motion.aside
-        className="fixed md:absolute inset-y-0 end-0 z-50 w-full max-w-md flex flex-col bg-white border-s border-adgm-line shadow-adgm-lg md:shadow-none"
-        initial={{ x: '100%', opacity: 0.8 }}
-        animate={{ x: 0, opacity: 1 }}
-        exit={{ x: '100%', opacity: 0.8 }}
-        transition={{ type: 'spring', stiffness: 320, damping: 32 }}
-        role="complementary"
-        aria-label="Knowledge sources"
-      >
-        <div className="flex items-center justify-between border-b border-adgm-line px-4 py-3">
-          <div>
-            <h2 className="font-display text-lg font-semibold text-adgm-navy">Sources</h2>
-            <p className="text-xs text-adgm-mist">{activeSources.length} references used</p>
-          </div>
-          <button
-            type="button"
+        <>
+          <motion.div
+            className="cc-sources-panel__backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
             onClick={() => setSourcesPanelOpen(false)}
-            className="rounded-lg p-2 hover:bg-adgm-ivory"
-            aria-label="Close sources"
+            aria-hidden
+          />
+          <motion.aside
+            className="cc-sources-panel"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+            role="complementary"
+            aria-label="Sources"
           >
-            <X className="h-5 w-5" />
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin">
-          {activeSources.map((src) => (
-            <article
-              key={src.id}
-              className="rounded-xl border border-adgm-line bg-adgm-ivory/50 overflow-hidden"
-            >
+            <div className="cc-sources-panel__header">
+              <div>
+                <h2 className="cc-sources-panel__heading">Sources</h2>
+                <p className="cc-sources-panel__sub">
+                  {activeSources.length} reference{activeSources.length === 1 ? '' : 's'}
+                </p>
+              </div>
               <button
                 type="button"
-                className="w-full text-start p-4"
-                onClick={() => setExpanded(expanded === src.id ? null : src.id)}
+                onClick={() => setSourcesPanelOpen(false)}
+                className="cc-sources-panel__close"
+                aria-label="Close sources"
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <p className="text-sm font-semibold text-adgm-navy">{src.title}</p>
-                    <p className="text-xs text-adgm-mist mt-0.5">{src.documentName}</p>
-                    <p className="text-xs text-adgm-mist">{src.date}</p>
-                  </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                        src.confidence >= 0.9
-                          ? 'bg-emerald-100 text-adgm-success'
-                          : 'bg-amber-50 text-adgm-warning'
-                      }`}
-                    >
-                      {Math.round(src.confidence * 100)}% match
-                    </span>
-                    {expanded === src.id ? (
-                      <ChevronUp className="h-4 w-4 text-adgm-mist" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4 text-adgm-mist" />
-                    )}
-                  </div>
-                </div>
+                <X className="h-5 w-5" />
               </button>
-              {expanded === src.id && (
-                <div className="px-4 pb-4 border-t border-adgm-line/80 pt-3">
-                  <p className="text-sm text-adgm-charcoal leading-relaxed italic border-s-2 border-adgm-gold ps-3">
-                    "{src.excerpt}"
-                  </p>
-                  <div className="flex gap-2 mt-3">
-                    <button
-                      type="button"
-                      className="flex items-center gap-1 rounded-lg border border-adgm-line bg-white px-3 py-1.5 text-xs font-medium text-adgm-navy hover:border-adgm-gold"
-                      onClick={() => copyMessage(`"${src.excerpt}" — ${src.title}, ${src.documentName}`)}
-                    >
-                      <Copy className="h-3.5 w-3.5" />
-                      Copy citation
-                    </button>
-                    <button
-                      type="button"
-                      className="flex items-center gap-1 rounded-lg border border-adgm-line bg-white px-3 py-1.5 text-xs font-medium text-adgm-navy hover:border-adgm-gold"
-                      onClick={() => window.open('https://www.adgm.com/', '_blank')}
-                    >
-                      <ExternalLink className="h-3.5 w-3.5" />
-                      Open source
-                    </button>
+            </div>
+
+            <div className="cc-sources-panel__body">
+              {kbSources.length > 0 && (
+                <section>
+                  <h3 className="cc-sources-panel__section">Knowledge base</h3>
+                  <div className="cc-sources-panel__list">
+                    {kbSources.map((src) => (
+                      <SourceCard key={src.id} src={src} onCopy={copyMessage} onOpen={handleOpen} />
+                    ))}
                   </div>
-                </div>
+                </section>
               )}
-            </article>
-          ))}
-        </div>
-      </motion.aside>
-    </>
+
+              {externalSources.length > 0 && (
+                <section>
+                  <h3 className="cc-sources-panel__section">External links</h3>
+                  <div className="cc-sources-panel__list">
+                    {externalSources.map((src) => (
+                      <SourceCard key={src.id} src={src} onCopy={copyMessage} onOpen={handleOpen} />
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {activeSources.length === 0 && (
+                <p className="cc-sources-panel__empty">No linked sources for this answer.</p>
+              )}
+            </div>
+          </motion.aside>
+        </>
       )}
     </AnimatePresence>
   );

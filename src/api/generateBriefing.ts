@@ -49,7 +49,11 @@ function buildBriefingContext(
   formatId: string,
   language: 'en' | 'ar',
 ): ChatStreamContext {
-  const base = buildChatContext(state);
+  const config = getBriefingConfig(formatId);
+  const base = buildChatContext(state, {
+    query: config.buildUserMessage(state, language === 'ar'),
+    routedAgents: config.agents as import('../types').AgentType[],
+  });
   return {
     ...base,
     language,

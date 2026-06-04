@@ -140,8 +140,8 @@ export function ExecutiveHomePage() {
   const onAsk = (q: string) => navigate(`/chat?seed=${encodeURIComponent(q)}`);
   const ar = lang === 'ar';
   const quick = ar
-    ? ['قارن إطار الأصول الرقمية مع سنغافورة', 'أهم فرص الاستثمار وفق D33', 'لخّص أداء الموارد البشرية']
-    : ["Compare ADGM's digital assets framework against Singapore MAS.", "Top investment opportunities Abu Dhabi should prioritise from current capital flows?", "Brief me on my 3pm meeting tomorrow."];
+    ? ['مرحباً', 'ما الذي حدث اليوم؟', 'قارن إطار الأصول الرقمية مع سنغافورة']
+    : ['Hi', "Good morning — what's happened today?", "Compare ADGM's digital assets framework against Singapore MAS."];
   return (
     <div className="grid mi-stagger cc-page" style={{ gap: 22 }}>
       <MarketTicker />

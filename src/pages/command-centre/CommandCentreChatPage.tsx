@@ -6,8 +6,9 @@ import { Emblem } from '../../command-centre/CcPrimitives';
 import { CcChatAiMessage } from '../../command-centre/CcChatAiMessage';
 import { AGENTS, SUGGESTIONS, CANNED } from '../../data/commandCentreData';
 import { useApp } from '../../context/AppContext';
-import { buildIntelligentResponse, getSourcesForQuery } from '../../data/executiveStore';
-import { buildChatContext, buildChatHistory } from '../../api/buildChatContext';
+import { buildIntelligentResponse, resolveAnswerGrounding } from '../../data/executiveStore';
+import { prepareChatTurn } from '../../api/prepareChatTurn';
+import { buildChatHistory } from '../../api/buildChatContext';
 import { checkClaudeAvailable, streamClaudeChat } from '../../api/claudeChat';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
 import { IntelCard, IntelCardBody } from '../../command-centre/CcCard';
@@ -27,26 +28,24 @@ type ChatMsg =
       thinking?: boolean;
       activeAgent?: number | null;
       confidence?: number;
+      grounding?: import('../../types').GroundingLevel;
       sources?: Source[];
     };
 
-function pickAgents(q: string) {
-  const sug = SUGGESTIONS.find((s) => s.q === q);
-  if (sug) return sug.agents;
-  if (q.match(/[\u0600-\u06FF]/)) return ['comms', 'strategy'];
-  return ['strategy', 'cos'];
-}
-
-function buildAiPayload(q: string, executiveState: import('../../data/executiveStore').ExecutiveState) {
+function buildAiPayload(
+  q: string,
+  executiveState: import('../../data/executiveStore').ExecutiveState,
+  routedAgents: string[],
+) {
   const intel = buildIntelligentResponse(q, executiveState);
   const canned = CANNED[q as keyof typeof CANNED];
   const text = canned ?? intel.content;
-  const sources = getSourcesForQuery(executiveState, intel.sourceDocIds);
+  const resolved = resolveAnswerGrounding(text, executiveState, intel.sourceDocIds);
   return {
     text,
-    agents: intel.agents,
-    confidence: intel.confidence,
-    sources,
+    agents: routedAgents.length ? routedAgents : intel.agents,
+    grounding: resolved.grounding,
+    sources: resolved.sources,
   };
 }
 
@@ -62,6 +61,8 @@ export function CommandCentreChatPage() {
     copyMessage,
     setActiveSources,
     setSourcesPanelOpen,
+    selectedAgents,
+    autoRouteAgents,
   } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const seed = searchParams.get('seed');
@@ -111,11 +112,14 @@ export function CommandCentreChatPage() {
 
   const fillAiMessage = useCallback(
     async (aid: number, q: string, agents: string[]) => {
+      const turn = prepareChatTurn(q, executiveState, {
+        manualAgents: selectedAgents,
+        autoRoute: autoRouteAgents,
+      }, msgsRef.current.filter((m) => m.id !== aid && m.role === 'user').length);
+      const routedAgents = turn.routedAgents;
       const intel = buildIntelligentResponse(q, executiveState);
       const meta = {
-        agents: intel.agents.length ? intel.agents : agents,
-        confidence: intel.confidence,
-        sources: getSourcesForQuery(executiveState, intel.sourceDocIds),
+        agents: routedAgents.length ? routedAgents : agents,
       };
 
       if (USE_CLAUDE) {
@@ -123,7 +127,7 @@ export function CommandCentreChatPage() {
         if (live) {
           setClaudeLive(true);
           try {
-          const anim = runAgentAnimation(aid, agents);
+          const anim = runAgentAnimation(aid, meta.agents);
           let streamed = '';
           const history = buildChatHistory(
             msgsRef.current.filter((m) => m.id !== aid) as { id: number; role: string; text: string }[],
@@ -133,10 +137,10 @@ export function CommandCentreChatPage() {
           await Promise.all([
             anim,
             streamClaudeChat({
-              message: q,
+              message: turn.userMessage,
               language: ar ? 'ar' : 'en',
               history,
-              context: buildChatContext(executiveState),
+              context: turn.context,
               onToken: (chunk) => {
                 streamed += chunk;
                 setMsgs((m) =>
@@ -160,6 +164,8 @@ export function CommandCentreChatPage() {
             throw new Error('Empty response from Claude');
           }
 
+          const grounded = resolveAnswerGrounding(streamed, executiveState, intel.sourceDocIds);
+
           setMsgs((m) =>
             m.map((x) =>
               x.id === aid && x.role === 'ai'
@@ -167,8 +173,8 @@ export function CommandCentreChatPage() {
                     ...x,
                     text: streamed,
                     agents: meta.agents,
-                    confidence: meta.confidence,
-                    sources: meta.sources,
+                    grounding: grounded.grounding,
+                    sources: grounded.sources,
                     activeAgent: null,
                     thinking: false,
                   }
@@ -199,16 +205,20 @@ export function CommandCentreChatPage() {
         }
       }
 
-      await runAgentAnimation(aid, agents);
-      const { text, confidence, sources } = buildAiPayload(q, executiveState);
+      await runAgentAnimation(aid, meta.agents);
+      const { text, grounding, sources, agents: demoAgents } = buildAiPayload(
+        q,
+        executiveState,
+        meta.agents,
+      );
       setMsgs((m) =>
         m.map((x) =>
           x.id === aid && x.role === 'ai'
             ? {
                 ...x,
                 text,
-                agents,
-                confidence,
+                agents: demoAgents,
+                grounding,
                 sources,
                 activeAgent: null,
                 thinking: false,
@@ -217,7 +227,7 @@ export function CommandCentreChatPage() {
         ),
       );
     },
-    [executiveState, runAgentAnimation, ar, claudeLive],
+    [executiveState, runAgentAnimation, ar, claudeLive, selectedAgents, autoRouteAgents],
   );
 
   const send = useCallback(
@@ -232,7 +242,11 @@ export function CommandCentreChatPage() {
       const uid = ++idRef.current;
       setMsgs((m) => [...m, { id: uid, role: 'user', text: q }]);
 
-      const agents = pickAgents(q);
+      const turn = prepareChatTurn(q, executiveState, {
+        manualAgents: selectedAgents,
+        autoRoute: autoRouteAgents,
+      });
+      const agents = turn.routedAgents;
       const aid = ++idRef.current;
       setMsgs((m) => [
         ...m,
@@ -282,18 +296,21 @@ export function CommandCentreChatPage() {
       if (!userText) return;
 
       setBusy(true);
-      const agents = pickAgents(userText);
+      const turn = prepareChatTurn(userText, executiveState, {
+        manualAgents: selectedAgents,
+        autoRoute: autoRouteAgents,
+      });
       setMsgs((m) =>
         m.map((x) =>
           x.id === aiId && x.role === 'ai'
-            ? { ...x, text: '', thinking: true, activeAgent: 0, confidence: undefined, sources: undefined }
+            ? { ...x, text: '', thinking: true, activeAgent: 0, agents: turn.routedAgents, confidence: undefined, sources: undefined }
             : x,
         ),
       );
-      await fillAiMessage(aiId, userText, agents);
+      await fillAiMessage(aiId, userText, turn.routedAgents);
       setBusy(false);
     },
-    [busy, msgs, fillAiMessage],
+    [busy, msgs, fillAiMessage, executiveState, selectedAgents, autoRouteAgents],
   );
 
   const handleCopy = useCallback(

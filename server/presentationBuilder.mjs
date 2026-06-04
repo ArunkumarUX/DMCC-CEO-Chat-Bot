@@ -1,5 +1,6 @@
 import { getAnthropicConfig } from './chatCore.mjs';
 import { PRESENTATION_BUILDER_SYSTEM } from './presentationBuilderPrompts.mjs';
+import { applyBrandToDeck } from './adgmBrandGuidelines.mjs';
 
 function extractJson(text) {
   const trimmed = text.trim();
@@ -91,10 +92,10 @@ function demoOutline(prompt) {
 }
 
 function demoSlides(outline) {
-  return {
+  return applyBrandToDeck({
     title: outline.title,
-    theme: outline.theme || 'adgm-executive',
-    brandCheck: ['ADGM navy + Clearsky accent', '16:9 executive layout', 'McKinsey-style headlines'],
+    theme: 'adgm-brand-2025',
+    brandCheck: ['McKinsey action titles on every slide', 'KPI towers + exhibit panels enabled'],
     slides: outline.outline.map((o, i) => ({
       id: `slide-${i + 1}`,
       type: o.type,
@@ -114,7 +115,7 @@ function demoSlides(outline) {
             ]
           : undefined,
     })),
-  };
+  });
 }
 
 export async function handlePresentationRequest(payload) {
@@ -181,7 +182,7 @@ export async function handlePresentationRequest(payload) {
 }`,
         8192,
       );
-      return { ok: true, ...data };
+      return { ok: true, ...applyBrandToDeck(data) };
     } catch {
       return { ok: true, ...demoSlides(outline) };
     }

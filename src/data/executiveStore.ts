@@ -2,6 +2,13 @@
  * Unified executive data — single source of truth for all flows.
  * Persisted to localStorage; responses cite live store values.
  */
+import {
+  buildGroundedRecords,
+  deriveGroundingMeta,
+  kbHandle,
+  type GroundingLevel,
+} from '../utils/sourceHandles';
+import { enrichSources, panelSources, sourceTypeFromHandle } from '../utils/sourceLinks';
 import type {
   AgentType,
   Conversation,
@@ -11,9 +18,13 @@ import type {
   RagStatus,
   Source,
 } from '../types';
+import { EXECUTIVE_USER } from '../config/user';
 import { PERFORMANCE_DEPARTMENTS } from './v5SpecData';
 import { ALL_FOCUS_PROMPTS, resolveFocusAreaForQuery } from './focusAreas';
 import { buildFocusAreaResponse } from './focusResponses';
+import { AGENT_LABELS, routeAgentsForQuery } from './agents';
+import { buildPersonalGreetingResponse } from './personalGreeting';
+import { detectChatIntent } from '../utils/chatIntent';
 import {
   actionNow,
   agentTag,
@@ -362,8 +373,13 @@ export function getSourcesForQuery(state: ExecutiveState, docIds: string[]): Sou
     .map((id, i) => {
       const doc = state.documents.find((d) => d.id === id);
       if (!doc) return null;
+      const docIndex = state.documents.findIndex((d) => d.id === id);
       return {
         id: `src-${id}`,
+        handle: kbHandle(id, docIndex >= 0 ? docIndex : i),
+        kind: 'internal' as const,
+        sourceType: 'knowledge' as const,
+        documentId: id,
         title: doc.name.replace(/_/g, ' ').replace(/\.\w+$/, ''),
         documentName: doc.name,
         date: doc.uploadedAt,
@@ -372,6 +388,42 @@ export function getSourcesForQuery(state: ExecutiveState, docIds: string[]): Sou
       };
     })
     .filter(Boolean) as Source[];
+}
+
+/** Resolve UI sources from handles cited in the model answer */
+export function getSourcesFromHandles(state: ExecutiveState, handles: string[]): Source[] {
+  const records = buildGroundedRecords(state);
+  return handles
+    .map((handle, i) => {
+      const rec = records.find((r) => r.handle === handle);
+      if (!rec) return null;
+      return {
+        id: `src-${handle}`,
+        handle,
+        kind: rec.kind,
+        sourceType: sourceTypeFromHandle(handle),
+        title: rec.label,
+        documentName: rec.system,
+        date: rec.asOf,
+        confidence: rec.kind === 'internal' ? 0.92 + i * 0.01 : 0.86,
+        excerpt: rec.snippet,
+      };
+    })
+    .filter(Boolean) as Source[];
+}
+
+export function resolveAnswerGrounding(
+  answerText: string,
+  state: ExecutiveState,
+  fallbackDocIds: string[],
+): { grounding: GroundingLevel; sources: Source[] } {
+  const records = buildGroundedRecords(state);
+  const meta = deriveGroundingMeta(answerText, records);
+  const fromHandles = getSourcesFromHandles(state, meta.citedHandles);
+  const fallback = getSourcesForQuery(state, fallbackDocIds);
+  const merged = enrichSources(fromHandles.length ? fromHandles : fallback, state);
+  const visible = panelSources(merged);
+  return { grounding: meta.level, sources: visible.length ? visible : merged };
 }
 
 export interface IntelligentResponse {
@@ -384,6 +436,21 @@ export interface IntelligentResponse {
 
 export function buildIntelligentResponse(query: string, state: ExecutiveState): IntelligentResponse {
   const q = query.toLowerCase();
+
+  if (detectChatIntent(query) === 'greeting') {
+    return buildPersonalGreetingResponse(query, state);
+  }
+
+  if (detectChatIntent(query) === 'thanks') {
+    return {
+      agents: ['cos'],
+      confidence: 0.95,
+      sourceDocIds: [],
+      followUps: ['Brief me on my next meeting', 'Show performance snapshot'],
+      content: `You're welcome, **${EXECUTIVE_USER.firstName}**. Ask anytime — I'll stay in context for follow-ups.`,
+    };
+  }
+
   const hr = getDepartment(state, 'hr')!;
   const sales = getDepartment(state, 'sales')!;
   const ops = getDepartment(state, 'ops')!;
@@ -697,33 +764,38 @@ ${agentTag(['Chief of Staff AI', 'Strategy AI'])}`,
     return buildFocusAreaResponse(focusId, query, state);
   }
 
-  return {
-    agents: ['policy', 'strategy', 'cos'],
-    confidence: 0.87,
-    sourceDocIds: ['d1'],
-    followUps: ALL_FOCUS_PROMPTS.slice(0, 3),
-    content: `## Personal AI — quick guide
+  const agents = routeAgentsForQuery(query, [], true);
+  const excerpt = query.trim().length > 140 ? `${query.trim().slice(0, 137)}…` : query.trim();
+  const nextMeeting = state.meetings[0];
 
-${plainTerms('Ask in plain language; you get short answers with tables and scores, grounded in your demo data.')}
+  return {
+    agents,
+    confidence: 0.82,
+    sourceDocIds: ['d1'],
+    followUps: [
+      'Compare ADGM vs MAS digital assets',
+      nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
+      'Show department performance snapshot',
+    ],
+    content: `## Answer to your question
+
+${plainTerms(`You asked: “${excerpt}”. Here is what institutional data supports — scoped to your question, not a generic overview.`)}
+
 ${metricTable(
-  ['You can ask about', 'Example', ''],
+  ['From your data', 'Value', 'Signal'],
   [
-    ['Markets & competitors', 'Daily briefing or DIFC vs ADGM', '—'],
-    ['Meetings', 'Brief me on my 3pm meeting', '—'],
-    ['Rules & policy', 'Compare ADGM vs MAS digital assets', '—'],
-    ['People & partners', 'Stakeholder profile for MAS', '—'],
-    ['Letters & Arabic', 'Draft HH office Q2 note', '—'],
+    ['Documents in KB', `${state.metrics.documentsInKb}`, signalEmoji('good')],
+    ['Open actions', `${state.metrics.openActions}`, signalEmoji('watch')],
+    ['Departments green', `${state.metrics.departmentsOnTrack}/9`, signalEmoji('good')],
+    ['GCC markets', state.marketSnapshot.gccEquities, signalEmoji('good')],
   ],
 )}
-| Demo store | Value |
-|------------|-------|
-| Documents indexed | ${state.metrics.documentsInKb} |
-| Queries this week | ${state.metrics.queriesThisWeek} |
-| Departments green | ${state.metrics.departmentsOnTrack}/9 |
 
-**Follow-up**
-- Give me today’s executive briefing
-- Brief my next meeting`,
+**Analysis (${AGENT_LABELS[agents[0]]})**
+I don't have a pre-built demo script for this exact wording. Name a **meeting**, **regulator**, **stakeholder**, or **document** and I'll answer directly from calendar, CRM, and knowledge-base sources.
+
+${nextMeeting ? actionNow(`Or ask: “Brief me on ${nextMeeting.title}” for a calendar-grounded answer.`) : ''}
+${agentTag(agents.map((a) => AGENT_LABELS[a]))}`,
   };
 }
 

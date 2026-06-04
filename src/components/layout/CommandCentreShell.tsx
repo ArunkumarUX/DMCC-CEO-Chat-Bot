@@ -6,7 +6,7 @@ import { DEPARTMENTS } from '../../data/commandCentreData';
 import { useApp } from '../../context/AppContext';
 import { needsTour } from '../../auth/authStorage';
 import { EXECUTIVE_USER } from '../../config/user';
-import { PPT_MASTER_ENABLED } from '../../config/features';
+import { ARCHITECTURE_ENABLED, PPT_MASTER_ENABLED } from '../../config/features';
 
 const NAV = [
   {
@@ -43,7 +43,17 @@ const NAV = [
             },
           ]
         : []),
-      { id: 'architecture', path: '/architecture', icon: 'workflow', label: 'Architecture', labelAr: 'البنية' },
+      ...(ARCHITECTURE_ENABLED
+        ? [
+            {
+              id: 'architecture',
+              path: '/architecture',
+              icon: 'workflow',
+              label: 'Architecture',
+              labelAr: 'البنية',
+            },
+          ]
+        : []),
       { id: 'settings', path: '/settings', icon: 'settings', label: 'Settings', labelAr: 'الإعدادات' },
     ],
   },
@@ -97,6 +107,7 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
   const ar = settings.language === 'ar';
   const view = pathToView(location.pathname);
   const isChat = view === 'chat';
+  const isSlideAi = view === 'create-ppt';
 
   const alertCount = DEPARTMENTS.filter((d) => d.rag === 'risk' || d.rag === 'warn').length;
   /** Icon-only rail on desktop; mobile drawer always shows labels */
@@ -215,7 +226,7 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
           </button>
         </header>
 
-        {isChat ? (
+        {isChat || isSlideAi ? (
           <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>{children}</div>
         ) : (
           <div className="content">

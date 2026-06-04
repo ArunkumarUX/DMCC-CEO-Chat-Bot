@@ -1,4 +1,5 @@
 import type { PresentationDeck, PresentationOutline } from '../types/presentation';
+import { mergeBrandCheck } from '../config/adgmBrandForDeck';
 
 export function demoClarifications() {
   return {
@@ -35,8 +36,12 @@ export function demoOutline(prompt: string): PresentationOutline {
 export function demoSlides(outline: PresentationOutline): PresentationDeck {
   return {
     title: outline.title,
-    theme: outline.theme || 'adgm-executive',
-    brandCheck: ['ADGM navy + Clearsky accent', '16:9 executive layout', 'McKinsey-style headlines'],
+    theme: 'adgm-brand-2025',
+    brandCheck: mergeBrandCheck([
+      'Unified craft: McKinsey + Open Design + Claude Design',
+      'Action titles on every slide',
+      'KPI towers + exhibit panels enabled',
+    ]),
     slides: outline.outline.map((o, i) => ({
       id: `slide-${i + 1}`,
       type: o.type,

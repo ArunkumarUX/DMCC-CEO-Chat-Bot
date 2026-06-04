@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useCallback, useEffect, useState } from 'react';
 import { CcIcon } from '../../command-centre/CcIcon';
+import { IntelCard, IntelCardBody } from '../../command-centre/CcCard';
 import { useApp } from '../../context/AppContext';
 import {
   checkPresentationApiAvailable,
@@ -12,9 +13,14 @@ import {
 import {
   downloadDeckJson,
   downloadDeckMarkdown,
-  PPT_MASTER_CURSOR_PROMPT,
+  downloadDeckPptx,
+  downloadDeckHtml,
+  UNIFIED_PPT_CURSOR_PROMPT,
   printDeckPdfPreview,
 } from '../../utils/presentationExport';
+import { mergeBrandCheck } from '../../config/adgmBrandForDeck';
+
+const CRAFT_STACK = ['McKinsey', 'Open Design', 'Claude Design', 'PPT Master'];
 
 const STEPS = ['input', 'clarify', 'outline', 'preview', 'export'];
 
@@ -44,15 +50,11 @@ export function PresentationBuilderPage() {
   const [error, setError] = useState('');
   const [previewIndex, setPreviewIndex] = useState(0);
   const [showNotes, setShowNotes] = useState(true);
-  const [copied, setCopied] = useState(false);
+  const [pptxBusy, setPptxBusy] = useState(false);
   const [apiLive, setApiLive] = useState(true);
-  const [demoMode, setDemoMode] = useState(false);
 
   useEffect(() => {
-    checkPresentationApiAvailable().then((ok) => {
-      setApiLive(ok);
-      if (!ok) setDemoMode(true);
-    });
+    checkPresentationApiAvailable().then(setApiLive);
   }, []);
 
   const inputPayload = useCallback(
@@ -62,9 +64,13 @@ export function PresentationBuilderPage() {
 
   const t = ar
     ? {
+        eyebrow: 'العروض التقديمية',
         title: 'منشئ العروض بالذكاء الاصطناعي',
-        sub: 'من أي فكرة أو مستند إلى عرض ADGM بمستوى استشاري — محلي فقط',
-        local: 'محلي · غير منشور',
+        sub: 'عرض استثنائي لمجلس ADGM — McKinsey + Open Design + Claude Design + PPT Master في مسار واحد.',
+        craftLabel: 'حرفة التصميم',
+        exportUnified: 'جميع المهارات (Cursor)',
+        badge: 'محلي · غير منشور',
+        statusDemo: 'وضع تجريبي — أعد تشغيل npm run dev لتفعيل Claude.',
         steps: ['المدخلات', 'توضيح', 'المخطط', 'معاينة', 'تصدير'],
         prompt: 'صف العرض',
         promptPh: 'مثال: عرض استراتيجي Q2 لمجلس ADGM — D33 والأصول الرقمية',
@@ -74,26 +80,39 @@ export function PresentationBuilderPage() {
         upload: 'رفع ملف نصي',
         slides: 'عدد الشرائح',
         tone: 'النبرة',
+        optional: 'اختياري',
         continue: 'متابعة',
-        skip: 'تخطي',
         back: 'رجوع',
-        clarifyTitle: 'أسئلة سريعة (اختياري)',
+        clarifyTitle: 'أسئلة سريعة',
+        clarifySub: 'اختياري — ساعد الذكاء الاصطناعي على ضبط الجمهور والنبرة.',
+        noQuestions: 'لا أسئلة إضافية — تابع إلى المخطط.',
         outlineTitle: 'اعتماد المخطط',
         editOutline: 'عدّل العناوين ثم أنشئ الشرائح',
         generate: 'إنشاء الشرائح',
-        preview: 'معاينة',
         regen: 'إعادة توليد',
-        exportMd: 'تصدير Markdown',
-        exportJson: 'تصدير JSON',
-        exportPpt: 'تعليمات PPTX',
-        exportPdf: 'معاينة PDF (طباعة)',
+        exportTitle: 'تصدير',
+        exportMd: 'Markdown',
+        exportJson: 'JSON',
+        exportPptx: 'PowerPoint (.pptx)',
+        exportPdf: 'PDF (طباعة)',
+        exportPptxBusy: 'جاري إنشاء PowerPoint…',
+        exportHtml: 'HTML deck (مميز)',
+        exportHint:
+          'كل المهارات مدمجة: عناوين إجرائية، أبراج KPI، معارض — .pptx أو HTML بمظهر استثنائي.',
         brand: 'فحص الهوية',
         busy: 'جاري التوليد…',
+        speakerNotes: 'ملاحظات المتحدث',
+        slideOf: 'شريحة',
+        preview: 'الشرائح',
       }
     : {
+        eyebrow: 'Presentations',
         title: 'AI Presentation Builder',
-        sub: 'From any prompt or document to a McKinsey-level ADGM deck — local only',
-        local: 'Local · not on production',
+        sub: 'Outstanding board decks — McKinsey, Open Design, Claude Design, and PPT Master unified in one flow.',
+        craftLabel: 'Design craft',
+        exportUnified: 'All skills (Cursor)',
+        badge: 'Local · not on production',
+        statusDemo: 'Demo mode — restart npm run dev for live Claude generation.',
         steps: ['Input', 'Clarify', 'Outline', 'Preview', 'Export'],
         prompt: 'Describe your presentation',
         promptPh: 'e.g. Q2 board pack for ADGM — D33, digital assets, FSRA outlook',
@@ -103,21 +122,30 @@ export function PresentationBuilderPage() {
         upload: 'Upload text file',
         slides: 'Slide count',
         tone: 'Tone',
+        optional: 'Optional',
         continue: 'Continue',
-        skip: 'Skip',
         back: 'Back',
-        clarifyTitle: 'Quick clarifications (optional)',
+        clarifyTitle: 'Quick clarifications',
+        clarifySub: 'Optional — helps the AI tune audience and tone.',
+        noQuestions: 'No extra questions — continue to outline.',
         outlineTitle: 'Approve outline',
-        editOutline: 'Edit titles, then build slides',
+        editOutline: 'Edit slide titles, then generate content.',
         generate: 'Generate slides',
-        preview: 'Preview',
         regen: 'Regenerate slide',
-        exportMd: 'Export Markdown',
-        exportJson: 'Export JSON',
-        exportPpt: 'PPTX instructions',
-        exportPdf: 'PDF preview (print)',
+        exportTitle: 'Export deck',
+        exportMd: 'Markdown',
+        exportJson: 'JSON',
+        exportPptx: 'PowerPoint (.pptx)',
+        exportPdf: 'PDF (print)',
+        exportPptxBusy: 'Building PowerPoint…',
+        exportHtml: 'HTML deck (premium)',
+        exportHint:
+          'All skills applied: action titles, KPI towers, exhibit panels. Export .pptx or HTML for wow board-ready output. See docs/ADGM-PPT-MASTER.md.',
         brand: 'Brand check',
         busy: 'Generating…',
+        speakerNotes: 'Speaker notes',
+        slideOf: 'Slide',
+        preview: 'Slides',
       };
 
   const stepIndex = STEPS.indexOf(step);
@@ -164,7 +192,7 @@ export function PresentationBuilderPage() {
     setBusy(true);
     try {
       const d = await fetchSlides(inputPayload(), outline);
-      setDeck(d);
+      setDeck({ ...d, brandCheck: mergeBrandCheck(d.brandCheck) });
       setPreviewIndex(0);
       setStep('preview');
     } catch (err) {
@@ -199,260 +227,343 @@ export function PresentationBuilderPage() {
     });
   };
 
-  const copyPptPrompt = async () => {
-    await navigator.clipboard.writeText(PPT_MASTER_CURSOR_PROMPT);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 2000);
+  const [copiedKind, setCopiedKind] = useState('');
+
+  const copyPrompt = async (text: string, kind: string) => {
+    await navigator.clipboard.writeText(text);
+    setCopiedKind(kind);
+    window.setTimeout(() => setCopiedKind(''), 2000);
+  };
+
+  const onExportPptx = async () => {
+    if (!deck) return;
+    setError('');
+    setPptxBusy(true);
+    try {
+      await downloadDeckPptx(deck, { includeSpeakerNotes: showNotes });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not export PowerPoint file');
+    } finally {
+      setPptxBusy(false);
+    }
   };
 
   const currentSlide = deck?.slides?.[previewIndex];
 
+  const formatSlideType = (type?: string) =>
+    (type || 'slide').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+
   return (
-    <div className="content-pad mi-page-enter cc-pres-builder">
-      <header className="cc-pres-builder__head">
+    <div className="grid mi-stagger cc-page cc-pres-builder" style={{ gap: 20 }}>
+      <div className="section-head">
         <div>
-          <span className="pill warn">{t.local}</span>
-          <h1 className="type-title" style={{ marginTop: 10 }}>
-            {t.title}
-          </h1>
-          <p className="muted-3" style={{ marginTop: 6, maxWidth: 640 }}>
+          <div className="eyebrow">{t.eyebrow}</div>
+          <h2>{t.title}</h2>
+          <p className="muted" style={{ margin: '6px 0 0', fontSize: 14, maxWidth: 560 }}>
             {t.sub}
           </p>
         </div>
-        <CcIcon name="presentation" size={36} className="cc-pres-builder__icon" />
-      </header>
+        <span className="pill ghost">
+          <CcIcon name="presentation" size={14} />
+          {t.badge}
+        </span>
+      </div>
+
+      <div className="cc-pres-builder__craft" aria-label={t.craftLabel}>
+        <span className="cc-pres-builder__craft-label">{t.craftLabel}</span>
+        {CRAFT_STACK.map((name) => (
+          <span key={name} className="cc-pres-builder__craft-pill">
+            {name}
+          </span>
+        ))}
+      </div>
+
+      {!apiLive ? (
+        <p className="cc-pres-builder__status">
+          <CcIcon name="info" size={14} />
+          {t.statusDemo}
+        </p>
+      ) : null}
 
       <nav className="cc-pres-builder__stepper" aria-label="Progress">
         {t.steps.map((label, i) => (
-          <span
+          <div
             key={STEPS[i]}
-            className={`cc-pres-builder__step${i <= stepIndex ? ' cc-pres-builder__step--on' : ''}${i === stepIndex ? ' cc-pres-builder__step--current' : ''}`}
+            className={`cc-pres-builder__step${i < stepIndex ? ' cc-pres-builder__step--done' : ''}${i === stepIndex ? ' cc-pres-builder__step--current' : ''}`}
           >
-            {i + 1}. {label}
-          </span>
+            <span className="cc-pres-builder__step-dot">{i < stepIndex ? '✓' : i + 1}</span>
+            <span className="cc-pres-builder__step-label">{label}</span>
+          </div>
         ))}
       </nav>
 
       {error ? (
-        <div className="adgm-info-panel" style={{ marginBottom: 16 }}>
+        <div className="adgm-info-panel">
           <div className="adgm-info-panel__body">{error}</div>
         </div>
       ) : null}
 
-      {!apiLive ? (
-        <div className="adgm-info-panel" style={{ marginBottom: 16 }}>
-          <div className="adgm-info-panel__body">
-            {ar
-              ? 'وضع العرض التجريبي — أعد تشغيل npm run dev لتفعيل Claude. الخطوات تعمل بدون API.'
-              : 'Demo deck mode — restart npm run dev (Ctrl+C then npm run dev) for live Claude. All steps still work.'}
-          </div>
-        </div>
-      ) : null}
-
-      {demoMode && apiLive ? (
-        <div className="adgm-info-panel" style={{ marginBottom: 16 }}>
-          <div className="adgm-info-panel__body">
-            Using demo slide content (Claude unavailable). Restart dev server if API key is set.
-          </div>
-        </div>
-      ) : null}
-
       {step === 'input' && (
-        <section className="card card-pad">
-          <label className="cc-pres-builder__label">{t.prompt}</label>
-          <textarea
-            className="cc-pres-builder__textarea"
-            rows={4}
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder={t.promptPh}
-          />
-          <label className="cc-pres-builder__label">{t.notes}</label>
-          <textarea
-            className="cc-pres-builder__textarea"
-            rows={2}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
-          <label className="cc-pres-builder__label">{t.link}</label>
-          <input
-            className="cc-pres-builder__input"
-            type="url"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-            placeholder="https://"
-          />
-          <label className="cc-pres-builder__label">{t.doc}</label>
-          <textarea
-            className="cc-pres-builder__textarea"
-            rows={3}
-            value={documentText}
-            onChange={(e) => setDocumentText(e.target.value)}
-          />
-          <label className="cc-pres-builder__file">
-            <CcIcon name="upload" size={16} />
-            {t.upload}
-            <input type="file" accept=".txt,.md,.csv,.json" hidden onChange={onFile} />
-          </label>
-          <div className="cc-pres-builder__row">
-            <label className="cc-pres-builder__label">
-              {t.slides}
-              <input
-                type="number"
-                min={6}
-                max={20}
-                className="cc-pres-builder__input cc-pres-builder__input--narrow"
-                value={slideCount}
-                onChange={(e) => setSlideCount(Number(e.target.value))}
-              />
-            </label>
-            <label className="cc-pres-builder__label">
-              {t.tone}
-              <select className="cc-pres-builder__input" value={tone} onChange={(e) => setTone(e.target.value)}>
-                {TONES.map((x) => (
-                  <option key={x.id} value={x.id}>
-                    {ar ? x.ar : x.en}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <button
-            type="button"
-            className="btn btn-primary"
-            disabled={busy || !prompt.trim()}
-            onClick={startClarify}
-          >
-            {busy ? t.busy : t.continue}
-          </button>
-        </section>
+        <IntelCard>
+          <IntelCardBody>
+            <h3 className="settings-section-title">{t.steps[0]}</h3>
+            <div className="cc-pres-builder__form-grid">
+              <div className="cc-pres-builder__form-main">
+                <label className="cc-pres-builder__label" htmlFor="pres-prompt">
+                  {t.prompt}
+                </label>
+                <textarea
+                  id="pres-prompt"
+                  className="cc-pres-builder__textarea cc-pres-builder__textarea--hero"
+                  rows={5}
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder={t.promptPh}
+                />
+                <label className="cc-pres-builder__label" htmlFor="pres-notes">
+                  {t.notes}{' '}
+                  <span className="muted-3" style={{ fontWeight: 400 }}>
+                    ({t.optional})
+                  </span>
+                </label>
+                <textarea
+                  id="pres-notes"
+                  className="cc-pres-builder__textarea"
+                  rows={2}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                />
+              </div>
+              <div className="cc-pres-builder__form-side">
+                <label className="cc-pres-builder__label" htmlFor="pres-link">
+                  {t.link}
+                </label>
+                <input
+                  id="pres-link"
+                  className="cc-pres-builder__input"
+                  type="url"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  placeholder="https://"
+                />
+                <label className="cc-pres-builder__label" htmlFor="pres-doc">
+                  {t.doc}
+                </label>
+                <textarea
+                  id="pres-doc"
+                  className="cc-pres-builder__textarea"
+                  rows={4}
+                  value={documentText}
+                  onChange={(e) => setDocumentText(e.target.value)}
+                />
+                <label className="cc-pres-builder__upload">
+                  <CcIcon name="upload" size={16} />
+                  {t.upload}
+                  <input type="file" accept=".txt,.md,.csv,.json" hidden onChange={onFile} />
+                </label>
+                <div className="cc-pres-builder__meta-row">
+                  <label className="cc-pres-builder__label" htmlFor="pres-count">
+                    {t.slides}
+                  </label>
+                  <input
+                    id="pres-count"
+                    type="number"
+                    min={6}
+                    max={20}
+                    className="cc-pres-builder__input"
+                    value={slideCount}
+                    onChange={(e) => setSlideCount(Number(e.target.value))}
+                  />
+                </div>
+                <div className="cc-pres-builder__meta-row">
+                  <label className="cc-pres-builder__label" htmlFor="pres-tone">
+                    {t.tone}
+                  </label>
+                  <select
+                    id="pres-tone"
+                    className="cc-pres-builder__input"
+                    value={tone}
+                    onChange={(e) => setTone(e.target.value)}
+                  >
+                    {TONES.map((x) => (
+                      <option key={x.id} value={x.id}>
+                        {ar ? x.ar : x.en}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="cc-pres-builder__footer">
+              <button
+                type="button"
+                className="btn btn-primary"
+                disabled={busy || !prompt.trim()}
+                onClick={startClarify}
+              >
+                {busy ? t.busy : t.continue}
+                {!busy && <CcIcon name="arrow-right" size={16} />}
+              </button>
+            </div>
+          </IntelCardBody>
+        </IntelCard>
       )}
 
       {step === 'clarify' && (
-        <section className="card card-pad">
-          <h2 className="type-sub">{t.clarifyTitle}</h2>
-          {questions.length === 0 ? (
-            <p className="muted-3">No extra questions — continue to outline.</p>
-          ) : (
-            questions.map((q, i) => (
-              <div key={i} style={{ marginTop: 14 }}>
-                <p className="cc-pres-builder__q">{q}</p>
-                <input
-                  className="cc-pres-builder__input"
-                  value={answers[i] || ''}
-                  onChange={(e) => {
-                    const next = [...answers];
-                    next[i] = e.target.value;
-                    setAnswers(next);
-                  }}
-                />
+        <IntelCard>
+          <IntelCardBody>
+            <h3 className="settings-section-title">{t.clarifyTitle}</h3>
+            <p className="muted-3" style={{ margin: '0 0 16px', fontSize: 13 }}>
+              {t.clarifySub}
+            </p>
+            {questions.length === 0 ? (
+              <p className="muted-3">{t.noQuestions}</p>
+            ) : (
+              <div className="cc-pres-builder__qa-list">
+                {questions.map((q, i) => (
+                  <div key={i} className="cc-pres-builder__qa">
+                    <p className="cc-pres-builder__q">{q}</p>
+                    <input
+                      className="cc-pres-builder__input"
+                      value={answers[i] || ''}
+                      onChange={(e) => {
+                        const next = [...answers];
+                        next[i] = e.target.value;
+                        setAnswers(next);
+                      }}
+                    />
+                  </div>
+                ))}
               </div>
-            ))
-          )}
-          <div className="cc-pres-builder__actions">
-            <button type="button" className="btn btn-ghost" onClick={() => setStep('input')}>
-              {t.back}
-            </button>
-            <button type="button" className="btn btn-primary" disabled={busy} onClick={buildOutline}>
-              {busy ? t.busy : t.continue}
-            </button>
-          </div>
-        </section>
+            )}
+            <div className="cc-pres-builder__footer">
+              <button type="button" className="btn btn-ghost" onClick={() => setStep('input')}>
+                {t.back}
+              </button>
+              <button type="button" className="btn btn-primary" disabled={busy} onClick={buildOutline}>
+                {busy ? t.busy : t.continue}
+              </button>
+            </div>
+          </IntelCardBody>
+        </IntelCard>
       )}
 
       {step === 'outline' && outline && (
-        <section className="card card-pad">
-          <h2 className="type-sub">{t.outlineTitle}</h2>
-          <p className="muted-3">{outline.storyline}</p>
-          <input
-            className="cc-pres-builder__input"
-            style={{ marginTop: 12, fontWeight: 600 }}
-            value={outline.title}
-            onChange={(e) => setOutline({ ...outline, title: e.target.value })}
-          />
-          <p className="muted-3" style={{ fontSize: 12, margin: '8px 0 12px' }}>
-            {t.editOutline}
-          </p>
-          <ul className="cc-pres-builder__outline-list">
-            {outline.outline.map((item, i) => (
-              <li key={i} className="cc-pres-builder__outline-item">
-                <span className="cc-pres-builder__outline-type">{item.type}</span>
-                <input
-                  className="cc-pres-builder__input"
-                  value={item.title}
-                  onChange={(e) => updateOutlineItem(i, 'title', e.target.value)}
-                />
-                <input
-                  className="cc-pres-builder__input muted-3"
-                  value={item.summary}
-                  onChange={(e) => updateOutlineItem(i, 'summary', e.target.value)}
-                />
-              </li>
-            ))}
-          </ul>
-          <div className="cc-pres-builder__actions">
-            <button type="button" className="btn btn-ghost" onClick={() => setStep('clarify')}>
-              {t.back}
-            </button>
-            <button type="button" className="btn btn-primary" disabled={busy} onClick={buildSlides}>
-              {busy ? t.busy : t.generate}
-            </button>
-          </div>
-        </section>
+        <IntelCard>
+          <IntelCardBody>
+            <h3 className="settings-section-title">{t.outlineTitle}</h3>
+            <p className="cc-pres-builder__storyline">{outline.storyline}</p>
+            <input
+              className="cc-pres-builder__input cc-pres-builder__input--title"
+              value={outline.title}
+              onChange={(e) => setOutline({ ...outline, title: e.target.value })}
+            />
+            <p className="muted-3" style={{ fontSize: 12, margin: '0 0 14px' }}>
+              {t.editOutline}
+            </p>
+            <ul className="cc-pres-builder__outline-list">
+              {outline.outline.map((item, i) => (
+                <li key={i} className="cc-pres-builder__outline-item">
+                  <span className="cc-pres-builder__outline-num">{i + 1}</span>
+                  <div className="cc-pres-builder__outline-fields">
+                    <span className="cc-pres-builder__outline-type">{item.type.replace(/-/g, ' ')}</span>
+                    <input
+                      className="cc-pres-builder__input"
+                      value={item.title}
+                      onChange={(e) => updateOutlineItem(i, 'title', e.target.value)}
+                    />
+                    <input
+                      className="cc-pres-builder__input cc-pres-builder__input--muted"
+                      value={item.summary}
+                      onChange={(e) => updateOutlineItem(i, 'summary', e.target.value)}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <div className="cc-pres-builder__footer">
+              <button type="button" className="btn btn-ghost" onClick={() => setStep('clarify')}>
+                {t.back}
+              </button>
+              <button type="button" className="btn btn-primary" disabled={busy} onClick={buildSlides}>
+                {busy ? t.busy : t.generate}
+              </button>
+            </div>
+          </IntelCardBody>
+        </IntelCard>
       )}
 
       {step === 'preview' && deck && (
-        <section className="cc-pres-builder__preview-wrap">
-          <div className="cc-pres-builder__thumb-strip">
-            {deck.slides.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                className={`cc-pres-builder__thumb${i === previewIndex ? ' cc-pres-builder__thumb--on' : ''}`}
-                onClick={() => setPreviewIndex(i)}
-              >
-                <span className="cc-pres-builder__thumb-num">{i + 1}</span>
-                <span className="cc-pres-builder__thumb-title">{s.title}</span>
-              </button>
-            ))}
-          </div>
-          <article className="cc-pres-builder__slide card card-pad">
-            <span className="cc-pres-builder__slide-type">{currentSlide?.type}</span>
-            <h2 className="cc-pres-builder__slide-title">{currentSlide?.title}</h2>
-            <ul className="cc-pres-builder__bullets">
-              {currentSlide?.bullets?.map((b, i) => (
-                <li key={i}>{b}</li>
+        <div className="cc-pres-builder__preview-layout">
+          <aside className="cc-pres-builder__thumb-panel" aria-label={t.preview}>
+            <div className="cc-pres-builder__thumb-head">
+              <p className="cc-pres-builder__panel-label">{t.preview}</p>
+              <span className="cc-pres-builder__thumb-count">
+                {previewIndex + 1} / {deck.slides.length}
+              </span>
+            </div>
+            <div className="cc-pres-builder__thumb-strip" role="tablist">
+              {deck.slides.map((s, i) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === previewIndex}
+                  className={`cc-pres-builder__thumb${i === previewIndex ? ' cc-pres-builder__thumb--on' : ''}`}
+                  onClick={() => setPreviewIndex(i)}
+                >
+                  <span className="cc-pres-builder__thumb-index">{i + 1}</span>
+                  <span className="cc-pres-builder__thumb-copy">
+                    <span className="cc-pres-builder__thumb-title">{s.title}</span>
+                    <span className="cc-pres-builder__thumb-type">{formatSlideType(s.type)}</span>
+                  </span>
+                </button>
               ))}
-            </ul>
-            {currentSlide?.metrics?.length ? (
-              <table className="cc-pres-builder__metrics">
-                <tbody>
-                  {currentSlide.metrics.map((m) => (
-                    <tr key={m.label}>
-                      <td>{m.label}</td>
-                      <td>{m.value}</td>
-                    </tr>
+            </div>
+          </aside>
+          <div className="cc-pres-builder__stage">
+            <article className="cc-pres-builder__slide cc-pres-builder__slide--wow">
+              <header className="cc-pres-builder__slide-header">
+                <span className="cc-pres-builder__slide-brand">ADGM</span>
+                <span className="cc-pres-builder__slide-meta">
+                  {t.slideOf} {previewIndex + 1} / {deck.slides.length}
+                </span>
+              </header>
+              <div className="cc-pres-builder__slide-body">
+                <span className="cc-pres-builder__slide-type">{currentSlide?.type?.replace(/-/g, ' ')}</span>
+                <h2 className="cc-pres-builder__slide-title">{currentSlide?.title}</h2>
+                <ul className="cc-pres-builder__bullets">
+                  {currentSlide?.bullets?.map((b, i) => (
+                    <li key={i}>{b}</li>
                   ))}
-                </tbody>
-              </table>
-            ) : null}
-            {currentSlide?.visualHint ? (
-              <p className="cc-pres-builder__visual">
-                <CcIcon name="image" size={14} /> {currentSlide.visualHint}
-              </p>
-            ) : null}
-            {showNotes && currentSlide?.speakerNotes ? (
-              <p className="cc-pres-builder__notes">{currentSlide.speakerNotes}</p>
-            ) : null}
-            <div className="cc-pres-builder__actions">
-              <label className="pill ghost" style={{ cursor: 'pointer' }}>
-                <input
-                  type="checkbox"
-                  checked={showNotes}
-                  onChange={(e) => setShowNotes(e.target.checked)}
-                  style={{ marginInlineEnd: 6 }}
-                />
-                Speaker notes
+                </ul>
+                {currentSlide?.metrics?.length ? (
+                  <table className="cc-pres-builder__metrics">
+                    <tbody>
+                      {currentSlide.metrics.map((m) => (
+                        <tr key={m.label}>
+                          <td>{m.label}</td>
+                          <td>{m.value}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : null}
+                {currentSlide?.visualHint ? (
+                  <p className="cc-pres-builder__visual">
+                    <CcIcon name="bar-chart-2" size={14} />
+                    {currentSlide.visualHint}
+                  </p>
+                ) : null}
+              </div>
+              {showNotes && currentSlide?.speakerNotes ? (
+                <footer className="cc-pres-builder__slide-notes">{currentSlide.speakerNotes}</footer>
+              ) : null}
+            </article>
+            <div className="cc-pres-builder__footer">
+              <label className="pill ghost cc-pres-builder__notes-toggle">
+                <input type="checkbox" checked={showNotes} onChange={(e) => setShowNotes(e.target.checked)} />
+                {t.speakerNotes}
               </label>
               <button type="button" className="btn btn-ghost btn-sm" disabled={busy} onClick={onRegenSlide}>
                 {t.regen}
@@ -461,46 +572,67 @@ export function PresentationBuilderPage() {
                 {t.continue}
               </button>
             </div>
-          </article>
-        </section>
+          </div>
+        </div>
       )}
 
       {step === 'export' && deck && (
-        <section className="card card-pad">
-          <h2 className="type-sub">Export</h2>
-          {deck.brandCheck?.length ? (
-            <>
-              <p className="cc-pres-builder__label">{t.brand}</p>
-              <ul className="muted-3">
+        <IntelCard>
+          <IntelCardBody>
+            <h3 className="settings-section-title">{t.exportTitle}</h3>
+            {deck.brandCheck?.length ? (
+              <ul className="cc-pres-builder__brand-list">
                 {deck.brandCheck.map((b) => (
-                  <li key={b}>{b}</li>
+                  <li key={b}>
+                    <CcIcon name="check-circle" size={14} />
+                    {b}
+                  </li>
                 ))}
               </ul>
-            </>
-          ) : null}
-          <div className="cc-pres-builder__actions">
-            <button type="button" className="btn btn-primary" onClick={() => downloadDeckMarkdown(deck, outline, showNotes)}>
-              {t.exportMd}
-            </button>
-            <button type="button" className="btn btn-ghost" onClick={() => downloadDeckJson(deck)}>
-              {t.exportJson}
-            </button>
-            <button type="button" className="btn btn-ghost" onClick={copyPptPrompt}>
-              {copied ? 'Copied' : t.exportPpt}
-            </button>
-            <button type="button" className="btn btn-ghost" onClick={printDeckPdfPreview}>
-              {t.exportPdf}
-            </button>
-          </div>
-          <p className="muted-3" style={{ fontSize: 12, marginTop: 12 }}>
-            Save Markdown to{' '}
-            <code>tools/ppt-master-adgm/projects/adgm-command-centre/sources/deck-source.md</code>, then run PPT
-            Master in Cursor for editable <strong>.pptx</strong>.
-          </p>
-          <button type="button" className="btn btn-ghost" style={{ marginTop: 12 }} onClick={() => setStep('preview')}>
-            {t.back}
-          </button>
-        </section>
+            ) : null}
+            <div className="cc-pres-builder__export-grid">
+              <button
+                type="button"
+                className="cc-pres-builder__export-btn cc-pres-builder__export-btn--primary"
+                disabled={pptxBusy}
+                onClick={onExportPptx}
+              >
+                <CcIcon name="presentation" size={22} />
+                <span>{pptxBusy ? t.exportPptxBusy : t.exportPptx}</span>
+              </button>
+              <button type="button" className="cc-pres-builder__export-btn" onClick={() => downloadDeckHtml(deck)}>
+                <CcIcon name="layout" size={20} />
+                <span>{t.exportHtml}</span>
+              </button>
+              <button type="button" className="cc-pres-builder__export-btn" onClick={() => downloadDeckMarkdown(deck, outline, showNotes)}>
+                <CcIcon name="file-text" size={20} />
+                <span>{t.exportMd}</span>
+              </button>
+              <button type="button" className="cc-pres-builder__export-btn" onClick={() => downloadDeckJson(deck)}>
+                <CcIcon name="braces" size={20} />
+                <span>{t.exportJson}</span>
+              </button>
+              <button type="button" className="cc-pres-builder__export-btn" onClick={printDeckPdfPreview}>
+                <CcIcon name="printer" size={20} />
+                <span>{t.exportPdf}</span>
+              </button>
+              <button
+                type="button"
+                className="cc-pres-builder__export-btn cc-pres-builder__export-btn--unified"
+                onClick={() => copyPrompt(UNIFIED_PPT_CURSOR_PROMPT, 'unified')}
+              >
+                <CcIcon name="sparkles" size={20} />
+                <span>{copiedKind === 'unified' ? 'Copied' : t.exportUnified}</span>
+              </button>
+            </div>
+            <p className="muted-3 cc-pres-builder__export-hint">{t.exportHint}</p>
+            <div className="cc-pres-builder__footer">
+              <button type="button" className="btn btn-ghost" onClick={() => setStep('preview')}>
+                {t.back}
+              </button>
+            </div>
+          </IntelCardBody>
+        </IntelCard>
       )}
     </div>
   );

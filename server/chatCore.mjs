@@ -3,6 +3,7 @@
  */
 
 import { ANSWER_FORMAT_RULES } from './answerFormatRules.mjs';
+import { buildGroundedRecordsFromContext, formatGroundedContextBlock } from './sourceHandles.mjs';
 
 export function getAnthropicConfig() {
   return {
@@ -13,26 +14,8 @@ export function getAnthropicConfig() {
 
 export function buildSystemPrompt(ctx, language) {
   const ar = language === 'ar';
-  const docs = (ctx?.documents || [])
-    .slice(0, 12)
-    .map((d) => `- ${d.name}: ${d.summary || 'No summary'}`)
-    .join('\n');
-
-  const meetings = (ctx?.meetings || [])
-    .map(
-      (m) =>
-        `- ${m.title} · ${m.time} · ${m.attendees} · ${m.location} (prep: ${m.prepStatus})`,
-    )
-    .join('\n');
-
-  const actions = (ctx?.openActions || [])
-    .map((a) => `- [${a.status}] ${a.title} (due ${a.due}, ${a.owner})`)
-    .join('\n');
-
-  const market = ctx?.marketSnapshot;
-  const marketBlock = market
-    ? `Market snapshot: GCC ${market.gccEquities} · digital assets ${market.digitalAssetsWoW} · ${market.competitorNote} · top sector ${market.topSector}`
-    : '';
+  const groundedRecords = buildGroundedRecordsFromContext(ctx);
+  const groundedBlock = formatGroundedContextBlock(groundedRecords);
 
   const isBriefing = Boolean(ctx?.briefingFormat);
   const formatLabel = ctx?.briefingFormat || 'executive briefing';
@@ -40,6 +23,26 @@ export function buildSystemPrompt(ctx, language) {
   const deptLine = ctx?.departmentHeadlines?.length
     ? ctx.departmentHeadlines.join('\n')
     : '';
+
+  const delegation =
+    ctx?.agentDelegation?.length > 0
+      ? ctx.agentDelegation
+          .map((a) => `- **${a.name}** (${a.role}): ${a.tagline}`)
+          .join('\n')
+      : '- **Chief of Staff AI** (Orchestrator): routes and synthesises';
+
+  const userQ = ctx?.userQuestion?.trim()
+    ? `\nCURRENT USER QUESTION (answer ONLY this — do not change topic):\n"${ctx.userQuestion.trim()}"\n`
+    : '';
+
+  const primary = ctx?.agentDelegation?.[0]?.name ?? 'Chief of Staff AI';
+  const firstName = ctx?.executiveFirstName ?? 'Rajiv';
+  const convoBlock =
+    ctx?.conversationalMode === 'greeting'
+      ? `\nCONVERSATIONAL MODE: Personal check-in — greet ${firstName} by first name, summarize today's calendar/actions/markets warmly (~120 words). No capability lists.\n`
+      : ctx?.conversationalMode === 'thanks'
+        ? `\nCONVERSATIONAL MODE: Brief warm thank-you to ${firstName}.\n`
+        : '';
 
   return `You are a senior McKinsey strategy manager serving as the Personal AI Agent for ${ctx?.executiveName || 'Rajiv Sehgal'}, Chief Strategy Officer at Abu Dhabi Global Market (ADGM). The executive may open with "You are a senior McKinsey strategy manager" — treat that as confirmation of this persona for the turn.
 
@@ -49,30 +52,31 @@ ${isBriefing ? `You are generating a **${formatLabel}** briefing (not casual cha
 
 ${ANSWER_FORMAT_RULES}
 
+═══════════════════════════════
+DELEGATED SPECIALISTS THIS TURN
+═══════════════════════════════
+Primary lead: **${primary}**
+${delegation}
+${convoBlock}${userQ}
 Language: ${ar ? 'Modern Standard Arabic unless the user writes in English.' : 'Clear English for a non-expert reader unless the user writes in Arabic.'}
-${isBriefing ? 'Output only the briefing body.' : 'End with a **Follow-up** section: exactly 2 bullet questions.'}
+${isBriefing ? 'Output only the briefing body.' : 'End with Sources + Grounding lines, then a **Follow-up** section: exactly 2 bullet questions.'}
 
-Calendar (Microsoft Graph demo):
-${meetings || '(no meetings listed)'}
+═══════════════════════════════
+GROUNDED SOURCE RECORDS (cite ONLY these handles)
+═══════════════════════════════
 
-Open action register:
-${actions || '(none)'}
+${groundedBlock}
 
-${marketBlock}
-
-Knowledge base documents (cite by name when used):
-${docs || '(none listed)'}
-
-Live demo metrics:
+Live demo metrics (cite KB/MKT handles when quoting these — do not invent):
 - Queries this week: ${ctx?.metrics?.queriesThisWeek ?? '—'}
 - Documents in KB: ${ctx?.metrics?.documentsInKb ?? '—'}
 - Departments green: ${ctx?.metrics?.departmentsOnTrack ?? '—'} / 9
 - Open actions: ${ctx?.metrics?.openActions ?? '—'}
-- D33 alignment (demo): 82/100
-- Licence growth YoY (demo): +12%
+- D33 alignment (demo): 82/100 — tie to relevant KB doc if cited
+- Licence growth YoY (demo): +12% — tie to relevant KB doc if cited
 
 Department headlines (demo ERP):
-${deptLine || '(see documents and meetings)'}`;
+${deptLine || '(see grounded records above)'}`;
 }
 
 /**
