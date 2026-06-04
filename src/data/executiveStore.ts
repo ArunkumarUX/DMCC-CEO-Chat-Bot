@@ -25,6 +25,7 @@ import { buildFocusAreaResponse } from './focusResponses';
 import { AGENT_LABELS, routeAgentsForQuery } from './agents';
 import { buildPersonalGreetingResponse } from './personalGreeting';
 import { detectChatIntent } from '../utils/chatIntent';
+import type { ExecutiveSnapshotPatch } from '../api/executiveSnapshot';
 import {
   actionNow,
   agentTag,
@@ -34,7 +35,128 @@ import {
   signalEmoji,
 } from '../utils/executiveAnswerVisuals';
 
-const STORAGE_KEY = 'adgm-executive-state-v3';
+const STORAGE_KEY = 'adgm-executive-state-v4';
+const MARKET_ROTATION: ExecutiveState['marketSnapshot'][] = [
+  {
+    gccEquities: '+0.8%',
+    digitalAssetsWoW: '+12%',
+    competitorNote: 'DIFC fintech sandbox expansion announced',
+    topSector: 'Climate tech (D33 score 88)',
+  },
+  {
+    gccEquities: '+1.1%',
+    digitalAssetsWoW: '+9%',
+    competitorNote: 'Riyadh fintech licence batch — 14 new approvals',
+    topSector: 'Digital assets (FSRA pipeline strong)',
+  },
+  {
+    gccEquities: '+0.4%',
+    digitalAssetsWoW: '+15%',
+    competitorNote: 'MAS stablecoin consultation — retail rules tightening',
+    topSector: 'Sovereign wealth co-investments',
+  },
+  {
+    gccEquities: '+0.6%',
+    digitalAssetsWoW: '+11%',
+    competitorNote: 'Qatar Fintech Hub — custody standards update',
+    topSector: 'Regulatory technology',
+  },
+];
+
+function gstNow(): Date {
+  const now = new Date();
+  return new Date(now.getTime() + (now.getTimezoneOffset() + 240) * 60000);
+}
+
+function dateOnly(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+function addDays(d: Date, days: number): Date {
+  const x = new Date(d);
+  x.setDate(x.getDate() + days);
+  return x;
+}
+
+function meetingIso(day: Date, hour: number, minute = 0): string {
+  const y = day.getFullYear();
+  const m = day.getMonth();
+  const dom = day.getDate();
+  return new Date(Date.UTC(y, m, dom, hour - 4, minute, 0)).toISOString();
+}
+
+function buildDynamicMeetings(today: Date): Meeting[] {
+  return [
+    {
+      id: 'mtg1',
+      title: 'Mubadala leadership — follow-up',
+      time: meetingIso(today, 15, 0),
+      attendees: 'Khaldoon Al Mubarak, Mubadala CEO',
+      location: 'Al Maryah Island',
+      prepStatus: 'ready',
+    },
+    {
+      id: 'mtg2',
+      title: 'Board risk committee — data policy',
+      time: meetingIso(addDays(today, 1), 10, 0),
+      attendees: 'Board risk committee',
+      location: 'Board room',
+      prepStatus: 'pending',
+    },
+    {
+      id: 'mtg3',
+      title: 'Singapore MAS delegation',
+      time: meetingIso(addDays(today, 2), 15, 0),
+      attendees: 'MAS regulatory & market development leads',
+      location: 'ADGM Auditorium, Al Maryah',
+      prepStatus: 'ready',
+    },
+  ];
+}
+
+function buildDynamicActions(today: Date): ActionItem[] {
+  return [
+    {
+      id: 'a1',
+      title: 'Share digital assets policy update with Mubadala',
+      owner: 'Rajiv Sehgal',
+      due: dateOnly(addDays(today, -1)),
+      status: 'overdue',
+      departmentId: 'strategy',
+    },
+    {
+      id: 'a2',
+      title: 'Approve retention packages — 2 Strategy roles',
+      owner: 'Rajiv Sehgal',
+      due: dateOnly(addDays(today, 3)),
+      status: 'open',
+      departmentId: 'hr',
+    },
+    {
+      id: 'a3',
+      title: 'MAS policy comparison note post-consultation',
+      owner: 'Policy AI → Rajiv',
+      due: dateOnly(addDays(today, 9)),
+      status: 'open',
+      departmentId: 'policy',
+    },
+    {
+      id: 'a4',
+      title: 'Review Arabic ministerial note — HH office',
+      owner: 'Rajiv Sehgal',
+      due: dateOnly(addDays(today, 2)),
+      status: 'open',
+    },
+  ];
+}
+
+function applyDocumentDates(docs: DocumentFile[], today: Date): DocumentFile[] {
+  const offsets = [0, -2, -4, -1, -11];
+  return docs.map((doc, i) => ({
+    ...doc,
+    uploadedAt: dateOnly(addDays(today, offsets[i] ?? -7)),
+  }));
+}
 
 export interface Meeting {
   id: string;
@@ -70,7 +192,7 @@ export interface ExecutiveMetrics {
 }
 
 export interface ExecutiveState {
-  version: 3;
+  version: 4;
   lastSync: string;
   metrics: ExecutiveMetrics;
   departments: DepartmentPerformance[];
@@ -160,110 +282,56 @@ const SEED_DOCUMENTS: DocumentFile[] = [
   },
 ];
 
-const SEED_MEETINGS: Meeting[] = [
-  {
-    id: 'mtg1',
-    title: 'Singapore MAS delegation',
-    time: '2026-06-03T15:00:00',
-    attendees: 'MAS regulatory & market development leads',
-    location: 'ADGM Auditorium, Al Maryah',
-    prepStatus: 'ready',
-  },
-  {
-    id: 'mtg2',
-    title: 'Mubadala leadership — follow-up',
-    time: '2026-06-02T15:00:00',
-    attendees: 'Khaldoon Al Mubarak, Mubadala CEO',
-    location: 'Al Maryah Island',
-    prepStatus: 'ready',
-  },
-  {
-    id: 'mtg3',
-    title: 'Board risk committee — data policy',
-    time: '2026-06-05T10:00:00',
-    attendees: 'Board risk committee',
-    location: 'Board room',
-    prepStatus: 'pending',
-  },
-];
-
-const SEED_ACTIONS: ActionItem[] = [
-  {
-    id: 'a1',
-    title: 'Share digital assets policy update with Mubadala',
-    owner: 'Rajiv Sehgal',
-    due: '2026-05-31',
-    status: 'overdue',
-    departmentId: 'strategy',
-  },
-  {
-    id: 'a2',
-    title: 'Approve retention packages — 2 Strategy roles',
-    owner: 'Rajiv Sehgal',
-    due: '2026-06-06',
-    status: 'open',
-    departmentId: 'hr',
-  },
-  {
-    id: 'a3',
-    title: 'MAS policy comparison note post-consultation',
-    owner: 'Policy AI → Rajiv',
-    due: '2026-06-12',
-    status: 'open',
-    departmentId: 'policy',
-  },
-  {
-    id: 'a4',
-    title: 'Review Arabic ministerial note — HH office',
-    owner: 'Rajiv Sehgal',
-    due: '2026-06-04',
-    status: 'open',
-  },
-];
-
-const SEED_CONVERSATIONS: Conversation[] = [
-  {
-    id: 'c1',
-    title: '3pm brief — Mubadala leadership',
-    category: 'Meetings',
-    updatedAt: '2026-06-02T09:30:00',
-    pinned: true,
-    preview: 'Brief me on my 3pm meeting with Mubadala',
-    messages: [],
-  },
-  {
-    id: 'c2',
-    title: 'ADGM vs MAS — digital assets',
-    category: 'Regulatory',
-    updatedAt: '2026-06-02T08:15:00',
-    pinned: false,
-    preview: "Compare ADGM's digital assets framework against Singapore MAS",
-    messages: [],
-  },
-];
+function buildSeedConversations(today: Date): Conversation[] {
+  const stamp = new Date(
+    Date.UTC(today.getFullYear(), today.getMonth(), today.getDate(), 5, 30, 0),
+  ).toISOString();
+  return [
+    {
+      id: 'c1',
+      title: '3pm brief — Mubadala leadership',
+      category: 'Meetings',
+      updatedAt: stamp,
+      pinned: true,
+      preview: 'Brief me on my 3pm meeting with Mubadala',
+      messages: [],
+    },
+    {
+      id: 'c2',
+      title: 'ADGM vs MAS — digital assets',
+      category: 'Regulatory',
+      updatedAt: stamp,
+      pinned: false,
+      preview: "Compare ADGM's digital assets framework against Singapore MAS",
+      messages: [],
+    },
+  ];
+}
 
 function countRag(depts: DepartmentPerformance[], rag: RagStatus) {
   return depts.filter((d) => d.rag === rag).length;
 }
 
 export function createSeedState(): ExecutiveState {
+  const today = gstNow();
   const departments = structuredClone(PERFORMANCE_DEPARTMENTS);
+  const actionRegister = buildDynamicActions(today);
   return {
-    version: 3,
+    version: 4,
     lastSync: new Date().toISOString(),
     metrics: {
-      queriesThisWeek: 47,
+      queriesThisWeek: 42 + (today.getDate() % 12),
       documentsInKb: 52,
       briefingsGenerated: 8,
       avgConfidence: 0.91,
       departmentsOnTrack: countRag(departments, 'green'),
-      openActions: SEED_ACTIONS.filter((a) => a.status !== 'done').length,
+      openActions: actionRegister.filter((a) => a.status !== 'done').length,
     },
     departments,
-    documents: structuredClone(SEED_DOCUMENTS),
-    conversations: structuredClone(SEED_CONVERSATIONS),
-    meetings: structuredClone(SEED_MEETINGS),
-    actionRegister: structuredClone(SEED_ACTIONS),
+    documents: applyDocumentDates(structuredClone(SEED_DOCUMENTS), today),
+    conversations: buildSeedConversations(today),
+    meetings: buildDynamicMeetings(today),
+    actionRegister,
     activityWeek: [
       { day: 'Mon', queries: 6, confidence: 0.89 },
       { day: 'Tue', queries: 9, confidence: 0.91 },
@@ -273,11 +341,60 @@ export function createSeedState(): ExecutiveState {
       { day: 'Sat', queries: 3, confidence: 0.88 },
       { day: 'Sun', queries: 3, confidence: 0.9 },
     ],
-    marketSnapshot: {
-      gccEquities: '+0.8%',
-      digitalAssetsWoW: '+12%',
-      competitorNote: 'DIFC fintech sandbox expansion announced',
-      topSector: 'Climate tech (D33 score 88)',
+    marketSnapshot: MARKET_ROTATION[today.getDay() % MARKET_ROTATION.length],
+  };
+}
+
+/** Merge server or local refresh patch; keeps chat history by default */
+export function applyExecutiveSnapshotPatch(
+  state: ExecutiveState,
+  patch: ExecutiveSnapshotPatch,
+): ExecutiveState {
+  const departments = structuredClone(PERFORMANCE_DEPARTMENTS);
+  const openActions =
+    patch.metrics.openActions ??
+    patch.actionRegister.filter((a) => a.status !== 'done').length;
+
+  let documents = state.documents;
+  if (patch.documentUploadedAt) {
+    documents = state.documents.map((d) => ({
+      ...d,
+      uploadedAt: patch.documentUploadedAt![d.id] ?? d.uploadedAt,
+    }));
+  }
+
+  return {
+    ...state,
+    version: 4,
+    lastSync: patch.lastSync,
+    meetings: patch.meetings,
+    actionRegister: patch.actionRegister,
+    marketSnapshot: patch.marketSnapshot,
+    documents,
+    departments,
+    metrics: {
+      ...state.metrics,
+      ...patch.metrics,
+      departmentsOnTrack: countRag(departments, 'green'),
+      openActions,
+    },
+  };
+}
+
+export function refreshExecutiveState(
+  previous?: ExecutiveState | null,
+  options?: { keepConversations?: boolean },
+): ExecutiveState {
+  const fresh = createSeedState();
+  if (!previous) return fresh;
+  return {
+    ...fresh,
+    conversations:
+      options?.keepConversations === false ? fresh.conversations : previous.conversations,
+    metrics: {
+      ...fresh.metrics,
+      briefingsGenerated: previous.metrics.briefingsGenerated,
+      queriesThisWeek: Math.max(fresh.metrics.queriesThisWeek, previous.metrics.queriesThisWeek),
     },
   };
 }
@@ -287,7 +404,9 @@ export function loadExecutiveState(): ExecutiveState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return createSeedState();
     const parsed = JSON.parse(raw) as ExecutiveState;
-    if (parsed.version !== 3) return createSeedState();
+    if (parsed.version !== 4) {
+      return refreshExecutiveState(parsed, { keepConversations: true });
+    }
     return parsed;
   } catch {
     return createSeedState();

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // @ts-nocheck
 import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
 import { clearStoredAuth, restartProductTour } from '../../auth/authStorage';
 import { CHAT_PATH } from '../../config/auth';
@@ -48,6 +49,11 @@ const COPY = {
     signOutDesc: 'Return to secure login (QR + PIN)',
     replayTour: 'Replay product tour',
     replayTourDesc: 'Walk through Personal AI features with in-app coach marks',
+    dataSync: 'Command Centre data',
+    dataSyncSub: 'Refresh meetings, actions, market snapshot, and KB dates from the server (GST).',
+    lastSync: 'Last sync',
+    refreshData: 'Refresh data now',
+    refreshing: 'Refreshing…',
     langAr: 'Arabic (RTL)',
     langBi: 'Bilingual',
   },
@@ -89,6 +95,11 @@ const COPY = {
     signOutDesc: 'العودة إلى تسجيل الدخول الآمن (QR + PIN)',
     replayTour: 'إعادة جولة المنتج',
     replayTourDesc: 'جولة داخل التطبيق لاستكشاف ميزات الذكاء الشخصي',
+    dataSync: 'بيانات مركز القيادة',
+    dataSyncSub: 'تحديث الاجتماعات والإجراءات والسوق وتواريخ قاعدة المعرفة من الخادم (توقيت الإمارات).',
+    lastSync: 'آخر مزامنة',
+    refreshData: 'تحديث البيانات الآن',
+    refreshing: 'جاري التحديث…',
     langEn: 'English',
     langAr: 'العربية (RTL)',
     langBi: 'ثنائي اللغة',
@@ -164,10 +175,25 @@ export function SettingsView() {
     setAutoRouteAgents,
     selectedAgents,
     toggleAgent,
+    executiveState,
+    refreshExecutiveData,
+    isRefreshingData,
   } = useApp();
 
   const ar = settings.language === 'ar';
   const t = ar ? COPY.ar : COPY.en;
+
+  const lastSyncLabel = useMemo(() => {
+    try {
+      return new Date(executiveState.lastSync).toLocaleString(ar ? 'ar-AE' : 'en-GB', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+        timeZone: 'Asia/Dubai',
+      });
+    } catch {
+      return executiveState.lastSync;
+    }
+  }, [executiveState.lastSync, ar]);
 
   const responseStyles: { id: ResponseStyle; label: string }[] = [
     { id: 'concise', label: t.concise },
@@ -218,6 +244,30 @@ export function SettingsView() {
               />
             </SettingsField>
           </div>
+        </IntelCardBody>
+      </IntelCard>
+
+      <IntelCard>
+        <IntelCardBody>
+          <h3 className="settings-section-title">{t.dataSync}</h3>
+          <p className="muted-3" style={{ margin: '0 0 14px', fontSize: 13, lineHeight: 1.45 }}>
+            {t.dataSyncSub}
+          </p>
+          <p className="settings-sync-meta muted">
+            <CcIcon name="refresh-cw" size={14} />
+            <span>
+              {t.lastSync}: <strong className="kpi-num">{lastSyncLabel}</strong> (GST)
+            </span>
+          </p>
+          <button
+            type="button"
+            className="btn btn-primary settings-refresh-data"
+            disabled={isRefreshingData}
+            onClick={() => refreshExecutiveData()}
+          >
+            <CcIcon name="refresh-cw" size={16} className={isRefreshingData ? 'spin' : ''} />
+            {isRefreshingData ? t.refreshing : t.refreshData}
+          </button>
         </IntelCardBody>
       </IntelCard>
 

@@ -6,7 +6,9 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { fetchExecutiveSnapshotPatch } from '../api/executiveSnapshot';
 import {
+  applyExecutiveSnapshotPatch,
   loadExecutiveState,
   saveExecutiveState,
   buildIntelligentResponse,
@@ -14,6 +16,7 @@ import {
   resolveAnswerGrounding,
   bumpQueryMetrics,
   completeAction,
+  refreshExecutiveState,
   DEMO_PROMPTS,
   type ExecutiveState,
 } from '../data/executiveStore';
@@ -108,6 +111,8 @@ interface AppContextValue {
   toggleAgent: (id: AgentType) => void;
   setAutoRouteAgents: (on: boolean) => void;
   recordBriefingGenerated: () => void;
+  refreshExecutiveData: () => Promise<void>;
+  isRefreshingData: boolean;
 }
 
 const defaultSettings: Settings = {
@@ -130,6 +135,7 @@ let msgCounter = 100;
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [executiveState, setExecutiveState] = useState(loadExecutiveState);
+  const [isRefreshingData, setIsRefreshingData] = useState(false);
   const conversations = executiveState.conversations;
   const documents = executiveState.documents;
 
@@ -805,6 +811,29 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }));
   }, [persistExecutive]);
 
+  const refreshExecutiveData = useCallback(async () => {
+    setIsRefreshingData(true);
+    try {
+      const patch = await fetchExecutiveSnapshotPatch();
+      persistExecutive((s) =>
+        patch
+          ? applyExecutiveSnapshotPatch(s, patch)
+          : refreshExecutiveState(s, { keepConversations: true }),
+      );
+      showToast(
+        patch
+          ? 'Command Centre data refreshed from server.'
+          : 'Command Centre data refreshed locally.',
+        'success',
+      );
+    } catch {
+      persistExecutive((s) => refreshExecutiveState(s, { keepConversations: true }));
+      showToast('Data refreshed locally.', 'success');
+    } finally {
+      setIsRefreshingData(false);
+    }
+  }, [persistExecutive, showToast]);
+
   const value: AppContextValue = {
     conversations,
     activeConversationId,
@@ -863,6 +892,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     toggleAgent,
     setAutoRouteAgents,
     recordBriefingGenerated,
+    refreshExecutiveData,
+    isRefreshingData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -10,6 +10,7 @@ import { dirname, join } from 'node:path';
 import { getAnthropicConfig, streamChat } from './chatCore.mjs';
 import { handlePresentationRequest } from './presentationBuilder.mjs';
 import { handleSlideAiRequest } from './slideAi.mjs';
+import { createExecutiveSnapshotResponse } from './executiveSnapshot.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -157,6 +158,11 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && url.pathname === '/api/health') {
     const { apiKey, model } = getAnthropicConfig();
     sendJson(res, 200, { ok: true, claude: Boolean(apiKey), model });
+    return;
+  }
+
+  if (req.method === 'GET' && url.pathname === '/api/executive/snapshot') {
+    sendJson(res, 200, createExecutiveSnapshotResponse());
     return;
   }
 
