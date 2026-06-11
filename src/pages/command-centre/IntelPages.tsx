@@ -46,7 +46,7 @@ function MorningBriefing({ lang }) {
 
     // 1. Top GCC headline
     const gccLead = sn?.gccTop?.[0];
-    if (gccLead) push(gccLead.title, gccLead.source, gccLead.url);
+    if (gccLead) push(gccLead.source + ': ' + gccLead.title, '', gccLead.url);
 
     // 2. Live market prices
     if (m?.gccEquitiesLive && m.gccEquities && !/unavailable/i.test(m.gccEquities)) {
@@ -66,20 +66,20 @@ function MorningBriefing({ lang }) {
 
     // 4. Competitor headline
     const compLead = sn?.competitor?.[0];
-    if (compLead) push(compLead.title, compLead.source, compLead.url);
+    if (compLead) push(compLead.source + ': ' + compLead.title, '', compLead.url);
 
     // 5. Regulatory headline
     const regLead = sn?.regulatory?.[0];
-    if (regLead) push(regLead.title, regLead.source, regLead.url);
+    if (regLead) push(regLead.source + ': ' + regLead.title, '', regLead.url);
 
     // 6. Investment headline
     const invLead = sn?.investment?.[0];
-    if (invLead) push(invLead.title, invLead.source, invLead.url);
+    if (invLead) push(invLead.source + ': ' + invLead.title, '', invLead.url);
 
     // Fill remaining slots
     for (const item of [...(sn?.market ?? []), ...(sn?.gccTop?.slice(1) ?? [])]) {
       if (items.length >= 4) break;
-      push(item.title, item.source, item.url);
+      push(item.source + ': ' + item.title, '', item.url);
     }
 
     return items.slice(0, 4);
@@ -149,7 +149,8 @@ function MorningBriefing({ lang }) {
   );
 }
 
-
+function Benchmark({ lang }) {
+  const ar = lang === 'ar';
   const centres = CENTRES;
   // overall avg per centre
   const totals = centres.map((_, ci) => Math.round(BENCH_DIMS.reduce((s, d) => s + d.v[ci], 0) / BENCH_DIMS.length));

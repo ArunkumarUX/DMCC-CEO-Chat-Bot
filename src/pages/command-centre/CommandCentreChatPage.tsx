@@ -168,9 +168,12 @@ export function CommandCentreChatPage() {
           const ac = new AbortController();
           abortRef.current = ac;
           let streamed = '';
+          // Use aid-1 (= uid) as beforeId so history contains only PREVIOUS turns.
+          // The current user question is already sent as `message`; including it in
+          // history too would produce consecutive user messages → Anthropic API glitch.
           const history = buildChatHistory(
-            msgsRef.current.filter((m) => m.id !== aid) as { id: number; role: string; text: string }[],
-            aid,
+            msgsRef.current as { id: number; role: string; text: string }[],
+            aid - 1,
           );
 
           await streamClaudeChat({
