@@ -1,5 +1,13 @@
+import type { OfflineNoticeKind } from '../types';
+
 /** Whether Claude failed for a reason where offline KB answers are acceptable. */
+export function isInvalidAnthropicApiKey(message: string): boolean {
+  const m = message.toLowerCase();
+  return m.includes('invalid x-api-key') || m.includes('authentication_error');
+}
+
 export function shouldFallbackToOfflineKb(message: string): boolean {
+  if (isInvalidAnthropicApiKey(message)) return false;
   const m = message.toLowerCase();
   return (
     m.includes('credit balance') ||
@@ -14,10 +22,36 @@ export function shouldFallbackToOfflineKb(message: string): boolean {
   );
 }
 
-export function offlineFallbackBanner(message: string): string {
+export function formatClaudeErrorForUser(message: string, ar = false): string {
+  if (isInvalidAnthropicApiKey(message)) {
+    return ar
+      ? 'مفتاح Claude API غير صالح. أنشئ مفتاحاً جديداً من console.anthropic.com وأضفه إلى إعدادات الخادم (ANTHROPIC_API_KEY).'
+      : 'Invalid Claude API key. Create a new key at console.anthropic.com and set ANTHROPIC_API_KEY on the server.';
+  }
+  return message;
+}
+
+export function offlineNoticeKind(message: string): OfflineNoticeKind {
   const m = message.toLowerCase();
   if (m.includes('credit') || m.includes('billing') || m.includes('purchase credits')) {
-    return '> ⚠️ **Claude API unavailable** — Anthropic account needs credits. Showing a knowledge-base answer below. Add credits at [console.anthropic.com](https://console.anthropic.com/settings/billing).\n\n';
+    return 'billing';
   }
-  return '> ⚠️ **Claude API temporarily unavailable.** Showing a knowledge-base answer below.\n\n';
+  return 'temporary';
+}
+
+/** Legacy markdown banners prepended before KB fallback — strip when rendering. */
+const LEGACY_OFFLINE_BANNER_RE =
+  /^>\s*⚠️\s*\*\*Claude API (?:unavailable|temporarily unavailable)\*\*[^\n]*\n\n?/i;
+
+export function stripOfflineFallbackBanner(text: string): {
+  text: string;
+  notice: OfflineNoticeKind | null;
+} {
+  const trimmed = text.trimStart();
+  if (!LEGACY_OFFLINE_BANNER_RE.test(trimmed)) {
+    return { text, notice: null };
+  }
+  const body = trimmed.replace(LEGACY_OFFLINE_BANNER_RE, '').trimStart();
+  const notice: OfflineNoticeKind = /needs credits|billing/i.test(trimmed) ? 'billing' : 'temporary';
+  return { text: body, notice };
 }

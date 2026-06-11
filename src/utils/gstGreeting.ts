@@ -95,13 +95,69 @@ export const EXECUTIVE_QUICK_PROMPTS = {
   ],
 } as const;
 
-/** Chat suggestion chips — three core executive workflows */
+/** Rotating pool of CSO-persona suggestions — 2 surface each day alongside the fixed chips */
+export const CSO_PERSONA_PROMPTS: {
+  en: string;
+  ar: string;
+  agents: string[];
+}[] = [
+  {
+    en: "Catch me up on today — calendar, actions and markets.",
+    ar: 'اطلعني على مستجدات اليوم — الأجندة والإجراءات والأسواق.',
+    agents: ['cos'],
+  },
+  {
+    en: "Compare ADGM's digital assets framework against Singapore MAS.",
+    ar: 'قارن إطار الأصول الرقمية في سوق أبوظبي العالمي مع سلطة النقد في سنغافورة.',
+    agents: ['strategy', 'policy'],
+  },
+  {
+    en: 'Top investment opportunities Abu Dhabi should prioritise from current capital flows?',
+    ar: 'ما أبرز فرص الاستثمار التي ينبغي لأبوظبي إعطاؤها الأولوية من تدفقات رأس المال الحالية؟',
+    agents: ['strategy'],
+  },
+  {
+    en: 'Any FSRA regulatory or policy updates I should know about this week?',
+    ar: 'هل هناك مستجدات تنظيمية أو سياسات من هيئة تنظيم الخدمات المالية يجب أن أعرفها هذا الأسبوع؟',
+    agents: ['policy'],
+  },
+  {
+    en: 'Brief me on Mubadala before my next engagement with them.',
+    ar: 'أطلعني على مبادلة قبل تواصلي القادم معهم.',
+    agents: ['relationship'],
+  },
+  {
+    en: "Draft a note to HH's office on ADGM's Q2 performance in Arabic.",
+    ar: 'صِغ مذكرة لمكتب سموّه حول أداء سوق أبوظبي العالمي في الربع الثاني باللغة العربية.',
+    agents: ['comms'],
+  },
+];
+
+/**
+ * Chat suggestion chips — the three core executive workflows are ALWAYS shown,
+ * plus 2 more drawn from the CSO persona pool (rotates daily, stable within a day).
+ */
 export function getTimeBasedChatSuggestions(
   lang: GreetingLang = 'en',
-  _at: Date = new Date(),
+  at: Date = new Date(),
 ): { q: string; agents: string[] }[] {
-  const prompts = lang === 'ar' ? EXECUTIVE_QUICK_PROMPTS.ar : EXECUTIVE_QUICK_PROMPTS.en;
-  return prompts.map((q) => ({ q, agents: [] }));
+  const ar = lang === 'ar';
+  const fixed = (ar ? EXECUTIVE_QUICK_PROMPTS.ar : EXECUTIVE_QUICK_PROMPTS.en).map((q) => ({
+    q,
+    agents: [] as string[],
+  }));
+
+  // Deterministic daily rotation — same pair all day (no flicker), new pair each day
+  const dayIndex = Math.floor(at.getTime() / 86_400_000);
+  const n = CSO_PERSONA_PROMPTS.length;
+  const first = dayIndex % n;
+  const second = (first + 1 + (dayIndex % (n - 1))) % n;
+  const personaPicks = [CSO_PERSONA_PROMPTS[first], CSO_PERSONA_PROMPTS[second === first ? (first + 1) % n : second]];
+
+  return [
+    ...fixed,
+    ...personaPicks.map((p) => ({ q: ar ? p.ar : p.en, agents: p.agents })),
+  ];
 }
 
 /** Live GST clock + greeting — re-renders every second (hero, chat chips) */

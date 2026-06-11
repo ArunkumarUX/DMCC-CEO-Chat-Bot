@@ -1,6 +1,7 @@
 import type { ExecutiveState } from '../data/executiveStore';
 import { resolveAnswerGrounding } from '../data/executiveStore';
-import type { ChatMessage, GroundingLevel, Source } from '../types';
+import type { ChatMessage, GroundingLevel, OfflineNoticeKind, Source } from '../types';
+import { stripOfflineFallbackBanner } from './claudeErrors';
 
 export type UiChatMsg =
   | { id: number; role: 'user'; text: string }
@@ -14,6 +15,7 @@ export type UiChatMsg =
       confidence?: number;
       grounding?: GroundingLevel;
       sources?: Source[];
+      offlineNotice?: OfflineNoticeKind;
     };
 
 /** Restore sources/grounding for saved threads (fixes history after older saves omitted metadata). */
@@ -46,14 +48,16 @@ export function conversationToUiMessages(
       return { id: i + 1, role: 'user', text: m.content };
     }
     const { sources, grounding } = hydrateAssistantMessage(m, state);
+    const legacy = stripOfflineFallbackBanner(m.content);
     return {
       id: i + 1,
       role: 'ai',
-      text: m.content,
+      text: legacy.text,
       agents: m.agents,
       confidence: m.confidence,
       grounding,
       sources,
+      offlineNotice: m.offlineNotice ?? legacy.notice ?? undefined,
     };
   });
 }

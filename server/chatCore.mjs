@@ -7,23 +7,32 @@ import {
   CSO_GLOBAL_SYSTEM_PROMPT,
   CSO_ORCHESTRATOR_PROMPT,
   CSO_SOURCE_CONFIDENCE_RULES,
+  buildBriefingTemplateBlock,
   buildOutputContractBlock,
   buildSpecialistPromptBlocks,
 } from './csoPromptPack.mjs';
 import {
   falconExcerptsToGroundedRecords,
   formatFalconExcerptBlock,
-  isFalconKbQuery,
   retrieveFalconExcerpts,
 } from './kb/falconKb.mjs';
 import { buildGroundedRecordsFromContext, formatGroundedContextBlock } from './sourceHandles.mjs';
 import { formatGstClock, greetingForGstTime } from './gstGreeting.mjs';
 import { smartSearch, braveSearchBroad, freeRssSearch, formatSearchResultsBlock, shouldWebSearch } from './webSearch.mjs';
 
+export function normalizeAnthropicApiKey(raw) {
+  if (!raw) return '';
+  return String(raw)
+    .trim()
+    .replace(/^['"]|['"]$/g, '')
+    .replace(/\s+/g, '');
+}
+
 export function getAnthropicConfig() {
+  const model = String(process.env.ANTHROPIC_MODEL || '').trim();
   return {
-    apiKey: process.env.ANTHROPIC_API_KEY || '',
-    model: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-6',
+    apiKey: normalizeAnthropicApiKey(process.env.ANTHROPIC_API_KEY),
+    model: model || 'claude-sonnet-4-6',
   };
 }
 
@@ -33,28 +42,37 @@ export function buildSystemPrompt(ctx, language) {
   const firstName = ctx?.executiveFirstName ?? 'Rajiv';
   const gstGreeting = ctx?.gstGreeting ?? greetingForGstTime('en');
 
-  // ── GREETING: return a minimal prompt — no grounded records, no briefing context ──
+  // ── GREETING: scripted opener ONLY on the very first message of a conversation.
+  // Mid-conversation greetings get a natural, memory-aware reply so chat stays seamless.
   if (ctx?.conversationalMode === 'greeting') {
-    return `You are the CSO Personal AI Assistant for ${firstName}.
+    if (!ctx?.historyLength) {
+      return `You are the CSO Personal AI Assistant for ${firstName}.
 Your ONLY task right now is to reply with EXACTLY this single sentence — nothing more, nothing less:
 ${gstGreeting}, ${firstName}. I am your Personal AI Agent. How can I help you today?
 Do NOT add any other text. Do NOT summarise calendar or actions. Do NOT ask follow-up questions. Output that one sentence and stop.`;
+    }
+    return `You are the CSO Personal AI Assistant for ${firstName}.
+The user greeted you mid-conversation. Reply naturally and warmly in 1–2 short sentences.
+Use the conversation history (memory) — if there is an open thread, you may briefly offer to continue it.
+Do NOT restart the conversation, do NOT repeat the scripted opener, do NOT summarise calendar or actions.`;
   }
 
-  // ── DAILY CATCH-UP: structured day opener with calendar, actions, markets ──
+  // ── DAILY CATCH-UP: structured day opener with markets, actions (+ calendar if connected) ──
   if (ctx?.conversationalMode === 'catchup') {
     const gstClock = ctx?.gstTimeLabel ?? 'GST';
+    const calConnected = ctx?.calendarConnected === true;
     return `You are the CSO Personal AI Assistant for ${firstName}.
 The user wants a concise daily catch-up (${gstClock}).
 
 Reply in clear markdown:
 1. Warm greeting with correct time-of-day for Abu Dhabi.
 2. One short "In plain terms" blockquote (one sentence).
-3. **What's happened today** as a bold heading, then bullets for Markets / Teams / Actions / Next meeting.
-4. Cite only handles present in context ([MKT-…], [CAL-…], [ACT-…]). Do not invent facts.
-5. Do not duplicate "GCC" if the market snapshot already includes it.
-6. ~100–140 words. End with ONE natural offer to help further.
-7. No sample prompts, no agent roster footer, no "Sources:" block at the end.`;
+3. **What's happened today** as a bold heading, then bullets for ${calConnected ? 'Markets / Teams / Actions / Next meeting' : 'Markets / Teams / Actions'}.
+4. Cite only handles present in context ([MKT-…], [ACT-…]${calConnected ? ', [CAL-…]' : ''}). Do not invent facts.
+${calConnected ? '' : `5. CALENDAR NOT CONNECTED: do NOT mention meetings or a "next meeting" — no calendar is connected. Add one short closing line: "Connect your calendar and I'll include your meetings here too."
+`}6. Do not duplicate "GCC" if the market snapshot already includes it.
+7. ~100–140 words. End with ONE natural offer to help further.
+8. No sample prompts, no agent roster footer, no "Sources:" block at the end.`;
   }
 
   // ── GENERAL KNOWLEDGE FALLBACK: answer like a capable AI assistant ──
@@ -87,13 +105,25 @@ The user has asked a general knowledge question outside the specialist CSO scope
       : 'Respond in clear, friendly English.';
     const webBlock = ctx?.webSearchBlock ? `\n\n${ctx.webSearchBlock}` : '';
     const hasWebResults = Boolean(ctx?.webSearchBlock);
+    // Always check the internal KB first — even for Explorer queries — so KB-relevant
+    // questions are grounded before falling back to web / training knowledge.
+    const explorerKbExcerpts =
+      ctx?.falconExcerpts?.length > 0
+        ? ctx.falconExcerpts
+        : userQ
+          ? retrieveFalconExcerpts(userQ)
+          : [];
+    const explorerKbBlock = explorerKbExcerpts.length
+      ? `\n\n${formatFalconExcerptBlock(explorerKbExcerpts)}`
+      : '';
     return `You are the Personal AI Assistant for ${firstName}. You have live web search capability and can answer ANY question — general knowledge, live prices, news, science, geography, definitions, anything.
 ${langNote}
 
 SOURCE PRIORITY — always follow this order:
-1. Internal KB: If the question is about ADGM, FSRA, Falcon Economy, or Abu Dhabi institution-specific data, check KB records injected below first.
-2. Live web search results: injected below if available. Extract the specific answer — price, rate, fact, news — and state it directly. Cite as [WEB-01], [WEB-02] etc. with URL.
-3. Training knowledge: use freely and confidently for any general question.
+1. Conversation memory: check the conversation history first — resolve follow-ups, pronouns ("it", "that one"), and reuse facts or preferences the user already shared.
+2. Internal KB: if KB excerpts are injected below, answer from them first and cite their handles (KB-…).
+3. Live web search results: injected below if available. Extract the specific answer — price, rate, fact, news — and state it directly. Cite as [WEB-01], [WEB-02] etc. with URL.
+4. Training knowledge: use freely and confidently for any general question.
 
 CRITICAL RULES — every response must follow these:
 - NEVER say "I don't have live market data" — that phrase is FORBIDDEN for Explorer AI.
@@ -110,18 +140,21 @@ Do NOT add anything else in that case.
 
 For all other questions:
 - Answer directly and concisely — like a knowledgeable assistant, not a strategy advisor.
+- NEVER ask clarifying questions when a reasonable interpretation exists — assume the most likely meaning, answer, and add one short "tell me if you meant something else" line only if truly ambiguous.
 - Do NOT use executive sections: no "Executive Takeaway", "Source Basis", "Strategic Implication", or any CSO structure.
 - Do NOT add follow-up suggestions or ADGM-related prompts at the end.
 - If web results are injected, cite them inline.
 ${hasWebResults
   ? '✅ Web search results injected below — extract the concrete answer and state it directly.'
-  : '⚠️ No live web results this turn — answer from training knowledge with full confidence. Always give a direct answer; add "(verify for current data)" only for time-sensitive facts like live prices.'}${webBlock}`;
+  : '⚠️ No live web results this turn — answer from training knowledge with full confidence. Always give a direct answer; add "(verify for current data)" only for time-sensitive facts like live prices.'}${explorerKbBlock}${webBlock}`;
   }
 
+  // KB-FIRST: always run KB retrieval for every query (not just regex-matched ones).
+  // Retrieval is relevance-scored, so unrelated questions simply return no excerpts.
   const falconExcerpts =
     ctx?.falconExcerpts?.length > 0
       ? ctx.falconExcerpts
-      : userQ && isFalconKbQuery(userQ)
+      : userQ
         ? retrieveFalconExcerpts(userQ)
         : [];
 
@@ -129,6 +162,19 @@ ${hasWebResults
     Array.isArray(ctx?.groundedRecords) && ctx.groundedRecords.length > 0
       ? [...ctx.groundedRecords]
       : buildGroundedRecordsFromContext(ctx);
+
+  // CALENDAR HONESTY: unless a real calendar integration is connected, strip CAL-
+  // records so the model cannot present demo meetings as the user's actual schedule.
+  const calendarConnected = ctx?.calendarConnected === true;
+  if (!calendarConnected) {
+    groundedRecords = groundedRecords.filter((r) => {
+      const handle = String(r?.handle || '');
+      if (handle.startsWith('CAL-')) return false;
+      // Also drop meeting-derived records (e.g. CRM stubs that reference CAL- handles)
+      const text = JSON.stringify(r);
+      return !/CAL-\d/.test(text);
+    });
+  }
 
   if (falconExcerpts.length) {
     const existing = new Set(groundedRecords.map((r) => r.handle));
@@ -176,7 +222,9 @@ AUTHORITATIVE KB EXCERPTS are injected this turn (Falcon Economy [KB-006], Falco
   const primary = ctx?.agentDelegation?.[0]?.name ?? 'Chief of Staff AI';
   const agentIds = (ctx?.agentDelegation ?? []).map((a) => a.id).filter(Boolean);
   const specialistBlock = buildSpecialistPromptBlocks(agentIds);
-  const contractBlock = buildOutputContractBlock(ctx?.userQuestion ?? '');
+  // Briefings use their dedicated mandatory template; chat uses the query-inferred contract
+  const briefingTemplate = isBriefing ? buildBriefingTemplateBlock(ctx?.briefingFormat) : null;
+  const contractBlock = briefingTemplate ?? buildOutputContractBlock(ctx?.userQuestion ?? '');
   const gstClock = ctx?.gstTimeLabel ?? `${formatGstClock()} GST`;
 
   const now = new Date();
@@ -201,13 +249,39 @@ ${isBriefing ? `You are generating a **${formatLabel}** briefing (not casual cha
 ${ANSWER_FORMAT_RULES}
 
 ═══════════════════════════════════════════════════════
-OUTPUT FORMAT — MANDATORY (follow EXACTLY, no exceptions)
+OUTPUT FORMAT — ADAPTIVE (match depth to the question)
 ═══════════════════════════════════════════════════════
-You MUST use the EXACT bold section headings listed below, in the EXACT order shown.
-Do NOT rename sections. Do NOT skip any section. Do NOT merge sections. Do NOT add new sections.
-Complete every section fully before moving to the next.
+FIRST decide the response style:
+
+A) CONVERSATIONAL / SIMPLE — short factual questions, quick follow-ups, clarifications,
+   casual remarks, yes/no questions, or anything answerable in a few sentences.
+   → Reply naturally and concisely like a capable assistant. NO mandatory sections,
+   NO "Executive Takeaway" structure. Cite source handles inline only if you used them.
+   Keep the conversation flowing seamlessly.
+
+B) SUBSTANTIVE / ANALYTICAL — briefings, strategy questions, comparisons, regulatory
+   analysis, document summaries, meeting prep, or any multi-part executive request.
+   → Use the EXACT bold section headings listed below, in the EXACT order shown.
+   Do NOT rename sections. Do NOT skip any section. Do NOT merge sections. Do NOT add new sections.
+   Complete every section fully before moving to the next.
+
+${isBriefing ? `THIS TURN IS A **${formatLabel}** BRIEFING — ALWAYS style B with the FULL template below, no exceptions.
+Grounding for briefings: internal KB / grounded records FIRST (cite handles); injected live web results for external facts (cite [WEB-NN]); label assumptions where source coverage is thin. Never invent figures.` : ''}
 
 ${contractBlock}
+
+═══════════════════════════════
+CONVERSATION MEMORY — CHECK FIRST (every turn)
+═══════════════════════════════
+The full recent conversation history is provided in the messages. Before answering:
+- Resolve follow-ups, pronouns and references ("it", "that report", "the second one") from earlier turns.
+- Reuse facts, preferences, names and decisions the user already shared — never ask for them again.
+- If the new question builds on a previous answer, continue from it instead of starting over.
+
+MINIMAL QUESTIONS RULE (mandatory — keeps chat seamless):
+- Default to ANSWERING, never to asking. Make reasonable professional assumptions and state them in one short line.
+- Ask a clarifying question ONLY if the request is impossible to interpret even with memory + KB + web results — and then ask exactly ONE short question, nothing else.
+- NEVER stack multiple questions, NEVER end routine answers with questions back to the user, and NEVER ask permission to proceed ("Would you like me to…?") — just do it.
 
 ═══════════════════════════════
 DELEGATED SPECIALISTS THIS TURN
@@ -237,9 +311,12 @@ At the end of every response, the "Sources Used" section must list each cited ha
   - [KB-008] ADGM Law No. 1547 v3.14 → adgm.com/rules-and-regulations (PDF available)
   - [MKT-...] Market data → Yahoo Finance / CoinGecko (live)
 
-DATA INTEGRITY — THREE-TIER ANSWERING (mandatory):
+DATA INTEGRITY — TIERED ANSWERING (mandatory, in this order):
 
-TIER 1 — INTERNAL KB / GROUNDED RECORDS (highest priority):
+TIER 0 — CONVERSATION MEMORY:
+Always check the conversation history first. If the answer (or part of it) was already established earlier in this conversation, build on it.
+
+TIER 1 — INTERNAL KB / GROUNDED RECORDS (highest source priority):
 ${hasGrounding
   ? '✅ Grounded records ARE injected this turn. Cite handles inline (KB-, MKT-, CAL-, ACT-, CRM-, BBG-). Do NOT invent licence growth %, Falcon scores, market prices, or ADGM legal clauses. For market figures: add "as of [date], Source: Yahoo Finance / CoinGecko".'
   : '⚠️  No internal records injected this turn — proceed to Tier 2 or Tier 3.'}
@@ -269,6 +346,11 @@ They do NOT apply to general world knowledge. For any question about:
 → Answer immediately and helpfully from training knowledge. Do NOT treat these as "missing source material." This is mandatory.
 
 If you know the answer from general knowledge, give it. Only flag missing data for facts that are genuinely ADGM-internal and cannot be known without an approved source.
+
+${calendarConnected
+  ? '- Calendar (CAL- handles) is CONNECTED — cite meeting records freely.'
+  : `- CALENDAR NOT CONNECTED (mandatory): No calendar integration is connected this turn. NEVER invent, assume, or describe meetings, schedules, attendees, or meeting times from a "calendar". NEVER cite CAL- handles. If the user asks what's on their calendar/schedule today, say plainly: "Your calendar isn't connected yet, so I can't see your meetings. Once it's connected I can brief you before every meeting." Then offer what you CAN do (briefings from KB, market intel, drafting).
+  EXCEPTION: if the user PROVIDES meeting details themselves (agenda, invite text, attendees, email trail, briefing request with meeting context in the message), treat that as user-provided context and brief on it fully — the restriction only forbids claiming access to a live calendar.`}
 
 ${ctx?.bloombergLive
   ? '- Bloomberg headlines (BBG- handles) are LIVE — cite freely.'
@@ -338,9 +420,10 @@ export async function streamChat(payload, writeEvent) {
     console.warn('[webSearch] skipped:', err?.message);
   }
 
-  // Build system prompt — inject web search results if available
+  // Build system prompt — inject web search results + history length (memory awareness)
+  const historyLength = history.filter((m) => m?.role && m?.content).length;
   const systemPrompt = buildSystemPrompt(
-    { ...context, webSearchBlock: webSearchBlock || undefined },
+    { ...context, webSearchBlock: webSearchBlock || undefined, historyLength },
     language,
   );
 

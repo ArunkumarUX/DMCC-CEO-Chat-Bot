@@ -12,7 +12,12 @@ import { prepareChatTurn } from '../../api/prepareChatTurn';
 import { buildChatHistory } from '../../api/buildChatContext';
 import { streamClaudeChat } from '../../api/claudeChat';
 import { detectChatIntent } from '../../utils/chatIntent';
-import { offlineFallbackBanner, shouldFallbackToOfflineKb } from '../../utils/claudeErrors';
+import {
+  formatClaudeErrorForUser,
+  offlineNoticeKind,
+  shouldFallbackToOfflineKb,
+} from '../../utils/claudeErrors';
+import { AgentContextChips } from '../../components/agents/AgentContextChips';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
 import { ChatHistorySheet } from '../../components/chat/ChatHistorySheet';
 import {
@@ -38,6 +43,7 @@ type ChatMsg =
       confidence?: number;
       grounding?: GroundingLevel;
       sources?: Source[];
+      offlineNotice?: import('../../types').OfflineNoticeKind;
     };
 
 function buildAiPayload(
@@ -72,6 +78,8 @@ export function CommandCentreChatPage() {
     setSourcesPanelOpen,
     selectedAgents,
     autoRouteAgents,
+    contextAgent,
+    setContextAgent,
   } = useApp();
   const [searchParams, setSearchParams] = useSearchParams();
   const seed = searchParams.get('seed');
@@ -152,6 +160,7 @@ export function CommandCentreChatPage() {
       agents: string[];
       sources: Source[];
       grounding?: GroundingLevel;
+      offlineNotice?: import('../../types').OfflineNoticeKind;
     } | null> => {
       // Previous AI message — for conversation-aware routing (follow-up context)
       const prevAiMsg = [...msgsRef.current].reverse().find((m) => m.role === 'ai' && m.id !== aid);
@@ -168,6 +177,7 @@ export function CommandCentreChatPage() {
         autoRoute: autoRouteAgents,
         previousAgents,
         prevResponseWasQuestion,
+        contextAgent,
       }, msgsRef.current.filter((m) => m.id !== aid && m.role === 'user').length);
       const routedAgents = turn.routedAgents;
       const intel = buildIntelligentResponse(q, executiveState);
@@ -210,7 +220,6 @@ export function CommandCentreChatPage() {
                         ...x,
                         text: streamed,
                         thinking: false,
-                        activeAgent: null,
                         agents: meta.agents,
                       }
                     : x,
@@ -268,33 +277,35 @@ export function CommandCentreChatPage() {
               executiveState,
               meta.agents,
             );
-            const fullText = offlineFallbackBanner(errMsg) + text;
+            const notice = offlineNoticeKind(errMsg);
             setMsgs((m) =>
               m.map((x) =>
                 x.id === aid && x.role === 'ai'
                   ? {
                       ...x,
-                      text: fullText,
+                      text,
                       agents: demoAgents,
                       grounding,
                       sources,
+                      offlineNotice: notice,
                       activeAgent: null,
                       thinking: false,
                     }
                   : x,
               ),
             );
-            return { text: fullText, agents: demoAgents, sources, grounding };
+            return { text, agents: demoAgents, sources, grounding, offlineNotice: notice };
           }
 
+          const userErr = formatClaudeErrorForUser(errMsg, ar);
           setMsgs((m) =>
             m.map((x) =>
               x.id === aid && x.role === 'ai'
-                ? { ...x, text: `⚠️ AI unavailable: ${errMsg}`, thinking: false, activeAgent: null, agents: meta.agents }
+                ? { ...x, text: `⚠️ ${userErr}`, thinking: false, activeAgent: null, agents: meta.agents }
                 : x,
             ),
           );
-          return { text: errMsg, agents: meta.agents, sources: [] };
+          return { text: userErr, agents: meta.agents, sources: [] };
         }
       }
 
@@ -321,7 +332,7 @@ export function CommandCentreChatPage() {
       );
       return { text, agents: demoAgents, sources, grounding };
     },
-    [executiveState, runAgentAnimation, ar, selectedAgents, autoRouteAgents],
+    [executiveState, runAgentAnimation, ar, selectedAgents, autoRouteAgents, contextAgent],
   );
 
   const stopGeneration = useCallback(() => {
@@ -361,6 +372,7 @@ export function CommandCentreChatPage() {
           autoRoute: autoRouteAgents,
           previousAgents: prevAgentsForSend,
           prevResponseWasQuestion: prevResponseWasQuestionForSend,
+          contextAgent,
         });
         const agents = turn.routedAgents;
         const aid = ++idRef.current;
@@ -379,6 +391,7 @@ export function CommandCentreChatPage() {
               agents: result.agents,
               sources: result.sources,
               grounding: result.grounding,
+              offlineNotice: result.offlineNotice,
             },
             convId,
           );
@@ -426,6 +439,7 @@ export function CommandCentreChatPage() {
       const turn = prepareChatTurn(userText, executiveState, {
         manualAgents: selectedAgents,
         autoRoute: autoRouteAgents,
+        contextAgent,
       });
       setMsgs((m) =>
         m.map((x) =>
@@ -447,6 +461,7 @@ export function CommandCentreChatPage() {
       executiveState,
       selectedAgents,
       autoRouteAgents,
+      contextAgent,
       activeConversationId,
       patchAssistantReply,
     ],
@@ -482,6 +497,8 @@ export function CommandCentreChatPage() {
   }, [seed, send, setSearchParams]);
 
   const empty = msgs.length === 0;
+  const corePrompts = gst.suggestions.slice(0, 3);
+  const corePromptIcons = ['presentation', 'mail', 'file-text'] as const;
 
   const historyTitle = activeConversation?.title ?? (ar ? 'محادثة جديدة' : 'New chat');
 
@@ -505,7 +522,7 @@ export function CommandCentreChatPage() {
             {ar ? 'السجل' : 'History'}
           </button>
           <button type="button" className="btn btn-primary cc-chat-toolbar__new" onClick={handleNewChat} disabled={busy}>
-            <CcIcon name="plus" size={15} />
+            <CcIcon name="plus" size={16} />
             {ar ? 'محادثة جديدة' : 'New chat'}
           </button>
         </div>
@@ -518,29 +535,45 @@ export function CommandCentreChatPage() {
         >
           {empty ? (
             <div className="rise cc-chat-empty cc-chat-empty--centered">
-              <div className="cc-chat-empty__header">
-                <Emblem size={32} />
-                <div>
-                  <h2 className="cc-chat-empty__title">
-                    {ar ? `اسأل ${PRODUCT_AGENT_NAME_AR}` : `Ask ${PRODUCT_AGENT_NAME}`}
-                  </h2>
-                  <p className="cc-chat-empty__subtitle">
-                    {ar
-                      ? 'مساعدك الشخصي للعمل التنفيذي — بريد، اجتماعات، مستندات، وعروض.'
-                      : 'Your personal assistant for executive work — email, meetings, documents, and decks.'}
-                  </p>
+              <header className="cc-chat-empty__hero">
+                <Emblem size={36} />
+                <h2 className="cc-chat-empty__title">
+                  {ar ? `اسأل ${PRODUCT_AGENT_NAME_AR}` : `Ask ${PRODUCT_AGENT_NAME}`}
+                </h2>
+                <p className="cc-chat-empty__subtitle">
+                  {ar
+                    ? 'مساعدك الشخصي للاتصالات التنفيذية والإحاطات والمستندات — بالعربية أو الإنجليزية.'
+                    : 'Your personal AI assistant for executive comms, briefings and documents — in English or Arabic.'}
+                </p>
+              </header>
+
+              <div className="cc-chat-empty__context">
+                <AgentContextChips
+                  value={contextAgent}
+                  onChange={setContextAgent}
+                  ar={ar}
+                  variant="light"
+                />
+              </div>
+
+              <div className="cc-chat-empty__prompts" data-tour="chat-suggestions">
+                <div className="cc-chat-empty__section-label">{ar ? 'إجراءات سريعة' : 'Quick actions'}</div>
+                <div className="cc-chat-prompt-list">
+                  {corePrompts.map((s, i) => (
+                    <button
+                      key={s.q}
+                      type="button"
+                      className="cc-chat-prompt-row"
+                      onClick={() => send(s.q)}
+                    >
+                      <span className={`cc-chat-prompt-row__icon cc-chat-prompt-row__icon--${i + 1}`} aria-hidden>
+                        <CcIcon name={corePromptIcons[i] ?? 'sparkles'} size={18} />
+                      </span>
+                      <span className="cc-chat-prompt-row__text">{s.q}</span>
+                      <CcIcon name="chevron-right" size={18} className="cc-chat-prompt-row__arrow" aria-hidden />
+                    </button>
+                  ))}
                 </div>
-              </div>
-              <div className="eyebrow cc-chat-empty__label">
-                {ar ? 'ابدأ بسرعة' : 'Quick start'}
-              </div>
-              <div className="cc-chat-quick-prompts" data-tour="chat-suggestions">
-                {gst.suggestions.map((s) => (
-                  <button key={s.q} type="button" className="cc-chat-quick-prompt" onClick={() => send(s.q)}>
-                    <CcIcon name="sparkles" size={15} style={{ color: 'var(--accent-bright)', flex: 'none' }} />
-                    <span>{s.q}</span>
-                  </button>
-                ))}
               </div>
             </div>
           ) : (

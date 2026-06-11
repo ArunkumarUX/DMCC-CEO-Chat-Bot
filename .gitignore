@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .env
 .env.local
+.dev-api-port
 .env.*.local
 
 # Editor directories and files

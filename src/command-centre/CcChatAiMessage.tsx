@@ -1,13 +1,17 @@
 // @ts-nocheck
+import { useMemo } from 'react';
 import { SourceCitationChip } from '../components/chat/SourceCitationChip';
 import { CcIcon } from './CcIcon';
 import { Emblem } from './CcPrimitives';
 import { mdToNodes } from './CcMarkdown';
 import type { Source } from '../types';
 import { panelSources } from '../utils/sourceLinks';
-import { AGENT_LABELS, AGENT_MAP } from '../data/agents';
 import type { AgentType } from '../types';
-import { AgentWakeOrbit } from './AgentWakeOrbit';
+import { ChatThinkingLoader } from './ChatThinkingLoader';
+import { ChatAgentRoster } from './ChatAgentRoster';
+import { ChatApiNotice } from '../components/chat/ChatApiNotice';
+import type { OfflineNoticeKind } from '../types';
+import { stripOfflineFallbackBanner } from '../utils/claudeErrors';
 
 export type CcChatAiMsg = {
   id: number;
@@ -19,6 +23,7 @@ export type CcChatAiMsg = {
   confidence?: number;
   grounding?: string;
   sources?: Source[];
+  offlineNotice?: OfflineNoticeKind;
 };
 
 export function CcChatAiMessage({
@@ -44,48 +49,37 @@ export function CcChatAiMessage({
   const showSourceMeta = messageReady && hasResources;
   const showActions = messageReady;
 
-  // Agent label — show which AI is responding
-  const primaryAgentId = m.agents?.[0] as AgentType | undefined;
-  const agentLabel = primaryAgentId ? (AGENT_LABELS[primaryAgentId] ?? primaryAgentId) : null;
-  const agentColor = primaryAgentId ? (AGENT_MAP[primaryAgentId]?.color ?? 'var(--accent-bright)') : 'var(--accent-bright)';
-
-  const showOrbit = m.thinking && !m.text?.trim();
+  const isThinking = m.thinking && !m.text?.trim();
+  const showRoster = (m.agents?.length ?? 0) > 0;
+  const rendered = useMemo(() => {
+    if (m.offlineNotice) return { notice: m.offlineNotice, text: m.text };
+    return stripOfflineFallbackBanner(m.text);
+  }, [m.offlineNotice, m.text]);
 
   return (
-    <div className={`chat-ai-msg mi-chat-in${showOrbit ? ' chat-ai-msg--orchestrating' : ''}`}>
-      {!showOrbit && (
-        <div className="chat-ai-msg__avatar">
-          <Emblem size={22} />
-        </div>
-      )}
-      <div className={`chat-ai-msg__body${showOrbit ? ' chat-ai-msg__body--orchestrating' : ''}`}>
-        {agentLabel && !showOrbit && (
-          <div style={{
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            color: agentColor,
-            marginBottom: 6,
-            opacity: 0.9,
-          }}>
-            {agentLabel}
-          </div>
-        )}
-        {showOrbit ? (
-          <div className="chat-ai-msg__thinking-orbit">
-            <AgentWakeOrbit
-              agentIds={(m.agents ?? []) as AgentType[]}
-              activeAgent={m.activeAgent}
-              compact
-              ar={ar}
-            />
-            <p className="chat-ai-msg__thinking-caption muted">
-              {ar ? 'الوكلاء يستيقظون…' : 'Agents waking up…'}
-            </p>
-          </div>
+    <div className="chat-ai-msg mi-chat-in">
+      <div className="chat-ai-msg__avatar">
+        <Emblem size={22} />
+      </div>
+      <div className="chat-ai-msg__body">
+        {showRoster ? (
+          <ChatAgentRoster
+            agentIds={(m.agents ?? []) as AgentType[]}
+            activeAgent={isThinking ? m.activeAgent : null}
+            ar={ar}
+          />
+        ) : null}
+        {isThinking ? (
+          <ChatThinkingLoader
+            agentIds={(m.agents ?? []) as AgentType[]}
+            activeAgent={m.activeAgent}
+            ar={ar}
+          />
         ) : (
-          <div className={`chat-ai-msg__content ${ar ? 'lang-ar' : ''}`}>{mdToNodes(m.text)}</div>
+          <div className={`chat-ai-msg__content ${ar ? 'lang-ar' : ''}`}>
+            {rendered.notice ? <ChatApiNotice kind={rendered.notice} ar={ar} /> : null}
+            {mdToNodes(rendered.text)}
+          </div>
         )}
 
         {(showSourceMeta || showActions) && (

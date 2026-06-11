@@ -43,6 +43,8 @@ export interface Source {
 
 export type GroundingLevel = 'full' | 'partial';
 
+export type OfflineNoticeKind = 'billing' | 'temporary';
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
@@ -54,6 +56,8 @@ export interface ChatMessage {
   grounding?: GroundingLevel;
   followUps?: string[];
   liked?: boolean | null;
+  /** Shown when Claude failed and a KB/offline answer was used instead */
+  offlineNotice?: OfflineNoticeKind;
 }
 
 export interface Conversation {

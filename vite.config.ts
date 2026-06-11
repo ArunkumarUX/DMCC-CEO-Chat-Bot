@@ -1,13 +1,28 @@
+import { readFileSync, existsSync } from 'node:fs'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-const apiPort = Number(process.env.API_PORT) || 8787
+function resolveDevApiPort(): number {
+  const fromEnv = Number(process.env.API_PORT)
+  if (fromEnv > 0) return fromEnv
+  try {
+    const portFile = new URL('.dev-api-port', import.meta.url)
+    if (existsSync(portFile)) {
+      const fromFile = Number(readFileSync(portFile, 'utf8').trim())
+      if (fromFile > 0) return fromFile
+    }
+  } catch {
+    /* ignore */
+  }
+  return 8787
+}
 
 const apiProxy = {
   '/api': {
-    target: `http://localhost:${apiPort}`,
+    target: `http://localhost:${resolveDevApiPort()}`,
     changeOrigin: true,
+    router: () => `http://localhost:${resolveDevApiPort()}`,
   },
 }
 

@@ -4,7 +4,7 @@
  */
 import http from 'node:http';
 import os from 'node:os';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { getAnthropicConfig, streamChat } from './chatCore.mjs';
@@ -16,7 +16,7 @@ import { isValidEmailShape, isValidUaeMobileShape } from './authCredentials.mjs'
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
 
-function loadEnvFile(name) {
+function loadEnvFile(name, { override = false } = {}) {
   const path = join(root, name);
   if (!existsSync(path)) return;
   for (const line of readFileSync(path, 'utf8').split('\n')) {
@@ -29,12 +29,17 @@ function loadEnvFile(name) {
     if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
       val = val.slice(1, -1);
     }
-    if (!process.env[key] || process.env[key] === '') process.env[key] = val;
+    if (override || !process.env[key] || process.env[key] === '') process.env[key] = val;
   }
 }
 
 loadEnvFile('.env');
-loadEnvFile('.env.local');
+loadEnvFile('.env.local', { override: true });
+
+/** Re-read .env.local so key changes apply without restarting the dev API. */
+function reloadLocalEnv() {
+  loadEnvFile('.env.local', { override: true });
+}
 
 const PORT = Number(process.env.API_PORT || 8787);
 const VITE_PORT = Number(process.env.VITE_PORT || 5173);
@@ -107,6 +112,7 @@ function sendJson(res, status, body) {
 }
 
 async function handleChat(req, res) {
+  reloadLocalEnv();
   const { apiKey } = getAnthropicConfig();
   if (!apiKey) {
     sendJson(res, 503, { error: 'ANTHROPIC_API_KEY not set. Add it to .env.local' });
@@ -157,6 +163,7 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url || '/', `http://localhost:${PORT}`);
 
   if (req.method === 'GET' && url.pathname === '/api/health') {
+    reloadLocalEnv();
     const { apiKey, model } = getAnthropicConfig();
     const { buildHealthDataTrust } = await import('./dataProvenance.mjs');
     sendJson(res, 200, {
@@ -313,6 +320,12 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
+  reloadLocalEnv();
   const { apiKey } = getAnthropicConfig();
+  try {
+    writeFileSync(join(root, '.dev-api-port'), String(PORT), 'utf8');
+  } catch {
+    /* ignore */
+  }
   console.log(`[api] http://localhost:${PORT}  claude=${apiKey ? 'on' : 'off (set ANTHROPIC_API_KEY in .env.local)'}`);
 });

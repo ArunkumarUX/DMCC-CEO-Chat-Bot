@@ -1,4 +1,6 @@
+import { AGENT_MAP } from '../data/agents';
 import { formatFalconExcerptBlock } from '../data/kb/falconKb';
+import type { AgentType } from '../types';
 import type { buildChatContext } from './buildChatContext';
 
 type ChatContext = ReturnType<typeof buildChatContext>;
@@ -29,12 +31,13 @@ USER MESSAGE:
 
 Instructions:
 - Open with a warm greeting for ${firstName} using Abu Dhabi time (${gstClock}): e.g. "${gstPhrase}, ${firstName}"
-- Summarise today from calendar, action register, and market snapshot — cite source handles inline ([MKT-…], [CAL-…], [ACT-…]).
-- Use markdown: one short plain-terms line, then **What's happened today** as a bold heading, then bullet list (Markets / Teams / Actions / Next).
+- Summarise today from the action register and market snapshot — cite source handles inline ([MKT-…], [ACT-…]).
+- CALENDAR NOT CONNECTED: do NOT mention meetings or a next meeting; no calendar is connected. You may add one short line: "Connect your calendar and I'll include your meetings here too."
+- Use markdown: one short plain-terms line, then **What's happened today** as a bold heading, then bullet list (Markets / Teams / Actions).
 - Do not prefix market lines with "GCC" if the snapshot already includes it.
 - Tone: personal executive assistant. ~100–140 words max.
 - Do NOT list sample prompts or capabilities unless asked.
-- End with ONE natural offer (meeting brief, regulatory compare, or performance look).
+- End with ONE natural offer (regulatory compare, performance look, or drafting help).
 ${historyLength > 0 ? '- This chat already has history — continue the thread; do not repeat a full intro.' : ''}`;
   }
 
@@ -84,6 +87,11 @@ Reply briefly and warmly to ${firstName}. Offer to continue with context from th
     ? '- KB excerpts are present — do NOT ask clarifying questions; answer from the excerpts.'
     : '- If unclear, ask ONE short clarifying question — do not change topic.';
 
+  const contextAgent = ctx.contextAgent as AgentType | undefined;
+  const contextBlock = contextAgent
+    ? `\n- USER CONTEXT FOCUS: ${AGENT_MAP[contextAgent]?.name ?? contextAgent} — the user selected this specialist on the home/chat screen. Lead with this agent's lens, tone, and tools. Stay in this context unless the question clearly requires another specialist.`
+    : '';
+
   return `MANDATORY: Apply **1. GLOBAL SYSTEM PROMPT** and all Response Standards from the system message to this answer — for any user question, without exception.
 
 DELEGATED AGENTS FOR THIS TURN: ${agentList}
@@ -98,5 +106,5 @@ Routing instructions (CSO Prompt Pack):
 - Answer the exact question using grounded source handles only; separate facts, interpretation, and recommendations.
 - Do not reference D33 (Dubai); ADGM is Abu Dhabi. Use Falcon Economy only when sources support it.
 - Do NOT output generic guides, product overviews, or sample prompts unless explicitly asked.
-${clarifyLine}${continuity}${falconBlock}`;
+${clarifyLine}${contextBlock}${continuity}${falconBlock}`;
 }

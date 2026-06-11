@@ -78,7 +78,7 @@ ${OPEN_ACTIONS(state)}
 **قاعدة المعرفة (استشهد عند الاقتضاء):**
 ${DOC_LIST(state)}
 
-الهيكل: من · جدول الأعمال المتوقع · نقاط الحديث · مخاطر · طلب مقترح. بدون محادثة عامة.`
+اتبع قالب إحاطة ما قبل الاجتماع الإلزامي (الأقسام 1–9) من تعليمات النظام. استند إلى قاعدة المعرفة أولاً، واستخدم نتائج البحث المباشر للحقائق الخارجية.`
         : `Generate an executive **pre-meeting brief** for my next calendar meeting.
 
 **Meeting (from calendar):** ${mtg.title}
@@ -95,7 +95,7 @@ ${OPEN_ACTIONS(state)}
 **Knowledge base (cite document names when used):**
 ${DOC_LIST(state)}
 
-Structure: Who · Their likely agenda · Talking points · Watch-outs · Suggested ask. Use > plain-terms blockquote, metric tables, and █ score bars. Max 150 words.`;
+Follow the mandatory pre-meeting brief template (sections 1–9: Meeting Snapshot → 30-Second Brief) from the system prompt. Ground in the knowledge base first; use live web results for external facts; label assumptions.`;
     },
   },
 
@@ -117,7 +117,7 @@ ${boardDocs || DOC_LIST(state)}
 
 **مقاييس حية:** ${state.metrics.departmentsOnTrack}/9 إدارات خضراء · ${state.metrics.openActions} إجراءات مفتوحة.
 
-الهيكل: قرارات مطلوبة · محاذاة الاقتصاد الصقور · مخاطر · توصية واحدة.`
+اتبع قالب ملخص حزمة مجلس الإدارة الإلزامي (الأقسام 1–8) من تعليمات النظام. لا تخترع أرقاماً مالية — اكتب "غير متوفر في المصادر" عند غياب البيانات.`
         : `Produce a **board pack summary** — condense materials to decisions, not narrative.
 
 **Relevant knowledge base:**
@@ -125,7 +125,7 @@ ${boardDocs || DOC_LIST(state)}
 
 **Live context:** ${state.metrics.departmentsOnTrack}/9 departments green · ${state.metrics.openActions} open actions.
 
-Structure: Decisions required · Falcon Economy alignment score/narrative · Risks · One recommendation. Markdown for board prep.`;
+Follow the mandatory board pack summary template (sections 1–8: Board Summary → One-Minute Board Brief) from the system prompt. Ground every figure in KB sources; write "Not in available sources" where data is missing.`;
     },
   },
 
@@ -145,7 +145,7 @@ Structure: Decisions required · Falcon Economy alignment score/narrative · Ris
 **الاجتماع:** ${mtg.title} · ${formatMeetingTime(mtg.time, ar)}
 **الإجراءات ذات الصلة:** ${OPEN_ACTIONS(state)}
 
-الهيكل: العلاقة · مجالات الاهتمام · متابعات مفتوحة · شبكة ADGM · الخطوة التالية.`
+اتبع قالب ملف صاحب المصلحة الإلزامي (الأقسام 1–10) من تعليمات النظام. صنّف الاستنتاجات بوضوح كتفسير.`
         : `Generate a **stakeholder profile** for: ${mtg.title}.
 
 Use calendar and action register. If CRM detail is thin, infer reasonably from ADGM–MAS context and label assumptions.
@@ -153,7 +153,7 @@ Use calendar and action register. If CRM detail is thin, infer reasonably from A
 **Meeting:** ${mtg.title} · ${formatMeetingTime(mtg.time, ar)}
 **Related actions:** ${OPEN_ACTIONS(state)}
 
-Structure: Relationship warmth · Focus areas · Open follow-ups · ADGM network · Suggested next step.`;
+Follow the mandatory stakeholder intelligence template (sections 1–10: Stakeholder Overview → 30-Second Stakeholder Brief) from the system prompt. Label inferences as interpretation; use web results for public context.`;
     },
   },
 
@@ -181,7 +181,7 @@ ${DOC_LIST(state, 4)}
 **Open actions:**
 ${OPEN_ACTIONS(state)}
 
-Produce a clean, copy-paste friendly draft — no follow-up questions. Use sensible assumptions where needed.`;
+Follow the mandatory email reply template (sections 1–5: Email Understanding → Follow-Up Actions) from the system prompt. No follow-up questions — use sensible assumptions and state them in one line.`;
     },
   },
 };

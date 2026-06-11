@@ -1,4 +1,11 @@
 import type { ChatHistoryItem } from './buildChatContext';
+import {
+  chatApiUrl,
+  discoverWorkingDevApiPort,
+  getCachedDevApiPort,
+  healthApiUrl,
+  isLocalDevHost,
+} from './devApiPort';
 
 export type ChatStreamContext = {
   executiveName?: string;
@@ -47,7 +54,16 @@ export type ChatStreamContext = {
 
 export async function checkClaudeAvailable(): Promise<boolean> {
   try {
-    const res = await fetch('/api/health');
+    let port = isLocalDevHost() ? getCachedDevApiPort() : null;
+    let res = await fetch(healthApiUrl(port));
+    if (res.ok) {
+      const data = await res.json();
+      if (data.claude) return true;
+    }
+    if (!isLocalDevHost()) return false;
+    port = await discoverWorkingDevApiPort();
+    if (port == null) return false;
+    res = await fetch(healthApiUrl(port));
     if (!res.ok) return false;
     const data = await res.json();
     return Boolean(data.claude);
@@ -77,13 +93,50 @@ export async function streamClaudeChat({
       ? AbortSignal.any([signal, timeoutSignal])
       : timeoutSignal;
 
-  const res = await fetch('/api/chat', {
-    method: 'POST',
+  const body = JSON.stringify({ message, language, history, context });
+  const fetchOpts = {
+    method: 'POST' as const,
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, language, history, context }),
+    body,
     signal: signal ? combined : timeoutSignal,
-  });
+  };
 
+  let devPort = isLocalDevHost() ? getCachedDevApiPort() : null;
+  let lastError: Error | null = null;
+
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      await consumeChatStream(
+        await fetch(chatApiUrl(devPort), fetchOpts),
+        onToken,
+      );
+      return;
+    } catch (err) {
+      lastError = err instanceof Error ? err : new Error(String(err));
+      const msg = lastError.message.toLowerCase();
+      const staleDevProxy =
+        isLocalDevHost() &&
+        attempt === 0 &&
+        (msg.includes('credit balance') ||
+          msg.includes('too low') ||
+          msg.includes('invalid x-api-key') ||
+          msg.includes('authentication_error'));
+
+      if (!staleDevProxy) throw lastError;
+
+      const discovered = await discoverWorkingDevApiPort();
+      if (discovered == null) throw lastError;
+      devPort = discovered;
+    }
+  }
+
+  if (lastError) throw lastError;
+}
+
+async function consumeChatStream(
+  res: Response,
+  onToken: (text: string) => void,
+): Promise<void> {
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: res.statusText }));
     const detail =

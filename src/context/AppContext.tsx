@@ -36,7 +36,7 @@ import { buildChatHistoryFromMessages } from '../api/buildChatContext';
 import { prepareChatTurn } from '../api/prepareChatTurn';
 import { streamClaudeChat } from '../api/claudeChat';
 import { detectChatIntent } from '../utils/chatIntent';
-import { offlineFallbackBanner, shouldFallbackToOfflineKb } from '../utils/claudeErrors';
+import { offlineNoticeKind, shouldFallbackToOfflineKb } from '../utils/claudeErrors';
 
 const USE_CLAUDE = true; // always use Claude; env var previously blocked responses on Vercel
 import type {
@@ -85,6 +85,7 @@ interface AppContextValue {
       grounding?: import('../types').GroundingLevel;
       sources?: Source[];
       followUps?: string[];
+      offlineNotice?: import('../types').OfflineNoticeKind;
     },
     conversationId?: string | null,
   ) => void;
@@ -96,6 +97,7 @@ interface AppContextValue {
       confidence?: number;
       grounding?: import('../types').GroundingLevel;
       sources?: Source[];
+      offlineNotice?: import('../types').OfflineNoticeKind;
     },
   ) => void;
   stopStreaming: () => void;
@@ -138,6 +140,9 @@ interface AppContextValue {
   autoRouteAgents: boolean;
   toggleAgent: (id: AgentType) => void;
   setAutoRouteAgents: (on: boolean) => void;
+  /** Home / chat chip — specialist context for the next turns */
+  contextAgent: AgentType | null;
+  setContextAgent: (id: AgentType | null) => void;
   recordBriefingGenerated: () => void;
   refreshExecutiveData: (options?: ExecutiveRefreshOptions) => Promise<void>;
   isRefreshingData: boolean;
@@ -197,6 +202,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [workflowAnswers, setWorkflowAnswers] = useState<Record<string, string>>({});
   const [selectedAgents, setSelectedAgents] = useState<AgentType[]>(['cos', 'strategy', 'policy']);
   const [autoRouteAgents, setAutoRouteAgents] = useState(true);
+  const [contextAgent, setContextAgent] = useState<AgentType | null>(null);
   const streamingRef = { cancelled: false };
 
   const toggleAgent = useCallback((id: AgentType) => {
@@ -259,6 +265,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const turn = prepareChatTurn(content, state, {
         manualAgents: selectedAgents,
         autoRoute: autoRouteAgents,
+        contextAgent,
       });
       const intel = buildIntelligentResponse(content, state);
       const grounded = resolveAnswerGrounding(intel.content, state, intel.sourceDocIds);
@@ -287,7 +294,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ),
       }));
     },
-    [persistExecutive, selectedAgents, autoRouteAgents],
+    [persistExecutive, selectedAgents, autoRouteAgents, contextAgent],
   );
 
   const recordChatTurn = useCallback(
@@ -300,6 +307,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         grounding?: import('../types').GroundingLevel;
         sources?: Source[];
         followUps?: string[];
+        offlineNotice?: import('../types').OfflineNoticeKind;
       },
       conversationId?: string | null,
     ) => {
@@ -327,6 +335,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         grounding: assistant.grounding,
         sources: assistant.sources,
         followUps: assistant.followUps,
+        offlineNotice: assistant.offlineNotice,
       };
       if (assistant.sources?.length) setActiveSources(assistant.sources);
       persistExecutive((s) => {
@@ -363,6 +372,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         confidence?: number;
         grounding?: import('../types').GroundingLevel;
         sources?: Source[];
+        offlineNotice?: import('../types').OfflineNoticeKind;
       },
     ) => {
       const text = assistant.content.trim();
@@ -383,6 +393,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             confidence: assistant.confidence,
             grounding: assistant.grounding,
             sources: assistant.sources,
+            offlineNotice: assistant.offlineNotice,
           };
           return {
             ...c,
@@ -469,6 +480,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           const turn = prepareChatTurn(content.trim(), executiveState, {
             manualAgents: selectedAgents,
             autoRoute: autoRouteAgents,
+            contextAgent,
           }, history.length);
 
           await streamClaudeChat({
@@ -546,10 +558,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
             const offlineTurn = prepareChatTurn(content.trim(), executiveState, {
               manualAgents: selectedAgents,
               autoRoute: autoRouteAgents,
+              contextAgent,
             }, history.length);
             const intel = buildIntelligentResponse(content, executiveState);
             const grounded = resolveAnswerGrounding(intel.content, executiveState, intel.sourceDocIds);
-            const fullText = offlineFallbackBanner(errMsg) + intel.content;
+            const notice = offlineNoticeKind(errMsg);
             setActiveSources(grounded.sources);
             persistExecutive((s) => ({
               ...s,
@@ -561,15 +574,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
                         m.id === placeholderId
                           ? {
                               ...m,
-                              content: fullText,
+                              content: intel.content,
                               agents: offlineTurn.routedAgents,
                               grounding: grounded.grounding,
                               sources: grounded.sources,
                               followUps: intel.followUps,
+                              offlineNotice: notice,
                             }
                           : m,
                       ),
-                      preview: fullText.slice(0, 80),
+                      preview: intel.content.slice(0, 80),
                     }
                   : c,
               ),
@@ -609,6 +623,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       activeConversationId,
       appendAssistantFromIntel,
       autoRouteAgents,
+      contextAgent,
       conversations,
       createConversation,
       executiveState,
@@ -635,6 +650,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const turn = prepareChatTurn(lastUser.content, executiveState, {
         manualAgents: selectedAgents,
         autoRoute: autoRouteAgents,
+        contextAgent,
       });
       const intel = buildIntelligentResponse(lastUser.content, executiveState);
       const answer = intel.content + '\n\n*Regenerated from institutional records*';
@@ -663,7 +679,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       setIsStreaming(false);
       showToast('Answer regenerated from institutional data');
     }, 1200);
-  }, [activeConversationId, autoRouteAgents, conversations, executiveState, persistExecutive, selectedAgents, showToast]);
+  }, [activeConversationId, autoRouteAgents, contextAgent, conversations, executiveState, persistExecutive, selectedAgents, showToast]);
 
   const renameConversation = useCallback(
     (id: string, title: string) => {
@@ -1058,6 +1074,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     autoRouteAgents,
     toggleAgent,
     setAutoRouteAgents,
+    contextAgent,
+    setContextAgent,
     recordBriefingGenerated,
     refreshExecutiveData,
     isRefreshingData,

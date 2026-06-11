@@ -5,7 +5,6 @@ import type { AgentType, ChatMessage } from '../types';
 import { detectChatIntent } from '../utils/chatIntent';
 import {
   falconExcerptsToGroundedRecords,
-  isFalconKbQuery,
   retrieveFalconExcerpts,
 } from '../data/kb/falconKb';
 import {
@@ -35,6 +34,8 @@ export type ChatContextOptions = {
   routedAgents?: AgentType[];
   manualAgents?: AgentType[];
   autoRoute?: boolean;
+  /** User-selected specialist focus from home/chat chips */
+  contextAgent?: AgentType;
 };
 
 export function buildChatContext(state: ExecutiveState, options?: ChatContextOptions) {
@@ -47,7 +48,8 @@ export function buildChatContext(state: ExecutiveState, options?: ChatContextOpt
       : []);
 
   const groundedRecords = buildGroundedRecords(state);
-  const falconExcerpts = query && isFalconKbQuery(query) ? retrieveFalconExcerpts(query) : [];
+  // KB-FIRST: always run relevance-scored KB retrieval for every query
+  const falconExcerpts = query ? retrieveFalconExcerpts(query) : [];
   if (falconExcerpts.length) {
     groundedRecords.push(...falconExcerptsToGroundedRecords(falconExcerpts));
   }
@@ -58,8 +60,13 @@ export function buildChatContext(state: ExecutiveState, options?: ChatContextOpt
     executiveName: EXECUTIVE_USER.fullName,
     executiveFirstName: EXECUTIVE_USER.firstName,
     organisation: EXECUTIVE_USER.organisation,
+    // No real calendar integration (Outlook/Google) is wired yet — meetings in the
+    // store are demo data. Flip to true ONLY when a live calendar connection exists;
+    // until then the server strips CAL- records and the AI says calendar isn't connected.
+    calendarConnected: false,
     lastSync: state.lastSync,
     userQuestion: query,
+    contextAgent: options?.contextAgent,
     chatIntent,
     conversationalMode:
       chatIntent === 'greeting'
@@ -160,7 +167,7 @@ export function buildChatHistory(
       role: (m.role === 'user' ? 'user' : 'assistant') as ChatHistoryItem['role'],
       content: m.text,
     }))
-    .slice(-12);
+    .slice(-24);
 }
 
 export function buildChatHistoryFromMessages(messages: ChatMessage[]): ChatHistoryItem[] {
@@ -170,5 +177,5 @@ export function buildChatHistoryFromMessages(messages: ChatMessage[]): ChatHisto
       role: (m.role === 'user' ? 'user' : 'assistant') as ChatHistoryItem['role'],
       content: m.content,
     }))
-    .slice(-12);
+    .slice(-24);
 }

@@ -26,10 +26,12 @@ export function detectChatIntent(query: string): ChatIntent {
     return 'greeting';
   }
 
-  if (/^(hi|hello|hey)\b/.test(q) && q.length < 48) return 'greeting';
+  // Pure greeting only — "hi" / "hey there" / "hello team". A greeting followed by a
+  // real question (e.g. "hi, what is the falcon strategy") must pass through as standard.
+  if (/^(hi|hello|hey|hiya|yo)([\s,]+(there|team|claude|ai|everyone))?$/.test(q)) return 'greeting';
 
-  // All "how are you" variants including typos
-  if (/\bhow (are|r) (you|u|yu)\b/.test(q) && q.length < 72) return 'greeting';
+  // "how are you" variants (incl. typos) — only when that's the whole message
+  if (/^((hi|hello|hey)[\s,]+)?how (are|r) (you|u|yu)( doing| today)?$/.test(q)) return 'greeting';
   if (/^how(ru|r u|are u|areyu|areyou)$/.test(q)) return 'greeting';
 
   // All other queries (including general knowledge) pass through as standard

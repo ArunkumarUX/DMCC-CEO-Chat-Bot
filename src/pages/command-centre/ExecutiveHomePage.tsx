@@ -15,6 +15,7 @@ import { countLiveSignals } from '../../data/prioritySignalHelpers';
 import { useApp } from '../../context/AppContext';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
 import { EXECUTIVE_QUICK_PROMPTS, useGstLive } from '../../utils/gstGreeting';
+import { AgentContextChips } from '../../components/agents/AgentContextChips';
 import { AdgmInfoPanel } from '../../components/brand/AdgmInfoPanel';
 import { IntelCard, IntelCardBody, IntelIconBox } from '../../command-centre/CcCard';
 import { IntelCardSources } from '../../command-centre/IntelCardSources';
@@ -173,7 +174,7 @@ function deriveAiInsight(depts) {
 
 
 export function ExecutiveHomePage() {
-  const { settings, executiveState, startNewChat } = useApp();
+  const { settings, executiveState, startNewChat, contextAgent, setContextAgent } = useApp();
   const lang = settings.language === 'ar' ? 'ar' : 'en';
   const signals = useMemo(() => deriveCommandCentreSignals(executiveState), [executiveState]);
   const liveSignalCount = useMemo(() => countLiveSignals(executiveState), [executiveState]);
@@ -256,10 +257,19 @@ export function ExecutiveHomePage() {
                 {ar ? `اسأل ${PRODUCT_AGENT_NAME_AR}` : `Ask ${PRODUCT_AGENT_NAME}`}
               </div>
               <div className="card-adgm-dark__subtitle">
-                {ar ? 'بريد · اجتماعات · مستندات · عروض — جاهز للنسخ' : 'Email · meetings · documents · decks — copy-paste ready'}
+                {ar
+                  ? 'مساعدك للاتصالات التنفيذية والإحاطات والمستندات — بالعربية أو الإنجليزية'
+                  : 'Your personal AI assistant for executive comms, briefings and documents — in English or Arabic.'}
               </div>
             </div>
           </div>
+          <AgentContextChips
+            value={contextAgent}
+            onChange={setContextAgent}
+            ar={ar}
+            variant="dark"
+            className="card-adgm-dark__agents"
+          />
           <div className="card-adgm-dark__prompts">
             {quick.map((q) => (
               <button key={q} type="button" className="card-adgm-dark__chip" onClick={() => onAsk(q)}>
