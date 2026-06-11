@@ -127,7 +127,7 @@ export function routeAgentsForQuery(
 ): AgentType[] {
   const q = query.toLowerCase();
   const intent = detectChatIntent(query);
-  if (intent === 'greeting' || intent === 'thanks') return ['cos'];
+  if (intent === 'greeting' || intent === 'catchup' || intent === 'thanks') return ['cos'];
 
   // Explorer AI takes priority for explicit web searches or general knowledge questions
   if (autoRoute && isExplorerQuery(q)) return ['explorer'];

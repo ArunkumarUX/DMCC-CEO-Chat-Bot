@@ -1,4 +1,4 @@
-export type ChatIntent = 'greeting' | 'thanks' | 'irrelevant' | 'standard';
+export type ChatIntent = 'greeting' | 'catchup' | 'thanks' | 'irrelevant' | 'standard';
 
 /** Detect casual openers — Hi, how are you, what's happened today, etc. */
 export function detectChatIntent(query: string): ChatIntent {
@@ -8,6 +8,15 @@ export function detectChatIntent(query: string): ChatIntent {
   const q = raw.toLowerCase().replace(/[!?.،]/g, '').trim();
 
   if (/^(thanks|thank you|thx|cheers|شكرا|شكراً)/.test(q)) return 'thanks';
+
+  // Daily catch-up — structured briefing, not a one-line hello
+  if (
+    /\b(what happened today|what s happened today|whats happened today|how is my day|what s on today|whats on today|catch me up|brief me on today)\b/.test(
+      q,
+    )
+  ) {
+    return 'catchup';
+  }
 
   if (
     /^(hi|hello|hey|yo|hiya|good morning|good afternoon|good evening|how are you|how r u|how are u|how ru|howru|how r|wassup|whats up|what s up|sup|salam|marhaba|السلام|مرحبا|مرحباً|كيف حالك|كيف الحال)$/.test(
@@ -22,14 +31,6 @@ export function detectChatIntent(query: string): ChatIntent {
   // All "how are you" variants including typos
   if (/\bhow (are|r) (you|u|yu)\b/.test(q) && q.length < 72) return 'greeting';
   if (/^how(ru|r u|are u|areyu|areyou)$/.test(q)) return 'greeting';
-
-  if (
-    /\b(what happened today|what s happened today|whats happened today|how is my day|what s on today|whats on today|catch me up|brief me on today)\b/.test(
-      q,
-    )
-  ) {
-    return 'greeting';
-  }
 
   // All other queries (including general knowledge) pass through as standard
   // so Claude can answer from Tier 3 general knowledge instead of refusing

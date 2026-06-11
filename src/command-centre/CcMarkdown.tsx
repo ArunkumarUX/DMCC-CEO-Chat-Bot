@@ -1,16 +1,24 @@
 import { Fragment } from 'react';
 
 function inline(s: string) {
-  const parts = s.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((p, i) =>
-    p.startsWith('**') && p.endsWith('**') ? (
-      <strong key={i} style={{ fontWeight: 700, color: 'var(--ink)' }}>
-        {p.slice(2, -2)}
-      </strong>
-    ) : (
-      <Fragment key={i}>{p}</Fragment>
-    ),
-  );
+  const parts = s.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return parts.map((p, i) => {
+    if (p.startsWith('**') && p.endsWith('**')) {
+      return (
+        <strong key={i} style={{ fontWeight: 700, color: 'var(--ink)' }}>
+          {p.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (p.startsWith('*') && p.endsWith('*') && p.length > 2) {
+      return (
+        <em key={i} style={{ fontStyle: 'italic' }}>
+          {p.slice(1, -1)}
+        </em>
+      );
+    }
+    return <Fragment key={i}>{p}</Fragment>;
+  });
 }
 
 function isTableRow(line: string) {

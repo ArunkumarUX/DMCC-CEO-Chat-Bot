@@ -10,7 +10,7 @@ import { useApp } from '../../context/AppContext';
 import { buildIntelligentResponse, resolveAnswerGrounding } from '../../data/executiveStore';
 import { prepareChatTurn } from '../../api/prepareChatTurn';
 import { buildChatHistory } from '../../api/buildChatContext';
-import { checkClaudeAvailable, streamClaudeChat } from '../../api/claudeChat';
+import { streamClaudeChat } from '../../api/claudeChat';
 import { detectChatIntent } from '../../utils/chatIntent';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
 import { ChatHistorySheet } from '../../components/chat/ChatHistorySheet';
@@ -161,9 +161,11 @@ export function CommandCentreChatPage() {
       };
 
       if (USE_CLAUDE) {
-        const live = await checkClaudeAvailable();
-        if (live) {
-          try {
+        // Always attempt Claude directly — no health-check gate.
+        // The /api/health gate caused silent fallback to offline mode whenever
+        // Vercel cold-started or the health endpoint was slow. Now we try
+        // streamClaudeChat directly and only fall back if it actually errors.
+        try {
           abortRef.current?.abort();
           const ac = new AbortController();
           abortRef.current = ac;
@@ -177,28 +179,28 @@ export function CommandCentreChatPage() {
           );
 
           await streamClaudeChat({
-              message: turn.userMessage,
-              language: ar ? 'ar' : 'en',
-              history,
-              context: turn.context,
-              signal: ac.signal,
-              onToken: (chunk) => {
-                streamed += chunk;
-                setMsgs((m) =>
-                  m.map((x) =>
-                    x.id === aid && x.role === 'ai'
-                      ? {
-                          ...x,
-                          text: streamed,
-                          thinking: false,
-                          activeAgent: null,
-                          agents: meta.agents,
-                        }
-                      : x,
-                  ),
-                );
-              },
-            });
+            message: turn.userMessage,
+            language: ar ? 'ar' : 'en',
+            history,
+            context: turn.context,
+            signal: ac.signal,
+            onToken: (chunk) => {
+              streamed += chunk;
+              setMsgs((m) =>
+                m.map((x) =>
+                  x.id === aid && x.role === 'ai'
+                    ? {
+                        ...x,
+                        text: streamed,
+                        thinking: false,
+                        activeAgent: null,
+                        agents: meta.agents,
+                      }
+                    : x,
+                ),
+              );
+            },
+          });
 
           if (ac.signal.aborted) return null;
 
@@ -208,7 +210,8 @@ export function CommandCentreChatPage() {
 
           // Skip sources/grounding for: conversational turns, Explorer AI (general knowledge / web search)
           const intent = detectChatIntent(q);
-          const isConversational = intent === 'greeting' || intent === 'thanks' || intent === 'irrelevant';
+          const isConversational =
+            intent === 'greeting' || intent === 'catchup' || intent === 'thanks' || intent === 'irrelevant';
           const isExplorer = meta.agents.includes('explorer');
           const grounded = (isConversational || isExplorer)
             ? { sources: [] as Source[], grounding: undefined as GroundingLevel | undefined }
@@ -235,9 +238,18 @@ export function CommandCentreChatPage() {
             sources: grounded.sources,
             grounding: grounded.grounding,
           };
-          } catch (err) {
-            console.warn('[chat] Claude failed, using institutional fallback', err);
-          }
+        } catch (err) {
+          // Surface error in the chat bubble so it's visible, not silently swallowed
+          const errMsg = err instanceof Error ? err.message : String(err);
+          console.warn('[chat] Claude error:', errMsg);
+          setMsgs((m) =>
+            m.map((x) =>
+              x.id === aid && x.role === 'ai'
+                ? { ...x, text: `⚠️ AI unavailable: ${errMsg}`, thinking: false, activeAgent: null, agents: meta.agents }
+                : x,
+            ),
+          );
+          return { text: errMsg, agents: meta.agents, sources: [] };
         }
       }
 

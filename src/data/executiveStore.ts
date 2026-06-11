@@ -23,7 +23,7 @@ import { PERFORMANCE_DEPARTMENTS } from './v5SpecData';
 import { ALL_FOCUS_PROMPTS, resolveFocusAreaForQuery } from './focusAreas';
 import { buildFocusAreaResponse } from './focusResponses';
 import { AGENT_LABELS, routeAgentsForQuery } from './agents';
-import { buildPersonalGreetingResponse } from './personalGreeting';
+import { buildDailyCatchUpResponse, buildShortGreetingResponse } from './personalGreeting';
 import { detectChatIntent } from '../utils/chatIntent';
 import { FALCON_KB_SOURCES, retrieveFalconExcerpts } from './kb/falconKb';
 import type { ExecutiveSnapshotPatch, BloombergArticle } from '../api/executiveSnapshot';
@@ -622,7 +622,11 @@ export function buildIntelligentResponse(query: string, state: ExecutiveState): 
   const q = query.toLowerCase();
 
   if (detectChatIntent(query) === 'greeting') {
-    return buildPersonalGreetingResponse(query, state);
+    return buildShortGreetingResponse(query, state);
+  }
+
+  if (detectChatIntent(query) === 'catchup') {
+    return buildDailyCatchUpResponse(query, state);
   }
 
   if (detectChatIntent(query) === 'thanks') {

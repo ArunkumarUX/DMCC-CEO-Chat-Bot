@@ -64,11 +64,13 @@ export function buildChatContext(state: ExecutiveState, options?: ChatContextOpt
     conversationalMode:
       chatIntent === 'greeting'
         ? 'greeting'
-        : chatIntent === 'thanks'
-          ? 'thanks'
-          : chatIntent === 'irrelevant'
-            ? 'irrelevant'
-            : undefined,
+        : chatIntent === 'catchup'
+          ? 'catchup'
+          : chatIntent === 'thanks'
+            ? 'thanks'
+            : chatIntent === 'irrelevant'
+              ? 'irrelevant'
+              : undefined,
     routedAgents,
     primaryAgent: routedAgents[0] ?? 'cos',
     agentDelegation: routedAgents.map((id) => ({

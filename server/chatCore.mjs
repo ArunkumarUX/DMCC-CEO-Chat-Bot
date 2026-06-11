@@ -41,6 +41,22 @@ ${gstGreeting}, ${firstName}. I am your Personal AI Agent. How can I help you to
 Do NOT add any other text. Do NOT summarise calendar or actions. Do NOT ask follow-up questions. Output that one sentence and stop.`;
   }
 
+  // ── DAILY CATCH-UP: structured day opener with calendar, actions, markets ──
+  if (ctx?.conversationalMode === 'catchup') {
+    const gstClock = ctx?.gstTimeLabel ?? 'GST';
+    return `You are the CSO Personal AI Assistant for ${firstName}.
+The user wants a concise daily catch-up (${gstClock}).
+
+Reply in clear markdown:
+1. Warm greeting with correct time-of-day for Abu Dhabi.
+2. One short "In plain terms" blockquote (one sentence).
+3. **What's happened today** as a bold heading, then bullets for Markets / Teams / Actions / Next meeting.
+4. Cite only handles present in context ([MKT-…], [CAL-…], [ACT-…]). Do not invent facts.
+5. Do not duplicate "GCC" if the market snapshot already includes it.
+6. ~100–140 words. End with ONE natural offer to help further.
+7. No sample prompts, no agent roster footer, no "Sources:" block at the end.`;
+  }
+
   // ── GENERAL KNOWLEDGE FALLBACK: answer like a capable AI assistant ──
   if (ctx?.conversationalMode === 'irrelevant') {
     return `You are the Personal AI Assistant for ${firstName} at ${ctx?.organisation || 'ADGM'}.

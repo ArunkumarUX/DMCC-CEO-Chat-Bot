@@ -112,22 +112,7 @@ function SignalCard({ s, lang, big, sources }) {
           <IntelIconBox icon={s.icon} color={toneColor} background={'color-mix(in oklab,' + toneColor + ' 14%, transparent)'} size="sm" />
           <div className="eyebrow" style={{ color: toneColor }}>{L.label}</div>
           {cardInfo ? <IntelLaymanInfo copy={cardInfo} /> : null}
-          {L.freshnessLabel ? (
-            <span
-              className="eyebrow"
-              style={{
-                marginInlineStart: 'auto',
-                fontSize: 10,
-                padding: '2px 8px',
-                borderRadius: 999,
-                background: 'color-mix(in oklab, var(--status-good) 18%, transparent)',
-                color: 'var(--status-good)',
-              }}
-            >
-              {L.freshnessLabel}
-            </span>
-          ) : null}
-          <div className="kpi-num" style={{ marginInlineStart: L.freshnessLabel ? 8 : 'auto', fontSize: 22, color: toneColor, fontWeight: 600 }}>{s.metric}</div>
+          <div className="kpi-num" style={{ marginInlineStart: 'auto', fontSize: 22, color: toneColor, fontWeight: 600 }}>{s.metric}</div>
         </div>
         <div className="intel-signal-headline">
           <div className={`type-title ${big ? 'type-title-md' : ''}`} style={{ fontSize: big ? 21 : 17, lineHeight: 1.35 }}>

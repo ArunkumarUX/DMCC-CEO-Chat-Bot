@@ -19,6 +19,25 @@ export function buildChatUserMessage(
     return question;
   }
 
+  if (ctx.conversationalMode === 'catchup') {
+    const gstPhrase = ctx.gstGreeting ?? 'Good morning';
+    const gstClock = ctx.gstTimeLabel ?? 'GST';
+    return `DAILY CHECK-IN — Chief of Staff AI leads this turn.
+
+USER MESSAGE:
+"${question}"
+
+Instructions:
+- Open with a warm greeting for ${firstName} using Abu Dhabi time (${gstClock}): e.g. "${gstPhrase}, ${firstName}"
+- Summarise today from calendar, action register, and market snapshot — cite source handles inline ([MKT-…], [CAL-…], [ACT-…]).
+- Use markdown: one short plain-terms line, then **What's happened today** as a bold heading, then bullet list (Markets / Teams / Actions / Next).
+- Do not prefix market lines with "GCC" if the snapshot already includes it.
+- Tone: personal executive assistant. ~100–140 words max.
+- Do NOT list sample prompts or capabilities unless asked.
+- End with ONE natural offer (meeting brief, regulatory compare, or performance look).
+${historyLength > 0 ? '- This chat already has history — continue the thread; do not repeat a full intro.' : ''}`;
+  }
+
   if (ctx.conversationalMode === 'thanks') {
     return `CONVERSATIONAL — user said thanks.
 
