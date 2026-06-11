@@ -2,9 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
+const apiPort = Number(process.env.API_PORT) || 8787
+
 const apiProxy = {
   '/api': {
-    target: 'http://localhost:8787',
+    target: `http://localhost:${apiPort}`,
     changeOrigin: true,
   },
 }
