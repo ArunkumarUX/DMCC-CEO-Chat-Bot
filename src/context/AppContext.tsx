@@ -36,7 +36,7 @@ import { buildChatHistoryFromMessages } from '../api/buildChatContext';
 import { prepareChatTurn } from '../api/prepareChatTurn';
 import { checkClaudeAvailable, streamClaudeChat } from '../api/claudeChat';
 
-const USE_CLAUDE = import.meta.env.VITE_USE_CLAUDE_API !== 'false';
+const USE_CLAUDE = true; // always use Claude; env var previously blocked responses on Vercel
 import type {
   AgentType,
   ChatMessage,

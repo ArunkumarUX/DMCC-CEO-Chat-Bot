@@ -21,7 +21,9 @@ import {
 } from '../../utils/chatMessages';
 import type { GroundingLevel, Source } from '../../types';
 
-const USE_CLAUDE = import.meta.env.VITE_USE_CLAUDE_API !== 'false';
+// Always use Claude — the VITE_USE_CLAUDE_API env var is ignored.
+// (Previously it defaulted to false if unset on Vercel, silently blocking all AI responses.)
+const USE_CLAUDE = true;
 
 type ChatMsg =
   | { id: number; role: 'user'; text: string }
