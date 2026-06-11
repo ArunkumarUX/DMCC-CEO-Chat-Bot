@@ -35,60 +35,65 @@ function MorningBriefing({ lang }) {
   const sn = executiveState?.signalNews;
   const m = executiveState?.marketSnapshot;
 
-  // Build live items from signalNews + market data (refreshed 08:00 & 22:00 GST)
+  // Structured items: { text, source, sourceUrl? } so source renders as a pill
   const liveItems = useMemo(() => {
-    const seen = new Set();
-    const items = [];
-    const push = (text) => {
+    const seen = new Set<string>();
+    const items: { text: string; source: string; sourceUrl?: string }[] = [];
+    const push = (text: string, source: string, sourceUrl?: string) => {
       const key = text.slice(0, 50);
-      if (!seen.has(key)) { seen.add(key); items.push(text); }
+      if (!seen.has(key)) { seen.add(key); items.push({ text, source, sourceUrl }); }
     };
 
-    // 1. Top GCC-relevant headline
+    // 1. Top GCC headline
     const gccLead = sn?.gccTop?.[0];
-    if (gccLead) push(gccLead.source + ': ' + gccLead.title);
+    if (gccLead) push(gccLead.title, gccLead.source, gccLead.url);
 
-    // 2. Live market price line
+    // 2. Live market prices
     if (m?.gccEquitiesLive && m.gccEquities && !/unavailable/i.test(m.gccEquities)) {
-      push('GCC equities — ' + m.gccEquities + ' · Yahoo Finance');
+      push('GCC equities — ' + m.gccEquities, 'Yahoo Finance', m.gccEquitiesSourceUrl ?? undefined);
     } else if (m?.digitalAssetsLive && m.digitalAssetsWoW) {
-      push('Digital assets — ' + m.digitalAssetsWoW + ' · CoinGecko');
+      push('Digital assets — ' + m.digitalAssetsWoW, 'CoinGecko', m.digitalAssetsSourceUrl ?? undefined);
     }
-    if (m?.goldSummary) push('Commodities — ' + m.goldSummary + (m.oilSummary ? ' · ' + m.oilSummary : '') + ' · Yahoo Finance');
 
-    // 3. Competitor headline
+    // 3. Commodities — source as pill, not in text
+    if (m?.goldSummary) {
+      push(
+        'Commodities — ' + m.goldSummary + (m.oilSummary ? ' · ' + m.oilSummary : ''),
+        'Yahoo Finance',
+        m.goldSourceUrl ?? undefined,
+      );
+    }
+
+    // 4. Competitor headline
     const compLead = sn?.competitor?.[0];
-    if (compLead) push(compLead.source + ': ' + compLead.title);
+    if (compLead) push(compLead.title, compLead.source, compLead.url);
 
-    // 4. Regulatory headline
+    // 5. Regulatory headline
     const regLead = sn?.regulatory?.[0];
-    if (regLead) push(regLead.source + ': ' + regLead.title);
+    if (regLead) push(regLead.title, regLead.source, regLead.url);
 
-    // 5. Investment or market headlines
+    // 6. Investment headline
     const invLead = sn?.investment?.[0];
-    if (invLead) push(invLead.source + ': ' + invLead.title);
+    if (invLead) push(invLead.title, invLead.source, invLead.url);
 
-    // Fill from market / gccTop
+    // Fill remaining slots
     for (const item of [...(sn?.market ?? []), ...(sn?.gccTop?.slice(1) ?? [])]) {
       if (items.length >= 4) break;
-      push(item.source + ': ' + item.title);
+      push(item.title, item.source, item.url);
     }
 
     return items.slice(0, 4);
   }, [sn, m]);
 
   const isLive = liveItems.length > 0;
-  const displayItems = isLive ? liveItems : (ar ? [
-    'تدفقات رأس المال الخليجي ارتفعت 4.2٪؛ تحول نحو الائتمان الخاص والأصول الرقمية.',
-    'مركز دبي المالي يطلق نظام صناديق مرمزة — يُوصى بتسريع إرشادات FSRA.',
-    'في انتظار تحديث البيانات — يظهر محتوى مباشر بعد مزامنة 08:00 أو 22:00.',
-    'المصادر: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA.',
+  const fallback = ar ? [
+    { text: 'في انتظار تحديث البيانات — يظهر محتوى مباشر بعد مزامنة 08:00 أو 22:00.', source: '' },
+    { text: 'المصادر: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA.', source: '' },
   ] : [
-    'Awaiting refresh — live headlines will appear after the 08:00 or 22:00 GST sync.',
-    'Sources: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA · Gulf News.',
-    'GCC, digital assets, fintech and regulatory headlines loaded on each refresh.',
-    'Tap “Generate” in Briefings for a full AI-written morning brief.',
-  ]);
+    { text: 'Awaiting refresh — live headlines appear after the 08:00 or 22:00 GST sync.', source: '' },
+    { text: 'Sources: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA · Gulf News.', source: '' },
+  ];
+  const displayItems = isLive ? liveItems : fallback;
 
   return (
     <IntelCard featured rise>
@@ -114,9 +119,28 @@ function MorningBriefing({ lang }) {
       />
       <IntelCardBody>
         <IntelList>
-          {displayItems.map((t, i) => (
+          {displayItems.map((item, i) => (
             <IntelListItem key={i} index={i + 1}>
-              {t}
+              <span style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>
+                <span>{item.text}</span>
+                {item.source && (
+                  item.sourceUrl ? (
+                    <a
+                      href={item.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pill ghost"
+                      style={{ fontSize: 10.5, height: 20, padding: '0 7px', color: 'var(--accent-bright)', textDecoration: 'none', flexShrink: 0 }}
+                    >
+                      {item.source}
+                    </a>
+                  ) : (
+                    <span className="pill ghost" style={{ fontSize: 10.5, height: 20, padding: '0 7px', color: 'var(--ink-3)', flexShrink: 0 }}>
+                      {item.source}
+                    </span>
+                  )
+                )}
+              </span>
             </IntelListItem>
           ))}
         </IntelList>
@@ -125,8 +149,7 @@ function MorningBriefing({ lang }) {
   );
 }
 
-function Benchmark({ lang }) {
-  const ar = lang === 'ar';
+
   const centres = CENTRES;
   // overall avg per centre
   const totals = centres.map((_, ci) => Math.round(BENCH_DIMS.reduce((s, d) => s + d.v[ci], 0) / BENCH_DIMS.length));
