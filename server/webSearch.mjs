@@ -211,14 +211,21 @@ function scoreItem(item, query) {
 
 /**
  * Free RSS-based search — no API key needed.
- * Fetches all feeds, scores items by query relevance, returns top results.
+ * Queries Google News RSS with the actual user query (dynamic),
+ * plus static business feeds scored by relevance.
  * @param {string} query
  * @param {number} count
  * @returns {Promise<SearchResult[]>}
  */
 export async function freeRssSearch(query, count = 5) {
+  // Dynamic Google News RSS — searches the actual query term (gold rate, oil price, etc.)
+  const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+  const dynamicFeed = { url: googleNewsUrl, label: 'Google News', site: 'news.google.com' };
+
+  const allFeeds = [dynamicFeed, ...FREE_FEEDS];
+
   const results = await Promise.allSettled(
-    FREE_FEEDS.map(async (feed) => {
+    allFeeds.map(async (feed) => {
       try {
         const res = await fetch(feed.url, {
           signal: AbortSignal.timeout(6000),
@@ -232,11 +239,22 @@ export async function freeRssSearch(query, count = 5) {
   );
 
   const all = results.flatMap(r => r.status === 'fulfilled' ? r.value : []);
-  const scored = all.map(item => ({ item, score: scoreItem(item, query) }))
-    .filter(x => x.score > 0 || all.length < 10)
+
+  // De-duplicate by title
+  const seen = new Set();
+  const unique = all.filter(item => {
+    const key = item.title.toLowerCase().slice(0, 60);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  const scored = unique.map(item => ({ item, score: scoreItem(item, query) }))
     .sort((a, b) => b.score - a.score || new Date(b.item.date).getTime() - new Date(a.item.date).getTime());
 
-  return scored.slice(0, count).map(x => x.item);
+  // Prefer results with score > 0; fall back to all if none scored
+  const relevant = scored.filter(x => x.score > 0);
+  return (relevant.length > 0 ? relevant : scored).slice(0, count).map(x => x.item);
 }
 
 /**

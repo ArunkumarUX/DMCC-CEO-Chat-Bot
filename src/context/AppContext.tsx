@@ -36,6 +36,7 @@ import { buildChatHistoryFromMessages } from '../api/buildChatContext';
 import { prepareChatTurn } from '../api/prepareChatTurn';
 import { streamClaudeChat } from '../api/claudeChat';
 import { detectChatIntent } from '../utils/chatIntent';
+import { offlineFallbackBanner, shouldFallbackToOfflineKb } from '../utils/claudeErrors';
 
 const USE_CLAUDE = true; // always use Claude; env var previously blocked responses on Vercel
 import type {
@@ -540,6 +541,43 @@ export function AppProvider({ children }: { children: ReactNode }) {
         } catch (err) {
           const errMsg = err instanceof Error ? err.message : String(err);
           console.warn('[chat] Claude error:', errMsg);
+
+          if (shouldFallbackToOfflineKb(errMsg)) {
+            const offlineTurn = prepareChatTurn(content.trim(), executiveState, {
+              manualAgents: selectedAgents,
+              autoRoute: autoRouteAgents,
+            }, history.length);
+            const intel = buildIntelligentResponse(content, executiveState);
+            const grounded = resolveAnswerGrounding(intel.content, executiveState, intel.sourceDocIds);
+            const fullText = offlineFallbackBanner(errMsg) + intel.content;
+            setActiveSources(grounded.sources);
+            persistExecutive((s) => ({
+              ...s,
+              conversations: s.conversations.map((c) =>
+                c.id === convId
+                  ? {
+                      ...c,
+                      messages: c.messages.map((m) =>
+                        m.id === placeholderId
+                          ? {
+                              ...m,
+                              content: fullText,
+                              agents: offlineTurn.routedAgents,
+                              grounding: grounded.grounding,
+                              sources: grounded.sources,
+                              followUps: intel.followUps,
+                            }
+                          : m,
+                      ),
+                      preview: fullText.slice(0, 80),
+                    }
+                  : c,
+              ),
+            }));
+            setIsStreaming(false);
+            return;
+          }
+
           persistExecutive((s) => ({
             ...s,
             conversations: s.conversations.map((c) =>

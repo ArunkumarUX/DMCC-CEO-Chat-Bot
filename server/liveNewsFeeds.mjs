@@ -194,8 +194,41 @@ export async function fetchAllNewsFeeds() {
   return deduped;
 }
 
+/**
+ * ADGM-relevance keywords — an article must mention at least one of these
+ * to appear on the Executive Home signal cards.
+ * Generic business news (Ryanair, UK retail, US tech layoffs, etc.) scores 0
+ * and is excluded from Competitor / Regulatory / Investment sections.
+ */
+const ADGM_RELEVANCE_KEYWORDS = [
+  'adgm', 'abu dhabi', 'uae', 'dubai', 'gcc', 'saudi', 'riyadh', 'qatar',
+  'kuwait', 'bahrain', 'oman', 'difc', 'mubadala', 'adq', 'adia', 'fsra',
+  'falcon economy', 'falcon strategy', 'financial centre', 'financial center',
+  'digital asset', 'virtual asset', 'crypto', 'bitcoin', 'tokenis',
+  'fintech', 'sovereign fund', 'wealth fund', 'emirates',
+  'middle east finance', 'gulf market', 'gulf finance', 'gulf invest',
+  'arab finance', 'arab market', 'arab invest', 'islamic finance',
+  'central bank uae', 'central bank of uae', 'cbuae',
+  'regulatory sandbox', 'financial regulator', 'market regulator',
+  'sec.*uae', 'sca.*uae', 'esma.*uae',
+];
+
+function isAdgmRelevant(item) {
+  const text = (item.title + ' ' + (item.excerpt || '')).toLowerCase();
+  return ADGM_RELEVANCE_KEYWORDS.some((kw) => text.includes(kw));
+}
+
+/**
+ * Get news items for a given signal tag — ADGM/GCC-relevant articles only.
+ * Feed-level tags are broad (a BBC feed tags ALL articles as 'competitor'),
+ * so we apply per-article relevance filtering to prevent non-ADGM news
+ * (e.g. airline charges, UK retail, sports) from appearing on Executive Home.
+ * Returns empty array if no relevant items — callers handle the fallback.
+ */
 export function getNewsByTag(tag, allItems, limit = 3) {
-  return allItems.filter((i) => i.tags?.includes(tag)).slice(0, limit);
+  const tagged = allItems.filter((i) => i.tags?.includes(tag));
+  const relevant = tagged.filter(isAdgmRelevant);
+  return relevant.slice(0, limit);
 }
 
 export function filterGccRelevant(items, limit = 5) {
@@ -203,7 +236,8 @@ export function filterGccRelevant(items, limit = 5) {
     'adgm', 'abu dhabi', 'uae', 'dubai', 'gcc', 'saudi', 'riyadh', 'qatar', 'kuwait',
     'bahrain', 'oman', 'difc', 'mubadala', 'adq', 'adia', 'fsra', 'falcon',
     'financial centre', 'digital asset', 'crypto', 'tokenisation', 'fintech',
-    'sovereign', 'investment fund', 'market', 'regulator', 'central bank',
+    'sovereign', 'investment fund', 'financial regulator', 'central bank',
+    'emirates', 'gulf', 'arab market', 'islamic finance', 'wealth fund',
   ];
   const scored = items.map((item) => {
     const text = (item.title + ' ' + item.excerpt).toLowerCase();
@@ -213,7 +247,6 @@ export function filterGccRelevant(items, limit = 5) {
   scored.sort(
     (a, b) => b.score - a.score || new Date(b.item.date).getTime() - new Date(a.item.date).getTime(),
   );
-  const relevant = scored.filter((s) => s.score > 0).map((s) => s.item);
-  if (relevant.length >= limit) return relevant.slice(0, limit);
-  return items.slice(0, limit);
+  // Return only truly relevant items — never fall back to irrelevant articles
+  return scored.filter((s) => s.score > 0).map((s) => s.item).slice(0, limit);
 }

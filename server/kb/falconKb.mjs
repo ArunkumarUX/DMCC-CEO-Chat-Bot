@@ -24,8 +24,26 @@ const STOP = new Set([
 const INSTITUTIONAL_KB_QUERY =
   /\b(falcon\s*economy|falcon\s*strategy|falcon\b|added\b|abu\s*dhabi\s*(economy|vision|gdp|diversification|strategy|global\s*market|law)|adgm\s*(law|1547|regulations?|legal|fsra|financial|digital|virtual)|adgm\b|fsra\b|1547|economic\s*clusters?|non[- ]oil|2045|2025\s*[–-]\s*2045|department\s*of\s*economic\s*development|diversification\s*drive|special\s*economic\s*programs?|quality\s*of\s*life|export\s*driven|english\s*law|cabinet\s*resolution|application\s*of\s*english|financial\s*services\s*and\s*markets|virtual\s*assets?|digital\s*assets?|tokenis|stablecoin|fund\s*passport|financial\s*free\s*zone|free\s*zone)\b/i;
 
+/** Common typos / shorthand before retrieval */
+export function normalizeKbQuery(query) {
+  return String(query || '')
+    .trim()
+    .replace(/\bstratgey\b/gi, 'strategy')
+    .replace(/\bstratagy\b/gi, 'strategy')
+    .replace(/\beconmy\b/gi, 'economy')
+    .replace(/\bclmate\b/gi, 'climate');
+}
+
 export function isFalconKbQuery(query) {
-  return INSTITUTIONAL_KB_QUERY.test(String(query || '').trim());
+  return INSTITUTIONAL_KB_QUERY.test(normalizeKbQuery(query));
+}
+
+export function isBroadFalconOverviewQuery(query) {
+  const q = normalizeKbQuery(query).toLowerCase();
+  return (
+    /\b(tell me|explain|what is|what are|describe|overview of|summar(y|ise|ize))\b.*\bfalcon\b/.test(q) ||
+    /\bfalcon\s*(economy|strategy)?\b/.test(q) && /\b(tell me|explain|what is|describe|overview)\b/.test(q)
+  );
 }
 
 function tokenize(query) {
@@ -54,9 +72,10 @@ function scoreChunk(query, chunk) {
 
 export function retrieveFalconExcerpts(query, maxChunks = 8) {
   const { chunks: CHUNKS, sources: SOURCES } = load();
-  if (!query?.trim() || !CHUNKS?.length) return [];
+  const normalized = normalizeKbQuery(query);
+  if (!normalized || !CHUNKS?.length) return [];
 
-  const scored = CHUNKS.map((chunk) => ({ chunk, score: scoreChunk(query, chunk) }))
+  const scored = CHUNKS.map((chunk) => ({ chunk, score: scoreChunk(normalized, chunk) }))
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score);
 
@@ -80,6 +99,14 @@ export function retrieveFalconExcerpts(query, maxChunks = 8) {
   for (const srcId of topSources) {
     const lead = CHUNKS.find((c) => c.sourceId === srcId && c.chunkIndex === 0);
     if (lead) push(lead);
+  }
+
+  // Broad "tell me Falcon strategy" queries — always include both executive summaries
+  if (isBroadFalconOverviewQuery(normalized)) {
+    for (const srcId of ['falcon-strategy', 'falcon-economy']) {
+      const lead = CHUNKS.find((c) => c.sourceId === srcId && c.chunkIndex === 0);
+      if (lead) push(lead);
+    }
   }
 
   for (const { chunk } of scored) {

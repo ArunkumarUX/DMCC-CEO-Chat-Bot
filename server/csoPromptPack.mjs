@@ -668,7 +668,8 @@ export function inferOutputContract(query = '') {
     /\bsummar(y|ise|ize|ising|izing|ised|ized)?\b.*\b(document|strategy|report|pack|paper|file|falcon|plan|framework)\b/.test(q) ||
     /\b(assess|review)\b.*\b(document|strategy|report|pack|paper|file)\b/.test(q) ||
     /\b(one-?page|key takeaway|one page)\b.*\b(document|strategy|report|file|upload|pack|summary|falcon|plan)/.test(q) ||
-    /\b(give me|what does|what is in)\b.*\b(summary|overview)\b.*\b(falcon|strategy|document|report|pack|paper|file)\b/.test(q)
+    /\b(give me|what does|what is in)\b.*\b(summary|overview)\b.*\b(falcon|strategy|document|report|pack|paper|file)\b/.test(q) ||
+    /\b(tell me|explain|describe|what is|what are)\b.*\bfalcon\b/.test(q)
   ) {
     return 'strategy_document';
   }

@@ -225,7 +225,10 @@ export function matchFocusArea(query: string): FocusAreaId | null {
   if (
     q.includes('knowledge') ||
     q.includes('precedent') ||
-    q.includes('falcon') ||
+    // 'falcon' alone (e.g. "Falcon strategy", "what is the falcon economy") should route to
+    // Strategy AI via keyword matching, NOT the knowledge focus area (which routes to Policy).
+    // Only match knowledge focus when the user is explicitly searching for a document.
+    (q.includes('falcon') && (q.includes('search') || q.includes('document') || q.includes('find') || q.includes('look') || q.includes('kb') || q.includes('knowledge base'))) ||
     q.includes('institutional') ||
     (q.includes('search') && q.includes('document'))
   ) {

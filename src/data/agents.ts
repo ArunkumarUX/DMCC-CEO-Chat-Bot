@@ -152,6 +152,13 @@ function isExplorerQuery(q: string): boolean {
     /\b(brief me|board brief|board pack|premeeting|pre.?meeting|meeting prep|daily briefing|executive briefing)\b/.test(q);
   if (hasCsoTask) return false;
 
+  // Email / communication drafting → Comms AI (not Explorer)
+  // "Draft an email", "write a memo", "compose a letter", "write me an email" etc.
+  const hasEmailDraftTask =
+    /\b(draft|write|compose|rewrite|polish)\b.{0,40}\b(email|letter|memo|message|reply|response|announcement|note)\b/.test(q) ||
+    /\b(email|letter|memo|message)\b.{0,30}\b(draft|write|compose|help me)\b/.test(q);
+  if (hasEmailDraftTask) return false;
+
   // Everything else → Explorer AI
   return true;
 }
@@ -161,10 +168,26 @@ export function routeAgentsForQuery(
   query: string,
   manualSelection: AgentType[],
   autoRoute: boolean,
+  previousAgents: AgentType[] = [],
 ): AgentType[] {
   const q = query.toLowerCase();
   const intent = detectChatIntent(query);
   if (intent === 'greeting' || intent === 'catchup' || intent === 'thanks') return ['cos'];
+
+  // ── Conversation-aware routing ──
+  // If this is a short follow-up (≤ 3 words, no question mark) after a Comms or Explorer
+  // clarifying question, maintain the previous agent so the conversation stays coherent.
+  // e.g. "Draft an email" → Comms asks "What topic?" → user replies "Falcon strategy"
+  //      → should stay Comms, not route to Strategy/Policy.
+  if (autoRoute && previousAgents.length > 0 && !q.includes('?')) {
+    const wordCount = q.trim().split(/\s+/).length;
+    const prevPrimary = previousAgents[0];
+    const isContinuationAgent = prevPrimary === 'comms' || prevPrimary === 'explorer' || prevPrimary === 'cos';
+    const hasExplicitOverride = /\b(@policy|@strategy|@cos|@crm|@comms|policy ai|strategy ai|comms ai)\b/.test(q);
+    if (wordCount <= 3 && isContinuationAgent && !hasExplicitOverride) {
+      return [prevPrimary];
+    }
+  }
 
   // Explorer AI takes priority for explicit web searches or general knowledge questions
   if (autoRoute && isExplorerQuery(q)) return ['explorer'];

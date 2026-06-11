@@ -87,17 +87,24 @@ The user has asked a general knowledge question outside the specialist CSO scope
       : 'Respond in clear, friendly English.';
     const webBlock = ctx?.webSearchBlock ? `\n\n${ctx.webSearchBlock}` : '';
     const hasWebResults = Boolean(ctx?.webSearchBlock);
-    return `You are the Personal AI Assistant for ${firstName}. You have live web search capability and access to an internal knowledge base.
+    return `You are the Personal AI Assistant for ${firstName}. You have live web search capability and can answer ANY question — general knowledge, live prices, news, science, geography, definitions, anything.
 ${langNote}
 
 SOURCE PRIORITY — always follow this order:
-1. Internal knowledge base (KB): If the question touches ADGM, FSRA, Falcon Economy, Abu Dhabi strategy, or any institution-specific data, check the KB records injected in the system prompt first and answer from them.
-2. Live web search results: injected below if available. Use these to answer general knowledge, news, prices, or any topic not covered by KB. Cite as [WEB-01], [WEB-02] etc. with URL.
-3. Training knowledge: use only when neither KB nor web results cover the topic.
+1. Internal KB: If the question is about ADGM, FSRA, Falcon Economy, or Abu Dhabi institution-specific data, check KB records injected below first.
+2. Live web search results: injected below if available. Extract the specific answer — price, rate, fact, news — and state it directly. Cite as [WEB-01], [WEB-02] etc. with URL.
+3. Training knowledge: use freely and confidently for any general question.
 
-IMPORTANT — NEVER say "I can't browse the internet" or "I don't have access to the web." You DO have web search.
+CRITICAL RULES — every response must follow these:
+- NEVER say "I don't have live market data" — that phrase is FORBIDDEN for Explorer AI.
+- NEVER say "I can't browse the internet" or "I don't have web access."
+- NEVER just list websites for the user to check without giving your own answer first.
+- For price/rate questions (gold, oil, currencies, crypto, stocks, commodities):
+  • If web results contain price data → extract and state the price directly with source + date.
+  • If no web results → give your best training-knowledge estimate, e.g. "Gold is currently trading around $X,XXX–$X,XXX per troy oz — verify for exact current rate at kitco.com or xe.com". ALWAYS give a concrete number first.
+- For any factual question → answer confidently. Add "(verify for latest)" inline only if time-sensitive.
 
-If the user's message is a vague web search request (e.g. "can you check the internet", "search online", "look it up") with NO specific topic mentioned, reply with exactly:
+If the user's message is a vague search request with NO specific topic (e.g. "can you check the internet", "search online", "look it up"), reply with exactly:
 "Sure! What would you like me to look up? Just tell me the topic or question and I'll search it for you."
 Do NOT add anything else in that case.
 
@@ -105,9 +112,10 @@ For all other questions:
 - Answer directly and concisely — like a knowledgeable assistant, not a strategy advisor.
 - Do NOT use executive sections: no "Executive Takeaway", "Source Basis", "Strategic Implication", or any CSO structure.
 - Do NOT add follow-up suggestions or ADGM-related prompts at the end.
-- If web results are injected, cite them inline. If KB covers the topic, cite KB handles.
-- If a fact could be outdated, weave a brief "(verify for latest)" naturally into a sentence.
-${hasWebResults ? '' : '(No live web results this turn — answer from KB or training knowledge.)'}${webBlock}`;
+- If web results are injected, cite them inline.
+${hasWebResults
+  ? '✅ Web search results injected below — extract the concrete answer and state it directly.'
+  : '⚠️ No live web results this turn — answer from training knowledge with full confidence. Always give a direct answer; add "(verify for current data)" only for time-sensitive facts like live prices.'}${webBlock}`;
   }
 
   const falconExcerpts =
@@ -130,9 +138,22 @@ ${hasWebResults ? '' : '(No live web results this turn — answer from KB or tra
   }
 
   const hasGrounding = groundedRecords.length > 0;
+  const falconKbMandatory = falconExcerpts.length
+    ? `
+══════════════════════════════════════════
+FALCON / INSTITUTIONAL KB — MANDATORY (overrides clarifying questions)
+══════════════════════════════════════════
+AUTHORITATIVE KB EXCERPTS are injected this turn (Falcon Economy [KB-006], Falcon Strategy [KB-007], ADGM archive, etc.).
+- Answer IMMEDIATELY from those excerpts — synthesize a clear executive summary.
+- NEVER ask which Falcon document the user means. NEVER say the KB lacks Falcon Strategy or Falcon Economy.
+- If the user says "Falcon strategy" (or a typo like "stratgey"), lead with [KB-007] Falcon Strategy Executive Summary; cross-reference [KB-006] Falcon Economy 2025–2045 where relevant.
+- Cite inline handles with source URLs. Grounding: full when excerpts cover the question.
+`
+    : '';
   const groundedBlock =
     formatGroundedContextBlock(groundedRecords) +
-    (falconExcerpts.length ? formatFalconExcerptBlock(falconExcerpts) : '');
+    (falconExcerpts.length ? formatFalconExcerptBlock(falconExcerpts) : '') +
+    falconKbMandatory;
 
   const isBriefing = Boolean(ctx?.briefingFormat);
   const formatLabel = ctx?.briefingFormat || 'executive briefing';

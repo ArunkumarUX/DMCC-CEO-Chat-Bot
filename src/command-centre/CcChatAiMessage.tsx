@@ -5,6 +5,8 @@ import { Emblem } from './CcPrimitives';
 import { mdToNodes } from './CcMarkdown';
 import type { Source } from '../types';
 import { panelSources } from '../utils/sourceLinks';
+import { AGENT_LABELS, AGENT_MAP } from '../data/agents';
+import type { AgentType } from '../types';
 
 export type CcChatAiMsg = {
   id: number;
@@ -41,12 +43,30 @@ export function CcChatAiMessage({
   const showSourceMeta = messageReady && hasResources;
   const showActions = messageReady;
 
+  // Agent label — show which AI is responding
+  const primaryAgentId = m.agents?.[0] as AgentType | undefined;
+  const agentLabel = primaryAgentId ? (AGENT_LABELS[primaryAgentId] ?? primaryAgentId) : null;
+  const agentColor = primaryAgentId ? (AGENT_MAP[primaryAgentId]?.color ?? 'var(--accent-bright)') : 'var(--accent-bright)';
+
   return (
     <div className="chat-ai-msg mi-chat-in">
       <div className="chat-ai-msg__avatar">
         <Emblem size={22} />
       </div>
       <div className="chat-ai-msg__body">
+        {agentLabel && (
+          <div style={{
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            color: agentColor,
+            marginBottom: 6,
+            opacity: 0.9,
+          }}>
+            {agentLabel}
+          </div>
+        )}
         {m.thinking && !m.text ? (
           <div className="muted chat-ai-msg__thinking">
             <span className="dot pulse" style={{ color: 'var(--accent-bright)', background: 'var(--accent-bright)' }} />

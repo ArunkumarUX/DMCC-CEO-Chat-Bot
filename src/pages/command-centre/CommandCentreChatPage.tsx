@@ -12,6 +12,7 @@ import { prepareChatTurn } from '../../api/prepareChatTurn';
 import { buildChatHistory } from '../../api/buildChatContext';
 import { streamClaudeChat } from '../../api/claudeChat';
 import { detectChatIntent } from '../../utils/chatIntent';
+import { offlineFallbackBanner, shouldFallbackToOfflineKb } from '../../utils/claudeErrors';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
 import { ChatHistorySheet } from '../../components/chat/ChatHistorySheet';
 import {
@@ -152,9 +153,14 @@ export function CommandCentreChatPage() {
       sources: Source[];
       grounding?: GroundingLevel;
     } | null> => {
+      // Previous AI message agents — for conversation-aware routing (follow-up context)
+      const prevAiMsg = [...msgsRef.current].reverse().find((m) => m.role === 'ai' && m.id !== aid);
+      const previousAgents = (prevAiMsg?.role === 'ai' ? (prevAiMsg.agents ?? []) : []) as import('../../types').AgentType[];
+
       const turn = prepareChatTurn(q, executiveState, {
         manualAgents: selectedAgents,
         autoRoute: autoRouteAgents,
+        previousAgents,
       }, msgsRef.current.filter((m) => m.id !== aid && m.role === 'user').length);
       const routedAgents = turn.routedAgents;
       const intel = buildIntelligentResponse(q, executiveState);
@@ -241,9 +247,35 @@ export function CommandCentreChatPage() {
             grounding: grounded.grounding,
           };
         } catch (err) {
-          // Surface error in the chat bubble so it's visible, not silently swallowed
           const errMsg = err instanceof Error ? err.message : String(err);
           console.warn('[chat] Claude error:', errMsg);
+
+          if (shouldFallbackToOfflineKb(errMsg)) {
+            await runAgentAnimation(aid, meta.agents);
+            const { text, grounding, sources, agents: demoAgents } = buildAiPayload(
+              q,
+              executiveState,
+              meta.agents,
+            );
+            const fullText = offlineFallbackBanner(errMsg) + text;
+            setMsgs((m) =>
+              m.map((x) =>
+                x.id === aid && x.role === 'ai'
+                  ? {
+                      ...x,
+                      text: fullText,
+                      agents: demoAgents,
+                      grounding,
+                      sources,
+                      activeAgent: null,
+                      thinking: false,
+                    }
+                  : x,
+              ),
+            );
+            return { text: fullText, agents: demoAgents, sources, grounding };
+          }
+
           setMsgs((m) =>
             m.map((x) =>
               x.id === aid && x.role === 'ai'
@@ -307,9 +339,12 @@ export function CommandCentreChatPage() {
         const uid = ++idRef.current;
         setMsgs((m) => [...m, { id: uid, role: 'user', text: q }]);
 
+        const prevAiForSend = [...msgsRef.current].reverse().find((m) => m.role === 'ai');
+        const prevAgentsForSend = (prevAiForSend?.role === 'ai' ? (prevAiForSend.agents ?? []) : []) as import('../../types').AgentType[];
         const turn = prepareChatTurn(q, executiveState, {
           manualAgents: selectedAgents,
           autoRoute: autoRouteAgents,
+          previousAgents: prevAgentsForSend,
         });
         const agents = turn.routedAgents;
         const aid = ++idRef.current;

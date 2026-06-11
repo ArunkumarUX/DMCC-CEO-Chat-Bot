@@ -7,10 +7,10 @@ import { buildChatUserMessage } from './buildChatUserMessage';
 export function prepareChatTurn(
   query: string,
   state: ExecutiveState,
-  options: { manualAgents: AgentType[]; autoRoute: boolean },
+  options: { manualAgents: AgentType[]; autoRoute: boolean; previousAgents?: AgentType[] },
   historyLength = 0,
 ) {
-  const routedAgents = routeAgentsForQuery(query, options.manualAgents, options.autoRoute);
+  const routedAgents = routeAgentsForQuery(query, options.manualAgents, options.autoRoute, options.previousAgents ?? []);
   const context = buildChatContext(state, {
     query,
     routedAgents,
