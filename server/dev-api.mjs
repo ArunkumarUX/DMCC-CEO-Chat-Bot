@@ -41,7 +41,17 @@ function reloadLocalEnv() {
   loadEnvFile('.env.local', { override: true });
 }
 
-const PORT = Number(process.env.API_PORT || 8787);
+const PREFERRED_PORT = Number(process.env.API_PORT || 8787);
+const API_PORT_CANDIDATES = [
+  PREFERRED_PORT,
+  8810,
+  8790,
+  8800,
+  8788,
+  8786,
+  8789,
+  8787,
+].filter((port, index, list) => port > 0 && list.indexOf(port) === index);
 const VITE_PORT = Number(process.env.VITE_PORT || 5173);
 
 function lanPriority(ip) {
@@ -160,7 +170,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  const url = new URL(req.url || '/', `http://localhost:${PORT}`);
+  const url = new URL(req.url || '/', 'http://localhost');
 
   if (req.method === 'GET' && url.pathname === '/api/health') {
     reloadLocalEnv();
@@ -319,13 +329,44 @@ const server = http.createServer(async (req, res) => {
   sendJson(res, 404, { error: 'Not found' });
 });
 
-server.listen(PORT, () => {
-  reloadLocalEnv();
-  const { apiKey } = getAnthropicConfig();
-  try {
-    writeFileSync(join(root, '.dev-api-port'), String(PORT), 'utf8');
-  } catch {
-    /* ignore */
+let apiServerStarted = false;
+
+function startApiServer(candidateIndex = 0) {
+  if (apiServerStarted) return;
+  if (candidateIndex >= API_PORT_CANDIDATES.length) {
+    console.error('[api] No free port — close other dev-api instances or set API_PORT.');
+    process.exit(1);
   }
-  console.log(`[api] http://localhost:${PORT}  claude=${apiKey ? 'on' : 'off (set ANTHROPIC_API_KEY in .env.local)'}`);
-});
+
+  const port = API_PORT_CANDIDATES[candidateIndex];
+  const onError = (err) => {
+    if (err?.code === 'EADDRINUSE') {
+      console.warn(`[api] Port ${port} in use, trying next…`);
+      server.close(() => {
+        setImmediate(() => startApiServer(candidateIndex + 1));
+      });
+      return;
+    }
+    console.error('[api] Failed to start:', err);
+    process.exit(1);
+  };
+
+  server.once('error', onError);
+  server.listen(port, () => {
+    if (apiServerStarted) return;
+    apiServerStarted = true;
+    server.removeListener('error', onError);
+    reloadLocalEnv();
+    const { apiKey } = getAnthropicConfig();
+    try {
+      writeFileSync(join(root, '.dev-api-port'), String(port), 'utf8');
+    } catch {
+      /* ignore */
+    }
+    console.log(
+      `[api] http://localhost:${port}  claude=${apiKey ? 'on' : 'off (set ANTHROPIC_API_KEY in .env.local)'}`,
+    );
+  });
+}
+
+startApiServer();

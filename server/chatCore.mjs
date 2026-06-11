@@ -266,7 +266,9 @@ B) SUBSTANTIVE / ANALYTICAL — briefings, strategy questions, comparisons, regu
    Complete every section fully before moving to the next.
 
 ${isBriefing ? `THIS TURN IS A **${formatLabel}** BRIEFING — ALWAYS style B with the FULL template below, no exceptions.
-Grounding for briefings: internal KB / grounded records FIRST (cite handles); injected live web results for external facts (cite [WEB-NN]); label assumptions where source coverage is thin. Never invent figures.` : ''}
+The briefing template below OVERRIDES everything else: ignore any specialist agent "Default response structure" (e.g. the Communications AI "Draft Output → Tone Used → Key Messages" structure), and any other output contract. Use ONLY the numbered sections of the briefing template.
+NEVER ask a clarifying question in a briefing — the user has already provided their content. Work with what is given and label assumptions.
+Grounding for briefings: the user-pasted content FIRST, then internal KB / grounded records (cite handles); injected live web results for external facts (cite [WEB-NN]); label assumptions where source coverage is thin. Never invent figures.` : ''}
 
 ${contractBlock}
 

@@ -683,13 +683,13 @@ export function BriefingsPage() {
                   ) : (
                     source && (
                       <IntelSourceNote className="intel-source-note--compact">
-                        {source === 'claude' || source === 'intelligent'
+                        {source === 'claude'
                           ? ar
-                            ? 'المصدر: المحتوى الملصق + قاعدة المعرفة المؤسسية'
-                            : 'Source: pasted content + institutional knowledge base'
+                            ? 'المصدر: المحتوى الملصق + قاعدة المعرفة المؤسسية + بحث مباشر'
+                            : 'Source: pasted content + institutional knowledge base + live search'
                           : ar
-                            ? 'المصدر: كتالوج الإحاطات المعتمد'
-                            : 'Source: approved briefing catalogue'}
+                            ? 'مسودة دون اتصال من المحتوى الملصق — اتصل بالخدمة للتحليل الكامل'
+                            : 'Offline draft from pasted content — connect the AI service for full analysis'}
                       </IntelSourceNote>
                     )
                   )}
