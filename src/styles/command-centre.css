@@ -1186,6 +1186,176 @@ h1,h2,h3,h4,h5 {
   gap: 8px;
   font-size: 14px;
 }
+.chat-ai-msg--orchestrating {
+  justify-content: center;
+}
+.chat-ai-msg__body--orchestrating {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+.chat-ai-msg__thinking-orbit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 0 4px;
+}
+.chat-ai-msg__thinking-caption {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* Agent wake orbit — ADGM Global centre, specialists surround */
+.agent-wake-orbit {
+  position: relative;
+  margin: 0 auto;
+  flex: none;
+}
+.agent-wake-orbit__ring {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in oklab, var(--adgm-blue-500) 28%, var(--line));
+  animation: agent-orbit-spin 48s linear infinite;
+}
+.agent-wake-orbit__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.agent-wake-orbit__global-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  max-width: 92px;
+  line-height: 1.25;
+}
+.agent-wake-orbit__node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transform: translate(-50%, -50%) rotate(var(--orbit-angle)) translateY(calc(-1 * var(--orbit-radius)))
+    rotate(calc(-1 * var(--orbit-angle)));
+  opacity: 0.35;
+  transition: opacity 0.35s ease, transform 0.35s var(--mi-spring, ease);
+}
+.agent-wake-orbit__node--awake {
+  opacity: 0.55;
+  animation: agent-node-wake 0.55s var(--mi-spring, cubic-bezier(0.34, 1.28, 0.64, 1)) both;
+  animation-delay: var(--wake-delay, 0s);
+}
+.agent-wake-orbit__node--routed {
+  opacity: 1;
+}
+.agent-wake-orbit__node--active .agent-wake-orbit__node-btn {
+  transform: scale(1.12);
+  border-color: var(--agent-color);
+  box-shadow:
+    0 0 0 3px color-mix(in oklab, var(--agent-color) 22%, transparent),
+    0 8px 20px color-mix(in oklab, var(--agent-color) 28%, transparent);
+  animation: agent-node-pulse 0.9s ease-in-out infinite;
+}
+.agent-wake-orbit__node-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  color: var(--agent-color);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.agent-wake-orbit--compact .agent-wake-orbit__node-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+.agent-wake-orbit__node-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.agent-wake-orbit__node--active .agent-wake-orbit__node-label {
+  color: var(--agent-color);
+}
+
+@keyframes agent-node-wake {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--orbit-angle)) translateY(calc(-1 * var(--orbit-radius) + 12px))
+      rotate(calc(-1 * var(--orbit-angle))) scale(0.72);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--orbit-angle)) translateY(calc(-1 * var(--orbit-radius)))
+      rotate(calc(-1 * var(--orbit-angle))) scale(1);
+  }
+}
+@keyframes agent-node-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 3px color-mix(in oklab, var(--agent-color) 18%, transparent),
+      0 6px 14px color-mix(in oklab, var(--agent-color) 22%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 6px color-mix(in oklab, var(--agent-color) 12%, transparent),
+      0 10px 22px color-mix(in oklab, var(--agent-color) 32%, transparent);
+  }
+}
+@keyframes agent-orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cc-chat-inner--centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: min(72vh, calc(100dvh - 220px));
+}
+.cc-chat-empty--centered {
+  text-align: center;
+  width: 100%;
+}
+.cc-chat-empty--centered .cc-chat-empty__header {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.cc-chat-empty--centered .cc-chat-quick-prompts {
+  justify-content: center;
+}
 .chat-ai-msg__content {
   font-size: 14.5px;
   color: var(--ink-2);

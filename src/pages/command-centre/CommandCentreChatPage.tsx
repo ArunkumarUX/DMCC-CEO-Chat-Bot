@@ -153,14 +153,21 @@ export function CommandCentreChatPage() {
       sources: Source[];
       grounding?: GroundingLevel;
     } | null> => {
-      // Previous AI message agents — for conversation-aware routing (follow-up context)
+      // Previous AI message — for conversation-aware routing (follow-up context)
       const prevAiMsg = [...msgsRef.current].reverse().find((m) => m.role === 'ai' && m.id !== aid);
       const previousAgents = (prevAiMsg?.role === 'ai' ? (prevAiMsg.agents ?? []) : []) as import('../../types').AgentType[];
+      const prevAiText = prevAiMsg?.role === 'ai' ? (prevAiMsg.text ?? '') : '';
+      // Detect clarifying questions: short response ending with "?" or short with "?" anywhere.
+      // When true, maintain the previous agent — the user is answering the clarification.
+      const prevResponseWasQuestion =
+        prevAiText.trim().endsWith('?') ||
+        (prevAiText.length < 700 && prevAiText.includes('?'));
 
       const turn = prepareChatTurn(q, executiveState, {
         manualAgents: selectedAgents,
         autoRoute: autoRouteAgents,
         previousAgents,
+        prevResponseWasQuestion,
       }, msgsRef.current.filter((m) => m.id !== aid && m.role === 'user').length);
       const routedAgents = turn.routedAgents;
       const intel = buildIntelligentResponse(q, executiveState);
@@ -186,6 +193,8 @@ export function CommandCentreChatPage() {
             aid - 1,
           );
 
+          const animTask = runAgentAnimation(aid, meta.agents);
+
           await streamClaudeChat({
             message: turn.userMessage,
             language: ar ? 'ar' : 'en',
@@ -209,6 +218,8 @@ export function CommandCentreChatPage() {
               );
             },
           });
+
+          await animTask;
 
           if (ac.signal.aborted) return null;
 
@@ -341,10 +352,15 @@ export function CommandCentreChatPage() {
 
         const prevAiForSend = [...msgsRef.current].reverse().find((m) => m.role === 'ai');
         const prevAgentsForSend = (prevAiForSend?.role === 'ai' ? (prevAiForSend.agents ?? []) : []) as import('../../types').AgentType[];
+        const prevAiTextForSend = prevAiForSend?.role === 'ai' ? (prevAiForSend.text ?? '') : '';
+        const prevResponseWasQuestionForSend =
+          prevAiTextForSend.trim().endsWith('?') ||
+          (prevAiTextForSend.length < 700 && prevAiTextForSend.includes('?'));
         const turn = prepareChatTurn(q, executiveState, {
           manualAgents: selectedAgents,
           autoRoute: autoRouteAgents,
           previousAgents: prevAgentsForSend,
+          prevResponseWasQuestion: prevResponseWasQuestionForSend,
         });
         const agents = turn.routedAgents;
         const aid = ++idRef.current;
@@ -496,9 +512,12 @@ export function CommandCentreChatPage() {
       </header>
 
       <div ref={scrollRef} className="content content--chat" style={{ padding: '8px 0', flex: 1, overflow: 'auto' }}>
-        <div className="cc-chat-inner" style={{ maxWidth: 860, margin: '0 auto', padding: '14px 24px 24px' }}>
+        <div
+          className={`cc-chat-inner${empty ? ' cc-chat-inner--centered' : ''}`}
+          style={{ maxWidth: 860, margin: '0 auto', padding: '14px 24px 24px' }}
+        >
           {empty ? (
-            <div className="rise cc-chat-empty">
+            <div className="rise cc-chat-empty cc-chat-empty--centered">
               <div className="cc-chat-empty__header">
                 <Emblem size={32} />
                 <div>

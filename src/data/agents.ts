@@ -169,6 +169,7 @@ export function routeAgentsForQuery(
   manualSelection: AgentType[],
   autoRoute: boolean,
   previousAgents: AgentType[] = [],
+  prevResponseWasQuestion = false,
 ): AgentType[] {
   const q = query.toLowerCase();
   const intent = detectChatIntent(query);
@@ -182,9 +183,18 @@ export function routeAgentsForQuery(
   if (autoRoute && previousAgents.length > 0 && !q.includes('?')) {
     const wordCount = q.trim().split(/\s+/).length;
     const prevPrimary = previousAgents[0];
-    const isContinuationAgent = prevPrimary === 'comms' || prevPrimary === 'explorer' || prevPrimary === 'cos';
+    // Only Comms and Explorer maintain context for short follow-ups.
+    // CoS is an orchestrator — it should re-route on every new message.
+    const isContinuationAgent = prevPrimary === 'comms' || prevPrimary === 'explorer';
     const hasExplicitOverride = /\b(@policy|@strategy|@cos|@crm|@comms|policy ai|strategy ai|comms ai)\b/.test(q);
+    // Short follow-up (≤ 3 words): maintain conversational agents
     if (wordCount <= 3 && isContinuationAgent && !hasExplicitOverride) {
+      return [prevPrimary];
+    }
+    // Previous AI response was a clarifying question: maintain ANY agent regardless of length.
+    // e.g. Comms asked "What's the email about?" → user answers "digital assets policy for Mubadala"
+    //      Without this, "mubadala" would re-route to Relationship AI, breaking the conversation.
+    if (prevResponseWasQuestion && !hasExplicitOverride) {
       return [prevPrimary];
     }
   }
@@ -202,14 +212,11 @@ export function routeAgentsForQuery(
 
   if (manualSelection.length > 0 && !autoRoute) return manualSelection;
 
-  const focusId = resolveFocusAreaForQuery(query);
-  if (focusId) {
-    const fromFocus = FOCUS_AREA_MAP[focusId].agents;
-    return uniqueAgents(fromFocus.includes('cos') ? fromFocus : (['cos', ...fromFocus] as AgentType[]));
-  }
-
-  const routed: AgentType[] = [];
-
+  // ── Compute intent flags BEFORE focus area resolution ──
+  // Order matters: pure-Comms tasks must short-circuit before matchFocusArea() maps
+  // "speech"/"draft" → 'correspondence' → ['comms','cos'] or "mubadala" → 'stakeholders'
+  // → ['relationship','cos'].  Both prepend CoS which triggers orchestrator behavior
+  // (scanning ACT/CAL, listing structured options) instead of a simple drafting flow.
   const wantsComms =
     /\b(draft|rewrite|polish|speech|memo|ministerial|talking points|bilingual|arabic (version|output|draft)|tone refinement|make (this|it) more (formal|concise|board))\b/.test(q);
 
@@ -225,6 +232,20 @@ export function routeAgentsForQuery(
 
   const wantsCos =
     /\b(meeting|briefing|board|action|follow-up|follow up|escalat|decision|priority|operating rhythm|today|this week|overdue|commit(ment)?|agenda)\b/.test(q);
+
+  // ── Pure Comms task: short-circuit BEFORE focus area check ──
+  // Comms AI handles drafting naturally; it asks one simple question when info is missing.
+  if (autoRoute && wantsComms && !wantsPolicy && !wantsStrategy && !wantsCos && !wantsRelationship) {
+    return ['comms'];
+  }
+
+  const focusId = resolveFocusAreaForQuery(query);
+  if (focusId) {
+    const fromFocus = FOCUS_AREA_MAP[focusId].agents;
+    return uniqueAgents(fromFocus.includes('cos') ? fromFocus : (['cos', ...fromFocus] as AgentType[]));
+  }
+
+  const routed: AgentType[] = [];
 
   if (wantsComms) routed.push('comms');
   if (wantsRelationship) routed.push('relationship');
