@@ -3,15 +3,13 @@ import { CANNED } from '../data/commandCentreData';
 
 export type BriefingFormatId =
   | 'premeeting'
+  | 'email'
   | 'boardpack'
-  | 'stakeholder'
-  | 'policy'
-  | 'opportunity'
-  | 'ministerial';
+  | 'stakeholder';
 
 export type BriefingConfig = {
   id: BriefingFormatId;
-  /** Used for demo fallback + intelligent response routing */
+  /** Used for scenario fallback + intelligent response routing */
   fallbackQuery: string;
   cannedKey: keyof typeof CANNED | null;
   agents: string[];
@@ -159,89 +157,31 @@ Structure: Relationship warmth · Focus areas · Open follow-ups · ADGM network
     },
   },
 
-  policy: {
-    id: 'policy',
-    fallbackQuery: "Compare ADGM's digital assets framework against Singapore MAS.",
-    cannedKey: "Compare ADGM's digital assets framework against Singapore MAS.",
-    agents: ['policy', 'strategy'],
-    buildUserMessage: (state, ar) => {
-      const policyDocs = state.documents
-        .filter((d) => /fsra|policy|regulatory|mas/i.test(d.name + (d.summary ?? '')))
-        .map((d) => `- ${d.name}: ${d.summary}`)
-        .join('\n');
-      return ar
-        ? `تحليل **أثر سياسات/تنظيم** لسوق أبوظبي العالمي — قارن إطار الأصول الرقمية مع MAS.
-
-**مستندات:**
-${policyDocs || DOC_LIST(state)}
-
-**سياق:** ${state.marketSnapshot.competitorNote}
-
-الهيكل: ما تغيّر · تأثير على ADGM · فجوة مع المنافس · إجراء موصى به (مع موعد إن وُجد في سجل الإجراءات).`
-        : `Produce a **policy impact analysis** for ADGM — compare digital assets framework vs Singapore MAS.
-
-**Knowledge base:**
-${policyDocs || DOC_LIST(state)}
-
-**Market context:** ${state.marketSnapshot.competitorNote}
-
-Structure: What changed · Impact on ADGM · Gap vs competitor · Recommended action (tie to open actions if relevant).`;
-    },
-  },
-
-  opportunity: {
-    id: 'opportunity',
-    fallbackQuery:
-      'Top investment opportunities Abu Dhabi should prioritise from current capital flows?',
-    cannedKey:
-      'Top investment opportunities Abu Dhabi should prioritise from current capital flows?',
-    agents: ['strategy'],
+  email: {
+    id: 'email',
+    fallbackQuery: 'Draft an email for me',
+    cannedKey: null,
+    agents: ['comms'],
     buildUserMessage: (state, ar) => {
       return ar
-        ? `إحاطة **فرص استراتيجية** لأبوظبي — رتّب حسب توافق الاقتصاد الصقور.
+        ? `صِغ **مسودة بريد إلكتروني** جاهزة للإرسال.
 
-**لمحة السوق:** ${state.marketSnapshot.topSector} · تدفقات رقمية ${state.marketSnapshot.digitalAssetsWoW} · GCC ${state.marketSnapshot.gccEquities}
+**السياق المتاح:** مستندات مرفوعة · سجل الإجراءات · ملاحظات من قاعدة المعرفة
+${DOC_LIST(state, 4)}
 
-**مستندات:**
-${DOC_LIST(state)}
+**إجراءات مفتوحة:**
+${OPEN_ACTIONS(state)}
 
-الهيكل: 4 فرص بدرجات Falcon Economy · توصية بأولويتين · لماذا الآن.`
-        : `Strategic **opportunity brief** for Abu Dhabi — rank vs Falcon Economy.
+أنشئ مسودة احترافية جاهزة للنسخ — بدون أسئلة متابعة. افترض سياقاً معقولاً إذا لزم.`
+        : `Draft a **ready-to-send email**.
 
-**Market snapshot:** ${state.marketSnapshot.topSector} · digital assets ${state.marketSnapshot.digitalAssetsWoW} · GCC ${state.marketSnapshot.gccEquities}
+**Available context:** uploaded documents · action register · knowledge base notes
+${DOC_LIST(state, 4)}
 
-**Knowledge base:**
-${DOC_LIST(state)}
+**Open actions:**
+${OPEN_ACTIONS(state)}
 
-Structure: 4 opportunities with Falcon Economy scores · Top 2 recommendations · Why now.`;
-    },
-  },
-
-  ministerial: {
-    id: 'ministerial',
-    fallbackQuery: "Draft a note to HH's office on ADGM's Q2 performance in Arabic.",
-    cannedKey: "Draft a note to HH's office on ADGM's Q2 performance in Arabic.",
-    agents: ['comms', 'strategy'],
-    buildUserMessage: (state, ar) => {
-      const hr = state.departments.find((d) => d.id === 'hr');
-      const sales = state.departments.find((d) => d.id === 'sales');
-      return ar
-        ? `صياغة **مذكرة وزارية** (عربي ثم إنجليزي) عن أداء ADGM في الربع الثاني.
-
-**مقاييس حية:** إدارات خضراء ${state.metrics.departmentsOnTrack}/9 · إجراءات مفتوحة ${state.metrics.openActions}
-**HR:** ${hr?.kpis?.[0]?.value ?? '—'} · **مبيعات:** ${sales?.kpis?.[0]?.value ?? '—'}
-
-**مستندات:** ${DOC_LIST(state, 4)}
-
-نبرة رسمية لمعالي الشيخ. فقرتان لكل لغة كحد أقصى.`
-        : `Draft a **ministerial note** (Arabic then English) on ADGM Q2 performance for HH's office.
-
-**Live metrics:** ${state.metrics.departmentsOnTrack}/9 departments green · ${state.metrics.openActions} open actions
-**HR / Sales headline KPIs from store:** HR ${hr?.kpis?.[0]?.value ?? '—'} · Sales ${sales?.kpis?.[0]?.value ?? '—'}
-
-**Documents:** ${DOC_LIST(state, 4)}
-
-Formal tone. Two short paragraphs per language. Bilingual markdown.`;
+Produce a clean, copy-paste friendly draft — no follow-up questions. Use sensible assumptions where needed.`;
     },
   },
 };

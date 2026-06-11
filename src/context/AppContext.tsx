@@ -526,7 +526,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
             }
           }
         } catch (err) {
-          console.warn('[chat] Claude failed, using demo response', err);
+          console.warn('[chat] Claude failed, using scenario fallback', err);
           persistExecutive((s) => ({
             ...s,
             conversations: s.conversations.map((c) =>

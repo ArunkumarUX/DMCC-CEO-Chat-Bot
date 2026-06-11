@@ -65,7 +65,7 @@ function scoreChunk(query: string, chunk: FalconKbChunk): number {
   return score;
 }
 
-/** Ranked excerpts from official Falcon PDFs for grounding chat / demo responses */
+/** Ranked excerpts from official Falcon PDFs for grounding chat responses */
 export function retrieveFalconExcerpts(query: string, maxChunks = 8): FalconKbChunk[] {
   if (!query.trim() || !CHUNKS.length) return [];
 

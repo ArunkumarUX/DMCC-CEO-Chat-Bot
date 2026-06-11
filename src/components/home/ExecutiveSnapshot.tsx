@@ -9,7 +9,7 @@ const cards = [
     key: 'queries',
     label: 'Queries this week',
     icon: MessageSquare,
-    getValue: (m: ExecutiveMetrics) => m.queriesThisWeek,
+    getValue: (m: ExecutiveMetrics) => m.queriesThisWeek ?? 0,
     suffix: '',
     accent: 'bg-adgm-primary-light text-adgm-primary',
   },
@@ -71,7 +71,7 @@ export function ExecutiveSnapshot({ metrics }: { metrics: ExecutiveMetrics }) {
               )}
             </div>
             <p className="kpi-num mt-auto pt-4 text-2xl text-adgm-navy sm:text-3xl">
-              <CountUp value={val} />
+              <CountUp value={val ?? 0} />
               {card.suffix && (
                 <span className="font-sans text-lg font-medium text-adgm-mist">{card.suffix}</span>
               )}

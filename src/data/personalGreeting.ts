@@ -17,7 +17,7 @@ function formatMeetingTime(iso: string): string {
   }
 }
 
-/** Warm, personalized day opener for Rajiv — demo + Claude grounding template */
+/** Warm, personalized day opener — Claude grounding template */
 export function buildPersonalGreetingResponse(
   _query: string,
   state: ExecutiveState,

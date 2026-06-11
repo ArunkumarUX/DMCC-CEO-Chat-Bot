@@ -1,12 +1,40 @@
 /**
- * Real-time news feed fetcher — free public RSS feeds, no API key required.
- * Sources: Reuters, Arabian Business, Gulf News, Khaleej Times, ZAWYA.
- * Used for signal cards and market intelligence with verifiable source links.
+ * Real-time news feed fetcher — public RSS feeds, no API key required.
+ * Used for priority signal cards with verifiable source links.
  */
 
-/** @typedef {{ title: string; url: string; date: string; source: string; sourceUrl: string; excerpt: string }} NewsItem */
+/** @typedef {{ title: string; url: string; date: string; source: string; sourceUrl: string; excerpt: string; feedId?: string; tags?: string[] }} NewsItem */
 
 const FEEDS = [
+  {
+    id: 'google-gcc-finance',
+    label: 'Google News — GCC Finance',
+    siteUrl: 'https://news.google.com',
+    rssUrl:
+      'https://news.google.com/rss/search?q=ADGM+OR+DIFC+OR+%22Abu+Dhabi%22+OR+UAE+finance+OR+GCC+market&hl=en-AE&gl=AE&ceid=AE:en',
+    tags: ['market', 'competitor', 'investment', 'regulatory', 'followup'],
+  },
+  {
+    id: 'bbc-business',
+    label: 'BBC Business',
+    siteUrl: 'https://www.bbc.com/news/business',
+    rssUrl: 'https://feeds.bbci.co.uk/news/business/rss.xml',
+    tags: ['market', 'competitor', 'investment', 'regulatory'],
+  },
+  {
+    id: 'cnbc-top',
+    label: 'CNBC Top News',
+    siteUrl: 'https://www.cnbc.com',
+    rssUrl: 'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114',
+    tags: ['market', 'competitor', 'investment'],
+  },
+  {
+    id: 'aljazeera-all',
+    label: 'Al Jazeera',
+    siteUrl: 'https://www.aljazeera.com',
+    rssUrl: 'https://www.aljazeera.com/xml/rss/all.xml',
+    tags: ['market', 'competitor', 'regulatory', 'followup'],
+  },
   {
     id: 'reuters-business',
     label: 'Reuters Business',
@@ -40,7 +68,7 @@ const FEEDS = [
     label: 'Khaleej Times Business',
     siteUrl: 'https://www.khaleejtimes.com/business',
     rssUrl: 'https://www.khaleejtimes.com/business/feed',
-    tags: ['market', 'investment'],
+    tags: ['market', 'investment', 'followup'],
   },
   {
     id: 'zawya',
@@ -51,10 +79,15 @@ const FEEDS = [
   },
 ];
 
-/** Simple RSS/Atom XML parser — no dependencies */
+const FETCH_HEADERS = {
+  'User-Agent':
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+  Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*',
+  'Accept-Language': 'en-US,en;q=0.9',
+};
+
 function parseRssItems(xml, siteUrl) {
   const items = [];
-  // Match <item>...</item> or <entry>...</entry> blocks
   const itemRe = /<(?:item|entry)>([\s\S]*?)<\/(?:item|entry)>/gi;
   let m;
   while ((m = itemRe.exec(xml)) !== null) {
@@ -67,7 +100,7 @@ function parseRssItems(xml, siteUrl) {
       items.push({ title: cleanText(title), url: link, date, excerpt: cleanText(excerpt) });
     }
   }
-  return items.slice(0, 8);
+  return items.slice(0, 10);
 }
 
 function extractTag(xml, tag) {
@@ -77,13 +110,10 @@ function extractTag(xml, tag) {
 }
 
 function extractLink(block, siteUrl) {
-  // Try <link> tag first
   const linkTag = extractTag(block, 'link');
   if (linkTag?.startsWith('http')) return linkTag;
-  // Try <link href="..."> (Atom)
   const hrefM = /<link[^>]+href=["']([^"']+)["']/i.exec(block);
   if (hrefM?.[1]?.startsWith('http')) return hrefM[1];
-  // Try <guid> with URL
   const guid = extractTag(block, 'guid');
   if (guid?.startsWith('http')) return guid;
   return siteUrl;
@@ -94,7 +124,8 @@ function extractDate(block) {
     extractTag(block, 'pubDate') ||
     extractTag(block, 'published') ||
     extractTag(block, 'updated') ||
-    extractTag(block, 'dc:date') || '';
+    extractTag(block, 'dc:date') ||
+    '';
   if (!raw) return new Date().toISOString().slice(0, 10);
   try {
     return new Date(raw).toISOString().slice(0, 10);
@@ -108,12 +139,12 @@ function extractExcerpt(block) {
     extractTag(block, 'description') ||
     extractTag(block, 'summary') ||
     extractTag(block, 'content')
-  ).slice(0, 200);
+  ).slice(0, 220);
 }
 
 function cleanText(text) {
   return text
-    .replace(/<[^>]+>/g, '') // strip HTML tags
+    .replace(/<[^>]+>/g, '')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
@@ -124,18 +155,18 @@ function cleanText(text) {
     .trim();
 }
 
-async function fetchFeed(feed, timeoutMs = 8000) {
+async function fetchFeed(feed, timeoutMs = 10_000) {
   try {
     const res = await fetch(feed.rssUrl, {
       signal: AbortSignal.timeout(timeoutMs),
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; CSO-AI-Agent/1.0)',
-        Accept: 'application/rss+xml, application/atom+xml, text/xml, */*',
-      },
+      headers: FETCH_HEADERS,
+      redirect: 'follow',
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const xml = await res.text();
+    if (!xml.includes('<') || xml.length < 200) throw new Error('empty feed');
     const items = parseRssItems(xml, feed.siteUrl);
+    if (!items.length) throw new Error('no items parsed');
     return items.map((item) => ({
       ...item,
       source: feed.label,
@@ -149,46 +180,40 @@ async function fetchFeed(feed, timeoutMs = 8000) {
   }
 }
 
-/**
- * Fetch all feeds concurrently. Returns flat array sorted newest-first.
- * @returns {Promise<NewsItem[]>}
- */
 export async function fetchAllNewsFeeds() {
   const results = await Promise.all(FEEDS.map((f) => fetchFeed(f)));
   const flat = results.flat();
-  // Sort newest first
-  flat.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  return flat;
+  const seen = new Set();
+  const deduped = flat.filter((item) => {
+    const key = item.title.toLowerCase().slice(0, 80);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  deduped.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return deduped;
 }
 
-/**
- * Get news items for a specific signal card type.
- * @param {'market'|'competitor'|'investment'|'regulatory'|'followup'} tag
- * @param {NewsItem[]} allItems
- * @param {number} limit
- * @returns {NewsItem[]}
- */
 export function getNewsByTag(tag, allItems, limit = 3) {
   return allItems.filter((i) => i.tags?.includes(tag)).slice(0, limit);
 }
 
-/**
- * Filter for GCC/ADGM-relevant headlines using keyword scoring.
- * @param {NewsItem[]} items
- * @param {number} limit
- */
 export function filterGccRelevant(items, limit = 5) {
   const keywords = [
     'adgm', 'abu dhabi', 'uae', 'dubai', 'gcc', 'saudi', 'riyadh', 'qatar', 'kuwait',
     'bahrain', 'oman', 'difc', 'mubadala', 'adq', 'adia', 'fsra', 'falcon',
     'financial centre', 'digital asset', 'crypto', 'tokenisation', 'fintech',
-    'sovereign', 'investment fund', 'market', 'regulator',
+    'sovereign', 'investment fund', 'market', 'regulator', 'central bank',
   ];
   const scored = items.map((item) => {
     const text = (item.title + ' ' + item.excerpt).toLowerCase();
     const score = keywords.reduce((acc, kw) => acc + (text.includes(kw) ? 1 : 0), 0);
     return { item, score };
   });
-  scored.sort((a, b) => b.score - a.score || new Date(b.item.date).getTime() - new Date(a.item.date).getTime());
-  return scored.slice(0, limit).map((s) => s.item);
+  scored.sort(
+    (a, b) => b.score - a.score || new Date(b.item.date).getTime() - new Date(a.item.date).getTime(),
+  );
+  const relevant = scored.filter((s) => s.score > 0).map((s) => s.item);
+  if (relevant.length >= limit) return relevant.slice(0, limit);
+  return items.slice(0, limit);
 }

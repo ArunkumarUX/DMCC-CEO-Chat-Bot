@@ -26,8 +26,8 @@ import { AGENT_LABELS, routeAgentsForQuery } from './agents';
 import { buildPersonalGreetingResponse } from './personalGreeting';
 import { detectChatIntent } from '../utils/chatIntent';
 import { FALCON_KB_SOURCES, retrieveFalconExcerpts } from './kb/falconKb';
-import type { ExecutiveSnapshotPatch } from '../api/executiveSnapshot';
-import type { BloombergArticle } from '../api/executiveSnapshot';
+import type { ExecutiveSnapshotPatch, BloombergArticle } from '../api/executiveSnapshot';
+import type { LiveMarketIntelSnapshot, MarketSnapshotFields, SignalNewsBundle } from '../types/marketIntel';
 import {
   actionNow,
   agentTag,
@@ -185,7 +185,7 @@ export interface ActivityPoint {
 }
 
 export interface ExecutiveMetrics {
-  queriesThisWeek: number;
+  queriesThisWeek: number | null;
   documentsInKb: number;
   briefingsGenerated: number;
   avgConfidence: number;
@@ -203,18 +203,9 @@ export interface ExecutiveState {
   meetings: Meeting[];
   actionRegister: ActionItem[];
   activityWeek: ActivityPoint[];
-  marketSnapshot: {
-    gccEquities: string;
-    digitalAssetsWoW: string;
-    competitorNote: string;
-    topSector: string;
-    asOf?: string;
-    bloombergLead?: string;
-    gccEquitiesSource?: string;
-    gccEquitiesSourceUrl?: string;
-    digitalAssetsSource?: string;
-    digitalAssetsSourceUrl?: string;
-  };
+  marketSnapshot: MarketSnapshotFields;
+  signalNews?: SignalNewsBundle;
+  liveMarketIntel?: LiveMarketIntelSnapshot;
   bloombergArticles?: BloombergArticle[];
   bloombergFetchedAt?: string;
   regulatoryHeadline?: string;
@@ -372,7 +363,7 @@ export function createSeedState(): ExecutiveState {
     version: 4,
     lastSync: new Date().toISOString(),
     metrics: {
-      queriesThisWeek: 42 + (today.getDate() % 12),
+      queriesThisWeek: 0, // starts at 0; incremented per chat query this session
       documentsInKb: 52,
       briefingsGenerated: 8,
       avgConfidence: 0.91,
@@ -425,6 +416,8 @@ export function applyExecutiveSnapshotPatch(
     meetings: patch.meetings,
     actionRegister: patch.actionRegister,
     marketSnapshot: patch.marketSnapshot,
+    signalNews: patch.signalNews ?? state.signalNews,
+    liveMarketIntel: patch.liveMarketIntel ?? state.liveMarketIntel,
     bloombergArticles: patch.bloombergArticles ?? state.bloombergArticles,
     bloombergFetchedAt: patch.bloombergFetchedAt ?? state.bloombergFetchedAt,
     regulatoryHeadline: patch.regulatoryHeadline ?? state.regulatoryHeadline,
@@ -454,7 +447,7 @@ export function refreshExecutiveState(
     metrics: {
       ...fresh.metrics,
       briefingsGenerated: previous.metrics.briefingsGenerated,
-      queriesThisWeek: Math.max(fresh.metrics.queriesThisWeek, previous.metrics.queriesThisWeek),
+      queriesThisWeek: (fresh.metrics.queriesThisWeek ?? previous.metrics.queriesThisWeek),
     },
   };
 }
@@ -999,7 +992,7 @@ ${agentTag(agents.map((a) => AGENT_LABELS[a]))}`,
 }
 
 export function bumpQueryMetrics(state: ExecutiveState): ExecutiveState {
-  const next = { ...state, metrics: { ...state.metrics, queriesThisWeek: state.metrics.queriesThisWeek + 1 } };
+  const next = { ...state, metrics: { ...state.metrics, queriesThisWeek: (state.metrics.queriesThisWeek ?? 0) + 1 } };
   const today = new Date().getDay();
   const idx = today === 0 ? 6 : today - 1;
   const activityWeek = [...state.activityWeek];

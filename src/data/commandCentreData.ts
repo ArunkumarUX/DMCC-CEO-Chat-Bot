@@ -236,7 +236,7 @@ export const CENTRES = ['ADGM','DIFC','Singapore','Hong Kong','Luxembourg'];
 /**
  * 12-Dimension Benchmark — ADGM vs global financial centres
  * Sources per dimension (cross-referenced):
- *   GFCI 37  = Z/Yen Global Financial Centres Index 37, March 2024
+ *   GFCI 37  = Z/Yen Global Financial Centres Index 37, March 2025
  *   WB       = World Bank Business Ready Index 2024
  *   ADGM     = ADGM Annual Report 2023 / published competitive positioning
  *   IMF      = IMF Article IV UAE Consultation 2024
@@ -289,19 +289,17 @@ export const BENCH_DIMS: { d: string; src: string; v: number[] }[] = [
     v: [78, 82, 93, 85, 80] },
 ];
 
-// ---------- Briefing formats ----------
+// ---------- Briefing formats (focused executive workflows) ----------
 export const BRIEF_FORMATS = [
-  { id:'premeeting', icon:'calendar-check', name:'Pre-meeting brief', desc:'Auto-triggered from live calendar', time:'< 30s' },
-  { id:'boardpack', icon:'clipboard-list', name:'Board pack summary', desc:'Condense board materials to decisions', time:'< 60s' },
-  { id:'stakeholder', icon:'id-card', name:'Stakeholder profile', desc:'Living profile from CRM + enrichment', time:'< 30s' },
-  { id:'policy', icon:'scale', name:'Policy impact analysis', desc:'Assess regulatory change impact', time:'< 90s' },
-  { id:'opportunity', icon:'sparkles', name:'Strategic opportunity brief', desc:'Scored against Abu Dhabi economic priorities', time:'< 60s' },
-  { id:'ministerial', icon:'languages', name:'Ministerial note (AR/EN)', desc:'Bilingual executive correspondence', time:'< 45s' },
+  { id:'premeeting', icon:'calendar-check', name:'Pre-meeting brief', desc:'Paste an agenda, email trail, or upload documents', time:'< 30s' },
+  { id:'email', icon:'mail', name:'Email draft', desc:'Paste an email and get a ready-to-send reply', time:'< 20s' },
+  { id:'boardpack', icon:'clipboard-list', name:'Board pack summary', desc:'Upload board materials — key decisions & risks', time:'< 60s' },
+  { id:'stakeholder', icon:'id-card', name:'Stakeholder profile', desc:'Profile from notes, CRM, and uploaded context', time:'< 30s' },
 ];
 
 // ---------- 8-week plan ----------
 export const PLAN = [
-  { w:'01', focus:'Demo', deliver:'Personalised prototype · 5 demo deliverables · HR + Sales + Ops loaded · Arabic demonstrated', gate:'CSO approves full build' },
+  { w:'01', focus:'Pilot', deliver:'Personalised prototype · 5 deliverables · HR + Sales + Ops loaded · Arabic demonstrated', gate:'CSO approves full build' },
   { w:'02', focus:'Infrastructure', deliver:'Azure UAE North · Kubernetes · Weaviate + Neo4j · Azure AD SSO · RBAC · audit logging', gate:'ADGM IT security sign-off' },
   { w:'03', focus:'Knowledge System', deliver:'Ingestion pipeline · 50+ docs seeded · Knowledge Graph · SharePoint auto-sync', gate:'50 test queries pass' },
   { w:'04', focus:'Five Agents', deliver:'All 5 LangGraph agents · orchestration graph · all modules on seeded data', gate:'Agents pass CSO scenarios' },

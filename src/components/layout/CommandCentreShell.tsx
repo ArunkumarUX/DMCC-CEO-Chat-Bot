@@ -6,7 +6,7 @@ import { DEPARTMENTS } from '../../data/commandCentreData';
 import { useApp } from '../../context/AppContext';
 import { needsTour } from '../../auth/authStorage';
 import { EXECUTIVE_USER } from '../../config/user';
-import { ARCHITECTURE_ENABLED, PPT_MASTER_ENABLED } from '../../config/features';
+import { ARCHITECTURE_ENABLED, PPT_MASTER_ENABLED, PRESENTATION_BUILDER_ENABLED } from '../../config/features';
 
 const NAV = [
   {
@@ -41,6 +41,17 @@ const NAV = [
               label: 'Create PPT',
               labelAr: 'إنشاء عرض',
             },
+            ...(PRESENTATION_BUILDER_ENABLED
+              ? [
+                  {
+                    id: 'presentation-builder',
+                    path: '/presentation-builder',
+                    icon: 'file-text',
+                    label: 'Deck Builder',
+                    labelAr: 'منشئ العروض',
+                  },
+                ]
+              : []),
           ]
         : []),
       ...(ARCHITECTURE_ENABLED
@@ -67,6 +78,7 @@ function pathToView(pathname: string) {
   if (pathname.startsWith('/knowledge')) return 'knowledge';
   if (pathname.startsWith('/briefings')) return 'briefings';
   if (pathname.startsWith('/create-ppt') || pathname.startsWith('/deck-builder')) return 'create-ppt';
+  if (pathname.startsWith('/presentation-builder')) return 'presentation-builder';
   if (pathname.startsWith('/architecture')) return 'architecture';
   if (pathname.startsWith('/settings')) return 'settings';
   return 'dashboard';
@@ -107,7 +119,7 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
   const ar = settings.language === 'ar';
   const view = pathToView(location.pathname);
   const isChat = view === 'chat';
-  const isSlideAi = view === 'create-ppt';
+  const isSlideAi = view === 'create-ppt' || view === 'presentation-builder';
 
   const alertCount = DEPARTMENTS.filter((d) => d.rag === 'risk' || d.rag === 'warn').length;
   /** Icon-only rail on desktop; mobile drawer always shows labels */
@@ -186,14 +198,13 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
           ))}
         </nav>
         <div className="sb-user">
-          <img
-            className="sb-user-avatar"
-            src={EXECUTIVE_USER.profileImage}
-            alt={EXECUTIVE_USER.fullName}
-            width={40}
-            height={40}
-            decoding="async"
-          />
+          <div
+            className="sb-user-avatar sb-user-avatar--initials"
+            aria-label={EXECUTIVE_USER.fullName}
+            title={EXECUTIVE_USER.fullName}
+          >
+            {EXECUTIVE_USER.initials}
+          </div>
           {showSidebarText && (
             <div className="sb-user-meta">
               <div className="sb-user-name">{EXECUTIVE_USER.fullName}</div>

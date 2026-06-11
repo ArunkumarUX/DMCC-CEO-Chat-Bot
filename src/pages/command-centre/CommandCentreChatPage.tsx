@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { CcIcon } from '../../command-centre/CcIcon';
 import { Emblem } from '../../command-centre/CcPrimitives';
 import { CcChatAiMessage } from '../../command-centre/CcChatAiMessage';
-import { AGENTS, CANNED } from '../../data/commandCentreData';
+import { CANNED } from '../../data/commandCentreData';
 import { useGstLive } from '../../utils/gstGreeting';
 import { useApp } from '../../context/AppContext';
 import { buildIntelligentResponse, resolveAnswerGrounding } from '../../data/executiveStore';
@@ -13,7 +13,6 @@ import { buildChatHistory } from '../../api/buildChatContext';
 import { checkClaudeAvailable, streamClaudeChat } from '../../api/claudeChat';
 import { detectChatIntent } from '../../utils/chatIntent';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
-import { IntelCard, IntelCardBody } from '../../command-centre/CcCard';
 import { ChatHistorySheet } from '../../components/chat/ChatHistorySheet';
 import {
   conversationToUiMessages,
@@ -81,13 +80,13 @@ export function CommandCentreChatPage() {
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [copiedId, setCopiedId] = useState<number | null>(null);
-  const [claudeLive, setClaudeLive] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const msgsRef = useRef(msgs);
   const idRef = useRef(0);
   const seedHandledRef = useRef<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
   msgsRef.current = msgs;
 
   useEffect(() => {
@@ -127,11 +126,6 @@ export function CommandCentreChatPage() {
   ]);
 
   useEffect(() => {
-    if (!USE_CLAUDE) return;
-    checkClaudeAvailable().then(setClaudeLive);
-  }, []);
-
-  useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [msgs, busy]);
 
@@ -167,24 +161,24 @@ export function CommandCentreChatPage() {
       };
 
       if (USE_CLAUDE) {
-        const live = claudeLive || (await checkClaudeAvailable());
+        const live = await checkClaudeAvailable();
         if (live) {
-          setClaudeLive(true);
           try {
-          const anim = runAgentAnimation(aid, meta.agents);
+          abortRef.current?.abort();
+          const ac = new AbortController();
+          abortRef.current = ac;
           let streamed = '';
           const history = buildChatHistory(
             msgsRef.current.filter((m) => m.id !== aid) as { id: number; role: string; text: string }[],
             aid,
           );
 
-          await Promise.all([
-            anim,
-            streamClaudeChat({
+          await streamClaudeChat({
               message: turn.userMessage,
               language: ar ? 'ar' : 'en',
               history,
               context: turn.context,
+              signal: ac.signal,
               onToken: (chunk) => {
                 streamed += chunk;
                 setMsgs((m) =>
@@ -201,8 +195,9 @@ export function CommandCentreChatPage() {
                   ),
                 );
               },
-            }),
-          ]);
+            });
+
+          if (ac.signal.aborted) return null;
 
           if (!streamed.trim()) {
             throw new Error('Empty response from Claude');
@@ -266,8 +261,21 @@ export function CommandCentreChatPage() {
       );
       return { text, agents: demoAgents, sources, grounding };
     },
-    [executiveState, runAgentAnimation, ar, claudeLive, selectedAgents, autoRouteAgents],
+    [executiveState, runAgentAnimation, ar, selectedAgents, autoRouteAgents],
   );
+
+  const stopGeneration = useCallback(() => {
+    abortRef.current?.abort();
+    abortRef.current = null;
+    setMsgs((m) =>
+      m.map((x) =>
+        x.role === 'ai' && x.thinking
+          ? { ...x, thinking: false, activeAgent: null, text: x.text || (ar ? 'تم إيقاف التوليد.' : 'Generation stopped.') }
+          : x,
+      ),
+    );
+    setBusy(false);
+  }, [ar]);
 
   const send = useCallback(
     async (text: string) => {
@@ -438,40 +446,29 @@ export function CommandCentreChatPage() {
       <div ref={scrollRef} className="content content--chat" style={{ padding: '8px 0', flex: 1, overflow: 'auto' }}>
         <div className="cc-chat-inner" style={{ maxWidth: 860, margin: '0 auto', padding: '14px 24px 24px' }}>
           {empty ? (
-            <div className="rise" style={{ paddingTop: 24 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 8 }}>
-                <Emblem size={40} />
+            <div className="rise cc-chat-empty">
+              <div className="cc-chat-empty__header">
+                <Emblem size={32} />
                 <div>
-                  <h2 style={{ fontSize: 24 }}>
+                  <h2 className="cc-chat-empty__title">
                     {ar ? `اسأل ${PRODUCT_AGENT_NAME_AR}` : `Ask ${PRODUCT_AGENT_NAME}`}
                   </h2>
-                  <div className="muted" style={{ fontSize: 14 }}>
+                  <p className="cc-chat-empty__subtitle">
                     {ar
-                      ? 'خمسة وكلاء متخصصين ينسّقون عبر LangGraph — بالعربية والإنجليزية.'
-                      : 'Five specialised agents, orchestrated by LangGraph — in English or Arabic.'}
-                  </div>
+                      ? 'مساعدك الشخصي للعمل التنفيذي — بريد، اجتماعات، مستندات، وعروض.'
+                      : 'Your personal assistant for executive work — email, meetings, documents, and decks.'}
+                  </p>
                 </div>
               </div>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '18px 0 26px' }}>
-                {AGENTS.map((a) => (
-                  <div key={a.id} className="pill ghost" style={{ height: 30 }}>
-                    <CcIcon name={a.icon} size={13} style={{ color: a.color }} />
-                    {a.name.replace(' AI', '')}
-                  </div>
-                ))}
+              <div className="eyebrow cc-chat-empty__label">
+                {ar ? 'ابدأ بسرعة' : 'Quick start'}
               </div>
-              <div className="eyebrow" style={{ marginBottom: 12 }}>
-                {ar ? 'جرّب أحد هذه' : 'Try one of these'}
-              </div>
-              <div className="grid mi-stagger" style={{ gap: 10 }} data-tour="chat-suggestions">
+              <div className="cc-chat-quick-prompts" data-tour="chat-suggestions">
                 {gst.suggestions.map((s) => (
-                  <IntelCard key={s.q} interactive onClick={() => send(s.q)}>
-                    <IntelCardBody style={{ padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
-                      <CcIcon name="sparkles" size={18} style={{ color: 'var(--accent-bright)', flex: 'none' }} />
-                      <span className="cc-chat-suggest-text">{s.q}</span>
-                      <CcIcon name={ar ? 'arrow-left' : 'arrow-right'} size={16} className="muted-3" />
-                    </IntelCardBody>
-                  </IntelCard>
+                  <button key={s.q} type="button" className="cc-chat-quick-prompt" onClick={() => send(s.q)}>
+                    <CcIcon name="sparkles" size={15} style={{ color: 'var(--accent-bright)', flex: 'none' }} />
+                    <span>{s.q}</span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -515,6 +512,9 @@ export function CommandCentreChatPage() {
       <footer className="chat-composer">
         <div className="chat-composer__inner chat-composer__row">
           <div className="chat-composer__input-wrap" data-tour="chat-input">
+            <button type="button" className="chat-composer__attach" aria-label={ar ? 'إرفاق ملف' : 'Attach file'} title={ar ? 'أرفق مستنداً أو بريداً' : 'Attach a document or email'}>
+              <CcIcon name="paperclip" size={18} />
+            </button>
             <input
               ref={inputRef}
               value={input}
@@ -522,33 +522,41 @@ export function CommandCentreChatPage() {
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
-                  send(input);
+                  if (!busy) send(input);
                 }
               }}
-              placeholder={ar ? 'اكتب سؤالك التنفيذي…' : 'Type an executive question…'}
-              disabled={busy}
+              placeholder={ar ? 'الصق بريداً، ارفع مستنداً، أو اكتب طلبك…' : 'Paste an email, drop a document, or type your request…'}
+              disabled={false}
               autoFocus
               aria-busy={busy}
             />
-            <button
-              type="button"
-              className="btn btn-primary"
-              style={{ height: 38, width: 44, padding: 0 }}
-              onClick={() => send(input)}
-              disabled={busy || !input.trim()}
-            >
-              <CcIcon name={busy ? 'loader' : 'arrow-up'} size={18} className={busy ? 'spin' : ''} />
-            </button>
+            {busy ? (
+              <button
+                type="button"
+                className="btn btn-ghost chat-composer__stop"
+                onClick={stopGeneration}
+                aria-label={ar ? 'إيقاف التوليد' : 'Stop generating'}
+                title={ar ? 'إيقاف' : 'Stop'}
+              >
+                <CcIcon name="square" size={16} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ height: 38, width: 44, padding: 0 }}
+                onClick={() => send(input)}
+                disabled={!input.trim()}
+              >
+                <CcIcon name="arrow-up" size={18} />
+              </button>
+            )}
           </div>
         </div>
         <p className="chat-composer__note">
-          {claudeLive
-            ? ar
-              ? 'مدعوم بـ Claude Sonnet 4.6 — إجابات حية من بيانات الإنتاج.'
-              : 'Powered by Claude Sonnet 4.6 — live answers from production data.'
-            : ar
-              ? 'ذكاء مؤسسي — قاعدة المعرفة والتقويم وسجل الإجراءات.'
-              : 'Institutional intelligence — knowledge base, calendar, and action register.'}
+          {ar
+            ? 'الردود جاهزة للنسخ — الصق في البريد أو الواتساب أو العروض.'
+            : 'Responses are copy-paste ready — use in email, WhatsApp, or presentations.'}
         </p>
       </footer>
     </div>

@@ -1,23 +1,30 @@
+import type { LiveNewsItem } from '../types/marketIntel';
 import type { ExecutiveState } from './executiveStore';
-import { getDepartment } from './executiveStore';
 import {
-  formatInvestmentSignalHeadline,
   formatMarketSignalHeadline,
-  parseFalconScoreFromSector,
+  marketFreshnessLabel,
+  primaryMarketMetric,
 } from './formatSignalHeadlines';
+import {
+  joinNewsBodies,
+  macroPerformanceHeadline,
+  newsBody,
+  newsHeadline,
+  newsSourceLine,
+} from './prioritySignalHelpers';
 
-/** Signal card shape used by Executive Home (from refreshed executive state) */
 export type CommandCentreSignal = {
   id: string;
   icon: string;
   tone: 'good' | 'warn' | 'risk' | 'info';
   label: string;
   headline: string;
-  /** Secondary line under headline (live metrics, Falcon score, etc.) */
   headlineSub?: string;
   body: string;
   metric: string;
   metricLabel: string;
+  freshnessLabel?: string;
+  sourceLine?: string;
   spark: number[];
   deptLink?: string;
   link?: string;
@@ -27,6 +34,8 @@ export type CommandCentreSignal = {
     headlineSub?: string;
     body: string;
     metricLabel: string;
+    freshnessLabel?: string;
+    sourceLine?: string;
   };
 };
 
@@ -39,37 +48,94 @@ const SPARK = {
   followup: [6, 5, 5, 4, 5, 4, 3, 4, 4, 4],
 };
 
+function pickLead(...candidates: (LiveNewsItem | null | undefined)[]): LiveNewsItem | undefined {
+  return candidates.find(Boolean) as LiveNewsItem | undefined;
+}
+
+function buildMarketBody(m: ExecutiveState['marketSnapshot']): string {
+  const parts: string[] = [];
+  if (m.topSectorLive && m.topSector) parts.push(m.topSector);
+  else if (m.topSector && !/unavailable/i.test(m.topSector)) parts.push(m.topSector);
+  if (m.asOf) parts.push(`As of ${m.asOf}`);
+  if (m.bloombergLead && !m.topSector?.includes(m.bloombergLead.slice(0, 40))) {
+    parts.push(m.bloombergLead);
+  }
+  if (!m.gccEquitiesLive && m.digitalAssetsLive) {
+    parts.push('GCC index feeds unavailable — crypto from CoinGecko is live.');
+  }
+  return parts.join('. ').replace(/\.\./g, '.').trim();
+}
+
 export function deriveCommandCentreSignals(state: ExecutiveState): CommandCentreSignal[] {
   const m = state.marketSnapshot;
-  const hr = getDepartment(state, 'hr');
-  const open = state.actionRegister.filter((a) => a.status !== 'done');
-  const overdue = open.filter((a) => a.status === 'overdue');
-  const attrition = hr?.kpis.find((k) => k.label.toLowerCase().includes('attrition'))?.value ?? '—';
-  const regHeadline =
-    state.regulatoryHeadline ?? m.bloombergLead ?? 'Regulatory and market intelligence updated';
-  const competitorHeadline = m.bloombergLead ?? m.competitorNote;
-  const falconScore = parseFalconScoreFromSector(m.topSector);
-  const marketHead = formatMarketSignalHeadline(m.gccEquities, m.digitalAssetsWoW);
-  const investHead = formatInvestmentSignalHeadline(m.topSector, falconScore);
+  const sn = state.signalNews;
+  const marketHead = formatMarketSignalHeadline(m.gccEquities, m.digitalAssetsWoW, {
+    gccLive: m.gccEquitiesLive,
+    digitalLive: m.digitalAssetsLive,
+  });
+  const marketLead = pickLead(sn?.market?.[0], sn?.gccTop?.[0]);
+  const competitorLead = pickLead(
+    sn?.competitor?.[0],
+    sn?.gccTop?.find((i) => /difc|dubai|saudi|qatar|sandbox|compet/i.test(i.title)),
+  );
+  const investmentLead = pickLead(sn?.investment?.[0], sn?.gccTop?.[0]);
+  const regulatoryLead = pickLead(sn?.regulatory?.[0]);
+  const followupLead = pickLead(sn?.followup?.[0], sn?.gccTop?.[1], sn?.market?.[1]);
+  const macro = macroPerformanceHeadline(state);
+
+  const competitorHeadline = competitorLead
+    ? newsHeadline(competitorLead)
+    : m.competitorNoteLive
+      ? m.competitorNote
+      : m.competitorNote;
+
+  const regHeadline = regulatoryLead
+    ? newsHeadline(regulatoryLead)
+    : (state.regulatoryHeadline ?? m.bloombergLead ?? 'Regulatory intelligence');
+
+  const followupItems = [...(sn?.followup ?? []), ...(sn?.gccTop ?? [])].filter(
+    (item, idx, arr) => arr.findIndex((x) => x.title === item.title) === idx,
+  );
+
+  const metricLabelMarket =
+    m.gccEquitiesLive && m.digitalAssetsLive
+      ? 'GCC / digital 24h'
+      : m.digitalAssetsLive
+        ? 'Digital 24h'
+        : m.gccEquitiesLive
+          ? 'GCC indices'
+          : 'GCC / digital 24h';
 
   return [
     {
       id: 'market',
       icon: 'trending-up',
-      tone: 'info',
+      tone: m.gccEquitiesLive || m.digitalAssetsLive ? 'info' : 'warn',
       label: 'Market Movements',
       headline: marketHead.headline,
-      headlineSub: marketHead.headlineSub,
-      body: `${m.topSector}. ${m.asOf ? `As of ${m.asOf}.` : ''} ${m.bloombergLead ? m.bloombergLead : ''}`.trim(),
-      metric: m.gccEquities.match(/^[+-]/) ? m.gccEquities : m.gccEquities.split(' · ')[0] ?? m.gccEquities,
-      metricLabel: 'GCC / digital 24h',
+      headlineSub: marketHead.headlineSub || undefined,
+      body: buildMarketBody(m) || newsBody(marketLead, 'Refresh for live market data.'),
+      metric: primaryMarketMetric(m),
+      metricLabel: metricLabelMarket,
+      freshnessLabel: marketFreshnessLabel(m),
+      sourceLine: marketLead
+        ? newsSourceLine(marketLead)
+        : m.digitalAssetsLive
+          ? `CoinGecko · ${m.asOf ?? 'live'}`
+          : m.gccEquitiesLive
+            ? `Yahoo Finance · ${m.asOf ?? 'live'}`
+            : undefined,
       spark: SPARK.market,
       ar: {
         label: 'تحركات السوق',
-        headline: marketHead.headline.replace('GCC equities', 'أسواق الخليج'),
-        headlineSub: marketHead.headlineSub.replace('BTC', 'بتكوين').replace('ETH', 'إيثريوم'),
-        body: m.competitorNote,
-        metricLabel: 'الخليج / رقمي',
+        headline: marketHead.headline
+          .replace('GCC equities', 'أسواق الخليج')
+          .replace('Digital assets', 'الأصول الرقمية'),
+        headlineSub: marketHead.headlineSub?.replace('BTC', 'بتكوين').replace('ETH', 'إيثريوم'),
+        body: buildMarketBody(m),
+        metricLabel: metricLabelMarket.replace('GCC', 'الخليج').replace('digital', 'رقمي'),
+        freshnessLabel: marketFreshnessLabel(m, true),
+        sourceLine: marketLead ? newsSourceLine(marketLead) : undefined,
       },
     },
     {
@@ -78,15 +144,18 @@ export function deriveCommandCentreSignals(state: ExecutiveState): CommandCentre
       tone: 'warn',
       label: 'Competitor Activity',
       headline: competitorHeadline.slice(0, 120),
-      body: m.competitorNote,
-      metric: String(Math.min(9, open.length + 1)),
-      metricLabel: 'moves to watch',
+      headlineSub: competitorLead ? competitorLead.source : m.competitorNoteLive ? 'Live wire' : undefined,
+      body: competitorLead ? newsBody(competitorLead) : m.competitorNote,
+      metric: String(Math.max(1, sn?.competitor?.length ?? (m.competitorNoteLive ? 1 : 0))),
+      metricLabel: competitorLead || m.competitorNoteLive ? 'live headlines' : 'awaiting feed',
+      sourceLine: competitorLead ? newsSourceLine(competitorLead) : undefined,
       spark: SPARK.competitor,
       ar: {
         label: 'نشاط المنافسين',
         headline: competitorHeadline.slice(0, 120),
-        body: m.competitorNote,
-        metricLabel: 'تحركات للمتابعة',
+        body: competitorLead ? newsBody(competitorLead) : m.competitorNote,
+        metricLabel: 'عناوين مباشرة',
+        sourceLine: competitorLead ? newsSourceLine(competitorLead) : undefined,
       },
     },
     {
@@ -94,36 +163,46 @@ export function deriveCommandCentreSignals(state: ExecutiveState): CommandCentre
       icon: 'sparkles',
       tone: 'good',
       label: 'Investment Opportunities',
-      headline: investHead.headline,
-      headlineSub: investHead.headlineSub,
-      body: `Digital assets ${m.digitalAssetsWoW} on ADGM priorities. Sovereign compute & infrastructure in focus.`,
-      metric: falconScore,
-      metricLabel: 'Falcon Economy alignment',
+      headline: investmentLead ? newsHeadline(investmentLead, 100) : 'Investment wire unavailable',
+      headlineSub: investmentLead?.source ?? (m.digitalAssetsLive ? 'CoinGecko' : undefined),
+      body: investmentLead
+        ? `${newsBody(investmentLead)}${m.digitalAssetsLive ? ` · ${m.digitalAssetsWoW}` : ''}`.trim()
+        : m.digitalAssetsLive
+          ? `Digital assets: ${m.digitalAssetsWoW}`
+          : 'Refresh for live investment headlines.',
+      metric: String(Math.max(1, sn?.investment?.length ?? 0)),
+      metricLabel: investmentLead ? 'live headlines' : 'awaiting feed',
+      sourceLine: investmentLead ? newsSourceLine(investmentLead) : undefined,
       spark: SPARK.investment,
       ar: {
         label: 'فرص الاستثمار',
-        headline: investHead.headline,
-        headlineSub: investHead.headlineSub.replace('Falcon Economy', 'الاقتصاد الصقور'),
-        body: `الأصول الرقمية ${m.digitalAssetsWoW} · أولويات ADGM.`,
-        metricLabel: 'توافق الاقتصاد الصقور',
+        headline: investmentLead ? newsHeadline(investmentLead, 100) : 'لا تتوفر عناوين استثمار حالياً',
+        headlineSub: investmentLead?.source,
+        body: investmentLead ? newsBody(investmentLead) : m.digitalAssetsWoW,
+        metricLabel: 'عناوين مباشرة',
+        sourceLine: investmentLead ? newsSourceLine(investmentLead) : undefined,
       },
     },
     {
       id: 'performance',
       icon: 'activity',
-      tone: overdue.length ? 'risk' : 'warn',
-      label: 'Internal Performance Signals',
-      headline: `Attrition ${attrition} · ${overdue.length} overdue actions`,
-      body: hr?.leadershipActions[0] ?? `${state.metrics.departmentsOnTrack}/9 departments on track.`,
-      metric: attrition,
-      metricLabel: 'attrition / actions',
+      tone: macro.live ? 'info' : 'warn',
+      label: 'Macro & Commodities',
+      headline: macro.headline,
+      headlineSub: macro.headlineSub,
+      body: macro.body,
+      metric: macro.metric,
+      metricLabel: macro.metricLabel,
+      freshnessLabel: macro.live ? marketFreshnessLabel(m) : undefined,
+      sourceLine: macro.live ? `Yahoo Finance · ${m.asOf ?? 'live'}` : undefined,
       spark: SPARK.performance,
-      deptLink: 'hr',
       ar: {
-        label: 'مؤشرات الأداء الداخلي',
-        headline: `الدوران ${attrition} · ${overdue.length} إجراءات متأخرة`,
-        body: hr?.leadershipActions[0] ?? `${state.metrics.departmentsOnTrack}/9 إدارات`,
-        metricLabel: 'الدوران / الإجراءات',
+        label: 'الماكرو والسلع',
+        headline: macro.headline,
+        headlineSub: macro.headlineSub,
+        body: macro.body,
+        metricLabel: 'ماكرو 24س',
+        freshnessLabel: macro.live ? marketFreshnessLabel(m, true) : undefined,
       },
     },
     {
@@ -132,40 +211,44 @@ export function deriveCommandCentreSignals(state: ExecutiveState): CommandCentre
       tone: 'warn',
       label: 'Regulatory Shifts',
       headline: regHeadline.slice(0, 120),
-      body: 'High-relevance moves across FSRA, MAS and FATF aligned to ADGM digital-asset framework.',
-      metric: '3',
-      metricLabel: 'high-relevance',
-      spark: SPARK.regulatory,
+      headlineSub: regulatoryLead?.source ?? (state.bloombergArticles?.length ? 'Bloomberg' : 'ADGM FSRA portal'),
+      body: regulatoryLead
+        ? newsBody(regulatoryLead)
+        : 'FSRA, MAS and FATF updates — see official portals below when wire is unavailable.',
+      metric: String(Math.max(1, sn?.regulatory?.length ?? 0)),
+      metricLabel: regulatoryLead ? 'live headlines' : 'official portals',
+      sourceLine: regulatoryLead ? newsSourceLine(regulatoryLead) : 'adgm.com/fsra',
       link: 'regulatory',
+      spark: SPARK.regulatory,
       ar: {
         label: 'تحولات تنظيمية',
         headline: regHeadline.slice(0, 120),
-        body: 'تحركات FSRA وMAS وFATF ذات صلة بإطار ADGM.',
-        metricLabel: 'عالية الصلة',
+        body: regulatoryLead ? newsBody(regulatoryLead) : 'تحديثات FSRA وMAS وFATF.',
+        metricLabel: 'عناوين مباشرة',
+        sourceLine: regulatoryLead ? newsSourceLine(regulatoryLead) : undefined,
       },
     },
     {
       id: 'followup',
       icon: 'list-checks',
       tone: 'info',
-      label: 'Follow-Up Actions',
-      headline: `${open.length} actions awaiting your decision`,
+      label: 'Deals & Policy Watch',
+      headline: followupLead ? newsHeadline(followupLead, 100) : 'Policy & deals wire',
+      headlineSub: followupLead?.source,
       body:
-        open
-          .slice(0, 3)
-          .map((a) => a.title)
-          .join(' · ') || 'Action register clear.',
-      metric: String(open.length),
-      metricLabel: 'open items',
+        followupItems.length > 0
+          ? joinNewsBodies(followupItems, 3)
+          : 'Refresh for GCC deals, policy and sovereign fund headlines.',
+      metric: String(Math.max(0, followupItems.length)),
+      metricLabel: followupItems.length ? 'live headlines' : 'awaiting feed',
+      sourceLine: followupLead ? newsSourceLine(followupLead) : undefined,
       spark: SPARK.followup,
       ar: {
-        label: 'إجراءات المتابعة',
-        headline: `${open.length} إجراءات بانتظار قرارك`,
-        body: open
-          .slice(0, 3)
-          .map((a) => a.title)
-          .join(' · '),
-        metricLabel: 'بنود مفتوحة',
+        label: 'صفقات وسياسات للمتابعة',
+        headline: followupLead ? newsHeadline(followupLead, 100) : 'متابعة السياسات والصفقات',
+        body: joinNewsBodies(followupItems, 3),
+        metricLabel: 'عناوين مباشرة',
+        sourceLine: followupLead ? newsSourceLine(followupLead) : undefined,
       },
     },
   ];

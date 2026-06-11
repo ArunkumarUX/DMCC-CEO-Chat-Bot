@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // @ts-nocheck
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CcIcon } from '../../command-centre/CcIcon';
 import {
@@ -23,44 +23,98 @@ import {
 } from '../../data/commandCentreData';
 import { useApp } from '../../context/AppContext';
 import { generateBriefing } from '../../api/generateBriefing';
-import { checkClaudeAvailable } from '../../api/claudeChat';
 import { getBriefingConfig } from '../../api/briefingConfig';
 import { INTEL_LAYMAN } from '../../data/intelLaymanCopy';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-const USE_CLAUDE = import.meta.env.VITE_USE_CLAUDE_API !== 'false';
 
 
 function MorningBriefing({ lang }) {
+  const { executiveState } = useApp();
   const ar = lang === 'ar';
-  const items = ar ? [
+  const sn = executiveState?.signalNews;
+  const m = executiveState?.marketSnapshot;
+
+  // Build live items from signalNews + market data (refreshed 08:00 & 22:00 GST)
+  const liveItems = useMemo(() => {
+    const seen = new Set();
+    const items = [];
+    const push = (text) => {
+      const key = text.slice(0, 50);
+      if (!seen.has(key)) { seen.add(key); items.push(text); }
+    };
+
+    // 1. Top GCC-relevant headline
+    const gccLead = sn?.gccTop?.[0];
+    if (gccLead) push(gccLead.source + ': ' + gccLead.title);
+
+    // 2. Live market price line
+    if (m?.gccEquitiesLive && m.gccEquities && !/unavailable/i.test(m.gccEquities)) {
+      push('GCC equities — ' + m.gccEquities + ' · Yahoo Finance');
+    } else if (m?.digitalAssetsLive && m.digitalAssetsWoW) {
+      push('Digital assets — ' + m.digitalAssetsWoW + ' · CoinGecko');
+    }
+    if (m?.goldSummary) push('Commodities — ' + m.goldSummary + (m.oilSummary ? ' · ' + m.oilSummary : '') + ' · Yahoo Finance');
+
+    // 3. Competitor headline
+    const compLead = sn?.competitor?.[0];
+    if (compLead) push(compLead.source + ': ' + compLead.title);
+
+    // 4. Regulatory headline
+    const regLead = sn?.regulatory?.[0];
+    if (regLead) push(regLead.source + ': ' + regLead.title);
+
+    // 5. Investment or market headlines
+    const invLead = sn?.investment?.[0];
+    if (invLead) push(invLead.source + ': ' + invLead.title);
+
+    // Fill from market / gccTop
+    for (const item of [...(sn?.market ?? []), ...(sn?.gccTop?.slice(1) ?? [])]) {
+      if (items.length >= 4) break;
+      push(item.source + ': ' + item.title);
+    }
+
+    return items.slice(0, 4);
+  }, [sn, m]);
+
+  const isLive = liveItems.length > 0;
+  const displayItems = isLive ? liveItems : (ar ? [
     'تدفقات رأس المال الخليجي ارتفعت 4.2٪؛ تحول نحو الائتمان الخاص والأصول الرقمية.',
     'مركز دبي المالي يطلق نظام صناديق مرمزة — يُوصى بتسريع إرشادات FSRA.',
-    'البنية التحتية للذكاء الاصطناعي تتصدر الفرص (توافق الاقتصاد الصقور = 92).',
-    'عوائد سندات الإمارات لأجل 10 سنوات تنخفض 6 نقاط أساس.',
+    'في انتظار تحديث البيانات — يظهر محتوى مباشر بعد مزامنة 08:00 أو 22:00.',
+    'المصادر: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA.',
   ] : [
-    'GCC capital flows up 4.2% overnight — rotation toward private credit and digital assets.',
-    'DIFC launched a tokenised-fund regime — accelerate FSRA digital-fund guidance.',
-    'AI infrastructure tops opportunities (Falcon Economy fit 92) on record VC inflow.',
-    'UAE 10Y yields eased 6bps; sovereign-fund allocations active.',
-  ];
+    'Awaiting refresh — live headlines will appear after the 08:00 or 22:00 GST sync.',
+    'Sources: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA · Gulf News.',
+    'GCC, digital assets, fintech and regulatory headlines loaded on each refresh.',
+    'Tap “Generate” in Briefings for a full AI-written morning brief.',
+  ]);
+
   return (
     <IntelCard featured rise>
       <IntelCardHead
         icon="sunrise"
         compact
         title={ar ? 'إحاطة الصباح' : 'Morning briefing'}
-        subtitle={ar ? 'يُحدَّث 08:00 و22:00 بتوقيت الإمارات' : 'Refreshed 08:00 & 22:00 GST · GCC, capital flows, fintech, digital assets'}
+        subtitle={ar
+          ? ('يُحدَث 08:00 و 22:00 بتوقيت الإمارات' + (m?.asOf ? ' · ' + m.asOf.slice(0, 10) : ''))
+          : ('Refreshed 08:00 & 22:00 GST · GCC, capital flows, fintech, digital assets' + (m?.asOf ? ' · ' + m.asOf.slice(0, 10) : ''))}
         badge={
-          <span className="pill" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', height: 26 }}>
-            <span className="dot good pulse" style={{ background: 'var(--aqua)', color: 'var(--aqua)' }} />
-            {ar ? 'مباشر' : 'Live'}
-          </span>
+          isLive ? (
+            <span className="pill" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', height: 26 }}>
+              <span className="dot good pulse" style={{ background: 'var(--aqua)', color: 'var(--aqua)' }} />
+              {ar ? 'مباشر' : 'Live'}
+            </span>
+          ) : (
+            <span className="pill" style={{ background: 'rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.55)', height: 26, fontSize: 11 }}>
+              {ar ? 'في انتظار التحديث' : 'Awaiting refresh'}
+            </span>
+          )
         }
       />
       <IntelCardBody>
         <IntelList>
-          {items.map((t, i) => (
+          {displayItems.map((t, i) => (
             <IntelListItem key={i} index={i + 1}>
               {t}
             </IntelListItem>
@@ -265,9 +319,9 @@ function CapitalFlowCard({ lang }) {
           title={ar ? 'تتجه نحو أبوظبي' : 'Rotating toward Abu Dhabi'}
           laymanInfo={ar ? INTEL_LAYMAN.capitalFlows.ar : INTEL_LAYMAN.capitalFlows.en}
           action={
-            <span className="pill good" style={{ height: 24 }}>
-              <span className="dot good pulse" style={{ color: 'var(--status-good)', background: 'currentColor' }} />
-              {ar ? 'مباشر' : 'Live 24h'}
+            <span className="pill ghost" style={{ height: 24, color: 'var(--ink-3)' }}>
+              <CcIcon name="flask-conical" size={12} />
+              {ar ? 'سيناريو توضيحي' : 'Illustrative scenario'}
             </span>
           }
           style={{ marginBottom: 6 }}
@@ -350,15 +404,9 @@ export function BriefingsPage() {
   const [out, setOut] = useState(null);
   const [busy, setBusy] = useState(false);
   const [source, setSource] = useState(null);
-  const [claudeLive, setClaudeLive] = useState(false);
   const [copied, setCopied] = useState(false);
   const abortRef = useRef(null);
   const fmt = BRIEF_FORMATS.find((f) => f.id === sel);
-
-  useEffect(() => {
-    if (!USE_CLAUDE) return;
-    checkClaudeAvailable().then(setClaudeLive);
-  }, []);
 
   useEffect(() => () => abortRef.current?.abort(), []);
 
@@ -411,24 +459,21 @@ export function BriefingsPage() {
           <div className="eyebrow">{ar ? 'مولّد الإحاطات التنفيذية' : 'Executive briefing generator'}</div>
           <h2 style={{ fontSize: 24, marginTop: 4 }}>{ar ? 'إحاطات جاهزة للقرار في ثوانٍ' : 'Decision-ready briefings in seconds'}</h2>
           <p className="muted-3" style={{ margin: '6px 0 0', fontSize: 12.5, maxWidth: 520 }}>
-            {claudeLive
-              ? ar
-                ? 'مدعوم بـ Claude · التقويم · قاعدة المعرفة · سجل الإجراءات (نفس منطق المحادثة)'
-                : 'Powered by Claude · calendar · knowledge base · action register (same logic as Chat)'
-              : ar
-                ? 'ذكاء مؤسسي — قاعدة المعرفة والتقويم وسجل الإجراءات؛ أضف ANTHROPIC_API_KEY للتوليف الحي'
-                : 'Institutional intelligence — knowledge base, calendar & action register; add ANTHROPIC_API_KEY for live AI'}
+            {ar
+              ? 'الصق جدول أعمال أو بريداً أو ارفع مستنداً — لا حاجة لتكامل التقويم.'
+              : 'Paste an agenda, email, or upload a document — no calendar integration required.'}
           </p>
         </div>
       </div>
-      <div className="grid cc-grid-auto">
+      <div className="grid cc-brief-formats-grid">
         {BRIEF_FORMATS.map((f) => (
           <IntelCard
             key={f.id}
             interactive
             selected={sel === f.id}
             onClick={() => { setSel(f.id); setOut(null); setCopied(false); }}
-            style={{ textAlign: 'start', padding: 18, color: 'var(--ink)' }}
+            className="cc-brief-format-card"
+            style={{ textAlign: 'start', padding: '14px 16px', color: 'var(--ink)' }}
           >
             <div className="brief-format-card__head">
               <IntelIconBox
@@ -478,17 +523,13 @@ export function BriefingsPage() {
               <>
                 {source && !busy && (
                   <p className="muted-3" style={{ margin: '0 0 10px', fontSize: 11 }}>
-                    {source === 'claude'
+                    {source === 'claude' || source === 'intelligent'
                       ? ar
-                        ? 'المصدر: Claude · سياق حي'
-                        : 'Source: Claude · live context'
-                      : source === 'intelligent'
-                        ? ar
-                          ? 'المصدر: قاعدة المعرفة والتقويم وسجل الإجراءات'
-                          : 'Source: knowledge base, calendar & action register'
-                        : ar
-                          ? 'المصدر: كتالوج الإحاطات المعتمد'
-                          : 'Source: approved briefing catalogue'}
+                        ? 'المصدر: المستندات والسياق الذي قدمته'
+                        : 'Source: documents and context you provided'
+                      : ar
+                        ? 'المصدر: كتالوج الإحاطات المعتمد'
+                        : 'Source: approved briefing catalogue'}
                   </p>
                 )}
                 <div style={{ fontSize: 14.5, color: 'var(--ink-2)' }} className={ar ? 'lang-ar' : ''}>

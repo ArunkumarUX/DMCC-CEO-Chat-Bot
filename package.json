@@ -16,7 +16,9 @@
     "open-design:setup": "bash scripts/setup-open-design.sh",
     "claude-design:setup": "bash scripts/setup-claude-design-ai.sh",
     "kb:falcon": "node scripts/build-institutional-kb.mjs",
-    "kb:build": "node scripts/build-institutional-kb.mjs"
+    "kb:build": "node scripts/build-institutional-kb.mjs",
+    "deck:screenshots": "node scripts/capture-deck-screenshots.mjs",
+    "difc:ppt": "bash scripts/generate-difc-ppt.sh"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.9",

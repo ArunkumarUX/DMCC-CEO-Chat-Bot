@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "apify-bloomberg": {
+      "url": "https://mcp.apify.com/?tools=piotrv1001/bloomberg-category-news-scraper,actors,docs,get-actor-run,get-dataset-items"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import type { DataRefreshSlotId } from '../config/dataRefreshSchedule';
 import type { ExecutiveState } from '../data/executiveStore';
+import type { LiveMarketIntelSnapshot, SignalNewsBundle } from '../types/marketIntel';
 
 export type BloombergArticle = {
   headline?: string;
@@ -25,6 +26,8 @@ export type ExecutiveSnapshotPatch = {
   bloombergFetchedAt?: string;
   liveTicker?: { k: string; v: string; c: number }[];
   liveTickerFetchedAt?: string;
+  signalNews?: SignalNewsBundle;
+  liveMarketIntel?: LiveMarketIntelSnapshot;
 };
 
 export async function fetchExecutiveSnapshotPatch(

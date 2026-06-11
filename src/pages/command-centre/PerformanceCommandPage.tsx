@@ -283,6 +283,23 @@ export function PerformanceCommandPage() {
       />
 
       <EscalationBanner items={escalations} ar={ar} onOpen={setSelected} />
+
+      {/* Scenario data disclaimer */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        background: 'color-mix(in oklab, var(--warn) 8%, transparent)',
+        border: '1px solid color-mix(in oklab, var(--warn) 25%, transparent)',
+        borderRadius: 10, padding: '10px 16px', fontSize: 13,
+        color: 'var(--fg-muted)',
+      }}>
+        <CcIcon name="flask-conical" size={16} style={{ color: 'var(--warn)', flexShrink: 0 }} />
+        <span>
+          {ar
+            ? 'بيانات توضيحية · تكامل ERP مخطط (الأسبوع السابع) · ستُستبدل بالبيانات الحية عند الاتصال'
+            : 'Illustrative scenario data · ERP integration planned (Week 7) · Will be replaced with live data on connection'}
+        </span>
+      </div>
+
       <OrgOverview lang={lang} depts={departments} />
       <div className="grid mi-stagger perf-dept-grid">
         {departments.map((dd) => (

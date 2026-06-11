@@ -53,7 +53,7 @@ export function buildDefaultProvenance(opts?: {
         mode: 'ai',
         detailEn: opts?.claudeEnabled
           ? 'Answers synthesised from grounded records below — no invented figures.'
-          : 'API key required for live synthesis; demo scripts used as fallback.',
+          : 'API key required for live synthesis; scenario fallback active.',
         detailAr: opts?.claudeEnabled
           ? 'إجابات مبنية على السجلات الموثقة أدناه — دون اختلاق أرقام.'
           : 'يتطلب مفتاح API؛ سيناريوهات تجريبية عند عدم التوفر.',
@@ -91,7 +91,7 @@ export function buildDefaultProvenance(opts?: {
         labelEn: 'Nine department dashboards',
         labelAr: 'لوحات الإدارات التسع',
         mode: 'prototype',
-        detailEn: 'Illustrative ERP-style metrics for demo; cite as internal records only.',
+        detailEn: 'Illustrative ERP-style metrics — ERP integration planned (Week 7); cite as internal records only.',
         detailAr: 'مؤشرات توضيحية للعرض — تُستشهد كسجلات داخلية فقط.',
       },
       {

@@ -2,7 +2,7 @@ import type { Source, SourceType } from '../types';
 import type { ExecutiveState } from '../data/executiveStore';
 import { kbHandle } from './sourceHandles';
 
-/** Known external URLs for demo documents and feeds */
+/** Known external URLs for live documents and feeds */
 const DOC_EXTERNAL_URL: Record<string, string> = {
   d2: 'https://www.adgm.com/rules-and-regulations',
   d4: 'https://www.mas.gov.sg/regulation',

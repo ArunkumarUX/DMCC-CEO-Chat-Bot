@@ -117,3 +117,178 @@ export const INTEL_LAYMAN: Record<
     },
   },
 };
+
+/** Dashboard signal card quick-info tooltips */
+export const SIGNAL_CARD_INFO: Record<
+  string,
+  { en: IntelLaymanBlock; ar: IntelLaymanBlock }
+> = {
+  market: {
+    en: {
+      label: 'About market movements',
+      title: 'Market Movements',
+      intro: 'GCC indices and crypto 24h moves when feeds succeed; refreshed at 08:00 & 22:00 GST.',
+      bullets: [
+        'GCC: Yahoo Finance (ADX, DFM, Tadawul) when available',
+        'Crypto: CoinGecko BTC/ETH 24h change',
+        'Headlines: RSS wires + optional Bloomberg (Apify)',
+      ],
+      note: 'Live badge appears when price feeds succeed at refresh.',
+    },
+    ar: {
+      label: 'عن تحركات السوق',
+      title: 'تحركات السوق',
+      intro: 'مؤشرات الخليج والعملات الرقمية مباشرة عند نجاح المصادر؛ تحديث 08:00 و22:00 بتوقيت الإمارات.',
+      bullets: [
+        'الخليج: Yahoo Finance عند التوفر',
+        'الرقمي: CoinGecko لتغير BTC/ETH خلال 24 ساعة',
+        'العناوين: RSS وBloomberg اختياري',
+      ],
+      note: 'تظهر شارة «مباشر» عند نجاح مصادر الأسعار عند التحديث.',
+    },
+  },
+  competitor: {
+    en: {
+      label: 'About competitor activity',
+      title: 'Competitor Activity',
+      intro: 'Moves by peer financial centres that may affect ADGM positioning.',
+      bullets: [
+        'Source: Reuters, Gulf News, and regulatory announcements',
+        'Tracks DIFC, Singapore, Hong Kong, and other centres',
+        'Highlights strategic responses worth executive attention',
+      ],
+      note: 'Each signal links to its original news or regulatory source.',
+    },
+    ar: {
+      label: 'عن نشاط المنافسين',
+      title: 'نشاط المنافسين',
+      intro: 'تحركات المراكز المالية المنافسة التي قد تؤثر على موقع ADGM.',
+      bullets: [
+        'المصدر: رويترز، الخليج، وإعلانات تنظيمية',
+        'يتتبع دبي وسنغافورة وهونغ كونغ ومراكز أخرى',
+        'يسلّط الضوء على ردود فعل استراتيجية تستحق الانتباه',
+      ],
+      note: 'كل إشارة مرتبطة بمصدرها الأصلي.',
+    },
+  },
+  investment: {
+    en: {
+      label: 'About investment opportunities',
+      title: 'Investment Opportunities',
+      intro: 'Sectors scored against Falcon Economy priorities for Abu Dhabi.',
+      bullets: [
+        'Source: market intelligence + strategic planning documents',
+        'Higher score = stronger alignment with national economic goals',
+        'Ranks themes for leadership focus this quarter',
+      ],
+      note: 'Strategic prioritisation — not investment advice.',
+    },
+    ar: {
+      label: 'عن فرص الاستثمار',
+      title: 'فرص الاستثمار',
+      intro: 'قطاعات مُقيّمة مقابل أولويات الاقتصاد الصقور لأبوظبي.',
+      bullets: [
+        'المصدر: استخبارات السوق + وثائق التخطيط الاستراتيجي',
+        'درجة أعلى = توافق أقوى مع الأهداف الاقتصادية الوطنية',
+        'يرتّب المحاور لتركيز القيادة هذا الربع',
+      ],
+      note: 'لترتيب الأولويات — وليس نصيحة استثمارية.',
+    },
+  },
+  performance: {
+    en: {
+      label: 'About internal performance',
+      title: 'Internal Performance Signals',
+      intro: 'Department health and action-register status across ADGM.',
+      bullets: [
+        'Source: ERP/HR systems and internal action register',
+        'Shows attrition, overdue actions, and department RAG status',
+        'Flags correlated risks across teams',
+      ],
+      note: 'Internal data — refreshed from department dashboards.',
+    },
+    ar: {
+      label: 'عن الأداء الداخلي',
+      title: 'مؤشرات الأداء الداخلي',
+      intro: 'صحة الإدارات وحالة سجل الإجراءات عبر ADGM.',
+      bullets: [
+        'المصدر: أنظمة ERP/HR وسجل الإجراءات الداخلي',
+        'يعرض الدوران والإجراءات المتأخرة وحالة الإدارات',
+        'يُبرز المخاطر المترابطة بين الفرق',
+      ],
+      note: 'بيانات داخلية — مُحدَّثة من لوحات الإدارات.',
+    },
+  },
+  regulatory: {
+    en: {
+      label: 'About regulatory shifts',
+      title: 'Regulatory Shifts',
+      intro: 'Policy and rule changes from global and regional regulators.',
+      bullets: [
+        'Source: FSRA, MAS, FATF, FCA, and IOSCO feeds',
+        'Assesses relevance to ADGM digital-asset framework',
+        'Highlights compliance deadlines and competitive gaps',
+      ],
+      note: 'Each item traceable to the issuing regulator.',
+    },
+    ar: {
+      label: 'عن التحولات التنظيمية',
+      title: 'التحولات التنظيمية',
+      intro: 'تغييرات السياسات والقواعد من الجهات التنظيمية العالمية والإقليمية.',
+      bullets: [
+        'المصدر: FSRA وMAS وFATF وFCA وIOSCO',
+        'يقيّم الصلة بإطار ADGM للأصول الرقمية',
+        'يُبرز مواعيد الامتثال والفجوات التنافسية',
+      ],
+      note: 'كل بند قابل للتتبع إلى الجهة المُصدِرة.',
+    },
+  },
+  followup: {
+    en: {
+      label: 'About follow-up actions',
+      title: 'Follow-Up Actions',
+      intro: 'Open decisions and tasks from your action register.',
+      bullets: [
+        'Source: internal action register synced from meetings and briefings',
+        'Shows items awaiting CSO decision or sign-off',
+        'Prioritised by due date and strategic impact',
+      ],
+      note: 'Pulled from your institutional action register — not external feeds.',
+    },
+    ar: {
+      label: 'عن إجراءات المتابعة',
+      title: 'إجراءات المتابعة',
+      intro: 'قرارات ومهام مفتوحة من سجل الإجراءات.',
+      bullets: [
+        'المصدر: سجل الإجراءات الداخلي من الاجتماعات والإحاطات',
+        'يعرض البنود بانتظار قرار أو اعتماد كبير مسؤولي الاستراتيجية',
+        'مرتّبة حسب الموعد والأثر الاستراتيجي',
+      ],
+      note: 'من سجل الإجراءات المؤسسي — وليس مصادر خارجية.',
+    },
+  },
+};
+
+/** Source explanation slide — for deck exports */
+export const SOURCE_EXPLANATION_SLIDE = {
+  en: `## Data sources across the Command Centre
+
+| Source | Where used | Why credible | CSO relevance |
+|--------|-----------|--------------|---------------|
+| Bloomberg / Refinitiv | Market ticker, signal cards | Institutional-grade market data used by global banks | Real-time macro context for board and investor conversations |
+| Reuters / Gulf News | Competitor activity, regulatory monitor | Tier-1 news with editorial standards | Early warning on peer-centre moves |
+| FSRA / MAS / FATF / IOSCO | Regulatory shifts card | Primary regulatory issuers | Direct impact on ADGM licensing and compliance |
+| SharePoint / DMS | Knowledge base, board packs | ADGM's own approved documents | Ground truth for institutional answers |
+| ERP / HR systems | Performance signals | Internal operational data | Department health and attrition visibility |
+| Action register | Follow-up actions | CSO-owned decision tracker | Ensures nothing falls through between meetings |`,
+  ar: `## مصادر البيانات في مركز القيادة
+
+| المصدر | أين يُستخدم | لماذا موثوق | أهمية لكبير مسؤولي الاستراتيجية |
+|--------|------------|------------|--------------------------------|
+| Bloomberg / Refinitiv | شريط السوق، بطاقات الإشارات | بيانات سوق مؤسسية | سياق كلي لحظي للمجلس والمستثمرين |
+| رويترز / الخليج | نشاط المنافسين، الرقابة التنظيمية | أخبار من الدرجة الأولى | إنذار مبكر بتحركات المراكز المنافسة |
+| FSRA / MAS / FATF / IOSCO | بطاقة التحولات التنظيمية | جهات تنظيمية أساسية | أثر مباشر على التراخيص والامتثال |
+| SharePoint / DMS | قاعدة المعرفة، حزم المجلس | وثائق ADGM المعتمدة | مصدر الحقيقة المؤسسي |
+| ERP / HR | مؤشرات الأداء | بيانات تشغيلية داخلية | صحة الإدارات وظهور الدوران |
+| سجل الإجراءات | إجراءات المتابعة | متتبع قرارات كبير مسؤولي الاستراتيجية | ضمان عدم ضياع البنود بين الاجتماعات |`,
+};

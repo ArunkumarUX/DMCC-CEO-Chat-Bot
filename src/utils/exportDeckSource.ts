@@ -1,6 +1,7 @@
 import { EXECUTIVE_USER } from '../config/user';
 import { ADGM_BRAND } from '../config/brand';
 import { ADGM_PPT_FOOTER } from '../config/adgmBrandForDeck';
+import { SOURCE_EXPLANATION_SLIDE } from '../data/intelLaymanCopy';
 
 type DeckMessage = {
   role: string;
@@ -44,13 +45,15 @@ export function buildDeckSourceMarkdown(
     lines.push(`### ${label}`, '', m.content.trim(), '');
   }
 
+  lines.push(SOURCE_EXPLANATION_SLIDE.en, ``);
+
   lines.push(
     `## Deck instructions (for PPT Master)`,
     `- Format: PowerPoint 16:9`,
     `- Brand: ADGM Brand Book ${ADGM_BRAND.version} — Clearsky ${ADGM_BRAND.primary.clearsky}, navy ${ADGM_BRAND.navy.DEFAULT}, Gilroy/Aptos, tagline "${ADGM_BRAND.tagline}"`,
     `- Footer: ${ADGM_PPT_FOOTER}`,
     `- Audience: ${EXECUTIVE_USER.fullName}, CSO`,
-    `- Include: title, 3–5 insight slides, one comparison or metrics table, closing "Do this" slide`,
+    `- Include: title, 3–5 insight slides, one data-sources slide (above), one comparison or metrics table, closing "Do this" slide`,
     `- Cite source handles where used (KB-, ACT-, CAL-, MKT-)`,
     ``,
   );

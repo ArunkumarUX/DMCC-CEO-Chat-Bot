@@ -1,6 +1,6 @@
 import type { DepartmentPerformance } from '../types';
 
-/** §05 Performance dashboard — nine departments (demo data) */
+/** §05 Performance dashboard — nine departments (illustrative scenario data) */
 export const PERFORMANCE_DEPARTMENTS: DepartmentPerformance[] = [
   {
     id: 'hr',

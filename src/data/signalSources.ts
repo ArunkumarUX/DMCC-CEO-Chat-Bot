@@ -1,18 +1,9 @@
 import type { Source } from '../types';
+import type { LiveNewsItem } from '../types/marketIntel';
 import type { ExecutiveState } from './executiveStore';
 import { getSourcesFromHandles } from './executiveStore';
 import { enrichSources } from '../utils/sourceLinks';
 import { mktHandle } from '../utils/sourceHandles';
-
-/** Shape of a live news item passed from executiveSnapshot */
-type LiveNewsItem = {
-  title: string;
-  url: string;
-  date: string;
-  source: string;
-  sourceUrl: string;
-  excerpt: string;
-};
 
 /** Convert a live news article into a Source card with a real clickable link */
 function newsItemToSource(item: LiveNewsItem, id: string): Source {
@@ -87,45 +78,55 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
   const liveBbg = bloombergWireFeeds(state, date);
   const isLiveBbg = liveBbg.length > 0;
 
-  // Live news items from RSS feeds (set by executiveSnapshot)
-  const signalNews = (state as any).signalNews as Record<string, LiveNewsItem[]> | undefined;
-  const liveMarketIntel = (state as any).liveMarketIntel as any;
+  const signalNews = state.signalNews;
+  const liveMarketIntel = state.liveMarketIntel;
+  const snapLive = Boolean(snap.gccEquitiesLive || snap.digitalAssetsLive);
 
   switch (signalId) {
     case 'market': {
-      // Prefer Bloomberg → live RSS news → labeled fallback
+      // Prefer Bloomberg → live RSS news → live price feeds → labeled fallback
       if (isLiveBbg) return liveBbg;
       const newsItems: LiveNewsItem[] = signalNews?.market ?? [];
-      if (newsItems.length > 0) {
-        const sources = newsItems.slice(0, 3).map((item, i) => newsItemToSource(item, `src-market-live-${i}`));
-        // Add market data source if live
-        if (liveMarketIntel?.equities?.sourceUrl) {
-          sources.push(feed(
-            'src-gcc-prices',
-            `GCC Equities: ${snap.gccEquities}`,
-            snap.gccEquitiesSource ?? 'Yahoo Finance (live)',
-            `ADX, DFM, Tadawul live prices as of ${snap.asOf}. Source: Yahoo Finance.`,
-            snap.gccEquitiesSourceUrl ?? 'https://finance.yahoo.com/world-indices',
-            date, 0.95,
-          ));
-        }
-        if (liveMarketIntel?.digital?.sourceUrl) {
-          sources.push(feed(
-            'src-digital-prices',
-            `Digital Assets: ${snap.digitalAssetsWoW}`,
-            snap.digitalAssetsSource ?? 'CoinGecko (live)',
-            `BTC, ETH live prices as of ${snap.asOf}. Source: CoinGecko.`,
-            snap.digitalAssetsSourceUrl ?? 'https://www.coingecko.com',
-            date, 0.95,
-          ));
-        }
-        return sources;
+      const sources: Source[] = newsItems
+        .slice(0, 3)
+        .map((item, i) => newsItemToSource(item, `src-market-live-${i}`));
+
+      if (snap.gccEquitiesLive && snap.gccEquitiesSourceUrl) {
+        sources.push(feed(
+          'src-gcc-prices',
+          `GCC Equities: ${snap.gccEquities}`,
+          snap.gccEquitiesSource ?? 'Yahoo Finance (live)',
+          `ADX, DFM, Tadawul live prices as of ${snap.asOf}. Source: Yahoo Finance.`,
+          snap.gccEquitiesSourceUrl,
+          date,
+          0.95,
+        ));
       }
+      if (snap.digitalAssetsLive && snap.digitalAssetsSourceUrl) {
+        sources.push(feed(
+          'src-digital-prices',
+          `Digital Assets: ${snap.digitalAssetsWoW}`,
+          snap.digitalAssetsSource ?? 'CoinGecko (live)',
+          `BTC, ETH live prices as of ${snap.asOf}. Source: CoinGecko.`,
+          snap.digitalAssetsSourceUrl,
+          date,
+          0.95,
+        ));
+      }
+      if (sources.length > 0) return sources;
+
       return [
-        feed('src-market-scenario', 'GCC market overview — scenario data',
-          'Market scenario snapshot (prototype — connect to live feeds)',
-          `GCC equities ${snap.gccEquities}; digital assets ${snap.digitalAssetsWoW}. Scenario data only.`,
-          'https://www.adgm.com', date, 0.4),
+        feed(
+          'src-market-scenario',
+          'Market overview',
+          'Market snapshot',
+          snapLive
+            ? 'Live price feeds partially unavailable. Scenario fallback hidden for GCC percentages.'
+            : `GCC ${snap.gccEquities}; digital ${snap.digitalAssetsWoW}.`,
+          'https://www.adgm.com',
+          date,
+          0.4,
+        ),
       ];
     }
 
@@ -170,13 +171,33 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
       ];
     }
 
-    case 'performance':
+    case 'performance': {
+      const sources: Source[] = [];
+      if (snap.oilSummary && snap.oilSourceUrl) {
+        sources.push(
+          feed('src-brent-live', snap.oilSummary, 'Yahoo Finance · Brent crude', snap.oilSummary, snap.oilSourceUrl, date, 0.95),
+        );
+      }
+      if (snap.goldSummary && snap.goldSourceUrl) {
+        sources.push(
+          feed('src-gold-live', snap.goldSummary, 'Yahoo Finance · Gold', snap.goldSummary, snap.goldSourceUrl, date, 0.95),
+        );
+      }
+      if (snap.gccEquitiesLive && snap.gccEquitiesSourceUrl) {
+        sources.push(
+          feed('src-gcc-macro', `GCC: ${snap.gccEquities}`, snap.gccEquitiesSource ?? 'Yahoo Finance', snap.gccEquities, snap.gccEquitiesSourceUrl, date, 0.94),
+        );
+      }
+      const macroNews = signalNews?.market?.[0];
+      if (macroNews) sources.push(newsItemToSource(macroNews, 'src-macro-news'));
+      if (sources.length) return sources;
       return [
-        feed('src-performance-scenario', 'Department performance — scenario data',
-          'Internal scenario dataset (prototype — connect ERP for live data)',
-          'Illustrative department metrics. Not connected to live ERP or HR systems.',
-          'https://www.adgm.com', date, 0.4),
+        feed('src-macro-yahoo', 'Yahoo Finance — Commodities & indices',
+          'Yahoo Finance (live)',
+          'Brent, gold and GCC indices refresh at 08:00 & 22:00 GST.',
+          'https://finance.yahoo.com', date, 0.88),
       ];
+    }
     case 'regulatory': {
       const newsItems: LiveNewsItem[] = signalNews?.regulatory ?? [];
       const liveSources: Source[] = newsItems.length > 0
@@ -221,7 +242,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
   }
 }
 
-/** Live MKT snapshot handle only (Bloomberg / Refinitiv demo feed in grounded registry) */
+/** Live MKT snapshot handle only (Bloomberg / Refinitiv live feed in grounded registry) */
 function liveMarketSnapshotSources(state: ExecutiveState): Source[] {
   const mkt = mktHandle(state.lastSync.slice(0, 10));
   return getSourcesFromHandles(state, [mkt]).filter(isRealtimeMarketSource);

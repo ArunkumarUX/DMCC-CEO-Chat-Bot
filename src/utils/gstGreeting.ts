@@ -81,25 +81,27 @@ export function todayCatchUpPrompt(lang: GreetingLang = 'en', at: Date = new Dat
   return `${g} — what's happened today?`;
 }
 
-/** First chip in chat suggestions — updates with GST time of day */
+/** Executive quick prompts — focused daily workflows (Walid review) */
+export const EXECUTIVE_QUICK_PROMPTS = {
+  en: [
+    'Help me create a PowerPoint',
+    'Draft an email for me',
+    'Analyse and review documents',
+  ],
+  ar: [
+    'ساعدني في إنشاء عرض PowerPoint',
+    'صِغ رسالة بريد إلكتروني لي',
+    'حلّل المستندات وراجعها',
+  ],
+} as const;
+
+/** Chat suggestion chips — three core executive workflows */
 export function getTimeBasedChatSuggestions(
   lang: GreetingLang = 'en',
-  at: Date = new Date(),
+  _at: Date = new Date(),
 ): { q: string; agents: string[] }[] {
-  const ar = lang === 'ar';
-  return [
-    { q: todayCatchUpPrompt(lang, at), agents: ['cos'] },
-    {
-      q: ar
-        ? 'قارن إطار الأصول الرقمية في سوق أبوظبي العالمي مع سنغافورة'
-        : "Compare ADGM's digital assets framework against Singapore MAS.",
-      agents: ['strategy', 'policy'],
-    },
-    {
-      q: ar ? 'أحضّرني لاجتماع الغد الساعة 3' : 'Brief me on my 3pm meeting tomorrow.',
-      agents: ['cos', 'relationship'],
-    },
-  ];
+  const prompts = lang === 'ar' ? EXECUTIVE_QUICK_PROMPTS.ar : EXECUTIVE_QUICK_PROMPTS.en;
+  return prompts.map((q) => ({ q, agents: [] }));
 }
 
 /** Live GST clock + greeting — re-renders every second (hero, chat chips) */

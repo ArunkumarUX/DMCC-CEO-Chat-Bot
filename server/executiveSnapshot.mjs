@@ -177,16 +177,35 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     ? `${liveMarketIntel.asOf.slice(0, 10)} ${liveMarketIntel.asOf.slice(11, 16)} UTC`
     : `${todayStr} ${dataCycle === 'morning' ? '08:00' : '22:00'} GST`;
 
-  const marketBase = {
-    // GCC equities: live if available, else rotation fallback
-    gccEquities: liveMarketIntel?.gccEquitiesSummary ?? fallback.gccEquities,
-    gccEquitiesSource: liveMarketIntel?.equities?.sourceLabel ?? 'Scenario data (prototype)',
-    gccEquitiesSourceUrl: liveMarketIntel?.equities?.sourceUrl ?? null,
+  const gccLive = Boolean(liveMarketIntel?.gccEquitiesSummary);
+  const digitalLive = Boolean(liveMarketIntel?.digitalAssetsSummary);
+  const gccNewsLead = filterGccRelevant(liveNewsItems, 1)[0];
+  const marketNewsLead = getNewsByTag('market', liveNewsItems, 1)[0];
+  const newsLead = gccNewsLead ?? marketNewsLead;
+  const topSectorLive = Boolean(newsLead) || Boolean(bloomberg?.headline);
 
-    // Digital assets: live CoinGecko if available
-    digitalAssetsWoW: liveMarketIntel?.digitalAssetsSummary ?? fallback.digitalAssetsWoW,
-    digitalAssetsSource: liveMarketIntel?.digital?.sourceLabel ?? 'Scenario data (prototype)',
-    digitalAssetsSourceUrl: liveMarketIntel?.digital?.sourceUrl ?? null,
+  const marketBase = {
+    // GCC equities: live indices only — never mix scenario % when crypto is live
+    gccEquities: gccLive
+      ? liveMarketIntel.gccEquitiesSummary
+      : digitalLive || newsLead
+        ? 'GCC indices unavailable at refresh'
+        : fallback.gccEquities,
+    gccEquitiesLive: gccLive,
+    gccEquitiesSource: gccLive
+      ? liveMarketIntel.equities.sourceLabel
+      : 'Scenario data (prototype)',
+    gccEquitiesSourceUrl: gccLive ? liveMarketIntel.equities.sourceUrl : null,
+
+    // Digital assets: live CoinGecko when available
+    digitalAssetsWoW: digitalLive
+      ? liveMarketIntel.digitalAssetsSummary
+      : fallback.digitalAssetsWoW,
+    digitalAssetsLive: digitalLive,
+    digitalAssetsSource: digitalLive
+      ? liveMarketIntel.digital.sourceLabel
+      : 'Scenario data (prototype)',
+    digitalAssetsSourceUrl: digitalLive ? liveMarketIntel.digital.sourceUrl : null,
 
     // Oil: live Brent
     oilSummary: liveMarketIntel?.oilSummary ?? null,
@@ -196,27 +215,42 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     goldSummary: liveMarketIntel?.goldSummary ?? null,
     goldSourceUrl: liveMarketIntel?.goldSourceUrl ?? null,
 
-    // Top sector from live news or fallback
-    topSector: (() => {
-      const gccNews = filterGccRelevant(liveNewsItems, 1)[0];
-      return gccNews ? `${gccNews.source}: ${gccNews.title.slice(0, 80)}` : fallback.topSector;
-    })(),
+    // Sector / headline line — live news only; no scenario label on market card
+    topSector: bloomberg?.headline
+      ? `Bloomberg: ${bloomberg.headline.slice(0, 80)}`
+      : newsLead
+        ? `${newsLead.source}: ${newsLead.title.slice(0, 80)}`
+        : gccLive || digitalLive
+          ? 'Headline feeds unavailable at refresh'
+          : fallback.topSector,
+    topSectorLive,
 
-    // Competitor note: prefer Bloomberg live, then top GCC news, then rotation
-    competitorNote: bloomberg?.headline
-      ? `Bloomberg: ${bloomberg.headline.slice(0, 120)}`
-      : (() => {
-          const competitor = getNewsByTag('competitor', liveNewsItems, 1)[0];
-          return competitor
-            ? `${competitor.source}: ${competitor.title.slice(0, 120)}`
-            : fallback.competitorNote;
-        })(),
+    // Competitor note: prefer Bloomberg live, then competitor RSS, then GCC-relevant wire
+    competitorNote: (() => {
+      if (bloomberg?.headline) return `Bloomberg: ${bloomberg.headline.slice(0, 120)}`;
+      const competitor = getNewsByTag('competitor', liveNewsItems, 1)[0];
+      if (competitor) return `${competitor.source}: ${competitor.title.slice(0, 120)}`;
+      const gccComp = filterGccRelevant(liveNewsItems, 3).find((i) =>
+        /difc|dubai|saudi|qatar|competitor|rival|sandbox/i.test(i.title),
+      );
+      if (gccComp) return `${gccComp.source}: ${gccComp.title.slice(0, 120)}`;
+      return gccLive || digitalLive || newsLead
+        ? 'Competitor wire unavailable at refresh'
+        : fallback.competitorNote;
+    })(),
+    competitorNoteLive: Boolean(
+      bloomberg?.headline ||
+        getNewsByTag('competitor', liveNewsItems, 1)[0] ||
+        filterGccRelevant(liveNewsItems, 3).find((i) =>
+          /difc|dubai|saudi|qatar|sandbox/i.test(i.title),
+        ),
+    ),
 
     // Bloomberg lead if available
     bloombergLead: bloomberg?.headline ?? undefined,
 
     asOf: asOfLabel,
-    isLive: Boolean(liveMarketIntel?.isLive),
+    isLive: gccLive || digitalLive,
   };
 
   // Build news feed groups for signal cards
@@ -244,7 +278,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     bloombergArticles: bloomberg?.items ?? undefined,
     bloombergFetchedAt: bloomberg?.fetchedAt,
     metrics: {
-      queriesThisWeek: 42 + (today.getDate() % 12),
+      queriesThisWeek: null, // Not yet tracked — connect ERP/analytics for live count
       documentsInKb: 52,
       briefingsGenerated: 8,
       avgConfidence: 0.91,
@@ -257,9 +291,16 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       d4: documentDates[3],
       d5: documentDates[4],
     },
-    regulatoryHeadline: bloomberg?.headline
-      ?? signalNews.regulatory[0]?.title
-      ?? 'Visit adgm.com/fsra for the latest FSRA guidance',
+    regulatoryHeadline: signalNews.regulatory[0]?.title
+      ?? bloomberg?.headline
+      ?? signalNews.market.find((i) => /regulat|fsra|mas|fatf|policy|compliance/i.test(i.title))?.title
+      ?? (gccLive || digitalLive || newsLead
+        ? 'Regulatory wire unavailable at refresh'
+        : 'Visit adgm.com/fsra for the latest FSRA guidance'),
+    regulatoryHeadlineLive: Boolean(
+      signalNews.regulatory[0] ||
+        (bloomberg?.headline && /regulat|policy|crypto|stablecoin|vasp/i.test(bloomberg.headline)),
+    ),
     liveTicker: liveTicker?.length ? liveTicker : undefined,
     liveTickerFetchedAt: liveTicker?.length ? new Date().toISOString() : undefined,
   };

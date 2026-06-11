@@ -117,7 +117,7 @@ export async function generateBriefing({
         }
       }
     } catch (err) {
-      console.warn('[briefing] Claude failed, using demo intelligence', err);
+      console.warn('[briefing] Claude failed, using scenario fallback', err);
     }
   }
 

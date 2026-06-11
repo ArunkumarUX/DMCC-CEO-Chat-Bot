@@ -631,6 +631,16 @@ h1,h2,h3,h4,h5 {
   background: var(--adgm-navy);
   box-shadow: 0 2px 8px rgba(0, 9, 42, 0.1);
 }
+.sb-user-avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
 .sb-user-meta {
   min-width: 0;
 }
@@ -2516,6 +2526,104 @@ h1,h2,h3,h4,h5 {
   word-break: break-word;
 }
 
+/* Chat — compact empty state, chat-first layout */
+.cc-chat-empty {
+  padding-top: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.cc-chat-empty__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.cc-chat-empty__title {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 600;
+}
+.cc-chat-empty__subtitle {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  color: var(--ink-3);
+  line-height: 1.45;
+}
+.cc-chat-empty__label {
+  margin-bottom: 10px;
+}
+.cc-chat-quick-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cc-chat-quick-prompt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  font-family: inherit;
+}
+.cc-chat-quick-prompt:hover {
+  border-color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 6%, var(--surface));
+}
+.cc-chat-inner {
+  max-width: 920px !important;
+}
+
+/* Chat composer — attach + stop */
+.chat-composer__attach {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-radius: 8px;
+  flex: none;
+}
+.chat-composer__attach:hover {
+  color: var(--ink);
+  background: var(--chip-bg);
+}
+.chat-composer__stop {
+  height: 38px;
+  width: 44px;
+  padding: 0;
+  flex: none;
+  color: var(--status-risk);
+  border-color: color-mix(in oklab, var(--status-risk) 30%, var(--line));
+}
+.chat-composer__input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Briefings — compact format cards */
+.cc-brief-formats-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+}
+.cc-brief-format-card .type-title {
+  font-size: 13.5px !important;
+}
+.cc-brief-format-card .muted-3 {
+  font-size: 11.5px !important;
+}
+
 .brief-format-card__head {
   display: flex;
   align-items: center;
@@ -4335,15 +4443,17 @@ h1,h2,h3,h4,h5 {
 }
 .card-adgm-dark__prompts {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 8px;
   width: 100%;
 }
 .card-adgm-dark__chip {
-  display: block;
-  width: 100%;
-  min-height: 40px;
-  padding: 10px 14px;
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  min-height: 34px;
+  padding: 8px 14px;
   border-radius: var(--radius-button);
   border: 1px solid rgba(255, 255, 255, 0.22);
   background: rgba(255, 255, 255, 0.1);

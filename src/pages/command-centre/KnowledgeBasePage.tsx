@@ -22,11 +22,58 @@ const TOPIC_ICON = { 'Digital assets': 'bitcoin', 'Funds': 'layers', 'AML': 'shi
 const REL_TONE = { High: 'risk', Medium: 'warn', Low: 'info' };
 
 function RegulatoryView({ lang, onAsk }) {
+  const { executiveState } = useApp();
   const ar = lang === 'ar';
   const [filter, setFilter] = useState('all');
   const bodies = ['FSRA', 'FCA', 'SEC', 'MAS', 'HKMA', 'BIS', 'IOSCO', 'FATF', 'CSSF'];
-  const items = REGULATORY.filter((r) => filter === 'all' || (filter === 'high' && r.rel === 'High'));
-  const highCount = REGULATORY.filter((r) => r.rel === 'High').length;
+
+  // Format ISO date string to relative label
+  const relDate = (dateStr) => {
+    if (!dateStr) return 'Today';
+    try {
+      const d = new Date(dateStr);
+      const diffDays = Math.floor((Date.now() - d.getTime()) / 86400000);
+      if (diffDays <= 0) return 'Today';
+      if (diffDays === 1) return 'Yesterday';
+      if (diffDays < 7) return diffDays + ' days ago';
+      if (diffDays < 14) return '1 week ago';
+      return Math.floor(diffDays / 7) + ' weeks ago';
+    } catch { return 'Today'; }
+  };
+
+  // Live RSS regulatory items from the server refresh
+  const liveRegItems = useMemo(() => {
+    return (executiveState?.signalNews?.regulatory ?? []).map((item) => ({
+      body: (item.source || '').split(' ')[0].toUpperCase().slice(0, 8) || 'WIRE',
+      region: 'Live wire',
+      topic: 'Regulatory',
+      date: relDate(item.date),
+      title: item.title,
+      titleAr: item.title,
+      rel: 'High',
+      impact: item.excerpt
+        ? item.excerpt.slice(0, 180) + ' — Source: ' + item.source
+        : 'See source for full details. Click to analyse impact on ADGM.',
+      impactAr: item.excerpt ? item.excerpt.slice(0, 180) : 'راجع المصدر للتفاصيل الكاملة.',
+      url: item.url,
+      isLive: true,
+    }));
+  }, [executiveState?.signalNews?.regulatory]);
+
+  const hasLive = liveRegItems.length > 0;
+
+  // Merge: live items first, then static reference items
+  const mergedItems = useMemo(() => [
+    ...liveRegItems,
+    ...REGULATORY.map((r) => ({ ...r, isLive: false })),
+  ], [liveRegItems]);
+
+  const allItems = mergedItems;
+  const items = filter === 'all' ? allItems : allItems.filter((r) => r.rel === 'High');
+  const liveHighCount = liveRegItems.filter((r) => r.rel === 'High').length;
+  const staticHighCount = REGULATORY.filter((r) => r.rel === 'High').length;
+  const highCount = liveHighCount + staticHighCount;
+
   return (
     <div className="grid mi-stagger cc-page" style={{ gap: 22 }}>
       <div className="section-head" style={{ marginBottom: -2 }}>
@@ -34,7 +81,14 @@ function RegulatoryView({ lang, onAsk }) {
           <div className="eyebrow">{ar ? 'استخبارات تنظيمية وسياسات' : 'Regulatory & policy intelligence'}</div>
           <h2 style={{ fontSize: 24, marginTop: 4 }}>{ar ? 'مراقب التغيّرات التنظيمية' : 'Regulatory change monitor'}</h2>
         </div>
-        <span className="pill ghost"><CcIcon name="rss" size={13} />{ar ? 'يُستوعب خلال 4 ساعات' : 'Ingested within 4 hours'}</span>
+        {hasLive ? (
+          <span className="pill" style={{ height: 28, background: 'color-mix(in oklab, var(--status-good) 15%, transparent)', color: 'var(--status-good)' }}>
+            <span className="dot good pulse" style={{ background: 'var(--status-good)' }} />
+            {ar ? 'مباشر من RSS' : 'Live from RSS wires'}
+          </span>
+        ) : (
+          <span className="pill ghost"><CcIcon name="rss" size={13} />{ar ? 'يُستوعب خلال 4 ساعات' : 'Ingested within 4 hours'}</span>
+        )}
       </div>
 
       <IntelCard>
@@ -43,18 +97,33 @@ function RegulatoryView({ lang, onAsk }) {
           <IntelIconBox icon="gavel" />
           <div style={{ minWidth: 0 }}>
             <div className="type-title" style={{ fontSize: 15 }}>{ar ? '12 جهة اختصاص مُراقَبة' : '12 jurisdictions monitored'}</div>
-            <div className="muted-3" style={{ fontSize: 12 }}>{ar ? 'مراقبة مباشرة عبر Policy AI' : 'Live monitoring via Policy AI'}</div>
+            <div className="muted-3" style={{ fontSize: 12 }}>
+              {hasLive
+                ? (ar ? liveRegItems.length + ' تحديثات مباشرة + مرجع ثابت عبر Policy AI' : liveRegItems.length + ' live updates + reference items via Policy AI')
+                : (ar ? 'مراقبة مباشرة عبر Policy AI' : 'Live monitoring via Policy AI')}
+            </div>
           </div>
         </div>
         <div className="regulatory-summary__chips">
           {bodies.map((b) => <span key={b} className="pill ghost" style={{ height: 26, fontSize: 11 }}>{b}</span>)}
         </div>
         <div className="seg">
-          <button className={filter === 'all' ? 'on' : ''} onClick={() => setFilter('all')}>{ar ? 'الكل' : 'All'} {REGULATORY.length}</button>
+          <button className={filter === 'all' ? 'on' : ''} onClick={() => setFilter('all')}>{ar ? 'الكل' : 'All'} {allItems.length}</button>
           <button className={filter === 'high' ? 'on' : ''} onClick={() => setFilter('high')}>{ar ? 'عالية' : 'High'} {highCount}</button>
         </div>
-      </IntelCardBody>
+        </IntelCardBody>
       </IntelCard>
+
+      {hasLive && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px', background: 'color-mix(in oklab, var(--status-good) 8%, transparent)', borderRadius: 8, border: '1px solid color-mix(in oklab, var(--status-good) 25%, transparent)' }}>
+          <CcIcon name="rss" size={13} style={{ color: 'var(--status-good)', flex: 'none' }} />
+          <span style={{ fontSize: 12, color: 'var(--status-good)' }}>
+            {ar
+              ? liveRegItems.length + ' عنوان مباشر من Reuters · Arabian Business · ZAWYA · Gulf News · BBC'
+              : liveRegItems.length + ' live headlines from Reuters · Arabian Business · ZAWYA · Gulf News · BBC'}
+          </span>
+        </div>
+      )}
 
       <div className="grid" style={{ gap: 12 }}>
         {items.map((r, i) => (
@@ -72,6 +141,17 @@ function RegulatoryView({ lang, onAsk }) {
                   <span className="muted-3" style={{ fontSize: 12 }}>·</span>
                   <span className="muted-3" style={{ fontSize: 12 }}>{r.topic}</span>
                   <span className={'pill ' + REL_TONE[r.rel]} style={{ height: 22, fontSize: 10.5 }}>{ar ? 'الصلة' : 'Relevance'}: {r.rel}</span>
+                  {r.isLive && (
+                    <span className="pill" style={{ height: 22, fontSize: 10, background: 'color-mix(in oklab, var(--status-good) 15%, transparent)', color: 'var(--status-good)' }}>
+                      <span className="dot good pulse" style={{ background: 'var(--status-good)', width: 5, height: 5 }} />
+                      {ar ? 'مباشر' : 'Live'}
+                    </span>
+                  )}
+                  {!r.isLive && (
+                    <span className="pill ghost" style={{ height: 22, fontSize: 10, color: 'var(--ink-3)' }}>
+                      {ar ? 'مرجع' : 'Reference'}
+                    </span>
+                  )}
                 </div>
                 <div className="type-title" style={{ fontSize: 15.5, marginBottom: 6, overflowWrap: 'anywhere' }}>{ar ? r.titleAr : r.title}</div>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', minWidth: 0 }}>

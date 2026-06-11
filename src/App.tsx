@@ -8,7 +8,7 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { MobileVerifyPage } from './pages/auth/MobileVerifyPage';
 import { ChatbotWelcomePage } from './pages/auth/ChatbotWelcomePage';
 import { WelcomePage } from './pages/WelcomePage';
-import { PPT_MASTER_ENABLED } from './config/features';
+import { PPT_MASTER_ENABLED, PRESENTATION_BUILDER_ENABLED } from './config/features';
 
 const DashboardPage = lazy(() => import('./pages/DashboardPage').then((m) => ({ default: m.DashboardPage })));
 const ChatPage = lazy(() => import('./pages/ChatPage').then((m) => ({ default: m.ChatPage })));
@@ -27,6 +27,11 @@ const FocusAreaDetailPage = lazy(() =>
 );
 const PptMasterPage = lazy(() =>
   import('./pages/PptMasterPage').then((m) => ({ default: m.PptMasterPage })),
+);
+const PresentationBuilderPage = lazy(() =>
+  import('./pages/command-centre/PresentationBuilderPage').then((m) => ({
+    default: m.PresentationBuilderPage,
+  })),
 );
 
 function RtlSync() {
@@ -77,11 +82,15 @@ function AppRoutes() {
             <>
               <Route path="/create-ppt" element={<PptMasterPage />} />
               <Route path="/deck-builder" element={<PptMasterPage />} />
+              {PRESENTATION_BUILDER_ENABLED ? (
+                <Route path="/presentation-builder" element={<PresentationBuilderPage />} />
+              ) : null}
             </>
           ) : (
             <>
               <Route path="/create-ppt" element={<Navigate to="/dashboard" replace />} />
               <Route path="/deck-builder" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/presentation-builder" element={<Navigate to="/dashboard" replace />} />
             </>
           )}
           <Route path="/focus/:focusId" element={<FocusAreaDetailPage />} />

@@ -6,7 +6,7 @@ export type ChatStreamContext = {
   lastSync?: string;
   validHandles?: string[];
   documents?: { id: string; handle?: string; name: string; summary?: string; asOf?: string }[];
-  metrics?: Record<string, number>;
+  metrics?: Record<string, number | null>;
   departmentHeadlines?: string[];
   language?: 'en' | 'ar';
   briefingFormat?: string;

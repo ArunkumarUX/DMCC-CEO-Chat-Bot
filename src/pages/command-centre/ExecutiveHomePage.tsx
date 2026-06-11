@@ -11,13 +11,16 @@ import {
   SUGGESTIONS, CANNED, TICKER, MOMENTUM, FLOWS, REGULATORY, KB_CATS, KB_DOCS, DIFFERENTIATION,
 } from '../../data/commandCentreData';
 import { deriveCommandCentreSignals } from '../../data/deriveCommandCentreSignals';
+import { countLiveSignals } from '../../data/prioritySignalHelpers';
 import { useApp } from '../../context/AppContext';
 import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
-import { useGstLive } from '../../utils/gstGreeting';
+import { EXECUTIVE_QUICK_PROMPTS, useGstLive } from '../../utils/gstGreeting';
 import { AdgmInfoPanel } from '../../components/brand/AdgmInfoPanel';
 import { IntelCard, IntelCardBody, IntelIconBox } from '../../command-centre/CcCard';
 import { IntelCardSources } from '../../command-centre/IntelCardSources';
+import { IntelLaymanInfo } from '../../command-centre/IntelLaymanInfo';
 import { getSourcesForSignal } from '../../data/signalSources';
+import { SIGNAL_CARD_INFO } from '../../data/intelLaymanCopy';
 
 function MarketTicker({ items }: { items: typeof TICKER }) {
   const Row = ({ k }) => {
@@ -82,7 +85,7 @@ function GreetingHero({ lang, setView }) {
           </div>
         </div>
         <div className="greeting-hero__stats">
-          {[{ n: 9, l: ar ? 'إدارات مباشرة' : 'live departments' }, { n: 5, l: ar ? 'وكلاء ذكاء' : 'AI agents' }, { n: 88, l: ar ? 'الاقتصاد الصقور' : 'Falcon Economy' }].map((s) => (
+          {[{ n: 4, l: ar ? 'سير عمل أساسية' : 'core workflows' }, { n: 9, l: ar ? 'إدارات مباشرة' : 'live departments' }, { n: 88, l: ar ? 'الاقتصاد الصقور' : 'Falcon Economy' }].map((s) => (
             <div key={s.l} style={{ textAlign: 'center' }}>
               <div className="kpi-num" style={{ fontSize: 38, color: '#fff' }}><AnimatedNumber value={s.n} /></div>
               <div className="eyebrow" style={{ color: 'rgba(255,255,255,0.6)', marginTop: 4 }}>{s.l}</div>
@@ -98,6 +101,7 @@ function SignalCard({ s, lang, big, sources }) {
   const ar = lang === 'ar';
   const L = ar ? s.ar : s;
   const toneColor = { good: 'var(--status-good)', warn: 'var(--status-warn)', risk: 'var(--status-risk)', info: 'var(--status-info)' }[s.tone];
+  const cardInfo = SIGNAL_CARD_INFO[s.id]?.[ar ? 'ar' : 'en'];
   return (
     <IntelCard
       className={big ? 'intel-card--wide' : undefined}
@@ -107,7 +111,23 @@ function SignalCard({ s, lang, big, sources }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <IntelIconBox icon={s.icon} color={toneColor} background={'color-mix(in oklab,' + toneColor + ' 14%, transparent)'} size="sm" />
           <div className="eyebrow" style={{ color: toneColor }}>{L.label}</div>
-          <div className="kpi-num" style={{ marginInlineStart: 'auto', fontSize: 22, color: toneColor, fontWeight: 600 }}>{s.metric}</div>
+          {cardInfo ? <IntelLaymanInfo copy={cardInfo} /> : null}
+          {L.freshnessLabel ? (
+            <span
+              className="eyebrow"
+              style={{
+                marginInlineStart: 'auto',
+                fontSize: 10,
+                padding: '2px 8px',
+                borderRadius: 999,
+                background: 'color-mix(in oklab, var(--status-good) 18%, transparent)',
+                color: 'var(--status-good)',
+              }}
+            >
+              {L.freshnessLabel}
+            </span>
+          ) : null}
+          <div className="kpi-num" style={{ marginInlineStart: L.freshnessLabel ? 8 : 'auto', fontSize: 22, color: toneColor, fontWeight: 600 }}>{s.metric}</div>
         </div>
         <div className="intel-signal-headline">
           <div className={`type-title ${big ? 'type-title-md' : ''}`} style={{ fontSize: big ? 21 : 17, lineHeight: 1.35 }}>
@@ -118,6 +138,11 @@ function SignalCard({ s, lang, big, sources }) {
           ) : null}
         </div>
         <p className="muted" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, flex: 1 }}>{L.body}</p>
+        {L.sourceLine ? (
+          <div className="eyebrow muted-3" style={{ fontSize: 11, marginTop: -4 }}>
+            {L.sourceLine}
+          </div>
+        ) : null}
         <div className="cc-card-foot">
           <div className="cc-card-foot__spark">
             <Sparkline data={s.spark} color={toneColor} height={34} />
@@ -130,10 +155,43 @@ function SignalCard({ s, lang, big, sources }) {
   );
 }
 
+// Dynamically derive correlated risk insight from live department data
+function deriveAiInsight(depts) {
+  const it = depts.find((d) => d.id === 'it');
+  const sales = depts.find((d) => d.id === 'sales');
+  const itRisk = it?.risks.find((r) => /crm|integration|vendor/i.test(r.t));
+  const salesHighRisk = sales?.risks.find((r) => r.sev === 'High');
+  if (itRisk && salesHighRisk) {
+    const dealMatch = salesHighRisk.t.match(/AED \d+[MB][^—]*/);
+    const dealRef = dealMatch ? dealMatch[0].trim().replace(/ — .*$/, '') : 'high-value deal';
+    const itRef = itRisk.t.replace(/ on .*$/, '').replace(/ — .*$/, '');
+    return {
+      en: 'Two departments show correlated risk: ' + itRef + ' (IT) threatens to stall the ' + dealRef + ' (Sales).',
+      ar: 'مخاطر مترابطة عبر إدارتين: ' + itRef + ' (التقنية) يهدد بتعطيل ' + dealRef + ' (المبيعات).',
+      promptEn: 'Explain the correlated risk between IT and Sales and recommend an action.',
+      promptAr: 'اشرح المخاطر المترابطة بين التقنية والمبيعات وأوصِ بإجراء.',
+    };
+  }
+  // Fallback: any two high-risk departments
+  const hiRisk = depts.filter((d) => d.risks.some((r) => r.sev === 'High'));
+  if (hiRisk.length >= 2) {
+    const d1 = hiRisk[0], d2 = hiRisk[1];
+    return {
+      en: d1.name + ' and ' + d2.name + ' both carry High-severity risks — review for cross-department impact.',
+      ar: 'مخاطر عالية في ' + d1.nameAr + ' و' + d2.nameAr + ' — راجع للتأثير المتقاطع.',
+      promptEn: 'Explain cross-department risks for ' + d1.name + ' and ' + d2.name + ' and recommend actions.',
+      promptAr: 'اشرح المخاطر المتقاطعة لـ' + d1.nameAr + ' و' + d2.nameAr + ' وأوصِ بإجراءات.',
+    };
+  }
+  return null;
+}
+
+
 export function ExecutiveHomePage() {
   const { settings, executiveState, startNewChat } = useApp();
   const lang = settings.language === 'ar' ? 'ar' : 'en';
   const signals = useMemo(() => deriveCommandCentreSignals(executiveState), [executiveState]);
+  const liveSignalCount = useMemo(() => countLiveSignals(executiveState), [executiveState]);
   const tickerItems = executiveState.liveTicker?.length ? executiveState.liveTicker : TICKER;
   const signalSourcesById = useMemo(() => {
     const map: Record<string, ReturnType<typeof getSourcesForSignal>> = {};
@@ -149,8 +207,8 @@ export function ExecutiveHomePage() {
     navigate(`/chat?seed=${encodeURIComponent(q)}`);
   };
   const ar = lang === 'ar';
-  const gst = useGstLive(lang);
-  const quick = gst.suggestions.map((s) => s.q);
+  const insight = useMemo(() => deriveAiInsight(DEPARTMENTS), []);
+  const quick = ar ? EXECUTIVE_QUICK_PROMPTS.ar : EXECUTIVE_QUICK_PROMPTS.en;
   return (
     <div className="grid mi-stagger cc-page" style={{ gap: 22 }}>
       <MarketTicker items={tickerItems} />
@@ -160,8 +218,18 @@ export function ExecutiveHomePage() {
         <div>
           <div className="eyebrow">{ar ? 'إشارات اليوم ذات الأولوية' : "Today's priority signals"}</div>
           <h2 style={{ fontSize: 22, marginTop: 4 }}>{ar ? 'أهم ما يجب أن تعرفه' : 'The most important things to know'}</h2>
+          <p className="muted" style={{ margin: '6px 0 0', fontSize: 13.5, maxWidth: 560 }}>
+            {ar
+              ? 'عناوين وأسعار من مصادر عامة موثقة (Yahoo Finance، CoinGecko، RSS) — تُحدَّث 08:00 و22:00 بتوقيت الإمارات.'
+              : 'Headlines and prices from cited public sources (Yahoo Finance, CoinGecko, RSS wires) — refreshed 08:00 & 22:00 GST.'}
+          </p>
         </div>
-        <span className="pill ghost"><span className="dot good pulse" style={{ color: 'var(--status-good)' }}></span>{ar ? 'يُحدَّث 08:00 و22:00 بتوقيت الإمارات' : 'Updated 08:00 & 22:00 GST'}</span>
+        <span className="pill ghost">
+          <span className="dot good pulse" style={{ color: 'var(--status-good)' }}></span>
+          {ar
+            ? `${liveSignalCount}/6 إشارات بمصادر مباشرة`
+            : `${liveSignalCount}/6 signals with live sources`}
+        </span>
       </div>
 
       <div className="grid mi-stagger cc-grid-auto">
@@ -175,20 +243,22 @@ export function ExecutiveHomePage() {
         ))}
       </div>
 
-      <IntelCard rise className="intel-card--insight">
-        <IntelCardBody style={{ display: 'flex', gap: 18, alignItems: 'center', flexWrap: 'wrap' }}>
-          <IntelIconBox icon="brain-circuit" size="lg" color="#042024" background="linear-gradient(135deg, var(--teal-300), var(--aqua))" />
-          <div className="cc-flex-grow">
-            <div className="eyebrow" style={{ color: 'var(--accent-bright)' }}>{ar ? 'إضاءة الذكاء · اكتشاف نمطي' : 'AI insight · pattern detected'}</div>
-            <div className="type-title type-title-sm" style={{ marginTop: 5 }}>
-              {ar ? 'مخاطر مترابطة عبر إدارتين: تأخر تكامل CRM (التقنية) يهدد بتعطيل صفقة الصندوق السيادي البالغة 90 مليون درهم (المبيعات).' : 'Two departments show correlated risk: the CRM-integration slip (IT) threatens to stall the AED 90M sovereign-fund deal (Sales).'}
+      {insight && (
+        <IntelCard rise className="intel-card--insight">
+          <IntelCardBody style={{ display: 'flex', gap: 18, alignItems: 'center', flexWrap: 'wrap' }}>
+            <IntelIconBox icon="brain-circuit" size="lg" color="#042024" background="linear-gradient(135deg, var(--teal-300), var(--aqua))" />
+            <div className="cc-flex-grow">
+              <div className="eyebrow" style={{ color: 'var(--accent-bright)' }}>{ar ? 'إضاءة الذكاء · نمط مكتشف' : 'AI insight · pattern detected'}</div>
+              <div className="type-title type-title-sm" style={{ marginTop: 5 }}>
+                {ar ? insight.ar : insight.en}
+              </div>
             </div>
-          </div>
-          <button type="button" className="btn btn-primary" onClick={() => onAsk(ar ? 'اشرح المخاطر المترابطة بين التقنية والمبيعات' : 'Explain the correlated risk between IT and Sales and recommend an action.')}>
-            <CcIcon name="sparkles" size={17} />{ar ? 'استكشف' : 'Investigate'}
-          </button>
-        </IntelCardBody>
-      </IntelCard>
+            <button type="button" className="btn btn-primary" onClick={() => onAsk(ar ? insight.promptAr : insight.promptEn)}>
+              <CcIcon name="sparkles" size={17} />{ar ? 'استكشف' : 'Investigate'}
+            </button>
+          </IntelCardBody>
+        </IntelCard>
+      )}
 
       <div className="card card-adgm-dark rise" style={{ marginTop: 4 }}>
         <div className="card-pad card-adgm-dark__layout">
@@ -201,7 +271,7 @@ export function ExecutiveHomePage() {
                 {ar ? `اسأل ${PRODUCT_AGENT_NAME_AR}` : `Ask ${PRODUCT_AGENT_NAME}`}
               </div>
               <div className="card-adgm-dark__subtitle">
-                {ar ? 'استعلامات بلغة طبيعية عبر كامل قاعدة المعرفة' : 'Natural-language queries across the full knowledge base'}
+                {ar ? 'بريد · اجتماعات · مستندات · عروض — جاهز للنسخ' : 'Email · meetings · documents · decks — copy-paste ready'}
               </div>
             </div>
           </div>

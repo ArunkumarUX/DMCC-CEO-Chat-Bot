@@ -132,7 +132,7 @@ export interface Settings {
 }
 
 export interface DashboardMetrics {
-  queriesThisWeek: number;
+  queriesThisWeek: number | null;
   documentsAnalysed: number;
   workflowsCompleted: number;
   avgConfidence: number;
