@@ -34,7 +34,8 @@ import { EXECUTIVE_USER } from '../config/user';
 import { guessKbCategory } from '../command-centre/kbCorpus';
 import { buildChatHistoryFromMessages } from '../api/buildChatContext';
 import { prepareChatTurn } from '../api/prepareChatTurn';
-import { checkClaudeAvailable, streamClaudeChat } from '../api/claudeChat';
+import { streamClaudeChat } from '../api/claudeChat';
+import { detectChatIntent } from '../utils/chatIntent';
 
 const USE_CLAUDE = true; // always use Claude; env var previously blocked responses on Vercel
 import type {
@@ -42,6 +43,7 @@ import type {
   ChatMessage,
   Conversation,
   DocumentFile,
+  GroundingLevel,
   MorningSignal,
   Settings,
   Source,
@@ -438,67 +440,44 @@ export function AppProvider({ children }: { children: ReactNode }) {
       const history = buildChatHistoryFromMessages(conv?.messages ?? []);
       const lang = settings.language === 'ar' ? 'ar' : 'en';
 
-      if (USE_CLAUDE) {
+      if (USE_CLAUDE && !streamingRef.cancelled) {
+        const placeholderId = `m-${++msgCounter}`;
+        persistExecutive((s) => ({
+          ...s,
+          conversations: s.conversations.map((c) =>
+            c.id === convId
+              ? {
+                  ...c,
+                  messages: [
+                    ...c.messages,
+                    {
+                      id: placeholderId,
+                      role: 'assistant',
+                      content: '',
+                      timestamp: new Date().toISOString(),
+                    },
+                  ],
+                  updatedAt: new Date().toISOString(),
+                }
+              : c,
+          ),
+        }));
+
         try {
-          const live = await checkClaudeAvailable();
-          if (live && !streamingRef.cancelled) {
-            let streamed = '';
-            const placeholderId = `m-${++msgCounter}`;
-            persistExecutive((s) => ({
-              ...s,
-              conversations: s.conversations.map((c) =>
-                c.id === convId
-                  ? {
-                      ...c,
-                      messages: [
-                        ...c.messages,
-                        {
-                          id: placeholderId,
-                          role: 'assistant',
-                          content: '',
-                          timestamp: new Date().toISOString(),
-                        },
-                      ],
-                      updatedAt: new Date().toISOString(),
-                    }
-                  : c,
-              ),
-            }));
+          let streamed = '';
+          const turn = prepareChatTurn(content.trim(), executiveState, {
+            manualAgents: selectedAgents,
+            autoRoute: autoRouteAgents,
+          }, history.length);
 
-            const turn = prepareChatTurn(content.trim(), executiveState, {
-              manualAgents: selectedAgents,
-              autoRoute: autoRouteAgents,
-            }, history.length);
-
-            await streamClaudeChat({
-              message: turn.userMessage,
-              language: lang,
-              history,
-              context: turn.context,
-              onToken: (chunk) => {
-                if (streamingRef.cancelled) return;
-                streamed += chunk;
-                persistExecutive((s) => ({
-                  ...s,
-                  conversations: s.conversations.map((c) =>
-                    c.id === convId
-                      ? {
-                          ...c,
-                          messages: c.messages.map((m) =>
-                            m.id === placeholderId ? { ...m, content: streamed } : m,
-                          ),
-                          preview: streamed.slice(0, 80),
-                        }
-                      : c,
-                  ),
-                }));
-              },
-            });
-
-            if (!streamingRef.cancelled && streamed.trim()) {
-              const intel = buildIntelligentResponse(content, executiveState);
-              const grounded = resolveAnswerGrounding(streamed, executiveState, intel.sourceDocIds);
-              setActiveSources(grounded.sources);
+          await streamClaudeChat({
+            message: turn.userMessage,
+            language: lang,
+            history,
+            context: turn.context,
+            onToken: (chunk) => {
+              if (streamingRef.cancelled) return;
+              streamed += chunk;
               persistExecutive((s) => ({
                 ...s,
                 conversations: s.conversations.map((c) =>
@@ -506,35 +485,78 @@ export function AppProvider({ children }: { children: ReactNode }) {
                     ? {
                         ...c,
                         messages: c.messages.map((m) =>
-                          m.id === placeholderId
-                            ? {
-                                ...m,
-                                content: streamed,
-                                agents: turn.routedAgents,
-                                grounding: grounded.grounding,
-                                sources: grounded.sources,
-                                followUps: intel.followUps,
-                              }
-                            : m,
+                          m.id === placeholderId ? { ...m, content: streamed } : m,
                         ),
+                        preview: streamed.slice(0, 80),
                       }
                     : c,
                 ),
               }));
-              setIsStreaming(false);
-              return;
-            }
+            },
+          });
+
+          if (streamingRef.cancelled) {
+            setIsStreaming(false);
+            return;
           }
-        } catch (err) {
-          console.warn('[chat] Claude failed, using scenario fallback', err);
+
+          if (!streamed.trim()) {
+            throw new Error('Empty response from Claude');
+          }
+
+          const intel = buildIntelligentResponse(content, executiveState);
+          const intent = detectChatIntent(content);
+          const isConversational =
+            intent === 'greeting' || intent === 'catchup' || intent === 'thanks' || intent === 'irrelevant';
+          const isExplorer = turn.routedAgents.includes('explorer');
+          const grounded = (isConversational || isExplorer)
+            ? { sources: [] as Source[], grounding: undefined as GroundingLevel | undefined }
+            : resolveAnswerGrounding(streamed, executiveState, intel.sourceDocIds);
+          setActiveSources(grounded.sources);
           persistExecutive((s) => ({
             ...s,
             conversations: s.conversations.map((c) =>
               c.id === convId
-                ? { ...c, messages: c.messages.filter((m) => m.role !== 'assistant' || m.content) }
+                ? {
+                    ...c,
+                    messages: c.messages.map((m) =>
+                      m.id === placeholderId
+                        ? {
+                            ...m,
+                            content: streamed,
+                            agents: isConversational ? [] : turn.routedAgents,
+                            grounding: grounded.grounding,
+                            sources: grounded.sources,
+                            followUps: intel.followUps,
+                          }
+                        : m,
+                    ),
+                  }
                 : c,
             ),
           }));
+          setIsStreaming(false);
+          return;
+        } catch (err) {
+          const errMsg = err instanceof Error ? err.message : String(err);
+          console.warn('[chat] Claude error:', errMsg);
+          persistExecutive((s) => ({
+            ...s,
+            conversations: s.conversations.map((c) =>
+              c.id === convId
+                ? {
+                    ...c,
+                    messages: c.messages.map((m) =>
+                      m.id === placeholderId
+                        ? { ...m, content: `⚠️ AI unavailable: ${errMsg}` }
+                        : m,
+                    ),
+                  }
+                : c,
+            ),
+          }));
+          setIsStreaming(false);
+          return;
         }
       }
 

@@ -1,7 +1,7 @@
 import { buildIntelligentResponse } from '../data/executiveStore';
 import type { ExecutiveState } from '../data/executiveStore';
 import { buildChatContext } from './buildChatContext';
-import { checkClaudeAvailable, streamClaudeChat, type ChatStreamContext } from './claudeChat';
+import { streamClaudeChat, type ChatStreamContext } from './claudeChat';
 import {
   getBriefingConfig,
   getCannedBriefingText,
@@ -98,24 +98,22 @@ export async function generateBriefing({
 
   if (USE_CLAUDE) {
     try {
-      const live = await checkClaudeAvailable();
-      if (live) {
-        let streamed = '';
-        await streamClaudeChat({
-          message,
-          language,
-          history: [],
-          context: buildBriefingContext(state, formatId, language),
-          signal,
-          onToken: (chunk) => {
-            streamed += chunk;
-            onToken?.(chunk);
-          },
-        });
-        if (streamed.trim()) {
-          return { text: streamed, source: 'claude', agents };
-        }
+      let streamed = '';
+      await streamClaudeChat({
+        message,
+        language,
+        history: [],
+        context: buildBriefingContext(state, formatId, language),
+        signal,
+        onToken: (chunk) => {
+          streamed += chunk;
+          onToken?.(chunk);
+        },
+      });
+      if (streamed.trim()) {
+        return { text: streamed, source: 'claude', agents };
       }
+      throw new Error('Empty response from Claude');
     } catch (err) {
       console.warn('[briefing] Claude failed, using scenario fallback', err);
     }

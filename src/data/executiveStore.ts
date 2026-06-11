@@ -964,6 +964,26 @@ ${agentTag(['Chief of Staff AI', 'Strategy AI'])}`,
   const excerpt = query.trim().length > 140 ? `${query.trim().slice(0, 137)}…` : query.trim();
   const nextMeeting = state.meetings[0];
 
+  if (agents.includes('explorer')) {
+    return {
+      agents: ['explorer'],
+      confidence: 0.5,
+      sourceDocIds: [],
+      followUps: [
+        'Search online for latest UAE climate policy',
+        'Compare ADGM vs MAS digital assets',
+        nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
+      ],
+      content: `**Explorer AI**
+
+The live AI service did not respond for: “${excerpt}”.
+
+When connected, I answer general knowledge questions (climate, markets, geography, current events) in plain language — not the institutional KPI table below.
+
+Please try again. If you see this repeatedly, hard-refresh the page (**Cmd+Shift+R**) to load the latest deployment.`,
+    };
+  }
+
   return {
     agents,
     confidence: 0.82,
