@@ -15,7 +15,7 @@ export interface AgentDefinition {
   focusAreas: string[];
 }
 
-/** Five specialist agents (spec §04) */
+/** Five specialist agents for the CEO office */
 export const EXECUTIVE_AGENTS: AgentDefinition[] = [
   {
     id: 'cos',
@@ -23,8 +23,8 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     shortName: 'CoS',
     role: 'Orchestrator',
     tagline: 'Routes tasks, synthesises outputs, tracks commitments',
-    color: '#001C7D',
-    colorMuted: '#CCE7FF',
+    color: '#1A1A1A',
+    colorMuted: '#F0EDE6',
     tools: ['Calendar', 'Action register', 'Briefings'],
     focusAreas: ['Meetings', 'Stakeholders', 'Knowledge'],
   },
@@ -32,11 +32,11 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     id: 'strategy',
     name: 'Strategy AI',
     shortName: 'Strategy',
-    role: 'Market intelligence',
-    tagline: 'Falcon Economy, competitors, geopolitical and sector signals',
-    color: '#006DCC',
-    colorMuted: '#EBF7FB',
-    tools: ['Bloomberg feed', 'Falcon Economy scorecard', 'Competitor radar'],
+    role: 'Portfolio intelligence',
+    tagline: 'Dubai market trends, portfolio performance, sector and competitor signals',
+    color: '#3D3D3D',
+    colorMuted: '#FAF8F4',
+    tools: ['Bloomberg feed', 'Portfolio scorecard', 'Sector radar'],
     focusAreas: ['Intelligence', 'Knowledge'],
   },
   {
@@ -44,9 +44,9 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     name: 'Policy AI',
     shortName: 'Policy',
     role: 'Regulatory',
-    tagline: 'FSRA frameworks, MAS/FCA benchmarks, consultation drafts',
-    color: '#0088FF',
-    colorMuted: '#CCE7FF',
+    tagline: 'RERA, DFSA and CBUAE frameworks, UAE regulatory benchmarks',
+    color: '#B8924A',
+    colorMuted: '#F0EDE6',
     tools: ['Regulatory monitor', 'Policy KB', 'Impact memos'],
     focusAreas: ['Regulatory', 'Knowledge'],
   },
@@ -66,7 +66,7 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     name: 'Communications AI',
     shortName: 'Comms',
     role: 'Executive voice',
-    tagline: 'Arabic/English speeches, ministerial notes, talking points',
+    tagline: 'Arabic/English speeches, board notes, cultural initiative messaging',
     color: '#5B4FCF',
     colorMuted: '#EEECFA',
     tools: ['Voice learning', 'Bilingual drafts', 'Tone review'],
@@ -77,7 +77,7 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     name: 'Explorer AI',
     shortName: 'Web',
     role: 'General knowledge',
-    tagline: 'Searches the internet to answer any question outside the CSO scope',
+    tagline: 'Searches the internet to answer questions outside the CEO office scope',
     color: '#D97706',
     colorMuted: '#FEF3C7',
     tools: ['Live web search', 'General knowledge', 'Real-time answers'],
@@ -103,67 +103,38 @@ function uniqueAgents(list: AgentType[]): AgentType[] {
   return [...new Set(list)];
 }
 
-/**
- * Returns true when the user explicitly asks to search the internet,
- * or the question has NO specific ADGM/CSO context.
- *
- * KEY RULE: Any question without specific ADGM/CSO/FSRA context → Explorer AI.
- * Generic words like "regulation", "policy", "compliance", "benchmark" alone do NOT
- * indicate a CSO query — they also appear in unrelated general knowledge questions.
- * Only highly specific ADGM/CSO terms route to specialist agents.
- */
 function isExplorerQuery(q: string): boolean {
-  // Explicit internet/search intent — always Explorer regardless of other keywords
   if (
     /\b(check the internet|search the internet|search online|search the web|look (it|this) up online|find (it|this) online|google|look up|search for|find (on|from) the (web|internet)|what does (google|the internet) say)\b/.test(q)
   ) return true;
 
-  // ADGM/CSO-specific entity names — unique to this assistant's domain
-  const hasAdgmEntity =
-    /\b(adgm|fsra|falcon economy|falcon strategy|abu dhabi global market|chief strategy|cso\b|board pack|action register|department kpi|market snapshot|mubadala|difc|gcc.?mena|sovereign fund)\b/.test(q);
-  if (hasAdgmEntity) return false;
+  const hasArmEntity =
+    /\b(a\.?r\.?m\.?\s*holding|arm holding|\bdrec\b|\bhuna\b|\bhive\b|dubai real estate|hospitality|healthtech|fintech|cultural initiative|chief executive|ceo\b|board pack|action register|department kpi|market snapshot|emirates racing|jebel ali|h residence|we emerge stronger)\b/.test(q);
+  if (hasArmEntity) return false;
 
-  // Generic regulatory/policy terms only count as CSO context when paired with a specific entity
-  const hasCsoRegContext =
-    /\b(adgm|fsra|abu dhabi).{0,40}(regulat|policy|polic|compliance|framework|law)\b/.test(q) ||
-    /\b(regulat|policy|polic|compliance|framework|law).{0,40}(adgm|fsra|abu dhabi)\b/.test(q);
-  if (hasCsoRegContext) return false;
+  const hasCeoRegContext =
+    /\b(dubai|uae|rera|dfsa|cbuae).{0,40}(regulat|policy|polic|compliance|framework|law)\b/.test(q) ||
+    /\b(regulat|policy|polic|compliance|framework|law).{0,40}(dubai|uae|rera|dfsa|cbuae)\b/.test(q);
+  if (hasCeoRegContext) return false;
 
-  // Benchmark/comparison only CSO when comparing financial centres or ADGM/FSRA
-  const hasCsoBenchmark =
-    /\b(benchmark|compare|comparison|versus|\bvs\b).{0,50}(adgm|fsra|financial cent(re|er)|difc|jurisdiction)\b/.test(q) ||
-    /\b(adgm|fsra|financial cent(re|er)).{0,50}(benchmark|compare|comparison)\b/.test(q);
-  if (hasCsoBenchmark) return false;
+  const hasCeoBenchmark =
+    /\b(benchmark|compare|comparison|versus|\bvs\b).{0,50}(drec|huna|hive|real estate|hospitality|fintech|portfolio)\b/.test(q) ||
+    /\b(drec|huna|hive|portfolio).{0,50}(benchmark|compare|comparison)\b/.test(q);
+  if (hasCeoBenchmark) return false;
 
-  // Digital/virtual assets only CSO when tied to a regulatory/market context
-  const hasCsoDigitalAssets =
-    /\b(digital asset|virtual asset|tokenisa|stablecoin).{0,40}(regulat|framework|adgm|fsra|uae|gcc|abu dhabi)\b/.test(q) ||
-    /\b(adgm|fsra|uae|gcc|abu dhabi).{0,40}(digital asset|virtual asset|tokenisa|stablecoin)\b/.test(q);
-  if (hasCsoDigitalAssets) return false;
-
-  // Abu Dhabi + financial sector context → CSO (but not Abu Dhabi alone)
-  const hasAbuDhabiFinance =
-    /\babu dhabi\b.{0,60}\b(financial cent(re|er)|economic strategy|market position|capital market|investment attract|financial market|adgm|fsra)\b/.test(q) ||
-    /\b(financial cent(re|er)|economic strategy|market position(ing)?)\b.{0,60}\babu dhabi\b/.test(q);
-  if (hasAbuDhabiFinance) return false;
-
-  // CSO-task patterns — briefing, meeting prep, board brief
-  const hasCsoTask =
+  const hasCeoTask =
     /\b(brief me|board brief|board pack|premeeting|pre.?meeting|meeting prep|daily briefing|executive briefing)\b/.test(q);
-  if (hasCsoTask) return false;
+  if (hasCeoTask) return false;
 
-  // Email / communication drafting → Comms AI (not Explorer)
-  // "Draft an email", "write a memo", "compose a letter", "write me an email" etc.
   const hasEmailDraftTask =
     /\b(draft|write|compose|rewrite|polish)\b.{0,40}\b(email|letter|memo|message|reply|response|announcement|note)\b/.test(q) ||
     /\b(email|letter|memo|message)\b.{0,30}\b(draft|write|compose|help me)\b/.test(q);
   if (hasEmailDraftTask) return false;
 
-  // Everything else → Explorer AI
   return true;
 }
 
-/** Orchestrator routing — CSO Agent Prompt Pack §2 */
+/** Orchestrator routing */
 export function routeAgentsForQuery(
   query: string,
   manualSelection: AgentType[],
@@ -175,98 +146,58 @@ export function routeAgentsForQuery(
   const intent = detectChatIntent(query);
   if (intent === 'greeting' || intent === 'catchup' || intent === 'thanks') return ['cos'];
 
-  // ── Conversation-aware routing ──
-  // If this is a short follow-up (≤ 3 words, no question mark) after a Comms or Explorer
-  // clarifying question, maintain the previous agent so the conversation stays coherent.
-  // e.g. "Draft an email" → Comms asks "What topic?" → user replies "Falcon strategy"
-  //      → should stay Comms, not route to Strategy/Policy.
   if (autoRoute && previousAgents.length > 0 && !q.includes('?')) {
     const wordCount = q.trim().split(/\s+/).length;
     const prevPrimary = previousAgents[0];
-    // Only Comms and Explorer maintain context for short follow-ups.
-    // CoS is an orchestrator — it should re-route on every new message.
     const isContinuationAgent = prevPrimary === 'comms' || prevPrimary === 'explorer';
     const hasExplicitOverride = /\b(@policy|@strategy|@cos|@crm|@comms|policy ai|strategy ai|comms ai)\b/.test(q);
-    // Short follow-up (≤ 3 words): maintain conversational agents
     if (wordCount <= 3 && isContinuationAgent && !hasExplicitOverride) {
       return [prevPrimary];
     }
-    // Previous AI response was a clarifying question: maintain ANY agent regardless of length.
-    // e.g. Comms asked "What's the email about?" → user answers "digital assets policy for Mubadala"
-    //      Without this, "mubadala" would re-route to Relationship AI, breaking the conversation.
-    if (prevResponseWasQuestion && !hasExplicitOverride) {
+    if (prevResponseWasQuestion && isContinuationAgent && !hasExplicitOverride) {
       return [prevPrimary];
     }
   }
 
-  // Explorer AI takes priority for explicit web searches or general knowledge questions
-  if (autoRoute && isExplorerQuery(q)) return ['explorer'];
+  if (!autoRoute && manualSelection.length) return uniqueAgents(manualSelection);
 
-  const mentions: AgentType[] = [];
-  if (q.includes('@policy') || q.includes('policy ai')) mentions.push('policy');
-  if (q.includes('@strategy') || q.includes('strategy ai')) mentions.push('strategy');
-  if (q.includes('@cos') || q.includes('chief of staff')) mentions.push('cos');
-  if (q.includes('@crm') || q.includes('relationship ai')) mentions.push('relationship');
-  if (q.includes('@comms') || q.includes('communications ai')) mentions.push('comms');
-  if (mentions.length > 0) return uniqueAgents(mentions);
-
-  if (manualSelection.length > 0 && !autoRoute) return manualSelection;
-
-  // ── Compute intent flags BEFORE focus area resolution ──
-  // Order matters: pure-Comms tasks must short-circuit before matchFocusArea() maps
-  // "speech"/"draft" → 'correspondence' → ['comms','cos'] or "mubadala" → 'stakeholders'
-  // → ['relationship','cos'].  Both prepend CoS which triggers orchestrator behavior
-  // (scanning ACT/CAL, listing structured options) instead of a simple drafting flow.
-  const wantsComms =
-    /\b(draft|rewrite|polish|speech|memo|ministerial|talking points|bilingual|arabic (version|output|draft)|tone refinement|make (this|it) more (formal|concise|board))\b/.test(q);
-
-  const wantsRelationship =
-    /\b(stakeholder|relationship|brief me on|mubadala|attendee|organisation|organization|investor|partner|crm)\b/.test(q) ||
-    /\b(who is|tell me about)\b/.test(q);
-
-  const wantsPolicy =
-    /\b(regulat(e|ed|ion|ions|ory|ors?)?|fsra|policy|policies|consultation|compliance|rulebook|aml|licensing|framework|mas\b|fca|tokenis(ation|e|ed)?|stablecoin|virtual assets?|digital assets?|fintech|fund regulation|banking regulation|custody|licensing regime)\b/.test(q);
-
-  const wantsStrategy =
-    /\b(market|competitor|benchmark|capital|sector|investment|financial cent(re|er)|jurisdiction|falcon|abu dhabi|adgm|compare|hong kong|singapore|riyadh|london|dubai|difc|latest in|what should|opportunity|trend|intelligence|positioning|growth|landscape|virtual assets?|digital assets?|crypto|bitcoin|blockchain|tokenis(ation|e|ed)?|sovereign|gcc|mena|emerging market)\b/.test(q);
-
-  const wantsCos =
-    /\b(meeting|briefing|board|action|follow-up|follow up|escalat|decision|priority|operating rhythm|today|this week|overdue|commit(ment)?|agenda)\b/.test(q);
-
-  // ── Pure Comms task: short-circuit BEFORE focus area check ──
-  // Comms AI handles drafting naturally; it asks one simple question when info is missing.
-  if (autoRoute && wantsComms && !wantsPolicy && !wantsStrategy && !wantsCos && !wantsRelationship) {
-    return ['comms'];
-  }
+  if (isExplorerQuery(q)) return ['explorer'];
 
   const focusId = resolveFocusAreaForQuery(query);
   if (focusId) {
-    const fromFocus = FOCUS_AREA_MAP[focusId].agents;
-    return uniqueAgents(fromFocus.includes('cos') ? fromFocus : (['cos', ...fromFocus] as AgentType[]));
+    const area = FOCUS_AREA_MAP[focusId];
+    if (area?.agents?.length) return uniqueAgents(area.agents);
   }
 
   const routed: AgentType[] = [];
-
-  if (wantsComms) routed.push('comms');
-  if (wantsRelationship) routed.push('relationship');
-  if (wantsPolicy) routed.push('policy');
-  if (wantsStrategy) routed.push('strategy');
-  if (wantsCos) routed.push('cos');
-
-  if (wantsComms && wantsPolicy) routed.push('policy');
-  if (wantsComms && wantsStrategy) routed.push('strategy');
-  if (wantsPolicy && wantsStrategy) {
-    routed.push('policy', 'strategy');
+  if (/\b(meeting|brief|board|action|follow.?up|calendar|agenda|decision)\b/.test(q)) routed.push('cos');
+  if (
+    /\b(market|competitor|benchmark|capital|sector|investment|real estate|hospitality|fintech|healthtech|dubai|d33|portfolio|drec|huna|hive|compare|trend|intelligence|positioning|growth|landscape|gcc|mena)\b/.test(q)
+  ) {
+    routed.push('strategy');
   }
-  if ((wantsCos || wantsRelationship) && !routed.includes('cos')) routed.unshift('cos');
-  if (wantsRelationship && !routed.includes('relationship')) routed.push('relationship');
-
-  if (routed.length > 0) {
-    return uniqueAgents(routed.includes('cos') ? routed : (['cos', ...routed] as AgentType[]));
+  if (/\b(regulat|policy|polic|compliance|framework|rera|dfsa|cbuae|law|consultation)\b/.test(q)) {
+    routed.push('policy');
+  }
+  if (/\b(stakeholder|partner|crm|commitment|relationship|mubadala|investor)\b/.test(q)) {
+    routed.push('relationship');
+  }
+  if (/\b(draft|speech|memo|arabic|english|communication|talking points|ministerial|note to)\b/.test(q)) {
+    routed.push('comms');
   }
 
-  if (manualSelection.length > 0) return manualSelection;
+  if (!routed.length) routed.push('cos');
+  return uniqueAgents(routed);
+}
 
-  // No CSO-specific keywords matched — route to Explorer AI for general knowledge
-  return ['explorer'];
+export function getAgentForType(type: AgentType): AgentDefinition {
+  return AGENT_MAP[type];
+}
+
+export function getAgentColor(type: AgentType): string {
+  return AGENT_MAP[type]?.color ?? '#1A1A1A';
+}
+
+export function getAgentLabel(type: AgentType): string {
+  return AGENT_LABELS[type] ?? type;
 }

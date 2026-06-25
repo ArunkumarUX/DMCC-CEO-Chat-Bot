@@ -315,7 +315,7 @@ export function CapitalFlow({
       viewBox={`0 0 ${w} ${h}`}
       style={{ width: '100%', maxWidth: 420, height: 'auto', overflow: 'visible' }}
       role="img"
-      aria-label={ar ? 'تدفقات رأس المال نحو أبوظبي' : 'Capital flows toward Abu Dhabi'}
+      aria-label={ar ? 'تدفقات رأس المال نحو دبي' : 'Capital flows toward Dubai'}
     >
         <defs>
           <radialGradient id={`cfCore${gid}`} cx="42%" cy="38%" r="62%">
@@ -355,7 +355,7 @@ export function CapitalFlow({
 
         <circle cx={cx} cy={cy} r="32" fill={`url(#cfCore${gid})`} />
         <text x={cx} y={cy - 4} textAnchor="middle" dominantBaseline="middle" fontSize="11" fontWeight="700" fill="#fff">
-          {ar ? 'أبوظبي' : 'Abu Dhabi'}
+          {ar ? 'دبي' : 'Dubai'}
         </text>
         <text x={cx} y={cy + 10} textAnchor="middle" dominantBaseline="middle" fontSize="8.5" fontWeight="600" fill="rgba(255,255,255,0.88)" letterSpacing="0.1em">
           ADGM

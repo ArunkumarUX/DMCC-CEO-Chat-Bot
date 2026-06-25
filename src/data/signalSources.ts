@@ -123,7 +123,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
           snapLive
             ? 'Live price feeds partially unavailable. Scenario fallback hidden for GCC percentages.'
             : `GCC ${snap.gccEquities}; digital ${snap.digitalAssetsWoW}.`,
-          'https://www.adgm.com',
+          'https://www.armholding.ae',
           date,
           0.4,
         ),
@@ -146,7 +146,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
         feed('src-competitor-scenario', 'Competitor intelligence — scenario',
           'Market scenario snapshot (prototype)',
           `${snap.competitorNote || 'Scenario data only.'}`,
-          'https://www.adgm.com', date, 0.4),
+          'https://www.armholding.ae', date, 0.4),
       ];
     }
 
@@ -167,7 +167,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
         feed('src-investment-scenario', 'Investment signals — scenario data',
           'Market scenario snapshot (prototype)',
           `Sector focus: ${snap.topSector}. Scenario data only.`,
-          'https://www.adgm.com', date, 0.4),
+          'https://www.armholding.ae', date, 0.4),
       ];
     }
 
@@ -206,10 +206,10 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
       // Always add official portal reference links
       return [
         ...liveSources,
-        feed('src-fsra-portal', 'ADGM FSRA — Official Portal',
-          'ADGM FSRA (official public portal)',
-          'Visit adgm.com/fsra for the latest ADGM FSRA rules, guidance, consultation papers and regulatory announcements.',
-          'https://www.adgm.com/fsra', date, 0.95),
+        feed('src-fsra-portal', 'A.R.M. Holding RERA — Official Portal',
+          'A.R.M. Holding RERA (official public portal)',
+          'Visit armholding.ae/fsra for the latest A.R.M. Holding RERA rules, guidance, consultation papers and regulatory announcements.',
+          'https://www.armholding.ae/fsra', date, 0.95),
         feed('src-mas-portal', 'MAS Singapore — Consultations',
           'MAS Singapore (official public portal)',
           'Visit mas.gov.sg for the latest MAS consultation papers, digital asset regulations and policy publications.',

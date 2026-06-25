@@ -37,31 +37,31 @@ import {
   signalEmoji,
 } from '../utils/executiveAnswerVisuals';
 
-const STORAGE_KEY = 'adgm-executive-state-v4';
+const STORAGE_KEY = 'arm-executive-state-v1';
 const MARKET_ROTATION: ExecutiveState['marketSnapshot'][] = [
   {
     gccEquities: '+0.8%',
-    digitalAssetsWoW: '+12%',
-    competitorNote: 'DIFC fintech sandbox expansion announced',
-    topSector: 'Climate tech (Falcon Economy priority sector)',
+    digitalAssetsWoW: '+4.2%',
+    competitorNote: 'Emaar announces waterfront lifestyle district',
+    topSector: 'Design-led residential (HUNA fit 90)',
   },
   {
     gccEquities: '+1.1%',
-    digitalAssetsWoW: '+9%',
-    competitorNote: 'Riyadh fintech licence batch — 14 new approvals',
-    topSector: 'Digital assets (FSRA pipeline strong)',
+    digitalAssetsWoW: '+3.8%',
+    competitorNote: 'Meraas launches curated retail expansion',
+    topSector: 'Hospitality recovery (DREC assets)',
   },
   {
     gccEquities: '+0.4%',
-    digitalAssetsWoW: '+15%',
-    competitorNote: 'MAS stablecoin consultation — retail rules tightening',
-    topSector: 'Sovereign wealth co-investments',
+    digitalAssetsWoW: '+2.9%',
+    competitorNote: 'RERA rental index update published',
+    topSector: 'Coliving demand (HIVE occupancy 91%)',
   },
   {
     gccEquities: '+0.6%',
-    digitalAssetsWoW: '+11%',
-    competitorNote: 'Qatar Fintech Hub — custody standards update',
-    topSector: 'Regulatory technology',
+    digitalAssetsWoW: '+3.1%',
+    competitorNote: 'Art Dubai partnership framework updated',
+    topSector: 'Cultural tourism (We Emerge Stronger)',
   },
 ];
 
@@ -91,26 +91,26 @@ function buildDynamicMeetings(today: Date): Meeting[] {
   return [
     {
       id: 'mtg1',
-      title: 'Mubadala leadership — follow-up',
-      time: meetingIso(today, 15, 0),
-      attendees: 'Khaldoon Al Mubarak, Mubadala CEO',
-      location: 'Al Maryah Island',
+      title: 'DREC board — Q2 portfolio review',
+      time: meetingIso(today, 10, 0),
+      attendees: 'DREC leadership, Alain Kallas (CDO)',
+      location: 'A.R.M. Holding HQ, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg2',
-      title: 'Board risk committee — data policy',
-      time: meetingIso(addDays(today, 1), 10, 0),
-      attendees: 'Board risk committee',
-      location: 'Board room',
+      title: 'HUNA waterfront launch working session',
+      time: meetingIso(addDays(today, 1), 14, 0),
+      attendees: 'HUNA development, Marketing, Design partners',
+      location: 'H Residence, Dubai',
       prepStatus: 'pending',
     },
     {
       id: 'mtg3',
-      title: 'Singapore MAS delegation',
-      time: meetingIso(addDays(today, 2), 15, 0),
-      attendees: 'MAS regulatory & market development leads',
-      location: 'ADGM Auditorium, Al Maryah',
+      title: 'Art Dubai — We Emerge Stronger commission',
+      time: meetingIso(addDays(today, 2), 11, 0),
+      attendees: 'Art Dubai curators, A.R.M. Holding cultural team',
+      location: 'A.R.M. Holding HQ, Dubai',
       prepStatus: 'ready',
     },
   ];
@@ -120,32 +120,32 @@ function buildDynamicActions(today: Date): ActionItem[] {
   return [
     {
       id: 'a1',
-      title: 'Share digital assets policy update with Mubadala',
-      owner: 'Rajiv Sehgal',
+      title: 'Approve RERA rental repricing plan for DREC portfolio',
+      owner: 'H.E. Mohammad Saeed Al Shehhi',
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
-      departmentId: 'strategy',
+      departmentId: 'legal',
     },
     {
       id: 'a2',
-      title: 'Approve retention packages — 2 Strategy roles',
-      owner: 'Rajiv Sehgal',
+      title: 'Approve retention packages — 2 property management roles',
+      owner: 'H.E. Mohammad Saeed Al Shehhi',
       due: dateOnly(addDays(today, 3)),
       status: 'open',
       departmentId: 'hr',
     },
     {
       id: 'a3',
-      title: 'MAS policy comparison note post-consultation',
-      owner: 'Policy AI → Rajiv',
+      title: 'HUNA launch narrative sign-off',
+      owner: 'Marketing → Mohammad',
       due: dateOnly(addDays(today, 9)),
       status: 'open',
-      departmentId: 'policy',
+      departmentId: 'marketing',
     },
     {
       id: 'a4',
-      title: 'Review Arabic ministerial note — HH office',
-      owner: 'Rajiv Sehgal',
+      title: 'Review We Emerge Stronger talking points — Art Dubai',
+      owner: 'H.E. Mohammad Saeed Al Shehhi',
       due: dateOnly(addDays(today, 2)),
       status: 'open',
     },
@@ -222,78 +222,78 @@ const SEED_DOCUMENTS: DocumentFile[] = [
     uploadedAt: '2026-06-01',
     status: 'ready',
     summary:
-      'Q2 board materials: FSRA performance, strategic partnerships, Falcon Economy alignment. Three board decisions flagged.',
+      'Q2 board materials: DREC occupancy, HUNA launch, We Emerge Stronger commission. Three board decisions flagged.',
     keyInsights: [
-      'Digital assets framework — board decision required',
-      'Licence growth +12% YoY',
-      'DIFC fintech competitive pressure — proactive positioning recommended',
+      'HUNA waterfront launch — board decision required',
+      'DREC occupancy 94.2%',
+      'Emaar waterfront competitive pressure — proactive HUNA positioning recommended',
     ],
     focusAreaIds: ['meetings', 'knowledge'],
     clauses: [
       {
         title: 'Section 2 — Executive summary',
-        text: 'ADGM continues to strengthen its position as a leading international financial centre...',
+        text: 'A.R.M. Holding continues to strengthen its Dubai real estate and investment portfolio across DREC, HUNA and HIVE...',
       },
     ],
   },
   {
     id: 'd2',
-    name: 'FSRA_Virtual_Assets_Framework_2026.pdf',
+    name: 'ARM_RERA_Compliance_Framework_2026.pdf',
     type: 'PDF',
     size: '2.8 MB',
     uploadedAt: '2026-05-29',
     status: 'ready',
-    summary: 'FSRA principle-based VASP licensing taxonomy — comparison baseline for MAS benchmarking.',
-    keyInsights: ['Full licensing taxonomy', 'Retail access with safeguards', 'Institutional custody requirements'],
+    summary: 'Group RERA/DLD compliance framework — rental index, escrow, broker licensing across portfolio.',
+    keyInsights: ['Rental repricing within 30 days', 'Escrow audited quarterly', 'Filing due in 11 days'],
     focusAreaIds: ['regulatory', 'knowledge'],
     clauses: [],
   },
   {
     id: 'd3',
-    name: 'Ministerial_Note_Q2_AR_EN.docx',
+    name: 'We_Emerge_Stronger_Talking_Points.docx',
     type: 'DOCX',
     size: '620 KB',
     uploadedAt: '2026-05-28',
     status: 'ready',
-    summary: 'Bilingual ministerial note draft — Q2 performance for HH office.',
-    keyInsights: ['Formal register verified', 'FSRA Arabic terminology aligned'],
+    summary: 'Bilingual talking points — We Emerge Stronger sculpture commission with Art Dubai.',
+    keyInsights: ['Formal register verified', 'Cultural initiative messaging aligned'],
     focusAreaIds: ['correspondence'],
     clauses: [],
   },
   {
     id: 'd4',
-    name: 'MAS_Digital_Assets_CP_Summary.pdf',
+    name: 'DREC_Portfolio_Review_Q1_2026.pdf',
     type: 'PDF',
     size: '1.1 MB',
     uploadedAt: '2026-06-02',
     status: 'ready',
-    summary: 'MAS consultation on single-currency stablecoins — Policy AI ingestion 02 Jun 2026.',
-    keyInsights: ['Consultation closes Friday', 'Activity-based DPT rules', 'Retail restrictions tighter than ADGM'],
-    focusAreaIds: ['regulatory', 'strategic-intelligence'],
+    summary: 'DREC Q1 review — 3,200+ units, Palm Spring Village, The Beach Centre.',
+    keyInsights: ['Occupancy 94.2%', 'Leasing pipeline AED 124M', 'Beach Centre footfall +11% YoY'],
+    focusAreaIds: ['strategic-intelligence', 'knowledge'],
     clauses: [],
   },
   {
     id: 'd5',
-    name: 'Falcon_Economy_Strategic_Alignment_2024-26.xlsx',
+    name: 'ARM_D33_Alignment_Tracker_2026.xlsx',
     type: 'XLSX',
     size: '890 KB',
     uploadedAt: '2026-05-20',
     status: 'ready',
-    summary: 'Knowledge Graph temporal view of 2024 ADGM strategic decisions vs Falcon Economy KPIs.',
-    keyInsights: ['Alignment score 82/100', 'Digital assets milestone Q2 2026', 'Italy engagement complete'],
+    summary: 'Portfolio alignment with Dubai Economic Agenda D33 — mapped to DREC, HUNA, HIVE.',
+    keyInsights: ['Alignment score 86/100', 'HUNA launch on track Q3', 'We Emerge Stronger launched'],
     focusAreaIds: ['knowledge', 'strategic-intelligence'],
     clauses: [],
   },
 ];
 
 function kbSeedSizeMb(src: { pageEstimate?: number; id: string }): string {
-  if (src.id === 'falcon-economy') return '10.7 MB';
-  if (src.id === 'falcon-strategy') return '2.3 MB';
+  if (src.id === 'arm-group-strategy') return '2.1 MB';
+  if (src.id === 'we-emerge-stronger') return '1.4 MB';
   const mb = Math.max(0.2, (src.pageEstimate ?? 12) * 0.08);
   return `${mb.toFixed(1)} MB`;
 }
 
-/** Indexed institutional PDFs — Falcon + ADGM Archive (see falconKbChunks.json) */
+/** Indexed institutional PDFs — A.R.M. Holding corporate KB */
 const FALCON_SEED_DOCUMENTS: DocumentFile[] = FALCON_KB_SOURCES.map((src) => ({
   id: src.docId,
   name: src.pdfName,
@@ -304,14 +304,14 @@ const FALCON_SEED_DOCUMENTS: DocumentFile[] = FALCON_KB_SOURCES.map((src) => ({
   inKnowledgeBase: true,
   kbCategory: src.category,
   kbDocumentDate: src.date,
-  kbCompanyId: src.category === 'strategy' ? 'adio' : 'adgm',
+  kbCompanyId: src.category === 'strategy' ? 'drec' : 'arm',
   summary: src.summary.replace(/\s+/g, ' ').slice(0, 500),
   keyInsights: [
     src.title,
     `Knowledge base · ${src.handle} · ${src.chunkCount} indexed sections`,
     src.category === 'policy'
-      ? 'ADGM regulations and federal instruments — cite KB handles in answers'
-      : 'Abu Dhabi economic strategy — cite KB handles in answers',
+      ? 'RERA/DLD compliance — cite KB handles in answers'
+      : 'A.R.M. Holding group strategy — cite KB handles in answers',
   ],
   focusAreaIds: ['knowledge', src.category === 'policy' ? 'regulatory' : 'strategic-intelligence'],
   clauses: [],
@@ -332,20 +332,20 @@ function buildSeedConversations(today: Date): Conversation[] {
   return [
     {
       id: 'c1',
-      title: '3pm brief — Mubadala leadership',
+      title: 'DREC board brief — Q2',
       category: 'Meetings',
       updatedAt: stamp,
       pinned: true,
-      preview: 'Brief me on my 3pm meeting with Mubadala',
+      preview: 'Brief me on my DREC board meeting',
       messages: [],
     },
     {
       id: 'c2',
-      title: 'ADGM vs MAS — digital assets',
-      category: 'Regulatory',
+      title: 'HUNA vs Emaar — design positioning',
+      category: 'Intelligence',
       updatedAt: stamp,
       pinned: false,
-      preview: "Compare ADGM's digital assets framework against Singapore MAS",
+      preview: "How does HUNA's design-led positioning compare to Emaar?",
       messages: [],
     },
   ];
@@ -490,9 +490,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'overnight',
       pillar: '01',
       title: 'Overnight intelligence',
-      summary: `ADGM & Abu Dhabi priorities · GCC ${m.gccEquities} · ${m.topSector} sector lead.`,
+      summary: `Dubai portfolio priorities · GCC ${m.gccEquities} · ${m.topSector}.`,
       detail:
-        'Daily summary of major developments across ADGM, Abu Dhabi, GCC markets and global financial centres.',
+        'Daily summary of major developments across A.R.M. Holding, DREC, HUNA, HIVE and Dubai real estate markets.',
       icon: 'overnight',
       priority: 'normal',
       href: '/chat',
@@ -501,9 +501,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'market',
       pillar: '02',
       title: 'Market signals',
-      summary: `Capital flows: digital assets ${m.digitalAssetsWoW} WoW on ADGM · ${m.topSector} momentum.`,
+      summary: `Dubai RE +4.2% · ${m.topSector} momentum.`,
       detail:
-        'Where investors, asset managers, fintech firms and institutions are moving across key global markets.',
+        'Where investors and buyers are moving across Dubai residential, hospitality and coliving segments.',
       icon: 'market',
       priority: 'medium',
       href: '/chat',
@@ -514,7 +514,7 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       title: 'Competitor moves',
       summary: m.competitorNote,
       detail:
-        'Singapore, Hong Kong, DIFC, Luxembourg and peer centres — institutions and investment flows.',
+        'Emaar, Meraas, Nakheel and peer Dubai developers — launches, pricing and positioning.',
       icon: 'competitor',
       priority: 'high',
       href: '/chat',
@@ -523,9 +523,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'regulatory',
       pillar: '04',
       title: 'Regulatory shifts',
-      summary: 'MAS stablecoin consultation · FSRA digital assets framework · IOSCO best practice.',
+      summary: 'RERA rental index update · DLD registration streamlining · Art Dubai partnership.',
       detail:
-        'Financial regulation, digital assets, fintech, capital markets and international best practices relevant to ADGM.',
+        'Dubai real estate regulation, hospitality permits and compliance relevant to DREC, HUNA and HIVE.',
       icon: 'regulatory',
       priority: 'high',
       href: '/chat?focus=regulatory',
@@ -596,7 +596,7 @@ export function resolveAnswerGrounding(
   const meta = deriveGroundingMeta(answerText, records);
 
   // Only show sources that Claude actually cited via handles in the response text.
-  // Never fall back to guessing — that produces fake "adgm.com" chips on unrelated answers.
+  // Never fall back to guessing — that produces fake "armholding.ae" chips on unrelated answers.
   if (!meta.citedHandles.length) {
     return { grounding: undefined, sources: [] };
   }
@@ -646,45 +646,37 @@ export function buildIntelligentResponse(query: string, state: ExecutiveState): 
   const revenue = sales.kpis.find((k) => k.label.includes('Revenue'))?.value ?? '93% of target';
   const sla = ops.kpis.find((k) => k.label.includes('SLA'))?.value ?? '94.1%';
 
-  if (q.includes('digital asset') && (q.includes('mas') || q.includes('singapore'))) {
+  if (q.includes('huna') && (q.includes('emaar') || q.includes('compare') || q.includes('design'))) {
     return {
-      agents: ['policy', 'strategy'],
+      agents: ['strategy'],
       confidence: 0.92,
-      sourceDocIds: ['d2', 'd4'],
+      sourceDocIds: ['d9', 'd4'],
       followUps: [
-        'Draft FSRA alignment note for MAS consultation',
-        'Show competitor benchmark — DIFC vs ADGM vs MAS',
-        'Add to board digital assets section',
+        'Show HUNA waterfront launch timeline',
+        'Open DREC portfolio review for context',
+        'Draft board narrative on design differentiation',
       ],
-      content: `## ADGM vs MAS — digital assets
+      content: `## HUNA vs Emaar — design positioning
 
-${plainTerms('ADGM is better for large banks and funds; Singapore is ahead on retail crypto rules and stablecoins this week.')}
+${plainTerms('HUNA leads on cultural curation and design; Emaar leads on scale and distribution.')}
 ${metricTable(
-  ['What it means', 'Number', 'Signal'],
+  ['What it means', 'Score', 'Signal'],
   [
-    ['ADGM rules strength (benchmark)', '88/100', `${signalEmoji('good')} Strong`],
-    ['MAS rules strength (benchmark)', '90/100', `${signalEmoji('watch')} Slightly ahead`],
-    ['Sales vs target', revenue, signalEmoji('watch')],
+    ['HUNA design differentiation', '96/100', `${signalEmoji('good')} Strong`],
+    ['Emaar brand & scale', '94/100', `${signalEmoji('good')} Strong`],
+    ['DREC occupancy (income base)', '94.2%', signalEmoji('good')],
     ['GCC markets today', state.marketSnapshot.gccEquities, signalEmoji('good')],
   ],
 )}
-**Falcon Economy / framework**
-${scoreBar(88)}
+**D33 alignment**
+${scoreBar(86)}
 
-${metricTable(
-  ['Topic', 'ADGM (simple)', 'Singapore (simple)'],
-  [
-    ['Who it suits', 'Institutions & funds', 'More retail testing'],
-    ['Retail crypto', 'Allowed with safeguards', 'Tighter limits'],
-    ['Stablecoins', 'Rules being aligned', 'Consultation ends Friday'],
-  ],
-)}
-${actionNow('Complete MAS comparison note by 12 Jun (your action register).')}
-${agentTag(['Policy AI', 'Strategy AI'])}`,
+${actionNow('Accelerate HUNA waterfront launch narrative before competitor announcement.')}
+${agentTag(['Strategy AI'])}`,
     };
   }
 
-  if (q.includes('falcon') || (q.includes('2024') && q.includes('strategic'))) {
+  if (q.includes('d33') || q.includes('we emerge') || (q.includes('2025') && q.includes('strategic'))) {
     const excerpts = retrieveFalconExcerpts(q, 6);
     if (excerpts.length) {
       const excerptBlock = excerpts
@@ -696,15 +688,15 @@ ${agentTag(['Policy AI', 'Strategy AI'])}`,
       return {
         agents: ['strategy', 'cos'],
         confidence: 0.94,
-        sourceDocIds: ['d6', 'd7'],
+        sourceDocIds: ['d6', 'd12'],
         followUps: [
-          'Summarise economic clusters from Falcon Economy 2025–2045',
-          'Compare Falcon Strategy observations vs current ADGM priorities',
-          'Which enablers need FSRA / ADGM alignment first?',
+          'Summarise D33 alignment for DREC, HUNA and HIVE',
+          'Compare group strategy vs current portfolio priorities',
+          'Which initiatives need RERA alignment first?',
         ],
-        content: `## Falcon Economy & Strategy — knowledge base
+        content: `## A.R.M. Holding portfolio & D33 — knowledge base
 
-${plainTerms('Answer grounded in the two approved Falcon PDFs in the knowledge base — not generic scorecards.')}
+${plainTerms('Answer grounded in approved A.R.M. Holding corporate documents in the knowledge base.')}
 
 ${excerptBlock}
 
@@ -715,47 +707,40 @@ ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
     return {
       agents: ['strategy', 'cos'],
       confidence: 0.89,
-      sourceDocIds: ['d6', 'd7', 'd5'],
+      sourceDocIds: ['d6', 'd12', 'd5'],
       followUps: [
-        'Open Falcon Economy Strategy 2025–2045 in Knowledge Base',
-        'Which economic clusters are prioritised to 2045?',
-        'Prepare board narrative on diversification enablers',
+        'Open D33 Alignment Tracker in Knowledge Base',
+        'Which portfolio companies lead on D33 priorities?',
+        'Prepare board narrative on We Emerge Stronger',
       ],
-      content: `## Falcon Economy & Strategy
+      content: `## Portfolio strategy & D33
 
-${plainTerms('Falcon documents are in the knowledge base — ask a specific question (clusters, FDI, non-oil GDP, enablers) for cited excerpts.')}
+${plainTerms('A.R.M. Holding documents are in the knowledge base — ask about DREC, HUNA, HIVE or We Emerge Stronger for cited excerpts.')}
 ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
     };
   }
 
-  if (q.includes('stakeholder') || (q.includes('profile') && (q.includes('mas') || q.includes('crm')))) {
-    const mtg = state.meetings.find((m) => /mas|singapore/i.test(m.title)) ?? state.meetings[0];
+  if (q.includes('stakeholder') || (q.includes('profile') && (q.includes('art dubai') || q.includes('crm')))) {
+    const mtg = state.meetings.find((m) => /art dubai|we emerge/i.test(m.title)) ?? state.meetings[0];
     const open = state.actionRegister.filter((a) => a.status !== 'done');
     return {
       agents: ['relationship', 'cos'],
       confidence: 0.91,
-      sourceDocIds: ['d2', 'd4'],
+      sourceDocIds: ['d11', 'd3'],
       followUps: [
-        'Draft talking points for regulatory harmonisation',
+        'Draft talking points for We Emerge Stronger',
         'Log follow-up in action register',
         'Open full CRM record',
       ],
       content: `## Stakeholder — ${mtg.title}
 
-${plainTerms('Warm relationship with Singapore regulators; two follow-ups still open before you meet.')}
+${plainTerms('Strong Art Dubai partnership; sculpture commission open call is live until 25 July.')}
 ${metricTable(
   ['CRM fact', 'Detail', 'Signal'],
   [
-    ['Relationship', 'Warm · 6 meetings in 18 months', signalEmoji('good')],
-    ['Last touchpoint', 'ADFW 2025', signalEmoji('good')],
-    ['ADGM network', '3 partnership leads linked', signalEmoji('good')],
-  ],
-)}
-${metricTable(
-  ['They care about', 'Why it matters', ''],
-  [
-    ['Cross-border digital assets', 'Passporting tokenised funds', '—'],
-    ['Green finance rules', 'Align taxonomies', '—'],
+    ['Partnership', 'Art Dubai × A.R.M. Holding', signalEmoji('good')],
+    ['Commission', 'We Emerge Stronger — open call', signalEmoji('good')],
+    ['Location', 'HUNA Sculpture Park, H Residence', signalEmoji('good')],
   ],
 )}
 ${metricTable(
@@ -766,86 +751,81 @@ ${metricTable(
     a.status === 'overdue' ? signalEmoji('risk') : signalEmoji('watch'),
   ]),
 )}
-${actionNow('Agree a Q3 working-group date and confirm custodian pilot scope with FSRA.')}
+${actionNow('Confirm CEO speaking slot for Art Dubai commission announcement.')}
 ${agentTag(['Relationship AI', 'Chief of Staff AI'])}`,
     };
   }
 
-  if (q.includes('brief') && q.includes('meeting') && !q.includes('mubadala')) {
+  if (q.includes('brief') && q.includes('meeting') && !q.includes('drec')) {
     const mtg = state.meetings.find((m) => m.id === 'mtg1') ?? state.meetings[0];
     return {
       agents: ['cos', 'relationship', 'strategy', 'comms'],
       confidence: 0.94,
-      sourceDocIds: ['d2', 'd4'],
+      sourceDocIds: ['d8', 'd13'],
       followUps: [
-        'Draft talking points for regulatory harmonisation',
-        'Show open commitments with MAS',
+        'Draft talking points for DREC board',
+        'Show open RERA commitments',
         'Add to action register',
       ],
       content: `## Pre-meeting — ${mtg.title}
 
-${plainTerms('You are ready for tomorrow’s MAS meeting; one policy note is still due on 12 Jun.')}
+${plainTerms('You are ready for the DREC board; RERA filing still due in 11 days.')}
 ${metricTable(
   ['Meeting fact', 'Detail', 'Signal'],
   [
-    ['When', 'Tomorrow 15:00 UAE', signalEmoji('good')],
+    ['When', 'Tomorrow 10:00 UAE', signalEmoji('good')],
     ['Where', mtg.location, '—'],
     ['Prep', mtg.prepStatus === 'ready' ? 'Ready' : 'In progress', mtg.prepStatus === 'ready' ? signalEmoji('good') : signalEmoji('watch')],
     ['Who', mtg.attendees, '—'],
   ],
 )}
 ${metricTable(
-  ['Commitment', 'Due', 'Signal'],
+  ['Agenda item', 'Detail', 'Signal'],
   [
-    ['MAS workshop on tokenised products', 'Committed 22 Mar', signalEmoji('good')],
-    ['MAS policy comparison note', '12 Jun', signalEmoji('watch')],
+    ['DREC occupancy', '94.2%', signalEmoji('good')],
+    ['Leasing pipeline', 'AED 124M', signalEmoji('good')],
+    ['RERA filing', 'Due in 11 days', signalEmoji('watch')],
   ],
 )}
-**Market & operations**
-${scoreBar(82)}
 | Metric | Value | Signal |
 |--------|-------|--------|
 | Competitor headline | ${state.marketSnapshot.competitorNote} | ${signalEmoji('watch')} |
 | HR attrition | ${attrition} | ${signalEmoji('watch')} |
 | Ops SLA | ${sla} | ${signalEmoji('good')} |
-
-**Ask them**
-- Fund passporting with UAE?
-- Stablecoin consultation timeline?
 ${agentTag(['Chief of Staff', 'Relationship', 'Strategy', 'Comms'])}`,
     };
   }
 
-  if (q.includes('mubadala') && q.includes('brief')) {
-    const mtg = state.meetings.find((m) => m.id === 'mtg2')!;
+  if (q.includes('drec') && q.includes('brief')) {
+    const mtg = state.meetings.find((m) => m.id === 'mtg1')!;
     const overdue = state.actionRegister.find((a) => a.id === 'a1');
     return {
       agents: ['cos', 'relationship', 'strategy', 'comms'],
       confidence: 0.93,
-      sourceDocIds: ['d1', 'd2'],
+      sourceDocIds: ['d1', 'd8'],
       followUps: [
-        'What did I commit to in our last Mubadala meeting?',
-        'Draft talking points on capital flows',
+        'What did we commit to at the last DREC board?',
+        'Draft talking points on occupancy and leasing',
         'Flag action register items',
       ],
       content: `## Pre-meeting — ${mtg.title}
 
-${plainTerms('Important sovereign partner meeting today — share the overdue policy update before new asks.')}
+${plainTerms('DREC board today — clear the overdue RERA repricing approval before new asks.')}
 ${metricTable(
   ['Meeting', 'Detail', 'Signal'],
   [
-    ['Time', '15:00 UAE today', signalEmoji('good')],
+    ['Time', '10:00 UAE today', signalEmoji('good')],
     ['With', mtg.attendees, '—'],
-    ['Partner size', '~USD 300bn AUM', signalEmoji('good')],
+    ['Occupancy', '94.2%', signalEmoji('good')],
   ],
 )}
 ${overdue ? actionNow(`Send overdue item: ${overdue.title} (was due ${overdue.due}).`) : `${signalEmoji('good')} No overdue actions.`}
 ${metricTable(
   ['Talking point', 'Why', ''],
   [
-    ['Licences +12% YoY', 'Shows momentum', '—'],
-    ['ACCESSADGM reforms', 'Fund pipeline', '—'],
-    ['Digital assets policy', 'Sensitive timeline', '—'],
+    ['Occupancy 94.2%', 'Income stability', '—'],
+    ['Beach Centre footfall +11%', 'Hospitality recovery', '—'],
+    ['RERA repricing plan', 'Compliance deadline', '—'],
   ],
 )}
 | Metric | Value | Signal |
@@ -856,74 +836,70 @@ ${agentTag(['Chief of Staff', 'Relationship', 'Strategy'])}`,
     };
   }
 
-  if (q.includes('investment') || (q.includes('abu dhabi') && q.includes('priorit'))) {
+  if (q.includes('investment') || (q.includes('dubai') && q.includes('priorit'))) {
     return {
       agents: ['strategy', 'policy'],
       confidence: 0.9,
-      sourceDocIds: ['d5'],
+      sourceDocIds: ['d5', 'd8'],
       followUps: [
-        'Deep dive climate tech sector',
-        'Ministerial narrative draft (Arabic)',
-        'Compare vs DIFC positioning',
+        'Deep dive HUNA waterfront pre-sales',
+        'We Emerge Stronger talking points',
+        'Compare vs Emaar positioning',
       ],
-      content: `## Abu Dhabi — top opportunities
+      content: `## Dubai real estate — top opportunities
 
-${plainTerms('Climate tech and tokenised funds are the best bets right now; both fit Falcon Economy and ADGM’s strengths.')}
+${plainTerms('Design-led residential and hospitality recovery score highest for the A.R.M. Holding portfolio.')}
 ${metricTable(
-  ['Sector', 'Falcon Economy score', 'Signal'],
+  ['Sector', 'D33 score', 'Signal'],
   [
-    ['Climate tech', '88/100', signalEmoji('good')],
-    ['Tokenised funds / digital assets', '86/100', signalEmoji('good')],
-    ['Cross-border payments', '84/100', signalEmoji('good')],
+    ['Design-led residential (HUNA)', '90/100', signalEmoji('good')],
+    ['Hospitality recovery (DREC)', '88/100', signalEmoji('good')],
+    ['Coliving (HIVE)', '84/100', signalEmoji('good')],
+    ['Commercial retail (DREC)', '82/100', signalEmoji('good')],
   ],
 )}
 **Top pick**
-${scoreBar(88)}
+${scoreBar(90)}
 ${state.marketSnapshot.topSector}
 
 | Market signal | Value |
 |---------------|-------|
+| Dubai RE transactions | +4.2% |
 | GCC equities | ${state.marketSnapshot.gccEquities} |
-| ADGM digital assets (WoW) | ${state.marketSnapshot.digitalAssetsWoW} |
 
-${actionNow('Prioritise climate GP outreach and fast-track tokenised fund guidance with FSRA.')}
+${actionNow('Prioritise HUNA waterfront pre-sales and DREC hospitality asset review.')}
 ${agentTag(['Strategy AI', 'Policy AI'])}`,
     };
   }
 
-  if ((q.includes('arabic') || q.includes('hh')) && (q.includes('ministerial') || q.includes('q2'))) {
+  if ((q.includes('arabic') || q.includes('emerge')) && (q.includes('talking') || q.includes('speech') || q.includes('announce'))) {
     return {
       agents: ['comms', 'strategy'],
       confidence: 0.91,
-      sourceDocIds: ['d3', 'd1'],
+      sourceDocIds: ['d3', 'd11'],
       followUps: [
         'Open full bilingual draft in Documents',
-        'Adjust paragraph 2 per FSRA terminology',
-        'Schedule board review',
+        'Adjust cultural initiative messaging',
+        'Schedule Art Dubai announcement',
       ],
-      content: `## Ministerial note — Q2 (draft)
+      content: `## We Emerge Stronger — communications draft
 
-${plainTerms('Strong quarter to report; mention licence growth and flag talent retention briefly.')}
+${plainTerms('Culture woven into everyday life; permanent sculpture at HUNA Sculpture Park with Art Dubai.')}
 ${metricTable(
-  ['Metric', 'Value', 'Signal'],
+  ['Theme', 'Message', 'Signal'],
   [
-    ['Falcon Economy alignment', '82/100', signalEmoji('good')],
-    ['Licence growth', '+12% YoY', signalEmoji('good')],
-    ['Departments green', `${state.metrics.departmentsOnTrack}/9`, signalEmoji('good')],
-    ['HR attrition', attrition, signalEmoji('watch')],
-    ['Sales vs target', revenue, signalEmoji('watch')],
+    ['Commission', 'Open call 17 Jun – 25 Jul 2026', signalEmoji('good')],
+    ['Inspiration', 'نظهر أقوى — resilience & renewal', signalEmoji('good')],
+    ['Location', 'HUNA Sculpture Park', signalEmoji('good')],
   ],
 )}
-**Falcon Economy alignment**
-${scoreBar(82)}
-
 ### English (short)
-Your Excellency, ADGM had a strong Q2: more licences, a healthy FSRA pipeline, and Falcon Economy score 82/100. Watch-items: competition from DIFC fintech and staff attrition.
+Culture is essential to how we build cities and communities. Art should be woven into everyday life.
 
 ### العربية (مختصر)
-معالي الشيخ، أداء قوي للربع الثاني مع نمو التراخيص ومحاذاة الاقتصاد الصقور. يجب متابعة المنافسة التقنية والاحتفاظ بالمواهب.
+الثقافة أساسية في بناء مدننا ومجتمعاتنا. يجب أن يكون الفن جزءاً من الحياة اليومية.
 
-*Full draft: Ministerial_Note_Q2_AR_EN.docx*
+*Full draft: We_Emerge_Stronger_Talking_Points.docx*
 ${agentTag(['Communications AI', 'Strategy AI'])}`,
     };
   }
@@ -971,7 +947,7 @@ ${agentTag(['Chief of Staff AI', 'Strategy AI'])}`,
       sourceDocIds: [],
       followUps: [
         'Search online for latest UAE climate policy',
-        'Compare ADGM vs MAS digital assets',
+        'Compare HUNA design positioning vs Emaar',
         nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
       ],
       content: `**Explorer AI**
@@ -989,7 +965,7 @@ Please try again. If you see this repeatedly, hard-refresh the page (**Cmd+Shift
     confidence: 0.82,
     sourceDocIds: ['d1'],
     followUps: [
-      'Compare ADGM vs MAS digital assets',
+      'Compare HUNA design positioning vs Emaar',
       nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
       'Show department performance snapshot',
     ],

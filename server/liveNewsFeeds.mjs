@@ -11,7 +11,7 @@ const FEEDS = [
     label: 'Google News — GCC Finance',
     siteUrl: 'https://news.google.com',
     rssUrl:
-      'https://news.google.com/rss/search?q=ADGM+OR+DIFC+OR+%22Abu+Dhabi%22+OR+UAE+finance+OR+GCC+market&hl=en-AE&gl=AE&ceid=AE:en',
+      'https://news.google.com/rss/search?q=A.R.M.+Holding+OR+DREC+OR+HUNA+OR+HIVE+OR+%22Dubai+real+estate%22+OR+RERA&hl=en-AE&gl=AE&ceid=AE:en',
     tags: ['market', 'competitor', 'investment', 'regulatory', 'followup'],
   },
   {
@@ -195,49 +195,44 @@ export async function fetchAllNewsFeeds() {
 }
 
 /**
- * ADGM-relevance keywords — an article must mention at least one of these
+ * A.R.M. Holding-relevance keywords — an article must mention at least one of these
  * to appear on the Executive Home signal cards.
  * Generic business news (Ryanair, UK retail, US tech layoffs, etc.) scores 0
  * and is excluded from Competitor / Regulatory / Investment sections.
  */
-const ADGM_RELEVANCE_KEYWORDS = [
-  'adgm', 'abu dhabi', 'uae', 'dubai', 'gcc', 'saudi', 'riyadh', 'qatar',
-  'kuwait', 'bahrain', 'oman', 'difc', 'mubadala', 'adq', 'adia', 'fsra',
-  'falcon economy', 'falcon strategy', 'financial centre', 'financial center',
-  'digital asset', 'virtual asset', 'crypto', 'bitcoin', 'tokenis',
-  'fintech', 'sovereign fund', 'wealth fund', 'emirates',
-  'middle east finance', 'gulf market', 'gulf finance', 'gulf invest',
-  'arab finance', 'arab market', 'arab invest', 'islamic finance',
-  'central bank uae', 'central bank of uae', 'cbuae',
-  'regulatory sandbox', 'financial regulator', 'market regulator',
-  'sec.*uae', 'sca.*uae', 'esma.*uae',
+const ARM_RELEVANCE_KEYWORDS = [
+  'arm holding', 'a.r.m.', 'drec', 'huna', 'hive', 'dubai', 'uae', 'gcc',
+  'real estate', 'property', 'rera', 'dld', 'hospitality', 'coliving',
+  'emaar', 'meraas', 'nakheel', 'revpar', 'occupancy', 'pre-sales',
+  'art dubai', 'we emerge stronger', 'sculpture', 'h residence',
+  'palm spring', 'beach centre', 'd33', 'emirates', 'gulf',
+  'middle east property', 'dubai developer', 'leasing', 'rental index',
 ];
 
-function isAdgmRelevant(item) {
+function isArmRelevant(item) {
   const text = (item.title + ' ' + (item.excerpt || '')).toLowerCase();
-  return ADGM_RELEVANCE_KEYWORDS.some((kw) => text.includes(kw));
+  return ARM_RELEVANCE_KEYWORDS.some((kw) => text.includes(kw));
 }
 
 /**
- * Get news items for a given signal tag — ADGM/GCC-relevant articles only.
+ * Get news items for a given signal tag — A.R.M. Holding/GCC-relevant articles only.
  * Feed-level tags are broad (a BBC feed tags ALL articles as 'competitor'),
- * so we apply per-article relevance filtering to prevent non-ADGM news
+ * so we apply per-article relevance filtering to prevent non-A.R.M. Holding news
  * (e.g. airline charges, UK retail, sports) from appearing on Executive Home.
  * Returns empty array if no relevant items — callers handle the fallback.
  */
 export function getNewsByTag(tag, allItems, limit = 3) {
   const tagged = allItems.filter((i) => i.tags?.includes(tag));
-  const relevant = tagged.filter(isAdgmRelevant);
+  const relevant = tagged.filter(isArmRelevant);
   return relevant.slice(0, limit);
 }
 
 export function filterGccRelevant(items, limit = 5) {
   const keywords = [
-    'adgm', 'abu dhabi', 'uae', 'dubai', 'gcc', 'saudi', 'riyadh', 'qatar', 'kuwait',
-    'bahrain', 'oman', 'difc', 'mubadala', 'adq', 'adia', 'fsra', 'falcon',
-    'financial centre', 'digital asset', 'crypto', 'tokenisation', 'fintech',
-    'sovereign', 'investment fund', 'financial regulator', 'central bank',
-    'emirates', 'gulf', 'arab market', 'islamic finance', 'wealth fund',
+    'arm holding', 'drec', 'huna', 'hive', 'dubai', 'uae', 'gcc', 'real estate',
+    'property', 'rera', 'dld', 'hospitality', 'coliving', 'emaar', 'meraas',
+    'art dubai', 'we emerge stronger', 'leasing', 'rental', 'developer',
+    'emirates', 'gulf', 'd33', 'occupancy', 'revpar',
   ];
   const scored = items.map((item) => {
     const text = (item.title + ' ' + item.excerpt).toLowerCase();

@@ -1,18 +1,20 @@
-# ADGM CSO Personal AI Assistant — Prototype
+# Personal AI — A.R.M. Holding
 
-Interactive prototype aligned with **ADGM CSO Personal AI Assistant.pdf**, [ADGM brand direction](https://www.adgm.com/) (*Path to Forward*), and the Executive AI Command Centre delivery specs.
+Local development clone of the Executive AI Command Centre for **[A.R.M. Holding](https://www.armholding.ae/)** — a UAE-based private investment and real estate company focused on scalable ventures across real estate (DREC, HUNA, HIVE), hospitality, banking, healthtech, fintech and cultural initiatives.
+
+**GitHub:** [ArunkumarUX/A.R.M.-Holding-Personal-Chat-Not](https://github.com/ArunkumarUX/A.R.M.-Holding-Personal-Chat-Not.git)
 
 ## Run locally
 
 ```bash
-cd personal-ai-chat
+cd "A.R.M. Holding"
 npm install
 npm run dev
 ```
 
 Open the URL shown in the terminal (typically `http://localhost:5173`).
 
-`npm run dev` starts **both** the Vite UI and a small local API proxy on port `8787`.
+`npm run dev` starts **both** the Vite UI and a small local API proxy (port `8787` by default).
 
 ### Live Claude answers (optional)
 
@@ -24,63 +26,24 @@ Open the URL shown in the terminal (typically `http://localhost:5173`).
    ```
 
 3. Restart `npm run dev`
-4. Open **Ask Personal AI Agent** (`/chat`) — footer should say *Powered by Claude*
 
-The API key is read only by `server/dev-api.mjs` on your machine, not bundled into the browser. If the key is missing or the API is down, chat falls back to the built-in demo responses.
+## About A.R.M. Holding
 
-UI only (no API): `npm run dev:ui` · API only: `npm run dev:api`
+Based on [armholding.ae](https://www.armholding.ae/):
 
-## Screens & routes
+- **CEO:** H.E. Mohammad Saeed Al Shehhi
+- **Values:** Integrity, Cooperation, Agility, Creativity, Humility
+- **Portfolio:** DREC (real estate), HUNA (design-led development), HIVE (coliving)
+- **Sectors:** Real estate, hospitality, banking, healthtech, fintech, cultural initiatives
+- **Tagline:** We Emerge Stronger
 
-| Route | Screen |
-|-------|--------|
-| `/` | Landing / Welcome |
-| `/dashboard` | Home overview |
-| `/chat` | Main chat interface |
-| `/documents` | Document upload & analysis |
-| `/workflows` | Guided workflow assistant |
-| `/prompts` | Prompt library |
-| `/settings` | User settings (light default) |
+## Deployment (later)
 
-## CSO PDF alignment (`ADGM CSO Personal AI Assistant.pdf`)
+- `netlify.toml` is included for a **separate** Netlify site
+- Add environment variables in Netlify before going live (`ANTHROPIC_API_KEY`, etc.)
+- Keep this repo isolated from the ADGM / personal-ai-chat deployment
 
-- **Product naming** and tagline from the proposal deck
-- **CSO daily intelligence** — five numbered pillars on home: Overnight · Market · Competitor · Regulatory · Performance & risk
-- **What you can do** — four capabilities strip on the command deck
-- **Top features** — covered via chat, documents, workflows, performance, and six focus areas
+## Notes
 
-## Engineering spec (`ADGM_AI_Technical_Spec_v1`)
-
-- **Five agents**: Policy, Strategy, Chief of Staff, Relationship, Communications — shown as badges on responses
-- **SSE-style chat**: Simulated streaming with thinking state, stop, regenerate
-- **Confidence gate**: Scores on messages; low-confidence UX via warnings
-- **Sources / RAG**: Side panel with citations, copy, open source
-- **Document ingestion**: Upload, processing, summary, clauses, Q&A
-- **RBAC-ready settings**: Profile, language (en/ar/bilingual), response style
-- **Feedback loop**: Thumbs up/down per message
-- **Dashboard**: Usage metrics, recent chats, documents, workflows
-
-All interactions use **dummy data** — no backend required.
-
-## Design system (ADGM Brand Book 2025)
-
-- **Source**: `ADGM Brand Book_2025.pdf` — see `docs/brand-2025/TOKENS.md`
-- **Primary blue (Clearsky)**: `#0087FF` — CTAs, links, active states
-- **Primary cyan / slate / black**: `#AFFAFF`, `#A3ADC2`, `#000000`
-- **Secondary**: royal `#002ED1`, mint `#E5F0F0`, sand `#F0E8D8`
-- **Navy (digital UI)**: `#00092A` — headers, body text on light
-- **Typography**: Gilroy (`adgm-gilroy`) Regular/Medium/SemiBold; Aptos fallback; Madani Arabic + Noto Naskh (RTL)
-- **Body tracking**: `0.4px`
-- **Tagline**: Path to Forward
-- Tokens: `src/config/brand.ts`, `src/styles/command-centre.css`, `src/styles/adgm-fonts.css`
-- **Mobile**: Bottom nav, drawer for conversations, sticky chat input
-
-## Handoff notes for developers
-
-- Replace `AppContext` mock handlers with `POST /api/v1/chat` SSE per spec §07
-- Wire `useChat` hook to stream `intent`, `context`, `token`, `done` events
-- Connect document upload to `POST /api/v1/documents`
-- Implement Azure AD Bearer auth on all API calls
-- Use logical CSS properties (`ms-`/`me-`) for RTL when `language === 'ar'`
-
-Spec source: `Desktop/AI Projects/Personal AI chat bot/ADGM_AI_Technical_Spec_v1.docx`
+- Replace placeholder logo SVGs in `public/arm-*.svg` with official brand assets when available
+- Brand tokens: `src/config/brand.ts`

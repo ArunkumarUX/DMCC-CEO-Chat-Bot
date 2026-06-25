@@ -34,27 +34,27 @@ function meetingIso(day, hour, minute = 0) {
 const MARKET_ROTATION = [
   {
     gccEquities: '+0.8%',
-    digitalAssetsWoW: '+12%',
-    competitorNote: 'DIFC fintech sandbox expansion announced',
-    topSector: 'Climate tech (Falcon Economy priority sector)',
+    digitalAssetsWoW: '+4.2%',
+    competitorNote: 'Emaar announces waterfront lifestyle district',
+    topSector: 'Design-led residential (HUNA fit 90)',
   },
   {
     gccEquities: '+1.1%',
-    digitalAssetsWoW: '+9%',
-    competitorNote: 'Riyadh fintech licence batch — 14 new approvals',
-    topSector: 'Digital assets (FSRA pipeline strong)',
+    digitalAssetsWoW: '+3.8%',
+    competitorNote: 'Meraas launches curated retail expansion',
+    topSector: 'Hospitality recovery (DREC assets)',
   },
   {
     gccEquities: '+0.4%',
-    digitalAssetsWoW: '+15%',
-    competitorNote: 'MAS stablecoin consultation — retail rules tightening',
-    topSector: 'Sovereign wealth co-investments',
+    digitalAssetsWoW: '+2.9%',
+    competitorNote: 'RERA rental index update published',
+    topSector: 'Coliving demand (HIVE occupancy 91%)',
   },
   {
     gccEquities: '+0.6%',
-    digitalAssetsWoW: '+11%',
-    competitorNote: 'Qatar Fintech Hub — custody standards update',
-    topSector: 'Regulatory technology',
+    digitalAssetsWoW: '+3.1%',
+    competitorNote: 'Art Dubai partnership framework updated',
+    topSector: 'Cultural tourism (We Emerge Stronger)',
   },
 ];
 
@@ -77,26 +77,26 @@ export async function buildExecutiveSnapshotPatch(cycle) {
   const meetings = [
     {
       id: 'mtg1',
-      title: 'Mubadala leadership — follow-up',
-      time: meetingIso(today, 15, 0),
-      attendees: 'Khaldoon Al Mubarak, Mubadala CEO',
-      location: 'Al Maryah Island',
+      title: 'DREC board — Q2 portfolio review',
+      time: meetingIso(today, 10, 0),
+      attendees: 'DREC leadership, Alain Kallas (CDO)',
+      location: 'A.R.M. Holding HQ, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg2',
-      title: 'Board risk committee — data policy',
-      time: meetingIso(addDays(today, 1), 10, 0),
-      attendees: 'Board risk committee',
-      location: 'Board room',
+      title: 'HUNA waterfront launch working session',
+      time: meetingIso(addDays(today, 1), 14, 0),
+      attendees: 'HUNA development, Marketing, Design partners',
+      location: 'H Residence, Dubai',
       prepStatus: 'pending',
     },
     {
       id: 'mtg3',
-      title: 'Singapore MAS delegation',
-      time: meetingIso(addDays(today, 2), 15, 0),
-      attendees: 'MAS regulatory & market development leads',
-      location: 'ADGM Auditorium, Al Maryah',
+      title: 'Art Dubai — We Emerge Stronger commission',
+      time: meetingIso(addDays(today, 2), 11, 0),
+      attendees: 'Art Dubai curators, A.R.M. Holding cultural team',
+      location: 'A.R.M. Holding HQ, Dubai',
       prepStatus: 'ready',
     },
   ];
@@ -104,24 +104,24 @@ export async function buildExecutiveSnapshotPatch(cycle) {
   const actionRegister = [
     {
       id: 'a1',
-      title: 'Share digital assets policy update with Mubadala',
-      owner: 'Rajiv Sehgal',
+      title: 'Approve RERA rental repricing plan for DREC portfolio',
+      owner: 'H.E. Mohammad Saeed Al Shehhi',
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
-      departmentId: 'strategy',
+      departmentId: 'legal',
     },
     {
       id: 'a2',
-      title: 'Approve retention packages — 2 Strategy roles',
-      owner: 'Rajiv Sehgal',
+      title: 'Approve retention packages — 2 property management roles',
+      owner: 'H.E. Mohammad Saeed Al Shehhi',
       due: dateOnly(addDays(today, 3)),
       status: 'open',
       departmentId: 'hr',
     },
     {
       id: 'a3',
-      title: 'MAS policy comparison note post-consultation',
-      owner: 'Policy AI → Rajiv',
+      title: 'HUNA launch narrative sign-off',
+      owner: 'Policy AI → Mohammad',
       due: dateOnly(addDays(today, 9)),
       status: 'open',
       departmentId: 'policy',
@@ -129,7 +129,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     {
       id: 'a4',
       title: 'Review Arabic ministerial note — HH office',
-      owner: 'Rajiv Sehgal',
+      owner: 'H.E. Mohammad Saeed Al Shehhi',
       due: dateOnly(addDays(today, 2)),
       status: 'open',
     },
@@ -303,7 +303,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       ?? signalNews.market.find((i) => /regulat|fsra|mas|fatf|policy|compliance/i.test(i.title))?.title
       ?? (gccLive || digitalLive || newsLead
         ? 'Regulatory wire unavailable at refresh'
-        : 'Visit adgm.com/fsra for the latest FSRA guidance'),
+        : 'Visit armholding.ae/fsra for the latest RERA guidance'),
     regulatoryHeadlineLive: Boolean(
       signalNews.regulatory[0] ||
         (bloomberg?.headline && /regulat|policy|crypto|stablecoin|vasp/i.test(bloomberg.headline)),

@@ -1,6 +1,5 @@
 /**
- * Live Falcon Economy alignment score — computed from real app data each render,
- * replacing the previously hardcoded demo value (88).
+ * Live portfolio health score — computed from real app data each render.
  *
  * Methodology (max 100):
  *   - Department delivery   (0–50): departments on track / total departments
@@ -72,10 +71,10 @@ export function computeFalconScore(state: ExecutiveState): FalconScore {
   ];
 
   const liveTag = marketLive ? ' (live market data)' : '';
-  const tooltip = `Falcon Economy alignment ${score}/100 — ${parts
+  const tooltip = `Portfolio health ${score}/100 — ${parts
     .map((p) => `${p.label} ${p.value}/${p.max}`)
     .join(' · ')}${liveTag}`;
-  const tooltipAr = `محاذاة الاقتصاد الصقور ${score}/100 — ${parts
+  const tooltipAr = `صحة المحفظة ${score}/100 — ${parts
     .map((p) => `${p.labelAr} ${p.value}/${p.max}`)
     .join(' · ')}`;
 

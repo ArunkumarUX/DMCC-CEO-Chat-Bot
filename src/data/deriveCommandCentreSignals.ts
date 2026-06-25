@@ -211,19 +211,19 @@ export function deriveCommandCentreSignals(state: ExecutiveState): CommandCentre
       tone: 'warn',
       label: 'Regulatory Shifts',
       headline: regHeadline.slice(0, 120),
-      headlineSub: regulatoryLead?.source ?? (state.bloombergArticles?.length ? 'Bloomberg' : 'ADGM FSRA portal'),
+      headlineSub: regulatoryLead?.source ?? (state.bloombergArticles?.length ? 'Bloomberg' : 'A.R.M. Holding RERA portal'),
       body: regulatoryLead
         ? newsBody(regulatoryLead)
-        : 'FSRA, MAS and FATF updates — see official portals below when wire is unavailable.',
+        : 'RERA, MAS and FATF updates — see official portals below when wire is unavailable.',
       metric: String(Math.max(1, sn?.regulatory?.length ?? 0)),
       metricLabel: regulatoryLead ? 'live headlines' : 'official portals',
-      sourceLine: regulatoryLead ? newsSourceLine(regulatoryLead) : 'adgm.com/fsra',
+      sourceLine: regulatoryLead ? newsSourceLine(regulatoryLead) : 'armholding.ae/fsra',
       link: 'regulatory',
       spark: SPARK.regulatory,
       ar: {
         label: 'تحولات تنظيمية',
         headline: regHeadline.slice(0, 120),
-        body: regulatoryLead ? newsBody(regulatoryLead) : 'تحديثات FSRA وMAS وFATF.',
+        body: regulatoryLead ? newsBody(regulatoryLead) : 'تحديثات RERA وMAS وFATF.',
         metricLabel: 'عناوين مباشرة',
         sourceLine: regulatoryLead ? newsSourceLine(regulatoryLead) : undefined,
       },

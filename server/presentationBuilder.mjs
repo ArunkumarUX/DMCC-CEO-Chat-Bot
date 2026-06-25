@@ -56,21 +56,21 @@ function buildSourceBlock(payload) {
   }
   if (payload.slideCount) parts.push(`Target slide count: ~${payload.slideCount}`);
   if (payload.tone) parts.push(`Tone: ${payload.tone}`);
-  return parts.join('\n\n') || 'General ADGM executive strategy deck';
+  return parts.join('\n\n') || 'General A.R.M. Holding executive strategy deck';
 }
 
 function demoClarifications() {
   return {
     questions: [
-      'Who is the primary audience — board, FSRA, or external investors?',
-      'Should the deck emphasise Falcon Economy alignment and Abu Dhabi positioning?',
+      'Who is the primary audience — board, RERA, or external investors?',
+      'Should the deck emphasise D33 alignment alignment and Abu Dhabi positioning?',
       'Do you need bilingual (Arabic + English) speaker notes on any slides?',
     ],
   };
 }
 
 function demoOutline(prompt) {
-  const topic = (prompt || 'ADGM strategy update').slice(0, 80);
+  const topic = (prompt || 'A.R.M. Holding strategy update').slice(0, 80);
   return {
     title: topic,
     theme: 'adgm-executive',
@@ -79,11 +79,11 @@ function demoOutline(prompt) {
     outline: [
       { type: 'title', title: topic, summary: 'Board-ready opening' },
       { type: 'executive-summary', title: 'Executive summary', summary: '3 decisions for the CSO' },
-      { type: 'context-problem', title: 'Context & stakes', summary: 'Why now for ADGM' },
+      { type: 'context-problem', title: 'Context & stakes', summary: 'Why now for A.R.M. Holding' },
       { type: 'key-insights', title: 'Key insights', summary: 'GCC and regulatory signals' },
       { type: 'strategy-recommendation', title: 'Strategic recommendation', summary: 'One clear path' },
       { type: 'framework-model', title: 'Decision framework', summary: 'MECE options' },
-      { type: 'data-metrics', title: 'Metrics that matter', summary: 'Falcon Economy & licence KPIs' },
+      { type: 'data-metrics', title: 'Metrics that matter', summary: 'D33 alignment & licence KPIs' },
       { type: 'visual-infographic', title: 'Market snapshot', summary: 'Visual competitive lens' },
       { type: 'action-roadmap', title: '90-day roadmap', summary: 'Owners and dates' },
       { type: 'conclusion-next-steps', title: 'Next steps', summary: 'Ask of leadership' },
@@ -110,7 +110,7 @@ function demoSlides(outline) {
       metrics:
         o.type === 'data-metrics'
           ? [
-              { label: 'Falcon Economy alignment', value: '82/100' },
+              { label: 'D33 alignment alignment', value: '82/100' },
               { label: 'Licence growth YoY', value: '+12%' },
             ]
           : undefined,

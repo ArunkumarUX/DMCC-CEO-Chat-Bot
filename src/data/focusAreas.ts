@@ -14,27 +14,27 @@ export interface FocusArea {
   workflowIds: string[];
 }
 
-/** Core focus areas — Chief Strategy Office personal AI (spec) */
+/** Core focus areas — A.R.M. Holding CEO personal AI */
 export const CORE_FOCUS_AREAS: FocusArea[] = [
   {
     id: 'strategic-intelligence',
     title: 'Strategic Intelligence & Briefings',
     shortTitle: 'Intelligence',
     description:
-      'Daily AI-generated briefings on global financial markets, regulatory developments, fintech trends, and ADGM-specific news. Competitor intelligence on DIFC, Singapore, Luxembourg, and Hong Kong. Real-time alerts on geopolitical events affecting Abu Dhabi’s financial sector.',
+      'Daily AI-generated briefings on Dubai real estate, hospitality, banking, healthtech and fintech markets relevant to A.R.M. Holding\'s portfolio (DREC, HUNA, HIVE), plus competitor and sector signals aligned to the Dubai Economic Agenda (D33).',
     capabilities: [
-      'Daily AI-generated briefings on markets, regulation, fintech, and ADGM news',
-      'Competitor intelligence — DIFC, Singapore, Luxembourg, Hong Kong',
-      'Real-time alerts on geopolitical events affecting Abu Dhabi finance',
+      'Daily briefings on markets, regulation, fintech and portfolio news',
+      'Sector intelligence across real estate, hospitality, banking and fintech',
+      'Real-time alerts on Dubai and UAE developments affecting the group',
     ],
     icon: 'globe',
     agents: ['strategy', 'policy'],
     workflowIds: [],
     prompts: [
       'Give me my overnight intelligence briefing — what are the most important developments I need to know today?',
-      'What are the top investment opportunities Abu Dhabi should prioritise based on current global capital flows?',
-      'How can Abu Dhabi and ADGM differentiate to attract institutions, founders, and global financial players?',
-      'How is DIFC positioning on fintech compared to ADGM this week?',
+      'What are the top investment opportunities A.R.M. Holding should prioritise from current Dubai capital flows?',
+      'How is HUNA\'s design-led positioning compared to other Dubai developers this quarter?',
+      'What does the latest D33 agenda mean for our real estate and hospitality portfolio?',
     ],
   },
   {
@@ -53,9 +53,9 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     workflowIds: ['w1', 'w2'],
     prompts: [
       'Brief me on my 3pm meeting tomorrow — attendees and context',
-      'Extract action items from my last Mubadala meeting notes',
-      'Executive summary of the Q2 board pack for the board meeting',
-      'Draft follow-up email after today’s MAS delegation meeting',
+      'Extract action items from my last DREC board meeting notes',
+      'Executive summary of the Q2 board pack for the holding group',
+      'Draft follow-up email after today\'s HUNA development review',
     ],
   },
   {
@@ -63,20 +63,20 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Regulatory & Policy Intelligence',
     shortTitle: 'Regulatory',
     description:
-      'Monitoring of global financial regulation changes relevant to ADGM’s framework. AI-assisted drafting and review of policy documents, frameworks, and consultation papers. Cross-referencing ADGM regulations against international best practice.',
+      'Monitoring of UAE regulatory changes relevant to real estate (RERA/DLD), financial services (DFSA, CBUAE), hospitality and healthtech. AI-assisted drafting of policy briefs and consultation responses.',
     capabilities: [
-      'Monitoring global financial regulation relevant to ADGM',
+      'Monitoring UAE regulation across real estate, banking and fintech',
       'AI-assisted drafting of policy documents and consultation responses',
-      'Cross-reference ADGM regulations against international best practice',
+      'Cross-reference group policies against international best practice',
     ],
     icon: 'scale',
     agents: ['policy', 'strategy'],
     workflowIds: ['w4'],
     prompts: [
-      "Compare ADGM's digital assets framework against Singapore MAS",
-      'Assess impact of the latest MAS stablecoin consultation on ADGM',
-      'Draft an executive summary for an FSRA policy consultation response',
-      'Which international best practices should ADGM adopt for virtual asset custody?',
+      'Assess impact of the latest RERA rental index update on DREC\'s portfolio',
+      'Compare UAE fintech licensing against regional benchmarks',
+      'Draft an executive summary for a DFSA consultation response',
+      'Which regulatory changes affect HIVE\'s coliving operations this quarter?',
     ],
   },
   {
@@ -84,7 +84,7 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Correspondence & Communications',
     shortTitle: 'Communications',
     description:
-      'AI-assisted drafting of executive communications, speeches, and public statements. Prioritisation and summarisation of inbound correspondence. Multilingual capability for Arabic and English communications.',
+      'AI-assisted drafting of executive communications, speeches, and public statements — including cultural initiatives such as We Emerge Stronger. Prioritisation and summarisation of inbound correspondence in Arabic and English.',
     capabilities: [
       'AI-assisted drafting of speeches, statements, and executive letters',
       'Prioritisation and summarisation of inbound correspondence',
@@ -94,10 +94,10 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     agents: ['comms', 'cos'],
     workflowIds: ['w5'],
     prompts: [
-      "Draft a note to HH's office on ADGM's Q2 performance in Arabic and English",
-      'Draft talking points for the ADFW opening keynote in my voice',
+      'Draft a note on A.R.M. Holding\'s Q2 portfolio performance in Arabic and English',
+      'Draft talking points for the We Emerge Stronger sculpture commission announcement',
       'Summarise my priority inbound correspondence from the last 48 hours',
-      'Review this ministerial note for tone and FSRA Arabic terminology',
+      'Review this board note for tone and cultural initiative messaging',
     ],
   },
   {
@@ -105,20 +105,20 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Stakeholder & Relationship Management',
     shortTitle: 'Stakeholders',
     description:
-      'Intelligent CRM tracking relationships, interactions, commitments, and follow-ups. Briefing notes on key stakeholders before engagements. Tracking ADGM strategic partnerships and commitments globally.',
+      'Intelligent CRM tracking relationships, interactions, commitments, and follow-ups. Briefing notes on key stakeholders before engagements. Tracking A.R.M. Holding strategic partnerships across real estate, hospitality and cultural initiatives.',
     capabilities: [
       'Track relationships, last interactions, commitments, and follow-ups',
       'Briefing notes on key stakeholders before engagements',
-      'Track ADGM strategic partnerships and global commitments',
+      'Track strategic partnerships and global commitments across the portfolio',
     ],
     icon: 'users',
     agents: ['relationship', 'cos'],
     workflowIds: ['w3'],
     prompts: [
-      'What did I commit to in my last meeting with Mubadala leadership?',
-      'Stakeholder profile for Singapore MAS delegation — history and sensitivities',
-      'Which strategic partnerships have follow-ups due this month?',
-      'Open commitments with Goldman from April — status check',
+      'What did I commit to in my last DREC leadership meeting?',
+      'Stakeholder profile for Art Dubai partnership — history and sensitivities',
+      'Which HUNA development partnerships have follow-ups due this month?',
+      'Open commitments with banking JV partners — status check',
     ],
   },
   {
@@ -126,7 +126,7 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Knowledge Management',
     shortTitle: 'Knowledge',
     description:
-      'Instant access to ADGM institutional knowledge — reports, frameworks, historical decisions, and precedents. AI-powered search across internal documents and correspondence. Preservation of knowledge beyond individual tenures.',
+      'Instant access to A.R.M. Holding institutional knowledge — group strategy, portfolio reviews, board decisions, and precedents. AI-powered search across internal documents and correspondence.',
     capabilities: [
       'Instant access to reports, frameworks, decisions, and precedents',
       'AI-powered search across documents, contracts, and correspondence',
@@ -136,10 +136,10 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     agents: ['policy', 'strategy', 'cos'],
     workflowIds: [],
     prompts: [
-      'What strategic decisions did ADGM make in 2024 and how do they track against Falcon Economy priorities?',
-      'Find precedents on digital assets policy decisions in our knowledge base',
-      'Summarise the FSRA virtual assets framework for a new board member',
-      'Search internal documents for Italy financial engagement milestones',
+      'What strategic decisions did A.R.M. Holding make in 2025 and how do they track against D33 priorities?',
+      'Find precedents on HUNA design partnerships in our knowledge base',
+      'Summarise the DREC portfolio review for a new board member',
+      'Search internal documents for We Emerge Stronger commission milestones',
     ],
   },
 ];
@@ -176,10 +176,10 @@ export function matchFocusArea(query: string): FocusAreaId | null {
     (q.includes('daily') && (q.includes('brief') || q.includes('briefing'))) ||
     q.includes('geopolitical') ||
     q.includes('competitor') ||
-    (q.includes('difc') && !q.includes('mas') && !q.includes('compare')) ||
-    q.includes('fintech trend') ||
-    q.includes('luxembourg') ||
-    q.includes('hong kong')
+    q.includes('d33') ||
+    q.includes('real estate') ||
+    q.includes('hospitality') ||
+    q.includes('portfolio')
   ) {
     return 'strategic-intelligence';
   }
@@ -194,10 +194,10 @@ export function matchFocusArea(query: string): FocusAreaId | null {
     return 'meetings';
   }
   if (
-    (q.includes('regulat') || q.includes('fsra') || q.includes('consultation')) &&
+    (q.includes('regulat') || q.includes('rera') || q.includes('dfsa') || q.includes('consultation')) &&
     !q.includes('inbound')
   ) {
-    if (q.includes('mas') || q.includes('policy') || q.includes('framework') || q.includes('best practice')) {
+    if (q.includes('policy') || q.includes('framework') || q.includes('best practice')) {
       return 'regulatory';
     }
   }
@@ -208,29 +208,27 @@ export function matchFocusArea(query: string): FocusAreaId | null {
     q.includes('talking points') ||
     q.includes('speech') ||
     (q.includes('arabic') && q.includes('draft')) ||
-    (q.includes('hh') && q.includes('office'))
+    q.includes('we emerge stronger')
   ) {
     return 'correspondence';
   }
   if (
     q.includes('stakeholder') ||
-    q.includes('mubadala') ||
-    q.includes('goldman') ||
+    q.includes('drec') ||
+    q.includes('huna') ||
+    q.includes('hive') ||
     q.includes('commitment') ||
     q.includes('partnership') ||
-    q.includes('crm')
+    q.includes('crm') ||
+    q.includes('art dubai')
   ) {
     return 'stakeholders';
   }
   if (
     q.includes('knowledge') ||
     q.includes('precedent') ||
-    // 'falcon' alone (e.g. "Falcon strategy", "what is the falcon economy") should route to
-    // Strategy AI via keyword matching, NOT the knowledge focus area (which routes to Policy).
-    // Only match knowledge focus when the user is explicitly searching for a document.
-    (q.includes('falcon') && (q.includes('search') || q.includes('document') || q.includes('find') || q.includes('look') || q.includes('kb') || q.includes('knowledge base'))) ||
-    q.includes('institutional') ||
-    (q.includes('search') && q.includes('document'))
+    (q.includes('search') && q.includes('document')) ||
+    q.includes('institutional')
   ) {
     return 'knowledge';
   }

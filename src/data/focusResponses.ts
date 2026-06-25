@@ -26,30 +26,31 @@ export function buildFocusAreaResponse(
   const area = FOCUS_AREA_MAP[areaId];
   const m = state.marketSnapshot;
   const hr = getDepartment(state, 'hr');
-  const attrition = hr?.kpis.find((k) => k.label.includes('Attrition'))?.value ?? '16.2% YTD';
+  const attrition = hr?.kpis.find((k) => k.label.includes('Attrition'))?.value ?? '15.8%';
 
   const agents = area.agents as AgentType[];
 
   switch (areaId) {
     case 'strategic-intelligence': {
       const q = query.toLowerCase();
-      if (q.includes('difc') && q.includes('fintech')) {
+      if (q.includes('emaar') || q.includes('huna') || q.includes('competitor')) {
         return {
           agents,
           confidence: 0.9,
-          sourceDocIds: ['d4', 'd5'],
+          sourceDocIds: ['d9', 'd8'],
           followUps: baseFollowUps(areaId),
-          content: `## DIFC vs ADGM — fintech
+          content: `## HUNA vs Emaar — design positioning
 
-${plainTerms('DIFC is pushing retail fintech sandboxes; ADGM should stress institutional funds and clear rules.')}
+${plainTerms('HUNA leads on cultural curation and design; Emaar leads on scale and distribution.')}
 ${metricTable(
-  ['Signal', 'DIFC', 'ADGM'],
+  ['Signal', 'HUNA', 'Emaar'],
   [
-    ['This week', m.competitorNote, 'Licences +12% YoY'],
-    ['Position', 'Retail sandbox', 'Institutional tokenised funds'],
+    ['Design differentiation', '96/100', '78/100'],
+    ['Pre-sales velocity', 'Catching up', 'Market leader'],
+    ['Cultural narrative', 'We Emerge Stronger', 'Volume-led'],
   ],
 )}
-${actionNow('Refresh competitor messaging for FSRA and authorisations this week.')}
+${actionNow('Accelerate HUNA waterfront launch narrative this week.')}
 ${agentTag(['Strategy AI'])}`,
         };
       }
@@ -57,18 +58,18 @@ ${agentTag(['Strategy AI'])}`,
         return {
           agents,
           confidence: 0.91,
-          sourceDocIds: ['d4'],
+          sourceDocIds: ['d8'],
           followUps: baseFollowUps(areaId),
-          content: `## Geopolitical brief
+          content: `## Geopolitical brief — Dubai portfolio
 
-${plainTerms('No board crisis today — watch US rates and sanctions screening for banks.')}
+${plainTerms('No crisis for the group today — watch GCC capital flows and mortgage rule changes for HUNA pre-sales.')}
 ${metricTable(
   ['Topic', 'Status', 'Signal'],
   [
-    ['Middle East corridor', 'Stable inflows', signalEmoji('good')],
+    ['Dubai RE transactions', '+4.2% overnight', signalEmoji('good')],
     ['GCC equities', m.gccEquities, signalEmoji('good')],
-    ['Sanctions screening', 'Rule updates', signalEmoji('watch')],
-    ['USD rates', 'Liquidity shift risk', signalEmoji('watch')],
+    ['Mortgage rules (CBUAE)', 'Expat affordability eased', signalEmoji('good')],
+    ['Regional stability', 'Stable inflows', signalEmoji('good')],
   ],
 )}
 ${agentTag(['Strategy AI', 'Policy AI'])}`,
@@ -77,36 +78,37 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
       return {
         agents,
         confidence: 0.92,
-        sourceDocIds: ['d4', 'd5', 'd2'],
+        sourceDocIds: ['d6', 'd12', 'd8'],
         followUps: baseFollowUps(areaId),
         content: `## Daily briefing — ${new Date().toLocaleDateString('en-AE', { weekday: 'short', day: 'numeric', month: 'short' })}
 
-${plainTerms('Markets are steady; watch DIFC fintech and MAS stablecoin rules this week.')}
+${plainTerms('Dubai real estate steady; hospitality recovery supports DREC and HUNA. Watch RERA filing deadline.')}
 ${metricTable(
   ['Market', 'Move', 'Signal'],
   [
-    ['GCC equities', m.gccEquities, signalEmoji('good')],
-    ['ADGM digital assets', m.digitalAssetsWoW + ' WoW', signalEmoji('good')],
+    ['Dubai RE transactions', '+4.2%', signalEmoji('good')],
+    ['Hospitality RevPAR', 'Climbing', signalEmoji('good')],
     ['Top sector', m.topSector.split('(')[0].trim(), signalEmoji('good')],
   ],
 )}
 ${metricTable(
   ['Competitor', 'Headline', 'Signal'],
   [
-    ['DIFC', m.competitorNote, signalEmoji('watch')],
-    ['MAS', 'Stablecoin consultation · Fri', signalEmoji('watch')],
-    ['HK / Luxembourg', 'No change', signalEmoji('good')],
+    ['Emaar', m.competitorNote, signalEmoji('watch')],
+    ['Meraas', 'Waterfront community launch', signalEmoji('watch')],
+    ['Nakheel', 'No major move', signalEmoji('good')],
   ],
 )}
-**Falcon Economy alignment**
-${scoreBar(82)}
+**D33 portfolio alignment**
+${scoreBar(86)}
 ${agentTag(['Strategy AI', 'Policy AI'])}`,
       };
     }
 
     case 'meetings': {
       const qLower = query.toLowerCase();
-      const mtg = state.meetings.find((mtg) => qLower.includes('mas') && mtg.title.toLowerCase().includes('mas')) ?? state.meetings[0];
+      const mtg = state.meetings.find((m) => qLower.includes('drec') && m.title.toLowerCase().includes('drec'))
+        ?? state.meetings[0];
       if (query.toLowerCase().includes('board pack') || query.toLowerCase().includes('executive summary')) {
         return {
           agents,
@@ -118,23 +120,23 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
 **Document:** Q2_Board_Pack_Draft_v3.pdf
 
 ### Decisions required (3)
-1. Digital assets framework — board visibility Q2
-2. Italy financial engagement — milestone achieved, note for minutes
+1. HUNA waterfront launch — board sign-off Q3
+2. We Emerge Stronger commission — artist shortlist approval
 3. Talent pipeline — HR attrition **${attrition}** — retention actions recommended
 
-### Financial & strategic highlights
-- Licence growth +12% YoY · FSRA pipeline robust
-- Falcon Economy alignment score **82/100**
-- Competitive pressure: DIFC fintech authorisations — proactive positioning advised
+### Portfolio highlights
+- DREC occupancy 94.2% · leasing pipeline AED 124M
+- HUNA pre-sales inquiries +12% QoQ
+- HIVE occupancy 91%
 
 ### Risks for board attention
-- Regulatory divergence across jurisdictions
-- One enterprise pipeline deal slipped (Sales) — CSO escalation option
+- One HUNA pre-sales deal stalled 3 weeks
+- RERA rental disclosure due in 11 days
 
 *Ready for export to board portal · Communications AI can draft covering note*`,
         };
       }
-      if (query.toLowerCase().includes('action item') || query.toLowerCase().includes('mubadala')) {
+      if (query.toLowerCase().includes('action item') || query.toLowerCase().includes('drec')) {
         return {
           agents,
           confidence: 0.9,
@@ -142,15 +144,15 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
           followUps: baseFollowUps(areaId),
           content: `## Post-meeting — action extraction
 
-**Meeting:** Mubadala leadership (14 Apr 2026)
+**Meeting:** DREC board (Apr 2026)
 
 | Action | Owner | Due | Status |
 |--------|-------|-----|--------|
-| Share ADGM digital assets policy update | ${EXECUTIVE_USER.firstName} | 31 May | **Overdue** |
-| Introduce 2 GP prospects for ADGM fund regime | Mubadala | End Q2 | Open |
-| Quarterly regulatory roundtable proposal | Joint | TBC | Suggested |
+| Approve RERA rental repricing plan | ${EXECUTIVE_USER.firstName} | 30 Jun | Open |
+| HUNA launch narrative sign-off | Marketing | End Q2 | Open |
+| Escalate stalled pre-sales deal | Sales | This week | **Urgent** |
 
-**Follow-up draft (excerpt):** Thank you for the productive session. ADGM will circulate the digital assets framework update by [date]. We welcome introductions to the GP prospects discussed.
+**Follow-up draft (excerpt):** Thank you for a productive session. DREC will circulate the RERA compliance update by [date]. We welcome progress on the HUNA waterfront launch timeline.
 
 *Add to action register · Chief of Staff AI*`,
         };
@@ -158,7 +160,7 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
       return {
         agents,
         confidence: 0.94,
-        sourceDocIds: ['d2', 'd4'],
+        sourceDocIds: ['d8', 'd13'],
         followUps: baseFollowUps(areaId),
         content: `## Pre-meeting brief — ${mtg.title}
 
@@ -166,15 +168,15 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
 **Prep status:** ${mtg.prepStatus === 'ready' ? 'Ready' : 'In progress'}
 
 ### Context
-- Last bilateral: regulatory harmonisation on tokenised products
-- Open commitment: MAS policy comparison note — due 12 Jun
+- Last board: occupancy held at 94.2%; leasing pipeline healthy
+- Open item: RERA rental disclosure due in 11 days
 
 ### Suggested questions
-1. Institutional fund passporting with UAE?
-2. Timeline for stablecoin consultation outcomes?
+1. Timeline for stalled AED 90M pre-sales link?
+2. Beach Centre footfall recovery — sustain Q2 gains?
 
 ### Sensitivities
-- Avoid over-committing FSRA publication dates on digital assets`,
+- Avoid over-committing on HUNA launch date before design partner sign-off`,
       };
     }
 
@@ -182,24 +184,24 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
       return {
         agents,
         confidence: 0.92,
-        sourceDocIds: ['d2', 'd4'],
+        sourceDocIds: ['d13', 'd8'],
         followUps: baseFollowUps(areaId),
         content: `## Regulatory & policy intelligence
 
 **Query:** ${query.slice(0, 120)}...
 
-### ADGM (FSRA) position
-Principle-based VASP taxonomy · institutional custody requirements · retail permitted with safeguards (source: FSRA Virtual Assets Framework 2026)
+### A.R.M. Holding group position
+RERA rental index update requires DREC portfolio repricing within 30 days. DLD registration SLA 5 business days for new leases.
 
-### International benchmark
-**MAS:** Activity-based DPT rules; stablecoin CP closes Friday — stricter retail access than ADGM
+### Dubai benchmark
+**RERA:** Enhanced rental disclosure requirements — group filing due in 11 days
 
-### Recommended CSO actions
-1. Brief FSRA on competitive scan by **12 Jun**
-2. Draft consultation response — Policy AI template available
-3. Board visibility on framework timeline
+### Recommended CEO actions
+1. Clear RERA filing with Legal & Compliance on time
+2. Review HUNA escrow compliance for off-plan sales
+3. Board visibility on DLD registration bottleneck (5.6-day turnaround)
 
-*Cross-reference complete against FCA, MAS, HKMA, IOSCO feeds · updated today*`,
+*Cross-reference complete against RERA, DLD, DET feeds · updated today*`,
       };
 
     case 'correspondence':
@@ -211,16 +213,16 @@ Principle-based VASP taxonomy · institutional custody requirements · retail pe
         content: `## Correspondence & communications
 
 ### Priority inbound (last 48h — simulated)
-1. **FSRA** — consultation timeline confirmation (action by 12 Jun)
+1. **Art Dubai** — We Emerge Stronger commission timeline confirmation
 2. **Board secretariat** — Q2 pack circulation draft approval
-3. **External counsel** — data transfer policy gap memo
+3. **DREC Legal** — RERA filing gap memo
 
 ### Draft capability
-- **Arabic / English** ministerial register with honorifics verified
-- CSO voice learning applied from prior approved notes
+- **Arabic / English** executive register with honorifics verified
+- CEO voice learning applied from prior approved notes
 
-### Sample (English excerpt — Q2 HH note)
-Your Excellency, ADGM reports strong Q2 momentum across authorisations and Falcon Economy alignment (82/100). Key risks: competitive fintech positioning; talent retention in critical roles.
+### Sample (English excerpt — We Emerge Stronger)
+Culture is essential to how we build cities and communities. This commission reflects our belief that art should be woven into everyday life at HUNA Sculpture Park.
 
 *Full bilingual draft in Documents library · Communications AI*`,
       };
@@ -229,20 +231,20 @@ Your Excellency, ADGM reports strong Q2 momentum across authorisations and Falco
       return {
         agents,
         confidence: 0.93,
-        sourceDocIds: ['d1'],
+        sourceDocIds: ['d1', 'd11'],
         followUps: baseFollowUps(areaId),
         content: `## Stakeholder & relationship intelligence
 
 ### CRM summary
 | Stakeholder | Last interaction | Open commitments |
 |-------------|------------------|------------------|
-| **Mubadala** | 14 Apr 2026 | Policy update share (**overdue**); GP introductions |
-| **MAS delegation** | 22 Mar 2026 | Technical workshop; policy note due 12 Jun |
-| **Goldman** | Apr 2026 | Pipeline discussion — 1 deal at risk |
+| **Art Dubai** | Jun 2026 | Sculpture commission launch |
+| **DREC board** | Apr 2026 | RERA repricing approval |
+| **Banking JV partner** | May 2026 | Q2 portfolio review |
 
 ### Partnerships requiring follow-up
-- ADGM–Abu Dhabi unified GP value proposition — in progress
-- Italy financial engagement — milestone **complete**
+- We Emerge Stronger × Art Dubai — open call live until 25 Jul
+- HUNA design partnerships — 2 follow-ups due this month
 
 ### Before next engagement
 Request a full stakeholder brief naming the organisation for attendee history, sensitivities, and talking points.`,
@@ -252,19 +254,19 @@ Request a full stakeholder brief naming the organisation for attendee history, s
       return {
         agents,
         confidence: 0.89,
-        sourceDocIds: ['d5', 'd1', 'd2'],
+        sourceDocIds: ['d6', 'd8', 'd9'],
         followUps: baseFollowUps(areaId),
         content: `## Knowledge management — institutional search
 
 **Corpus:** ${state.metrics.documentsInKb}+ indexed documents · Knowledge Graph active
 
 ### Results for your query
-- **Falcon_Economy_Strategic_Alignment_2024-26.xlsx** — alignment score 82; digital assets on track; Italy complete
-- **Q2_Board_Pack_Draft_v3.pdf** — three board decisions; risk section on DIFC competition
-- **FSRA_Virtual_Assets_Framework_2026.pdf** — licensing taxonomy; benchmark for MAS comparison
+- **ARM_Group_Strategy_2026.pdf** — investment approach, DREC/HUNA/HIVE portfolio
+- **DREC_Portfolio_Review_Q1_2026.pdf** — 3,200+ units, 94.2% occupancy
+- **We_Emerge_Stronger_Commission_Brief.pdf** — Art Dubai open call, HUNA Sculpture Park
 
 ### Historical precedent
-2024 strategic decision log shows digital assets acceleration and fund regime reforms linked to +12% licence growth narrative.
+2025 strategic decisions: accelerate HUNA design-led launches, launch We Emerge Stronger commission, stabilise DREC income base.
 
 *Institutional knowledge preserved across tenures · cite sources in export*`,
       };
@@ -275,15 +277,15 @@ Request a full stakeholder brief naming the organisation for attendee history, s
         confidence: 0.87,
         sourceDocIds: ['d1'],
         followUps: ALL_FOCUS_PROMPTS_FALLBACK(),
-        content: `**${EXECUTIVE_USER.firstName}** — ask within any of the six CSO focus areas: strategic intelligence, meetings, regulatory, communications, stakeholders, or knowledge.`,
+        content: `**${EXECUTIVE_USER.firstName}** — ask within any of the six focus areas: strategic intelligence, meetings, regulatory, communications, stakeholders, or knowledge.`,
       };
   }
 }
 
 function ALL_FOCUS_PROMPTS_FALLBACK(): string[] {
   return [
-    'Give me my daily executive briefing for global financial markets and ADGM',
-    'Brief me on my next meeting',
-    'Search our knowledge base for Falcon Economy strategic decisions',
+    'Give me my daily executive briefing for Dubai real estate and the A.R.M. Holding portfolio',
+    'Brief me on my next DREC board meeting',
+    'Search our knowledge base for We Emerge Stronger commission details',
   ];
 }

@@ -877,7 +877,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
                   summary:
                     'Ingested into knowledge base · RAG + Knowledge Graph indexing complete.',
                   keyInsights: [
-                    'Cross-linked with FSRA Virtual Assets Framework',
+                    'Cross-linked with DREC portfolio review',
                     'Available to Policy and Strategy agents immediately',
                   ],
                   clauses: [

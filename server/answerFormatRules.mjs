@@ -20,8 +20,8 @@ export const GROUNDING_RULES = `
 7. Confidence = source match only: "High source match", "Limited source coverage", "Requires external validation" — never "90% accurate".
 
 **Geography & ownership**
-- Do not reference **D33** (Dubai agenda) for ADGM or Abu Dhabi. Use **Falcon Economy** or Abu Dhabi priorities only when sources support it.
-- ADGM = Abu Dhabi Global Market. Do not mis-attribute Dubai or other emirate initiatives to ADGM unless the source says so.
+- D33 is Dubai's economic agenda — relevant to A.R.M. Holding portfolio (DREC, HUNA, HIVE). Use D33 alignment when sources support it.
+- A.R.M. Holding = A.R.M. Holding. Do not mis-attribute Dubai or other emirate initiatives to A.R.M. Holding unless the source says so.
 `.trim();
 
 export const CHAT_BEHAVIOUR_RULES = `

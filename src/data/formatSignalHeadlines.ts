@@ -3,7 +3,7 @@
 import type { MarketSnapshotFields } from '../types/marketIntel';
 
 export function parseFalconScoreFromSector(topSector: string): string {
-  const m = topSector.match(/Falcon Economy score\s*(\d+)/i);
+  const m = topSector.match(/Portfolio alignment score\s*(\d+)/i);
   if (m) return m[1];
   const align = topSector.match(/alignment\s*(\d+)/i);
   if (align) return align[1];
@@ -109,31 +109,31 @@ export function formatInvestmentSignalHeadline(
     };
   }
 
-  const falconInParens = topSector.match(/^(.+?)\s*\(Falcon Economy score\s*(\d+)\)/i);
+  const falconInParens = topSector.match(/^(.+?)\s*\(Portfolio alignment score\s*(\d+)\)/i);
   if (falconInParens) {
     return {
       headline: falconInParens[1].trim(),
-      headlineSub: `Falcon Economy ${falconInParens[2]}/100`,
+      headlineSub: `Portfolio alignment ${falconInParens[2]}/100`,
     };
   }
 
   const beforeDash = topSector.split(/\s*—\s*/)[0]?.trim() ?? topSector;
-  if (beforeDash.length < topSector.length && /Falcon Economy/i.test(topSector)) {
+  if (beforeDash.length < topSector.length && /Portfolio alignment/i.test(topSector)) {
     return {
-      headline: beforeDash.replace(/\s*\(Falcon Economy[^)]*\)/i, '').trim(),
-      headlineSub: `Falcon Economy ${falconScore}/100`,
+      headline: beforeDash.replace(/\s*\(Portfolio alignment[^)]*\)/i, '').trim(),
+      headlineSub: `Portfolio alignment ${falconScore}/100`,
     };
   }
 
   if (topSector.length > 56) {
     return {
       headline: `${topSector.slice(0, 53).trim()}…`,
-      headlineSub: `Falcon Economy ${falconScore}/100`,
+      headlineSub: `Portfolio alignment ${falconScore}/100`,
     };
   }
 
   return {
-    headline: topSector.replace(/\s*\(Falcon Economy[^)]*\)/i, '').trim(),
-    headlineSub: `Falcon Economy ${falconScore}/100`,
+    headline: topSector.replace(/\s*\(Portfolio alignment[^)]*\)/i, '').trim(),
+    headlineSub: `Portfolio alignment ${falconScore}/100`,
   };
 }

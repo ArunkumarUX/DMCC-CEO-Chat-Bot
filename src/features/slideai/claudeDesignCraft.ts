@@ -15,8 +15,8 @@ CLAUDE DESIGN CRAFT (always apply — technical + visual spec):
 6. Privacy-safe copy — no fabricated metrics; label analysis vs verified Command Centre facts
 
 Claude Design × ADGM tokens (16:9 only):
-- Hero/canvas: navy #00092a on title/close; paper #ffffff on content
-- Accent: Clearsky #0087ff · Accent soft #cce7ff for KPI fills
+- Hero/canvas: ink #000000 on title/close; paper #ffffff on content
+- Accent: A.R.M. ink #242321 · Accent soft #f0f0f0 for KPI fills
 - Ink #1a2332 · Ink muted #5c6b7a · Line #d8dee6
 - Fonts: Gilroy display, Aptos body (Madani Arabic if Arabic content)
 

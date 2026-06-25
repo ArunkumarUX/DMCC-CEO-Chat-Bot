@@ -72,18 +72,18 @@ export function buildDefaultProvenance(opts?: {
       },
       {
         id: 'kb',
-        labelEn: 'Knowledge base (Falcon & ADGM PDFs)',
+        labelEn: 'Knowledge base (A.R.M. Holding corporate PDFs)',
         labelAr: 'قاعدة المعرفة',
         mode: 'institutional',
-        detailEn: `${KB_CHUNK_COUNT} grounded chunks from official ADGM / Falcon PDFs (KB-006–KB-015).`,
-        detailAr: `${KB_CHUNK_COUNT} مقطعاً من مستندات ADGM واقتصاد الصقور الرسمية.`,
+        detailEn: `${KB_CHUNK_COUNT} grounded chunks from official A.R.M. Holding corporate PDFs (KB-006–KB-015).`,
+        detailAr: `${KB_CHUNK_COUNT} مقطعاً من مستندات A.R.M. Holding واقتصاد الصقور الرسمية.`,
       },
       {
         id: 'calendar',
         labelEn: 'Calendar & action register',
         labelAr: 'التقويم وسجل الإجراءات',
         mode: 'pending',
-        detailEn: 'CSO scenario dataset — dates roll with GST refresh; not Microsoft Graph yet.',
+        detailEn: 'CEO scenario dataset — dates roll with GST refresh; not Microsoft Graph yet.',
         detailAr: 'بيانات سيناريو للكبير مسؤولي الاستراتيجية — تُحدَّث بتوقيت الإمارات.',
       },
       {

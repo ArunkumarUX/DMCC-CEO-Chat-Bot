@@ -8,7 +8,7 @@ import {
   PRODUCT_NAME,
   PRODUCT_SUBTITLE,
   PRODUCT_TAGLINE,
-  CSO_DAILY_CAPABILITIES,
+  CEO_DAILY_CAPABILITIES,
 } from '../config/user';
 import { CORE_FOCUS_AREAS } from '../data/focusAreas';
 import { FocusAreaCard } from '../components/focus/FocusAreaCard';
@@ -59,13 +59,13 @@ export function WelcomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-12 md:px-12">
-        <h2 className="text-center font-display text-xl font-semibold text-adgm-navy">CSO daily intelligence</h2>
+        <h2 className="text-center font-display text-xl font-semibold text-adgm-navy">CEO daily intelligence</h2>
         <p className="mx-auto mb-8 mt-2 max-w-lg text-center text-sm text-adgm-slate">
-          Five priority pillars: overnight intelligence, market signals, competitor moves, regulatory shifts, and
+          Five priority pillars: overnight intelligence, market signals, portfolio moves, regulatory shifts, and
           performance &amp; risk alerts.
         </p>
         <ul className="mb-14 grid gap-3 sm:grid-cols-2">
-          {CSO_DAILY_CAPABILITIES.map((cap) => (
+          {CEO_DAILY_CAPABILITIES.map((cap) => (
             <li
               key={cap}
               className="rounded-xl border border-adgm-line bg-white px-4 py-3 text-sm leading-relaxed text-adgm-charcoal shadow-adgm-sm"
@@ -91,7 +91,7 @@ export function WelcomePage() {
             target="_blank"
             rel="noreferrer"
           >
-            ADGM — Abu Dhabi Global Market
+            A.R.M. Holding — armholding.ae
           </a>
         </p>
       </section>

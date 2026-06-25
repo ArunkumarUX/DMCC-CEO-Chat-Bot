@@ -208,7 +208,7 @@ function OrgOverview({ lang, depts }) {
             <div className="eyebrow">{ar ? 'مؤشر الزخم المؤسسي' : 'Organisational momentum index'}</div>
             <div className="perf-org__kpis">
               {[
-                { v: falcon.score, l: ar ? 'الاقتصاد الصقور' : 'Falcon Economy', s: '', t: ar ? falcon.tooltipAr : falcon.tooltip },
+                { v: falcon.score, l: ar ? 'توافق المحفظة' : 'Portfolio health', s: '', t: ar ? falcon.tooltipAr : falcon.tooltip },
                 { v: 12, l: ar ? 'ساعات/أسبوع موفّرة' : 'hrs/wk saved', s: '', t: undefined },
                 { v: 95, l: ar ? 'تغطية الإحاطات' : 'brief coverage', s: '%', t: undefined },
               ].map((m) => (

@@ -39,19 +39,19 @@ export function getAnthropicConfig() {
 
 export function buildSystemPrompt(ctx, language) {
   const ar = language === 'ar';
-  const firstName = ctx?.executiveFirstName ?? 'Rajiv';
+  const firstName = ctx?.executiveFirstName ?? 'Mohammad';
   const gstGreeting = ctx?.gstGreeting ?? greetingForGstTime('en');
 
   // ── GREETING: scripted opener ONLY on the very first message of a conversation.
   // Mid-conversation greetings get a natural, memory-aware reply so chat stays seamless.
   if (ctx?.conversationalMode === 'greeting') {
     if (!ctx?.historyLength) {
-      return `You are the CSO Personal AI Assistant for ${firstName}.
+      return `You are the CEO Personal AI Assistant for ${firstName}.
 Your ONLY task right now is to reply with EXACTLY this single sentence — nothing more, nothing less:
 ${gstGreeting}, ${firstName}. I am your Personal AI Agent. How can I help you today?
 Do NOT add any other text. Do NOT summarise calendar or actions. Do NOT ask follow-up questions. Output that one sentence and stop.`;
     }
-    return `You are the CSO Personal AI Assistant for ${firstName}.
+    return `You are the CEO Personal AI Assistant for ${firstName}.
 The user greeted you mid-conversation. Reply naturally and warmly in 1–2 short sentences.
 Use the conversation history (memory) — if there is an open thread, you may briefly offer to continue it.
 Do NOT restart the conversation, do NOT repeat the scripted opener, do NOT summarise calendar or actions.`;
@@ -61,11 +61,11 @@ Do NOT restart the conversation, do NOT repeat the scripted opener, do NOT summa
   if (ctx?.conversationalMode === 'catchup') {
     const gstClock = ctx?.gstTimeLabel ?? 'GST';
     const calConnected = ctx?.calendarConnected === true;
-    return `You are the CSO Personal AI Assistant for ${firstName}.
+    return `You are the CEO Personal AI Assistant for ${firstName}.
 The user wants a concise daily catch-up (${gstClock}).
 
 Reply in clear markdown:
-1. Warm greeting with correct time-of-day for Abu Dhabi.
+1. Warm greeting with correct time-of-day for Dubai (GST).
 2. One short "In plain terms" blockquote (one sentence).
 3. **What's happened today** as a bold heading, then bullets for ${calConnected ? 'Markets / Teams / Actions / Next meeting' : 'Markets / Teams / Actions'}.
 4. Cite only handles present in context ([MKT-…], [ACT-…]${calConnected ? ', [CAL-…]' : ''}). Do not invent facts.
@@ -77,7 +77,7 @@ ${calConnected ? '' : `5. CALENDAR NOT CONNECTED: do NOT mention meetings or a "
 
   // ── GENERAL KNOWLEDGE FALLBACK: answer like a capable AI assistant ──
   if (ctx?.conversationalMode === 'irrelevant') {
-    return `You are the Personal AI Assistant for ${firstName} at ${ctx?.organisation || 'ADGM'}.
+    return `You are the Personal AI Assistant for ${firstName} at ${ctx?.organisation || 'A.R.M. Holding'}.
 The user has asked a general knowledge question outside the specialist CSO scope, but you are still a highly capable AI — answer helpfully and accurately from your training knowledge, exactly as a knowledgeable assistant would.
 - Be concise, clear and friendly.
 - Stay in your persona as the Personal AI Assistant.
@@ -88,7 +88,7 @@ The user has asked a general knowledge question outside the specialist CSO scope
 
   // ── THANKS: return a minimal prompt ──
   if (ctx?.conversationalMode === 'thanks') {
-    return `You are the CSO Personal AI Assistant for ${firstName}. Reply with one warm, brief sentence thanking them and offering to help further. Nothing else.`;
+    return `You are the CEO Personal AI Assistant for ${firstName}. Reply with one warm, brief sentence thanking them and offering to help further. Nothing else.`;
   }
 
   const userQ = ctx?.userQuestion?.trim() ?? '';
@@ -142,7 +142,7 @@ For all other questions:
 - Answer directly and concisely — like a knowledgeable assistant, not a strategy advisor.
 - NEVER ask clarifying questions when a reasonable interpretation exists — assume the most likely meaning, answer, and add one short "tell me if you meant something else" line only if truly ambiguous.
 - Do NOT use executive sections: no "Executive Takeaway", "Source Basis", "Strategic Implication", or any CSO structure.
-- Do NOT add follow-up suggestions or ADGM-related prompts at the end.
+- Do NOT add follow-up suggestions or A.R.M. Holding-related prompts at the end.
 - If web results are injected, cite them inline.
 ${hasWebResults
   ? '✅ Web search results injected below — extract the concrete answer and state it directly.'
@@ -189,10 +189,10 @@ ${hasWebResults
 ══════════════════════════════════════════
 FALCON / INSTITUTIONAL KB — MANDATORY (overrides clarifying questions)
 ══════════════════════════════════════════
-AUTHORITATIVE KB EXCERPTS are injected this turn (Falcon Economy [KB-006], Falcon Strategy [KB-007], ADGM archive, etc.).
+AUTHORITATIVE KB EXCERPTS are injected this turn (D33 alignment [KB-006], Falcon Strategy [KB-007], A.R.M. Holding archive, etc.).
 - Answer IMMEDIATELY from those excerpts — synthesize a clear executive summary.
-- NEVER ask which Falcon document the user means. NEVER say the KB lacks Falcon Strategy or Falcon Economy.
-- If the user says "Falcon strategy" (or a typo like "stratgey"), lead with [KB-007] Falcon Strategy Executive Summary; cross-reference [KB-006] Falcon Economy 2025–2045 where relevant.
+- NEVER ask which Falcon document the user means. NEVER say the KB lacks Falcon Strategy or D33 alignment.
+- If the user says "Falcon strategy" (or a typo like "stratgey"), lead with [KB-007] Falcon Strategy Executive Summary; cross-reference [KB-006] D33 alignment 2025–2045 where relevant.
 - Cite inline handles with source URLs. Grounding: full when excerpts cover the question.
 `
     : '';
@@ -238,7 +238,7 @@ AUTHORITATIVE KB EXCERPTS are injected this turn (Falcon Economy [KB-006], Falco
   return `${CSO_GLOBAL_SYSTEM_PROMPT}
 
 TODAY: ${currentDate} · ${currentTime} GST
-Executive: ${ctx?.executiveName || 'Rajiv Sehgal'}, Chief Strategy Officer, ${ctx?.organisation || 'Abu Dhabi Global Market (ADGM)'}.
+Executive: ${ctx?.executiveName || 'H.E. Mohammad Saeed Al Shehhi'}, Chief Executive Officer, ${ctx?.organisation || 'A.R.M. Holding'}.
 
 ${CSO_ORCHESTRATOR_PROMPT}
 
@@ -306,7 +306,7 @@ ${ctx?.webSearchBlock ? ctx.webSearchBlock : ''}
 
 SOURCE CITATION FORMAT (mandatory for every response):
 When citing a KB source inline, include the handle and real URL from the excerpt header where helpful. Example:
-  [KB-006] Falcon Economy Strategy 2025–2045 | added.gov.ae | /kb/20240923_FalconEconomy-Eng.pdf
+  [KB-006] D33 alignment Strategy 2025–2045 | added.gov.ae | /kb/20240923_FalconEconomy-Eng.pdf
 Do NOT duplicate citations in a trailing Sources / Grounding / Sources Used footer — the app renders source chips below the answer automatically.
 
 DATA INTEGRITY — TIERED ANSWERING (mandatory, in this order):
@@ -316,7 +316,7 @@ Always check the conversation history first. If the answer (or part of it) was a
 
 TIER 1 — INTERNAL KB / GROUNDED RECORDS (highest source priority):
 ${hasGrounding
-  ? '✅ Grounded records ARE injected this turn. Cite handles inline (KB-, MKT-, CAL-, ACT-, CRM-, BBG-). Do NOT invent licence growth %, Falcon scores, market prices, or ADGM legal clauses. For market figures: add "as of [date], Source: Yahoo Finance / CoinGecko".'
+  ? '✅ Grounded records ARE injected this turn. Cite handles inline (KB-, MKT-, CAL-, ACT-, CRM-, BBG-). Do NOT invent licence growth %, Falcon scores, market prices, or A.R.M. Holding legal clauses. For market figures: add "as of [date], Source: Yahoo Finance / CoinGecko".'
   : '⚠️  No internal records injected this turn — proceed to Tier 2 or Tier 3.'}
 
 TIER 2 — LIVE WEB SEARCH RESULTS (if injected above):
@@ -330,9 +330,9 @@ If the question has no match in grounded records AND no web search results, answ
 ══════════════════════════════════════════
 CRITICAL OVERRIDE — GENERAL KNOWLEDGE RULE
 ══════════════════════════════════════════
-The source rules and "do not invent" rules in this prompt apply ONLY to ADGM-specific internal facts:
+The source rules and "do not invent" rules in this prompt apply ONLY to A.R.M. Holding-specific internal facts:
   - Internal KPIs, targets, or performance numbers
-  - Official ADGM/FSRA positions or decisions
+  - Official A.R.M. Holding/RERA positions or decisions
   - Private meeting details or stakeholder commitments
   - Unpublished internal documents or strategies
 
@@ -343,7 +343,7 @@ They do NOT apply to general world knowledge. For any question about:
   - How-to questions, definitions, explanations
 → Answer immediately and helpfully from training knowledge. Do NOT treat these as "missing source material." This is mandatory.
 
-If you know the answer from general knowledge, give it. Only flag missing data for facts that are genuinely ADGM-internal and cannot be known without an approved source.
+If you know the answer from general knowledge, give it. Only flag missing data for facts that are genuinely A.R.M. Holding-internal and cannot be known without an approved source.
 
 ${calendarConnected
   ? '- Calendar (CAL- handles) is CONNECTED — cite meeting records freely.'
@@ -361,7 +361,7 @@ Institutional metrics (cite matching handle if used):
 - Documents in KB: ${ctx?.metrics?.documentsInKb ?? '—'}
 - Departments green: ${ctx?.metrics?.departmentsOnTrack ?? '—'} / 9
 - Open actions: ${ctx?.metrics?.openActions ?? '—'}
-- Falcon / ADGM Law questions: use KB-006–KB-015 excerpts if available; otherwise answer from general knowledge.
+- Falcon / A.R.M. Holding Law questions: use KB-006–KB-015 excerpts if available; otherwise answer from general knowledge.
 
 Department headlines (ERP):
 ${deptLine || '(none injected — answer from general knowledge if asked)'}`;
@@ -389,10 +389,10 @@ export async function streamChat(payload, writeEvent) {
   // ── WEB SEARCH STRATEGY: KB first, external search supplements gaps ──
   // Every query now attempts live web search so Claude always has fresh external
   // data to supplement the internal knowledge base.
-  // - Explorer (general / outside-ADGM): broad unscoped search for any topic.
-  // - CSO agents (ADGM-specific): scoped search on approved financial/regulatory sources.
+  // - Explorer (general / outside-A.R.M. Holding): broad unscoped search for any topic.
+  // - CSO agents (A.R.M. Holding-specific): scoped search on approved financial/regulatory sources.
   // Internal KB / grounded records are injected via the system prompt separately;
-  // Claude is instructed to prefer KB for ADGM-internal facts and use web for the rest.
+  // Claude is instructed to prefer KB for A.R.M. Holding-internal facts and use web for the rest.
   let webSearchBlock = '';
   try {
     if (isExplorerQuery) {
@@ -407,7 +407,7 @@ export async function streamChat(payload, writeEvent) {
       }
     } else {
       // CSO query — always search even if shouldWebSearch is false;
-      // scoped to ADGM-relevant financial/regulatory sources
+      // scoped to A.R.M. Holding-relevant financial/regulatory sources
       const results = await smartSearch(message, 5);
       if (results?.length) {
         webSearchBlock = formatSearchResultsBlock(results, message);

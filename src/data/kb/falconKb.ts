@@ -1,4 +1,4 @@
-import chunksPayload from './falconKbChunks.json';
+import chunksPayload from './armKbChunks.json';
 
 export type FalconKbChunk = {
   sourceId: string;
@@ -33,7 +33,7 @@ const STOP = new Set([
 ]);
 
 const INSTITUTIONAL_KB_QUERY =
-  /\b(falcon\s*economy|falcon\s*strategy|falcon\b|added\b|abu\s*dhabi\s*(economy|vision|gdp|diversification|strategy|global\s*market|law)|adgm\s*(law|1547|regulations?|legal|fsra|financial|digital|virtual)|adgm\b|fsra\b|1547|economic\s*clusters?|non[- ]oil|2045|2025\s*[–-]\s*2045|department\s*of\s*economic\s*development|diversification\s*drive|special\s*economic\s*programs?|quality\s*of\s*life|export\s*driven|english\s*law|cabinet\s*resolution|application\s*of\s*english|financial\s*services\s*and\s*markets|virtual\s*assets?|digital\s*assets?|tokenis|stablecoin|fund\s*passport|financial\s*free\s*zone|free\s*zone)\b/i;
+  /\b(a\.?r\.?m\.?\s*holding|arm\s*holding|we\s*emerge\s*stronger|drec|huna|hive|dubai\s*real\s*estate|coliving|design[- ]led|h\s*residence|sculpture\s*park|art\s*dubai|portfolio|group\s*strategy|d33|dubai\s*economic\s*agenda|rera|dld|hospitality|palm\s*spring|beach\s*centre|emerge\s*stronger|integrity|cooperation|agility|creativity|humility|mohammad\s*saeed|al\s*shehhi)\b/i;
 
 export const FALCON_KB_SOURCES = SOURCES;
 
@@ -53,8 +53,8 @@ export function isFalconKbQuery(query: string): boolean {
 export function isBroadFalconOverviewQuery(query: string): boolean {
   const q = normalizeKbQuery(query).toLowerCase();
   return (
-    /\b(tell me|explain|what is|what are|describe|overview of|summar(y|ise|ize))\b.*\bfalcon\b/.test(q) ||
-    (/\bfalcon\s*(economy|strategy)?\b/.test(q) && /\b(tell me|explain|what is|describe|overview)\b/.test(q))
+    /\b(tell me|explain|what is|what are|describe|overview of|summar(y|ise|ize))\b.*\b(a\.?r\.?m|arm\s*holding|drec|huna|hive|portfolio|we\s*emerge)\b/.test(q) ||
+    (/\b(arm|holding|portfolio|drec|huna|hive)\b/.test(q) && /\b(tell me|explain|what is|describe|overview)\b/.test(q))
   );
 }
 
@@ -73,12 +73,14 @@ function scoreChunk(query: string, chunk: FalconKbChunk): number {
   for (const t of tokens) {
     if (hay.includes(t)) score += 1;
   }
-  if (/\bfalcon\b/i.test(query) && /falcon/i.test(chunk.text)) score += 2;
-  if (/strategy/i.test(query) && chunk.sourceId === 'falcon-strategy') score += 2;
-  if (/economy|cluster|2045|enabler/i.test(query) && chunk.sourceId === 'falcon-economy') score += 2;
-  if (/1547|adgm\s*law|regulation/i.test(query) && chunk.sourceId.startsWith('adgm-1547')) score += 3;
-  if (/english\s*law/i.test(query) && chunk.sourceId === 'english-law-amendment-2022') score += 3;
-  if (/cabinet\s*resolution/i.test(query) && chunk.sourceId === 'cabinet-resolution-2013') score += 3;
+  if (/\b(arm|holding|portfolio|strategy)\b/i.test(query) && chunk.sourceId === 'arm-group-strategy') score += 2;
+  if (/\b(drec|real\s*estate|palm\s*spring|beach\s*centre)\b/i.test(query) && chunk.sourceId === 'drec-portfolio') score += 3;
+  if (/\b(huna|design|sculpture|h\s*residence)\b/i.test(query) && chunk.sourceId === 'huna-developments') score += 3;
+  if (/\b(hive|coliv|coliving)\b/i.test(query) && chunk.sourceId === 'hive-coliving') score += 3;
+  if (/\b(emerge\s*stronger|art\s*dubai|sculpture)\b/i.test(query) && chunk.sourceId === 'we-emerge-stronger') score += 3;
+  if (/\b(d33|dubai\s*economic)\b/i.test(query) && chunk.sourceId === 'dubai-d33-alignment') score += 3;
+  if (/\b(rera|dld|compliance|rental)\b/i.test(query) && chunk.sourceId === 'rera-compliance') score += 3;
+  if (/\b(values|integrity|leadership|shehhi)\b/i.test(query) && chunk.sourceId === 'arm-values') score += 2;
   return score;
 }
 
@@ -115,7 +117,7 @@ export function retrieveFalconExcerpts(query: string, maxChunks = 8): FalconKbCh
   }
 
   if (isBroadFalconOverviewQuery(normalized)) {
-    for (const srcId of ['falcon-strategy', 'falcon-economy']) {
+    for (const srcId of ['arm-group-strategy', 'arm-values']) {
       const lead = CHUNKS.find((c) => c.sourceId === srcId && c.chunkIndex === 0);
       if (lead) push(lead);
     }

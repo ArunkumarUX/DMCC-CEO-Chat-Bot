@@ -22,7 +22,7 @@
   position: fixed;
   box-sizing: border-box;
   border: none;
-  outline: 2px solid #0087ff;
+  outline: 2px solid #242321;
   outline-offset: 0;
   background: transparent;
   pointer-events: none;
@@ -48,7 +48,7 @@
   padding: 0.95rem 1rem 0.85rem;
   border-radius: 12px;
   background: #ffffff;
-  color: #00092a;
+  color: #000000;
   border: 1px solid rgba(0, 135, 255, 0.14);
   box-shadow: 0 16px 40px rgba(0, 9, 42, 0.12);
   pointer-events: auto;
@@ -67,7 +67,7 @@
   right: 0;
   height: 2px;
   border-radius: 12px 12px 0 0;
-  background: linear-gradient(90deg, #0087ff, #66b8ff);
+  background: linear-gradient(90deg, #242321, #8a8a8a);
 }
 
 .feature-tour__card::before {
@@ -128,7 +128,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #0087ff;
+  color: #242321;
 }
 
 .feature-tour__skip-tour {
@@ -142,7 +142,7 @@
 }
 
 .feature-tour__skip-tour:hover {
-  color: #00092a;
+  color: #000000;
 }
 
 .feature-tour__title {
@@ -150,7 +150,7 @@
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.25;
-  color: #00092a;
+  color: #000000;
 }
 
 .feature-tour__body {
@@ -183,14 +183,14 @@
 
 .feature-tour__dot--on {
   width: 16px;
-  background: #0087ff;
+  background: #242321;
 }
 
 .feature-tour__next {
   padding: 0.4rem 0.9rem;
   border: none;
   border-radius: 999px;
-  background: #0087ff;
+  background: #242321;
   color: #ffffff;
   font-size: 0.8rem;
   font-weight: 600;
@@ -199,7 +199,7 @@
 }
 
 .feature-tour__next:hover {
-  background: #006dcc;
+  background: #1a1a1a;
 }
 
 /* Chat composer — lift full pill (input + send) above dim */

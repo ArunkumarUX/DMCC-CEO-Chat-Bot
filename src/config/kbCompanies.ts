@@ -1,12 +1,11 @@
-/** Knowledge base — four company repositories */
-export type KbCompanyId = 'adgm' | 'adio' | 'company-3' | 'company-4';
+/** Knowledge base — A.R.M. Holding portfolio repositories */
+export type KbCompanyId = 'arm' | 'drec' | 'huna' | 'hive' | 'capri';
 
 export type KbCompany = {
   id: KbCompanyId;
   label: string;
   labelAr: string;
   short: string;
-  /** One-line context on repository card */
   tagline: string;
   taglineAr: string;
   icon: string;
@@ -15,44 +14,54 @@ export type KbCompany = {
 
 export const KB_COMPANIES: readonly KbCompany[] = [
   {
-    id: 'adgm',
-    label: 'ADGM · Abu Dhabi',
-    labelAr: 'سوق أبوظبي العالمي',
-    short: 'ADGM',
-    tagline: 'Abu Dhabi financial centre · regulatory & board intelligence',
-    taglineAr: 'مركز أبوظبي المالي · التنظيم وحزم المجلس',
+    id: 'arm',
+    label: 'A.R.M. Holding',
+    labelAr: 'A.R.M. Holding',
+    short: 'ARM',
+    tagline: 'Group strategy · board & portfolio intelligence',
+    taglineAr: 'استراتيجية المجموعة · ذكاء المجلس والمحفظة',
     icon: 'landmark',
     color: 'var(--adgm-navy)',
   },
   {
-    id: 'adio',
-    label: 'ADIO',
-    labelAr: 'ADIO',
-    short: 'ADIO',
-    tagline: 'Abu Dhabi investment · Falcon Economy alignment',
-    taglineAr: 'استثمار أبوظبي · توافق الاقتصاد الصقور',
-    icon: 'trending-up',
+    id: 'drec',
+    label: 'DREC',
+    labelAr: 'DREC',
+    short: 'DREC',
+    tagline: 'Real estate · 3,200+ residential & commercial units',
+    taglineAr: 'العقارات · أكثر من 3200 وحدة سكنية وتجارية',
+    icon: 'building-2',
     color: 'var(--status-info)',
   },
   {
-    id: 'company-3',
-    label: 'Company 3',
-    labelAr: 'الشركة 3',
-    short: 'Co. 3',
-    tagline: 'Operations & performance',
-    taglineAr: 'العمليات والأداء',
-    icon: 'layers',
+    id: 'huna',
+    label: 'HUNA',
+    labelAr: 'HUNA',
+    short: 'HUNA',
+    tagline: 'Design-led real estate · architecture, culture & commerce',
+    taglineAr: 'عقارات بتصميم رائد · العمارة والثقافة والتجارة',
+    icon: 'sparkles',
     color: 'var(--status-warn)',
   },
   {
-    id: 'company-4',
-    label: 'Company 4',
-    labelAr: 'الشركة 4',
-    short: 'Co. 4',
-    tagline: 'Market & policy research',
-    taglineAr: 'السوق والسياسات',
-    icon: 'globe',
+    id: 'hive',
+    label: 'HIVE',
+    labelAr: 'HIVE',
+    short: 'HIVE',
+    tagline: 'Coliving · flexible furnished living for creatives',
+    taglineAr: 'العيش المشترك · سكن مرن ومفروش للمبدعين',
+    icon: 'layers',
     color: 'var(--status-good)',
+  },
+  {
+    id: 'capri',
+    label: 'Capri LLC',
+    labelAr: 'Capri LLC',
+    short: 'Capri',
+    tagline: 'Investment arm · UAE & international portfolio',
+    taglineAr: 'الذراع الاستثمارية · محفظة الإمارات والأسواق الدولية',
+    icon: 'trending-up',
+    color: 'var(--status-risk)',
   },
 ] as const;
 

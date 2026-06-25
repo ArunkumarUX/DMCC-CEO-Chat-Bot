@@ -1,101 +1,85 @@
+/** Known external URLs for live documents and feeds */
 import type { Source, SourceType } from '../types';
 import type { ExecutiveState } from '../data/executiveStore';
 import { kbHandle } from './sourceHandles';
 
-/** Known external URLs for live documents and feeds */
 const DOC_EXTERNAL_URL: Record<string, string> = {
-  d2: 'https://www.adgm.com/rules-and-regulations',
-  d4: 'https://www.mas.gov.sg/regulation',
-  d1: 'https://www.adgm.com/about',
-  d5: 'https://www.adgm.com/about',
+  d2: 'https://www.armholding.ae/',
+  d4: 'https://www.rera.gov.ae',
+  d1: 'https://www.armholding.ae/',
+  d5: 'https://www.armholding.ae/',
 };
 
 const CRM_EXTERNAL_URL: Record<string, string> = {
-  'CRM-mas': 'https://www.mas.gov.sg',
-  'CRM-mubadala': 'https://www.mubadala.com',
+  'CRM-artdubai': 'https://www.artdubai.ae',
+  'CRM-drec': 'https://www.armholding.ae/',
 };
 
-const MARKET_FEED_URL = 'https://www.lseg.com/en/data-analytics';
+const MARKET_FEED_URL = 'https://www.cbre.ae/insights';
 
 /**
  * Real external URLs for every KB source document.
- * Keyed by KB source ID (from falconKbChunks.json sources[].id).
- * Shown in the source panel so stakeholders can verify facts directly.
+ * Keyed by KB source ID (from armKbChunks.json sources[].id).
  */
 export const KB_SOURCE_URLS: Record<string, { url: string; label: string; pdfPath: string }> = {
-  'falcon-economy': {
-    url: 'https://www.added.gov.ae',
-    label: 'Abu Dhabi Dept. of Economic Development (ADDED)',
-    pdfPath: '/kb/20240923_FalconEconomy-Eng.pdf',
+  'arm-group-strategy': {
+    url: 'https://www.armholding.ae/',
+    label: 'A.R.M. Holding — Group Strategy',
+    pdfPath: '/kb/ARM_Group_Strategy_2026.pdf',
   },
-  'falcon-strategy': {
-    url: 'https://www.adgm.com',
-    label: 'ADGM — Abu Dhabi Global Market',
-    pdfPath: '/kb/20240501_Falcon Strategy.pdf',
+  'arm-values': {
+    url: 'https://www.armholding.ae/',
+    label: 'A.R.M. Holding — Values & Leadership',
+    pdfPath: '/kb/ARM_Values_Leadership_2026.pdf',
   },
-  'adgm-1547-v314': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/adgm-1547-3267-v3-14.pdf',
+  'drec-portfolio': {
+    url: 'https://www.armholding.ae/',
+    label: 'DREC — Portfolio Review',
+    pdfPath: '/kb/DREC_Portfolio_Review_Q1_2026.pdf',
   },
-  'adgm-1547-01110319': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/adgm-1547-v01110319.pdf',
+  'huna-developments': {
+    url: 'https://www.armholding.ae/',
+    label: 'HUNA — Development Strategy',
+    pdfPath: '/kb/HUNA_Development_Strategy_2026.pdf',
   },
-  'adgm-1547-v1': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/adgm-1547-v1.pdf',
+  'hive-coliving': {
+    url: 'https://www.armholding.ae/',
+    label: 'HIVE — Coliving Operations',
+    pdfPath: '/kb/HIVE_Operations_2026.pdf',
   },
-  'adgm-1547-2025': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/adgm-1547-v2025.pdf',
+  'we-emerge-stronger': {
+    url: 'https://www.armholding.ae/',
+    label: 'We Emerge Stronger — Commission Brief',
+    pdfPath: '/kb/We_Emerge_Stronger_Commission_Brief.pdf',
   },
-  'adgm-1547-apr2020': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/adgm-1547-apr-2020.pdf',
+  'dubai-d33-alignment': {
+    url: 'https://www.armholding.ae/',
+    label: 'D33 Portfolio Alignment Tracker',
+    pdfPath: '/kb/ARM_D33_Alignment_Tracker_2026.pdf',
   },
-  'adgm-1547-apr2026': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/adgm-1547-apr-2026.pdf',
-  },
-  'english-law-amendment-2022': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/english-law-amendment-2022.pdf',
-  },
-  'cabinet-resolution-2013': {
-    url: 'https://www.adgm.com/rules-and-regulations',
-    label: 'ADGM Rules & Regulations',
-    pdfPath: '/kb/cabinet-resolution-4-2013.pdf',
+  'rera-compliance': {
+    url: 'https://www.rera.gov.ae',
+    label: 'RERA & DLD Compliance Framework',
+    pdfPath: '/kb/ARM_RERA_Compliance_Framework_2026.pdf',
   },
 };
 
 /**
- * Map a KB handle (e.g. KB-006-01) to its source ID.
- * KB-006 = falcon-economy, KB-007 = falcon-strategy, KB-008–KB-015 = adgm law variants etc.
- * The mapping is based on the chunk index order in falconKbChunks.json sources array.
+ * Map a KB handle (e.g. KB-001-01) to its source ID.
  */
 const KB_HANDLE_TO_SOURCE_ID: Record<string, string> = {
-  'KB-006': 'falcon-economy',
-  'KB-007': 'falcon-strategy',
-  'KB-008': 'adgm-1547-v314',
-  'KB-009': 'adgm-1547-01110319',
-  'KB-010': 'adgm-1547-v1',
-  'KB-011': 'adgm-1547-2025',
-  'KB-012': 'adgm-1547-apr2020',
-  'KB-013': 'adgm-1547-apr2026',
-  'KB-014': 'english-law-amendment-2022',
-  'KB-015': 'cabinet-resolution-2013',
+  'KB-001': 'arm-group-strategy',
+  'KB-002': 'arm-values',
+  'KB-003': 'drec-portfolio',
+  'KB-004': 'huna-developments',
+  'KB-005': 'hive-coliving',
+  'KB-006': 'we-emerge-stronger',
+  'KB-007': 'dubai-d33-alignment',
+  'KB-008': 'rera-compliance',
 };
 
 function getKbSourceId(handle?: string): string | undefined {
   if (!handle) return undefined;
-  // handle is like KB-006-01 → prefix is KB-006
   const prefix = handle.match(/^(KB-\d+)/)?.[1];
   return prefix ? KB_HANDLE_TO_SOURCE_ID[prefix] : undefined;
 }
@@ -136,18 +120,16 @@ export function enrichSource(source: Source, state: ExecutiveState): Source {
       out.openLabel = 'Open in Knowledge Base';
     }
 
-    // Check DOC_EXTERNAL_URL first (legacy document IDs)
     const legacyExt = docId ? DOC_EXTERNAL_URL[docId] : undefined;
     if (legacyExt) {
       out.externalUrl = legacyExt;
     }
 
-    // Check KB_SOURCE_URLS by handle prefix (KB-006, KB-007 etc.)
     const kbSourceId = getKbSourceId(source.handle);
     const kbMeta = kbSourceId ? KB_SOURCE_URLS[kbSourceId] : undefined;
     if (kbMeta) {
       out.externalUrl = kbMeta.url;
-      out.href = kbMeta.pdfPath; // link directly to PDF for download
+      out.href = kbMeta.pdfPath;
       out.openLabel = `View PDF — ${kbMeta.label}`;
     }
 

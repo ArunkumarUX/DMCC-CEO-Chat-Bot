@@ -40,7 +40,7 @@ function WelcomeContent() {
   const [phase, setPhase] = useState(0);
   const [exiting, setExiting] = useState(false);
 
-  const agentLine = `${greetingForTime()}, ${EXECUTIVE_USER.firstName}. I'm ${PRODUCT_AGENT_NAME} — your strategy copilot at ADGM.`;
+  const agentLine = `${greetingForTime()}, ${EXECUTIVE_USER.firstName}. I'm ${PRODUCT_AGENT_NAME} — your executive copilot at A.R.M. Holding.`;
   const typedLine = useTypewriter(agentLine, phase >= 2);
 
   useEffect(() => {
@@ -116,7 +116,7 @@ function WelcomeContent() {
               Welcome, {EXECUTIVE_USER.firstName}
             </h1>
             <p className="auth-welcome__role">
-              {EXECUTIVE_USER.title} · ADGM
+              {EXECUTIVE_USER.title} · A.R.M. Holding
             </p>
           </motion.div>
         )}

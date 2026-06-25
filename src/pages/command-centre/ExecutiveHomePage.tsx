@@ -13,7 +13,7 @@ import {
 import { deriveCommandCentreSignals } from '../../data/deriveCommandCentreSignals';
 import { countLiveSignals } from '../../data/prioritySignalHelpers';
 import { useApp } from '../../context/AppContext';
-import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR } from '../../config/user';
+import { PRODUCT_AGENT_NAME, PRODUCT_AGENT_NAME_AR, EXECUTIVE_USER } from '../../config/user';
 import { EXECUTIVE_QUICK_PROMPTS, useGstLive } from '../../utils/gstGreeting';
 import { computeFalconScore } from '../../utils/falconScore';
 import { AdgmInfoPanel } from '../../components/brand/AdgmInfoPanel';
@@ -66,7 +66,7 @@ function GreetingHero({ lang, setView }) {
           <div className="greeting-hero__meta">
             <span className="greeting-hero__meta-chip">
               <CcIcon name="map-pin" size={13} />
-              <span>{ar ? 'جزيرة المارية · أبوظبي' : 'Al Maryah Island · Abu Dhabi'}</span>
+              <span>{ar ? 'دبي، الإمارات' : 'Dubai, UAE'}</span>
             </span>
             <span className="greeting-hero__meta-time kpi-num">
               {timeStr}
@@ -74,12 +74,12 @@ function GreetingHero({ lang, setView }) {
             </span>
           </div>
           <h1 className={`greeting-hero__title${ar ? ' lang-ar' : ''}`}>
-            {part}, {ar ? 'راجيف' : 'Rajiv'}.
+            {part}, {ar ? EXECUTIVE_USER.firstName : EXECUTIVE_USER.firstName}.
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 16, maxWidth: 560, lineHeight: 1.5, margin: 0 }}>
             {ar
-              ? 'إليك ما حدث بين عشية وضحاها عبر أولوياتك الاستراتيجية، و4 شركات، و9 فرق.'
-              : "Here's what happened overnight across your strategic priorities, 4 companies, and 9 teams."}
+              ? 'إليك ما حدث بين عشية وضحاها عبر أولوياتك الاستراتيجية، و3 شركات محفظة، و9 فرق.'
+              : "Here's what happened overnight across your strategic priorities, 3 portfolio companies (DREC · HUNA · HIVE), and 9 teams."}
             <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, display: 'block', marginTop: 4 }}>{dateStr}</span>
           </p>
           <div style={{ display: 'flex', gap: 10, marginTop: 20, flexWrap: 'wrap' }}>
@@ -89,9 +89,9 @@ function GreetingHero({ lang, setView }) {
         </div>
         <div className="greeting-hero__stats">
           {[
-            { n: 4, l: ar ? 'سير عمل أساسية' : 'core workflows', t: undefined },
+            { n: 3, l: ar ? 'شركات المحفظة' : 'portfolio companies', t: undefined },
             { n: 9, l: ar ? 'إدارات مباشرة' : 'live departments', t: undefined },
-            { n: falcon.score, l: ar ? 'الاقتصاد الصقور' : 'Falcon Economy', t: ar ? falcon.tooltipAr : falcon.tooltip },
+            { n: falcon.score, l: ar ? 'توافق المحفظة' : 'Portfolio health', t: ar ? falcon.tooltipAr : falcon.tooltip },
           ].map((s) => (
             <div key={s.l} style={{ textAlign: 'center' }} title={s.t}>
               <div className="kpi-num" style={{ fontSize: 38, color: '#fff' }}><AnimatedNumber value={s.n} /></div>
@@ -286,7 +286,7 @@ export function ExecutiveHomePage() {
               الردود المعروضة مستمدة من قواعد المعرفة المعتمدة ومحادثات تنفيذية نموذجية. الهدف
               توضيحي ولا يُعدّ استشارة قانونية أو تنظيمية.
             </p>
-            <p>عند التعارض مع اللوائح أو السياسات الرسمية لـ ADGM، تسود الوثائق الرسمية.</p>
+            <p>عند التعارض مع اللوائح أو السياسات الرسمية لـ A.R.M. Holding، تسود الوثائق الرسمية.</p>
           </>
         ) : (
           <>
@@ -295,7 +295,7 @@ export function ExecutiveHomePage() {
               records. They aim to offer clarity and do not constitute legal or regulatory advice.
             </p>
             <p>
-              If there is any conflict with official ADGM regulations, rules, or guidance, the
+              If there is any conflict with official A.R.M. Holding regulations, rules, or guidance, the
               official documents prevail.
             </p>
           </>

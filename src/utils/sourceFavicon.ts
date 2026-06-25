@@ -9,11 +9,11 @@ export type SourceStackItem = {
 };
 
 const TYPE_STYLE: Record<SourceType, { bg: string; fg: string; letter: string }> = {
-  knowledge: { bg: '#00092a', fg: '#ffffff', letter: 'K' },
+  knowledge: { bg: '#000000', fg: '#ffffff', letter: 'K' },
   calendar: { bg: '#159c8c', fg: '#ffffff', letter: 'C' },
   action: { bg: '#d38a00', fg: '#ffffff', letter: 'A' },
   crm: { bg: '#5c4bb5', fg: '#ffffff', letter: 'R' },
-  external: { bg: '#0087ff', fg: '#ffffff', letter: 'M' },
+  external: { bg: '#242321', fg: '#ffffff', letter: 'M' },
 };
 
 function hostnameFromUrl(url: string): string | null {

@@ -107,28 +107,28 @@ export const CSO_PERSONA_PROMPTS: {
     agents: ['cos'],
   },
   {
-    en: "Compare ADGM's digital assets framework against Singapore MAS.",
-    ar: 'قارن إطار الأصول الرقمية في سوق أبوظبي العالمي مع سلطة النقد في سنغافورة.',
+    en: "Compare DREC's residential pipeline against the Dubai market.",
+    ar: 'قارن خط أنابيب DREC السكني مع سوق دبي.',
     agents: ['strategy', 'policy'],
   },
   {
-    en: 'Top investment opportunities Abu Dhabi should prioritise from current capital flows?',
-    ar: 'ما أبرز فرص الاستثمار التي ينبغي لأبوظبي إعطاؤها الأولوية من تدفقات رأس المال الحالية؟',
+    en: 'Top investment opportunities A.R.M. Holding should prioritise from current Dubai capital flows?',
+    ar: 'ما أبرز فرص الاستثمار التي ينبغي لـ A.R.M. Holding إعطاؤها الأولوية من تدفقات رأس المال في دبي؟',
     agents: ['strategy'],
   },
   {
-    en: 'Any FSRA regulatory or policy updates I should know about this week?',
-    ar: 'هل هناك مستجدات تنظيمية أو سياسات من هيئة تنظيم الخدمات المالية يجب أن أعرفها هذا الأسبوع؟',
+    en: 'Any RERA or Dubai regulatory updates I should know about this week?',
+    ar: 'هل هناك مستجدات تنظيمية من RERA أو دبي يجب أن أعرفها هذا الأسبوع؟',
     agents: ['policy'],
   },
   {
-    en: 'Brief me on Mubadala before my next engagement with them.',
-    ar: 'أطلعني على مبادلة قبل تواصلي القادم معهم.',
+    en: 'Brief me on Art Dubai before the We Emerge Stronger commission review.',
+    ar: 'أطلعني على Art Dubai قبل مراجعة عمولة We Emerge Stronger.',
     agents: ['relationship'],
   },
   {
-    en: "Draft a note to HH's office on ADGM's Q2 performance in Arabic.",
-    ar: 'صِغ مذكرة لمكتب سموّه حول أداء سوق أبوظبي العالمي في الربع الثاني باللغة العربية.',
+    en: "Draft a note on A.R.M. Holding's Q2 portfolio performance in Arabic.",
+    ar: 'صِغ مذكرة حول أداء محفظة A.R.M. Holding في الربع الثاني باللغة العربية.',
     agents: ['comms'],
   },
 ];

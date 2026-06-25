@@ -114,7 +114,7 @@ export function QrGatePage() {
 
       <main className="auth-gate__main">
         <h1 className="auth-gate__title">{PRODUCT_NAME}</h1>
-        <p className="auth-gate__subtitle">Secure access · ADGM</p>
+        <p className="auth-gate__subtitle">Secure access · A.R.M. Holding</p>
 
         <div className="auth-gate__qr-wrap" aria-label="QR code for mobile verification">
           {verifyUrl ? (

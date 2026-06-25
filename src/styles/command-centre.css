@@ -1,30 +1,30 @@
 /* ============================================================
-   Personal AI — ADGM Brand Book 2025
-   Gilroy · Clearsky · Path to Forward
-   https://www.adgm.com/ · docs/brand-2025/TOKENS.md
+   Personal AI — A.R.M. Holding (armholding.ae)
+   Monochrome ink palette · We Emerge Stronger
+   https://www.armholding.ae/
    ============================================================ */
 
 :root {
-  /* Brand Book 2025 — primary + secondary */
-  --adgm-clearsky: #0087ff;
-  --adgm-slate: #a3adc2;
-  --adgm-cyan: #affaff;
-  --adgm-royal: #002ed1;
-  --adgm-mint: #e5f0f0;
-  --adgm-sand: #f0e8d8;
+  /* A.R.M. Holding — primary + secondary */
+  --adgm-clearsky: #242321;
+  --adgm-slate: #8a8a8a;
+  --adgm-cyan: #f0f0f0;
+  --adgm-royal: #242321;
+  --adgm-mint: #f5f5f5;
+  --adgm-sand: #ebebeb;
 
-  /* Digital scale (maps to brand primaries) */
+  /* Digital scale */
   --adgm-blue-500: var(--adgm-clearsky);
-  --adgm-blue-600: #006dcc;
-  --adgm-blue-400: #33a0ff;
-  --adgm-blue-100: #cce7ff;
+  --adgm-blue-600: #1a1a1a;
+  --adgm-blue-400: #4a4a4a;
+  --adgm-blue-100: #f0f0f0;
   --adgm-cyan-50: var(--adgm-cyan);
-  --adgm-cyan-border: #7ee8f0;
-  --adgm-navy: #00092a;
-  --adgm-navy-mid: #001c7d;
-  --adgm-navy-deep: #002ed1;
+  --adgm-cyan-border: #e0e0e0;
+  --adgm-navy: #000000;
+  --adgm-navy-mid: #141414;
+  --adgm-navy-deep: #242321;
 
-  /* Legacy token names → ADGM mapping (keeps TSX/charts working) */
+  /* Legacy token names → ARM mapping */
   --petrol-900: var(--adgm-navy);
   --petrol-800: var(--adgm-navy);
   --petrol-700: var(--adgm-navy-mid);
@@ -35,16 +35,15 @@
   --aqua: var(--adgm-blue-500);
   --aqua-soft: var(--adgm-blue-100);
 
-  --gold-700: #006dcc;
-  --gold-600: #0088ff;
-  --gold-500: #0088ff;
-  --gold-300: #66b8ff;
-  --gold-100: #cce7ff;
+  --gold-700: #1a1a1a;
+  --gold-600: #242321;
+  --gold-500: #242321;
+  --gold-300: #8a8a8a;
+  --gold-100: #f0f0f0;
 
-  /* Path to Forward — emblem gradient (warm accent on adgm.com hero) */
-  --sun-1: #33a0ff;
-  --sun-2: #0088ff;
-  --sun-3: #001c7d;
+  --sun-1: #4a4a4a;
+  --sun-2: #242321;
+  --sun-3: #000000;
 
   --status-good: #157347;
   --status-good-bg: #e8f5ee;
@@ -52,35 +51,35 @@
   --status-warn-bg: #f8efd8;
   --status-risk: #eb5757;
   --status-risk-bg: #fdeeee;
-  --status-info: #0088ff;
+  --status-info: #242321;
   --status-info-bg: var(--adgm-cyan-50);
 
-  --canvas: #f7f9fc;
+  --canvas: #fafafa;
   --canvas-2: var(--adgm-mint);
   --surface: #ffffff;
   --surface-2: var(--adgm-mint);
   --raised: #ffffff;
-  --ink: #00092a;
-  --ink-2: #4a5568;
-  --ink-3: #6f8897;
-  --line: #dadee7;
-  --line-2: #c8ceda;
+  --ink: #000000;
+  --ink-2: #4a4a4a;
+  --ink-3: #6f6f6f;
+  --line: #e0e0e0;
+  --line-2: #d4d4d4;
   --line-strong: var(--adgm-slate);
   --sidebar-bg: #ffffff;
   --sidebar-ink: var(--adgm-navy);
   --sidebar-ink-2: var(--ink-3);
   --sidebar-active: linear-gradient(135deg, var(--adgm-blue-500) 0%, var(--adgm-navy-mid) 100%);
-  --sidebar-hover: rgba(0, 136, 255, 0.08);
+  --sidebar-hover: rgba(36, 35, 33, 0.06);
   --sidebar-border: var(--line);
   --accent: var(--adgm-blue-500);
   --accent-bright: var(--adgm-blue-400);
   --chip-bg: #edeff3;
-  --shadow-sm: 0 1px 2px rgba(0, 9, 42, 0.05), 0 1px 3px rgba(0, 9, 42, 0.04);
-  --shadow-md: 0 6px 22px -8px rgba(0, 9, 42, 0.12), 0 2px 6px rgba(0, 9, 42, 0.05);
-  --shadow-lg: 0 24px 60px -20px rgba(0, 9, 42, 0.18), 0 8px 20px -10px rgba(0, 9, 42, 0.1);
-  --glow: 0 0 0 4px rgba(0, 136, 255, 0.18);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 22px -8px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 24px 60px -20px rgba(0, 0, 0, 0.18), 0 8px 20px -10px rgba(0, 0, 0, 0.1);
+  --glow: 0 0 0 4px rgba(36, 35, 33, 0.18);
 
-  /* Body copy — ADGM typography */
+  /* Body copy — A.R.M. Holding typography */
   --tracking-body: 0.4px;
   --font-sans: 'adgm-gilroy', 'Gilroy', 'Aptos', 'Segoe UI', system-ui, sans-serif;
   --font-display: var(--font-sans);
@@ -367,16 +366,52 @@ h1,h2,h3,h4,h5 {
 .brand-logo-full {
   flex: 1;
   min-width: 0;
-  width: 100%;
-  display: block;
+  width: auto;
+  display: flex;
+  align-items: center;
   line-height: 0;
 }
-.brand-logo-full .adgm-logo-img {
+.brand-logo-full .adgm-logo-img,
+.brand-logo-full .arm-logo-lockup {
   display: block;
-  width: 100%;
-  height: auto;
-  max-height: 52px;
-  min-height: 40px;
+  width: auto;
+  max-width: 100%;
+  height: 48px;
+  flex-shrink: 0;
+}
+.arm-logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  user-select: none;
+}
+.arm-logo-lockup__emblem {
+  flex: none;
+  display: block;
+}
+.arm-logo-lockup__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  line-height: 1;
+  min-width: 0;
+}
+.arm-logo-lockup__arm {
+  display: block;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.arm-logo-lockup__holding {
+  display: block;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.brand-logo-full .adgm-logo-img {
   object-fit: contain;
   object-position: left center;
 }
@@ -6306,7 +6341,7 @@ h1,h2,h3,h4,h5 {
   justify-content: space-between;
   gap: 12px;
   padding: 14px 22px;
-  background: linear-gradient(135deg, #00092a 0%, #001c7d 55%, #002ed1 100%);
+  background: linear-gradient(135deg, #000000 0%, #141414 55%, #242321 100%);
   color: #fff;
   border-bottom: 3px solid var(--adgm-blue-500);
 }
@@ -6950,7 +6985,7 @@ h1,h2,h3,h4,h5 {
   padding-left: 0;
   padding-right: 16px;
   border-left: none;
-  border-right: 5px solid var(--slide-accent, #0087ff);
+  border-right: 5px solid var(--slide-accent, #242321);
 }
 .cc-slideai__canvas-body-text {
   font-size: clamp(0.65rem, 1.1vw, 0.85rem);
@@ -6983,7 +7018,7 @@ h1,h2,h3,h4,h5 {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--slide-accent, #0087ff);
+  background: var(--slide-accent, #242321);
   box-shadow: 0 0 0 3px rgba(0, 135, 255, 0.15);
 }
 [dir="rtl"] .cc-slideai__canvas-bullets li::before {
@@ -7009,7 +7044,7 @@ h1,h2,h3,h4,h5 {
   display: block;
   font-size: clamp(1.1rem, 2.2vw, 1.75rem);
   font-weight: 800;
-  color: #00092a;
+  color: #000000;
   letter-spacing: -0.03em;
 }
 .cc-slideai__canvas-kpi-lbl {
@@ -7057,7 +7092,7 @@ h1,h2,h3,h4,h5 {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--slide-accent, #0087ff);
+  color: var(--slide-accent, #242321);
   margin-bottom: 8px;
 }
 .cc-slideai__canvas-callout {
@@ -7071,19 +7106,19 @@ h1,h2,h3,h4,h5 {
   margin: 0 0 3%;
   padding: 10px 14px;
   border-radius: 8px;
-  background: color-mix(in oklab, var(--slide-accent, #0087ff) 12%, transparent);
-  border-left: 4px solid var(--slide-accent, #0087ff);
+  background: color-mix(in oklab, var(--slide-accent, #242321) 12%, transparent);
+  border-left: 4px solid var(--slide-accent, #242321);
 }
 .cc-slideai__canvas-col-title {
   font-size: clamp(0.65rem, 1vw, 0.8rem);
   font-weight: 800;
   margin: 0 0 8px;
-  color: #00092a;
+  color: #000000;
 }
 .cc-slideai__canvas--dark .cc-slideai__canvas-col-title { color: #fff; }
 .cc-slideai__canvas-cols--compare .cc-slideai__canvas-col--winner {
-  border-color: var(--slide-accent, #0087ff);
-  background: color-mix(in oklab, var(--slide-accent, #0087ff) 8%, #f4f6f9);
+  border-color: var(--slide-accent, #242321);
+  background: color-mix(in oklab, var(--slide-accent, #242321) 8%, #f4f6f9);
 }
 
 /* Quote */
@@ -7103,7 +7138,7 @@ h1,h2,h3,h4,h5 {
   display: block;
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1;
-  color: var(--slide-accent, #0087ff);
+  color: var(--slide-accent, #242321);
   font-family: Georgia, serif;
   margin-bottom: 8px;
 }
@@ -7128,11 +7163,11 @@ h1,h2,h3,h4,h5 {
   list-style: none;
   margin: 4% 0 0;
   padding: 0;
-  border-left: 2px solid var(--slide-accent, #0087ff);
+  border-left: 2px solid var(--slide-accent, #242321);
 }
 [dir="rtl"] .cc-slideai__canvas-timeline {
   border-left: none;
-  border-right: 2px solid var(--slide-accent, #0087ff);
+  border-right: 2px solid var(--slide-accent, #242321);
 }
 .cc-slideai__canvas-timeline li {
   position: relative;
@@ -7151,7 +7186,7 @@ h1,h2,h3,h4,h5 {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--slide-accent, #0087ff);
+  background: var(--slide-accent, #242321);
   box-shadow: 0 0 0 3px rgba(0, 135, 255, 0.2);
 }
 [dir="rtl"] .cc-slideai__canvas-timeline li::before {
@@ -7164,7 +7199,7 @@ h1,h2,h3,h4,h5 {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--slide-accent, #0087ff);
+  color: var(--slide-accent, #242321);
   margin-bottom: 2px;
 }
 .cc-slideai__canvas-timeline strong {
@@ -7254,7 +7289,7 @@ h1,h2,h3,h4,h5 {
   border-radius: 12px;
   align-self: stretch;
   background: linear-gradient(145deg, #f4f6f9, #fff);
-  border: 1px solid #0087ff;
+  border: 1px solid #242321;
   box-shadow: 0 6px 20px rgba(0, 135, 255, 0.1);
 }
 [dir="rtl"] .cc-slideai__canvas-exhibit {
@@ -7266,7 +7301,7 @@ h1,h2,h3,h4,h5 {
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #0087ff;
+  color: #242321;
 }
 .cc-slideai__canvas-exhibit p {
   margin-top: 8px;
@@ -7337,7 +7372,7 @@ h1,h2,h3,h4,h5 {
   border-color: rgba(0, 135, 255, 0.5);
 }
 .cc-slideai__thumb--on {
-  border-color: #0087ff;
+  border-color: #242321;
   box-shadow: 0 0 0 2px rgba(0, 135, 255, 0.35);
 }
 .cc-slideai__thumb--title {
@@ -7357,7 +7392,7 @@ h1,h2,h3,h4,h5 {
 .cc-slideai__thumb--title .cc-slideai__thumb-preview {
   flex-direction: column;
   justify-content: flex-end;
-  border-bottom: 3px solid #0087ff;
+  border-bottom: 3px solid #242321;
   padding-bottom: 10%;
 }
 .cc-slideai__thumb-title-text {
@@ -7373,7 +7408,7 @@ h1,h2,h3,h4,h5 {
 .cc-slideai__thumb-bar {
   width: 3px;
   min-width: 3px;
-  background: #0087ff;
+  background: #242321;
   border-radius: 1px;
   flex-shrink: 0;
 }
@@ -7381,7 +7416,7 @@ h1,h2,h3,h4,h5 {
   font-size: 6.5px;
   font-weight: 700;
   line-height: 1.25;
-  color: #00092a;
+  color: #000000;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;

@@ -58,7 +58,7 @@ function mapUploadStatus(status: DocumentFile['status']): KbDocStatus {
   return 'processing';
 }
 
-const SEED_COMPANY_IDS: KbCompanyId[] = ['adgm', 'adio', 'company-3', 'company-4'];
+const SEED_COMPANY_IDS: KbCompanyId[] = ['arm', 'drec', 'huna', 'hive'];
 
 function documentToKbEntry(doc: DocumentFile, ar = false): KbListDoc {
   const taggedDate = doc.kbDocumentDate ?? doc.uploadedAt;
@@ -67,7 +67,7 @@ function documentToKbEntry(doc: DocumentFile, ar = false): KbListDoc {
     fileId: doc.id,
     t: humanizeFileName(doc.name),
     cat: doc.kbCategory ?? guessKbCategory(doc.name),
-    companyId: doc.kbCompanyId ?? 'adgm',
+    companyId: doc.kbCompanyId ?? 'arm',
     date: formatKbDate(taggedDate),
     pages: estimatePages(doc.size),
     by: ar ? 'رفعك' : 'Your upload',

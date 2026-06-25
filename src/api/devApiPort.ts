@@ -1,4 +1,4 @@
-const DEV_API_PORT_KEY = 'adgm-dev-api-port';
+const DEV_API_PORT_KEY = 'arm-dev-api-port';
 
 export function isLocalDevHost(): boolean {
   if (!import.meta.env.DEV || typeof window === 'undefined') return false;

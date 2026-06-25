@@ -66,7 +66,7 @@ export function LoginPage() {
 
       <main className="auth-gate__main">
         <h1 className="auth-gate__title">{PRODUCT_NAME}</h1>
-        <p className="auth-gate__subtitle">Secure access · ADGM</p>
+        <p className="auth-gate__subtitle">Secure access · A.R.M. Holding</p>
 
         <p className="auth-gate__instruction">
           Enter any UAE mobile number or work email, then tap Continue to start your onboarding.

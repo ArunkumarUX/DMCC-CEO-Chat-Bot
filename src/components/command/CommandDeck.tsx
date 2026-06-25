@@ -31,7 +31,7 @@ export function CommandDeck() {
   };
 
   const dailyBriefing =
-    'Give me my overnight intelligence briefing — what are the most important developments I need to know today for ADGM and Abu Dhabi?';
+    'Give me my overnight intelligence briefing — what are the most important developments I need to know today for A.R.M. Holding and Dubai real estate?';
 
   return (
     <div className="flex-1 overflow-y-auto scrollbar-thin bg-mesh-ivory">

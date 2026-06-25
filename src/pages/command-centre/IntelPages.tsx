@@ -187,9 +187,9 @@ function Benchmark({ lang }) {
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'مقارنة 12 بُعداً' : '12-dimension benchmark'}
-          title={ar ? 'سوق أبوظبي مقابل المراكز المالية العالمية' : 'ADGM vs. global financial centres'}
+          title={ar ? 'محفظة A.R.M. Holding مقابل مطوري دبي' : 'A.R.M. Holding portfolio vs. Dubai developers'}
           laymanInfo={ar ? INTEL_LAYMAN.benchmark12.ar : INTEL_LAYMAN.benchmark12.en}
-          action={<span className="pill ghost" style={{ color: 'var(--status-info)', borderColor: 'var(--status-info)' }}><CcIcon name="book-open" size={12} />{ar ? 'مصادر: GFCI 37 · WB 2024' : 'Source: GFCI 37 · WB 2024'}</span>}
+          action={<span className="pill ghost" style={{ color: 'var(--status-info)', borderColor: 'var(--status-info)' }}><CcIcon name="book-open" size={12} />{ar ? 'مصادر: DREC · HUNA · CBRE' : 'Source: DREC · HUNA · CBRE'}</span>}
         />
 
         {/* legend / overall */}
@@ -235,7 +235,7 @@ function Benchmark({ lang }) {
         <IntelSourceNote style={{ marginTop: 20 }}>
           {ar
             ? 'المصادر: مؤشر المراكز المالية العالمية 37 (Z/Yen, مارس 2024) · مؤشر جاهزية الأعمال (البنك الدولي 2024) · تقرير FATF للإمارات 2024 · تقرير PwC للتشفير 2024 · استراتيجية الاقتصاد الصقور 2025–2045. يُرجى التحقق من التقرير المرجعي الداخلي المعتمد قبل الاستخدام الرسمي الخارجي.'
-            : 'Sources: Z/Yen GFCI 37 (Mar 2024) · World Bank Business Ready Index 2024 · FATF MER UAE 2024 · PwC Crypto Regulation Report 2024 · Falcon Economy Strategy 2025–2045 · IMF Article IV UAE 2024. Validate against approved internal benchmark report before formal external use.'}
+            : 'Sources: Z/Yen GFCI 37 (Mar 2024) · World Bank Business Ready Index 2024 · FATF MER UAE 2024 · PwC Crypto Regulation Report 2024 · Portfolio alignment Strategy 2025–2045 · IMF Article IV UAE 2024. Validate against approved internal benchmark report before formal external use.'}
         </IntelSourceNote>
       </IntelCardBody>
     </IntelCard>
@@ -250,7 +250,7 @@ function InvestmentOps({ lang }) {
     { t: 'الأصول الحقيقية المرمزة', s: 84, note: 'نافذة للريادة في الحفظ المؤسسي' },
     { t: 'التمويل المستدام والانتقالي', s: 83, note: 'يتوافق مع تنويع الاقتصاد' },
   ] : [
-    { t: 'AI infrastructure & sovereign compute', s: 92, note: 'Record VC inflow; strong Falcon Economy fit' },
+    { t: 'AI infrastructure & sovereign compute', s: 92, note: 'Record VC inflow; strong Portfolio alignment fit' },
     { t: 'Private credit', s: 86, note: 'GCC rotation from public to private debt' },
     { t: 'Tokenised real-world assets', s: 84, note: 'Window to lead on institutional custody' },
     { t: 'Sustainable & transition finance', s: 83, note: 'Aligns with diversification mandate' },
@@ -260,7 +260,7 @@ function InvestmentOps({ lang }) {
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'فرص الاستثمار' : 'Investment opportunities'}
-          title={ar ? 'مُقيّمة وفق أولويات أبوظبي الاقتصادية' : 'Scored against Abu Dhabi economic priorities'}
+          title={ar ? 'مُقيّمة وفق أولويات D33 لدبي' : 'Scored against Dubai D33 priorities'}
           laymanInfo={ar ? INTEL_LAYMAN.investmentOps.ar : INTEL_LAYMAN.investmentOps.en}
         />
         <IntelRows>
@@ -287,7 +287,7 @@ function InvestmentOps({ lang }) {
         <IntelSourceNote>
           {ar
             ? 'درجات التوافق مستمدة من استراتيجية الاقتصاد الصقور 2025–2045 (ADDED) وتقرير IMF للإمارات 2024. يُرجى التحقق من أحدث البيانات قبل الاستخدام الرسمي.'
-            : 'Alignment scores derived from Falcon Economy Strategy 2025–2045 (ADDED) and IMF Article IV UAE 2024. Verify against latest data before formal use.'}
+            : 'Alignment scores derived from Portfolio alignment Strategy 2025–2045 (ADDED) and IMF Article IV UAE 2024. Verify against latest data before formal use.'}
         </IntelSourceNote>
       </IntelCardBody>
     </IntelCard>
@@ -297,7 +297,7 @@ function InvestmentOps({ lang }) {
 function RadarCard({ lang }) {
   const ar = lang === 'ar';
   const narrow = useMediaQuery('(max-width: 640px)');
-  const [ci, setCi] = useState(2); // Singapore by default
+  const [ci, setCi] = useState(3); // Emaar by default
   const dims = BENCH_DIMS.map((d) => d.d);
   const aVals = BENCH_DIMS.map((d) => d.v[0]);
   const bVals = BENCH_DIMS.map((d) => d.v[ci]);
@@ -307,11 +307,11 @@ function RadarCard({ lang }) {
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'بصمة تنافسية' : 'Competitive footprint'}
-          title={<>{ar ? 'سوق أبوظبي مقابل' : 'ADGM vs.'} {CENTRES[ci]}</>}
+          title={<>{ar ? 'A.R.M. Holding مقابل' : 'A.R.M. Holding vs.'} {CENTRES[ci]}</>}
           laymanInfo={ar ? INTEL_LAYMAN.competitiveFootprint.ar : INTEL_LAYMAN.competitiveFootprint.en}
           style={{ marginBottom: 6 }}
         />
-        <div className="seg mi-intel-viz__seg" role="tablist" aria-label={ar ? 'اختر مركزاً مالياً' : 'Select financial centre'}>
+        <div className="seg mi-intel-viz__seg" role="tablist" aria-label={ar ? 'اختر مطوراً' : 'Select developer'}>
           {CENTRES.slice(1).map((c, i) => (
             <button
               key={c}
@@ -331,7 +331,7 @@ function RadarCard({ lang }) {
         <div className="mi-intel-viz__legend">
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <span style={{ width: 14, height: 4, borderRadius: 2, background: 'var(--accent-bright)' }} />
-            <span style={{ fontSize: 12.5, fontWeight: 700 }}>ADGM</span>
+            <span style={{ fontSize: 12.5, fontWeight: 700 }}>A.R.M. Holding</span>
             <span className="kpi-num muted-3" style={{ fontSize: 11 }}>{avg(aVals)}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -343,7 +343,7 @@ function RadarCard({ lang }) {
         <IntelSourceNote>
           {ar
             ? 'المصادر: مؤشر GFCI 37 (Z/Yen, مارس 2024) · مؤشر البنك الدولي 2024 · استراتيجية الاقتصاد الصقور. يُرجى التحقق قبل الاستخدام الرسمي.'
-            : 'Source: Z/Yen GFCI 37 (Mar 2024) · World Bank Business Ready 2024 · Falcon Economy Strategy. Validate before formal external use.'}
+            : 'Source: Z/Yen GFCI 37 (Mar 2024) · World Bank Business Ready 2024 · Portfolio alignment Strategy. Validate before formal external use.'}
         </IntelSourceNote>
       </IntelCardBody>
     </IntelCard>
@@ -363,7 +363,7 @@ function CapitalFlowCard({ lang }) {
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'تدفقات رأس المال' : 'Capital flows'}
-          title={ar ? 'تتجه نحو أبوظبي' : 'Rotating toward Abu Dhabi'}
+          title={ar ? 'تتجه نحو دبي' : 'Rotating toward Dubai'}
           laymanInfo={ar ? INTEL_LAYMAN.capitalFlows.ar : INTEL_LAYMAN.capitalFlows.en}
           action={
             isLive ? (
@@ -396,8 +396,8 @@ function CapitalFlowCard({ lang }) {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <span style={{ width: 14, height: 4, borderRadius: 2, background: 'var(--petrol-700)' }} />
-            <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--ink-2)' }}>{ar ? 'أبوظبي' : 'Abu Dhabi'}</span>
-            <span className="kpi-num muted-3" style={{ fontSize: 11 }}>ADGM</span>
+            <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--ink-2)' }}>{ar ? 'دبي' : 'Dubai'}</span>
+            <span className="kpi-num muted-3" style={{ fontSize: 11 }}>A.R.M. Holding</span>
           </div>
         </div>
         {isLive && (
@@ -421,7 +421,7 @@ export function MarketIntelligencePage() {
       <div className="section-head" style={{ marginBottom: -2 }}>
         <div>
           <div className="eyebrow">{ar ? 'استخبارات السوق الاستراتيجية' : 'Strategic market intelligence'}</div>
-          <h2 style={{ fontSize: 24, marginTop: 4 }}>{ar ? 'أين يتحرك رأس المال — وأين تستطيع أبوظبي الريادة' : 'Where capital is moving — and where Abu Dhabi can lead'}</h2>
+          <h2 style={{ fontSize: 24, marginTop: 4 }}>{ar ? 'أين يتحرك رأس المال — وأين تستطيع المحفظة الريادة' : 'Where capital is moving — and where the portfolio can lead'}</h2>
         </div>
         <span className="pill ghost"><CcIcon name="satellite-dish" size={13} />Bloomberg · Refinitiv</span>
       </div>
@@ -437,7 +437,7 @@ export function MarketIntelligencePage() {
       <IntelCard featured>
         <IntelCardHead
           icon="lightbulb"
-          title={ar ? 'كيف تتميّز أبوظبي' : 'How Abu Dhabi can differentiate'}
+          title={ar ? 'كيف تتميّز المحفظة' : 'How the portfolio can differentiate'}
           subtitle={ar ? 'أفكار استراتيجية قابلة للتنفيذ من بحث المنافسين' : 'Actionable strategic ideas, not generic commentary'}
         />
         <IntelCardBody>
@@ -647,8 +647,8 @@ export function BriefingsPage() {
                 />
                 <IntelSourceNote className="intel-source-note--inset">
                   {ar
-                    ? 'يُولَّد من المحتوى الملصق + قاعدة المعرفة (Falcon Economy، ADGM، FSRA، وغيرها).'
-                    : 'Generated from your paste + knowledge base (Falcon Economy, ADGM, FSRA, and related docs).'}
+                    ? 'يُولَّد من المحتوى الملصق + قاعدة المعرفة (Portfolio alignment، A.R.M. Holding، RERA، وغيرها).'
+                    : 'Generated from your paste + knowledge base (Portfolio alignment, A.R.M. Holding, RERA, and related docs).'}
                 </IntelSourceNote>
                 <div className="briefings-page__input-actions">
                   <button

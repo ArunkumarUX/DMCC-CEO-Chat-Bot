@@ -10,7 +10,7 @@ export const WELCOME_PATH = '/welcome';
 /** Main Personal AI chat */
 export const CHAT_PATH = '/chat';
 
-export const AUTH_STORAGE_KEY = 'adgm_auth_v1';
+export const AUTH_STORAGE_KEY = 'arm_auth_v1';
 
 export type StoredAuth = {
   token: string;

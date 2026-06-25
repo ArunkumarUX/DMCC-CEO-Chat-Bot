@@ -1,55 +1,55 @@
-/** ADGM Command Centre — full mock data (from Personal AI reference) */
+/** A.R.M. Holding Command Centre — portfolio mock data */
 
 
 // ---------- Home signal cards ----------
 export const SIGNALS = [
   {
     id: 'market', icon: 'trending-up', tone: 'info', label: 'Market Movements',
-    headline: 'GCC capital flows up 4.2% overnight',
-    body: 'Gulf sovereign allocations tilting toward private credit and digital assets. UAE 10Y yields eased 6bps.',
-    metric: '+4.2%', metricLabel: 'GCC inflow 24h', spark: [38,42,40,46,44,52,49,58,55,62],
-    ar: { label: 'تحركات السوق', headline: 'تدفقات رأس المال الخليجي ترتفع 4.2٪ بين عشية وضحاها',
-      body: 'تتجه مخصصات الصناديق السيادية الخليجية نحو الائتمان الخاص والأصول الرقمية.', metricLabel: 'تدفق خليجي 24س' }
+    headline: 'Dubai real estate transactions up 4.2% overnight',
+    body: 'Capital flows tilting toward premium residential and hospitality assets. UAE 10Y yields eased 6bps.',
+    metric: '+4.2%', metricLabel: 'Dubai RE 24h', spark: [38,42,40,46,44,52,49,58,55,62],
+    ar: { label: 'تحركات السوق', headline: 'معاملات العقارات في دبي ترتفع 4.2٪ بين عشية وضحاها',
+      body: 'تتجه تدفقات رأس المال نحو الأصول السكنية والضيافية المتميزة.', metricLabel: 'عقارات دبي 24س' }
   },
   {
     id: 'competitor', icon: 'crosshair', tone: 'warn', label: 'Competitor Activity',
-    headline: 'DIFC launches tokenised fund regime',
-    body: 'DIFC announced a tokenised real-estate fund framework. Recommend ADGM accelerate FSRA digital-fund guidance.',
+    headline: 'Major developer launches design-led waterfront community',
+    body: 'A competing Dubai developer announced a curated lifestyle district. Recommend accelerating HUNA\'s next launch narrative.',
     metric: '3', metricLabel: 'moves to watch', spark: [50,48,52,49,55,53,60,58,64,67],
-    ar: { label: 'نشاط المنافسين', headline: 'مركز دبي المالي يطلق نظام الصناديق المرمزة',
-      body: 'أعلن مركز دبي المالي عن إطار لصناديق العقارات المرمزة. يُوصى بتسريع إرشادات FSRA.', metricLabel: 'تحركات للمتابعة' }
+    ar: { label: 'نشاط المنافسين', headline: 'مطور رئيسي يطلق مجتمعاً مائيًا بتصميم رائد',
+      body: 'أعلن مطور دبي منافس عن حي نمط حياة منسق. يُوصى بتسريع سردية إطلاق HUNA التالي.', metricLabel: 'تحركات للمتابعة' }
   },
   {
     id: 'investment', icon: 'sparkles', tone: 'good', label: 'Investment Opportunities',
-    headline: 'AI infrastructure flagged — Falcon Economy fit 92',
-    body: 'Sovereign-grade data-centre & compute capacity attracting record VC. Strong alignment with Falcon Economy targets.',
-    metric: '92', metricLabel: 'Falcon Economy alignment', spark: [30,34,40,38,46,52,60,66,74,82],
-    ar: { label: 'فرص الاستثمار', headline: 'البنية التحتية للذكاء الاصطناعي — توافق الاقتصاد الصقور يبلغ 92',
-      body: 'تجذب سعة مراكز البيانات والحوسبة السيادية تمويلاً قياسياً من رأس المال الجريء.', metricLabel: 'توافق الاقتصاد الصقور' }
+    headline: 'Hospitality recovery flagged — portfolio fit 88',
+    body: 'Dubai occupancy and RevPAR climbing. Strong alignment with HUNA and DREC hospitality assets.',
+    metric: '88', metricLabel: 'Portfolio alignment', spark: [30,34,40,38,46,52,60,66,74,82],
+    ar: { label: 'فرص الاستثمار', headline: 'تعافي الضيافة — توافق المحفظة 88',
+      body: 'ارتفاع الإشغال وRevPAR في دبي. توافق قوي مع أصول HUNA وDREC.', metricLabel: 'توافق المحفظة' }
   },
   {
     id: 'performance', icon: 'activity', tone: 'risk', label: 'Internal Performance Signals',
     headline: 'HR flagging attrition risk — 15.8%',
-    body: 'Attrition crossed the 15% threshold; 2 critical roles unfilled beyond 8 weeks. Escalated for CSO review.',
+    body: 'Attrition crossed the 15% threshold; 2 critical roles unfilled beyond 8 weeks. Escalated for CEO review.',
     metric: '15.8%', metricLabel: 'attrition rate', spark: [10,11,12,12,13,14,14,15,15,16], deptLink: 'hr',
     ar: { label: 'مؤشرات الأداء الداخلي', headline: 'الموارد البشرية تشير إلى مخاطر دوران الموظفين — 15.8٪',
       body: 'تجاوز معدل الدوران عتبة 15٪؛ وظيفتان حرجتان شاغرتان لأكثر من 8 أسابيع.', metricLabel: 'معدل الدوران' }
   },
   {
     id: 'regulatory', icon: 'gavel', tone: 'warn', label: 'Regulatory Shifts',
-    headline: 'FSRA refreshes virtual-asset custody guidance',
-    body: '3 high-relevance regulatory moves overnight across FSRA, MAS and FATF. AML filing due in 11 days.',
+    headline: 'RERA updates rental index guidance',
+    body: '3 high-relevance regulatory moves overnight across RERA, DFSA and CBUAE. Compliance filing due in 11 days.',
     metric: '3', metricLabel: 'high-relevance', spark: [2,3,2,4,3,5,4,6,5,7], link: 'regulatory',
-    ar: { label: '\u062a\u062d\u0648\u0644\u0627\u062a \u062a\u0646\u0638\u064a\u0645\u064a\u0629', headline: 'FSRA \u062a\u062d\u062f\u0651\u062b \u0625\u0631\u0634\u0627\u062f\u0627\u062a \u062d\u0641\u0638 \u0627\u0644\u0623\u0635\u0648\u0644 \u0627\u0644\u0627\u0641\u062a\u0631\u0627\u0636\u064a\u0629',
-      body: '3 \u062a\u062d\u0631\u0643\u0627\u062a \u062a\u0646\u0638\u064a\u0645\u064a\u0629 \u0639\u0627\u0644\u064a\u0629 \u0627\u0644\u0635\u0644\u0629 \u0639\u0628\u0631 FSRA \u0648MAS \u0648FATF.', metricLabel: '\u0639\u0627\u0644\u064a\u0629 \u0627\u0644\u0635\u0644\u0629' }
+    ar: { label: 'تحولات تنظيمية', headline: 'RERA تحدّث إرشادات مؤشر الإيجار',
+      body: '3 تحركات تنظيمية عالية الصلة عبر RERA وDFSA وCBUAE.', metricLabel: 'عالية الصلة' }
   },
   {
     id: 'followup', icon: 'list-checks', tone: 'info', label: 'Follow-Up Actions',
     headline: '4 actions awaiting your decision',
-    body: 'MAS delegation brief, FSRA digital-fund sign-off, Q2 ministerial note, and 1 at-risk Sales deal need attention.',
+    body: 'DREC board brief, HUNA launch sign-off, Q2 shareholder note, and 1 at-risk leasing deal need attention.',
     metric: '4', metricLabel: 'open items', spark: [6,5,5,4,5,4,3,4,4,4],
     ar: { label: 'إجراءات المتابعة', headline: '4 إجراءات بانتظار قرارك',
-      body: 'إحاطة وفد MAS، اعتماد صناديق FSRA الرقمية، مذكرة الربع الثاني، وصفقة مبيعات معرّضة للخطر.', metricLabel: 'بنود مفتوحة' }
+      body: 'إحاطة مجلس DREC، اعتماد إطلاق HUNA، مذكرة الربع الثاني، وصفقة إيجار معرّضة للخطر.', metricLabel: 'بنود مفتوحة' }
   },
 ];
 
@@ -66,32 +66,32 @@ export const DEPARTMENTS = [
       { k: 'Engagement score', v: '7.4 / 10', pct: 74, tone: 'good' },
     ],
     achievements: ['Graduate Emiratisation cohort up 18% YoY', 'Engagement steady at 7.4 despite restructuring', 'Leadership academy launched on schedule'],
-    risks: [ {sev:'High', t:'Attrition crossed 15% — concentrated in FSRA technical teams'}, {sev:'High', t:'Head of Digital Supervision unfilled 9 weeks'}, {sev:'Medium', t:'Time-to-fill drifting above 70-day target'} ],
-    blockers: ['Compensation bands for specialist regulatory roles below market', 'Visa processing delays on 2 senior international hires'],
-    actions: ['Approve off-cycle comp adjustment for FSRA technical band', 'Escalate 2 critical vacancies to executive search', 'Review retention plan for digital supervision team'],
+    risks: [ {sev:'High', t:'Attrition crossed 15% — concentrated in property management teams'}, {sev:'High', t:'Head of Leasing Operations unfilled 9 weeks'}, {sev:'Medium', t:'Time-to-fill drifting above 70-day target'} ],
+    blockers: ['Compensation bands for specialist leasing roles below market', 'Visa processing delays on 2 senior international hires'],
+    actions: ['Approve off-cycle comp adjustment for property management band', 'Escalate 2 critical vacancies to executive search', 'Review retention plan for DREC operations team'],
     alert: 'Attrition >15% AND critical role unfilled >8 weeks',
     series: [12.1,12.4,12.9,13.3,13.8,14.2,14.9,15.8],
   },
   {
     id: 'sales', n: '02', name: 'Sales', nameAr: 'المبيعات', icon: 'target', rag: 'warn', trend: 'up',
-    summary: 'Revenue tracking to target overall; pipeline healthy but one strategic deal slipping and needs CSO unblock.',
+    summary: 'Revenue tracking to target overall; pipeline healthy but one HUNA pre-sales deal slipping and needs CEO unblock.',
     kpis: [
       { k: 'Revenue vs target', v: '102%', pct: 102, tone: 'good' },
       { k: 'Pipeline value', v: 'AED 1.24B', pct: 84, tone: 'good' },
       { k: 'Win rate', v: '31%', pct: 62, tone: 'warn' },
       { k: 'Avg deal size', v: 'AED 6.8M', pct: 70, tone: 'good' },
-      { k: 'New acquisitions', v: '47 QTD', pct: 78, tone: 'good' },
+      { k: 'New leases signed', v: '47 QTD', pct: 78, tone: 'good' },
     ],
-    achievements: ['Closed 3 asset-management licences worth AED 21M', 'New-client acquisitions +12% vs prior quarter', 'Fintech segment win-rate up to 38%'],
-    risks: [ {sev:'High', t:'AED 90M sovereign-fund mandate at risk — stalled 3 weeks'}, {sev:'Medium', t:'Win rate softening in traditional banking segment'} ],
-    blockers: ['Sovereign-fund deal awaiting FSRA fast-track confirmation', 'Legal review backlog on 2 enterprise contracts'],
-    actions: ['Personally engage sovereign-fund sponsor this week', 'Clear legal review bottleneck with Legal & Compliance', 'Approve incentive for fintech acquisition push'],
+    achievements: ['Closed 3 DREC commercial leases worth AED 21M', 'HUNA pre-sales inquiries +12% vs prior quarter', 'HIVE occupancy win-rate up to 91%'],
+    risks: [ {sev:'High', t:'AED 90M HUNA waterfront pre-sales at risk — stalled 3 weeks'}, {sev:'Medium', t:'Win rate softening in DREC retail segment'} ],
+    blockers: ['HUNA deal awaiting RERA escrow confirmation', 'Legal review backlog on 2 enterprise leasing contracts'],
+    actions: ['Personally engage HUNA buyer sponsor this week', 'Clear legal review bottleneck with Legal & Compliance', 'Approve incentive for HIVE occupancy push'],
     alert: 'Revenue deviation >10% vs forecast',
     series: [88,92,95,97,99,100,101,102],
   },
   {
     id: 'ops', n: '03', name: 'Operations', nameAr: 'العمليات', icon: 'settings-2', rag: 'warn', trend: 'flat',
-    summary: 'SLAs broadly met; one licensing process bottleneck driving longer turnaround on incorporations.',
+    summary: 'SLAs broadly met; one DLD registration bottleneck driving longer turnaround on new leases.',
     kpis: [
       { k: 'Service SLAs met', v: '94.2%', pct: 94, tone: 'good' },
       { k: 'Process efficiency', v: '81%', pct: 81, tone: 'warn' },
@@ -99,10 +99,10 @@ export const DEPARTMENTS = [
       { k: 'Incident count (MTD)', v: '3', pct: 70, tone: 'warn' },
       { k: 'Avg turnaround', v: '5.6 days', pct: 66, tone: 'warn' },
     ],
-    achievements: ['Incorporation volume +22% handled within SLA', 'Zero critical operational incidents this quarter', 'Digital onboarding cut document errors 40%'],
-    risks: [ {sev:'Medium', t:'Licensing review queue creating 5.6-day turnaround'}, {sev:'Low', t:'Resource constraint in registry verification team'} ],
-    blockers: ['Manual verification step in licensing not yet automated', 'Peak-season volume exceeding registry team capacity'],
-    actions: ['Approve automation of licensing verification step', 'Authorise temporary registry resourcing for peak'],
+    achievements: ['Lease registrations +22% handled within SLA', 'Zero critical operational incidents this quarter', 'Digital onboarding cut document errors 40%'],
+    risks: [ {sev:'Medium', t:'DLD registration queue creating 5.6-day turnaround'}, {sev:'Low', t:'Resource constraint in property verification team'} ],
+    blockers: ['Manual verification step in DLD registration not yet automated', 'Peak-season volume exceeding registry team capacity'],
+    actions: ['Approve automation of DLD verification step', 'Authorise temporary registry resourcing for peak'],
     alert: 'SLA breach or operational incident flagged',
     series: [93,94,94,95,94,94,94,94],
   },
@@ -116,7 +116,7 @@ export const DEPARTMENTS = [
       { k: 'AI adoption', v: '68%', pct: 68, tone: 'warn' },
       { k: 'Digital initiatives', v: '11 active', pct: 85, tone: 'good' },
     ],
-    achievements: ['eCourts platform upgrade shipped ahead of plan', 'Zero security incidents; posture rated Strong', 'AI adoption across teams reached 68%'],
+    achievements: ['Property management portal upgrade shipped ahead of plan', 'Zero security incidents; posture rated Strong', 'AI adoption across teams reached 68%'],
     risks: [ {sev:'Medium', t:'CRM integration project amber on vendor dependency'}, {sev:'Low', t:'Legacy reporting tool end-of-life in Q3'} ],
     blockers: ['Vendor API delivery slipping on CRM integration'],
     actions: ['Review CRM vendor escalation path', 'Approve legacy reporting migration budget'],
@@ -142,17 +142,17 @@ export const DEPARTMENTS = [
   },
   {
     id: 'strategy', n: '06', name: 'Strategy', nameAr: 'الاستراتيجية', icon: 'compass', rag: 'good', trend: 'up',
-    summary: 'Strategic initiatives largely on track; Falcon Economy alignment strong. One milestone at risk of slipping.',
+    summary: 'Strategic initiatives largely on track; D33 alignment strong. One HUNA launch milestone at risk of slipping.',
     kpis: [
       { k: 'Initiative progress', v: '78%', pct: 78, tone: 'good' },
       { k: 'Milestones complete', v: '14 / 18', pct: 78, tone: 'good' },
-      { k: 'Falcon Economy alignment', v: '88', pct: 88, tone: 'good' },
+      { k: 'D33 alignment', v: '86', pct: 86, tone: 'good' },
       { k: 'Competitive position', v: 'Top 3', pct: 85, tone: 'good' },
     ],
-    achievements: ['Falcon Economy roadmap milestones 78% complete', 'Falcon Economy alignment score reached 88', 'Two cross-border MoUs advanced'],
-    risks: [ {sev:'Medium', t:'Digital-assets policy milestone at risk of 4-week slip'} ],
-    blockers: ['Awaiting inter-authority input on digital-assets framework'],
-    actions: ['Convene inter-authority working session on digital-assets policy'],
+    achievements: ['D33 roadmap milestones 78% complete', 'Portfolio alignment score reached 86', 'Art Dubai sculpture commission launched'],
+    risks: [ {sev:'Medium', t:'HUNA waterfront launch milestone at risk of 4-week slip'} ],
+    blockers: ['Awaiting design partner input on HUNA launch narrative'],
+    actions: ['Convene HUNA launch working session with Marketing and DREC'],
     alert: 'KPI deviation >15% or strategic milestone delay >4 weeks',
     series: [70,72,73,74,75,76,77,78],
   },
@@ -174,7 +174,7 @@ export const DEPARTMENTS = [
   },
   {
     id: 'legal', n: '08', name: 'Legal & Compliance', nameAr: 'القانونية والامتثال', icon: 'scale', rag: 'warn', trend: 'down',
-    summary: 'Filings current; however an FSRA compliance deadline is approaching and a regulatory matter has escalated.',
+    summary: 'Filings current; however an RERA compliance deadline is approaching and a regulatory matter has escalated.',
     kpis: [
       { k: 'Regulatory pipeline', v: '9 matters', pct: 72, tone: 'warn' },
       { k: 'Filing status', v: '96% current', pct: 96, tone: 'good' },
@@ -182,25 +182,25 @@ export const DEPARTMENTS = [
       { k: 'Policy backlog', v: '4 updates', pct: 60, tone: 'warn' },
     ],
     achievements: ['96% of regulatory filings current', 'Closed 5 legacy legal matters this quarter'],
-    risks: [ {sev:'High', t:'FSRA AML enhancement filing due in 11 days'}, {sev:'Medium', t:'Cross-border matter escalated to senior counsel'} ],
-    blockers: ['Awaiting policy input from Strategy on digital-assets clauses'],
-    actions: ['Approve resourcing to clear FSRA AML filing on time', 'Review escalated cross-border regulatory matter'],
+    risks: [ {sev:'High', t:'RERA rental disclosure filing due in 11 days'}, {sev:'Medium', t:'Cross-border leasing matter escalated to senior counsel'} ],
+    blockers: ['Awaiting policy input from Strategy on HUNA escrow clauses'],
+    actions: ['Approve resourcing to clear RERA filing on time', 'Review escalated cross-border leasing matter'],
     alert: 'Compliance deadline missed or regulatory matter escalated',
     series: [9,9,10,10,11,11,12,12],
   },
   {
     id: 'marketing', n: '09', name: 'Marketing & Comms', nameAr: 'التسويق والاتصال', icon: 'megaphone', rag: 'good', trend: 'up',
-    summary: 'Strong campaign ROI and positive sentiment post-ADFW. One flagship event needs CSO speaking slot decision.',
+    summary: 'Strong campaign ROI and positive sentiment post-Art Dubai. We Emerge Stronger commission needs CEO speaking slot decision.',
     kpis: [
       { k: 'Campaign ROI', v: '3.4x', pct: 85, tone: 'good' },
       { k: 'Media coverage', v: '+38%', pct: 88, tone: 'good' },
       { k: 'Brand sentiment', v: '+72', pct: 86, tone: 'good' },
       { k: 'Digital engagement', v: '+19%', pct: 78, tone: 'good' },
     ],
-    achievements: ['ADFW coverage up 38% YoY with +72 sentiment', 'Campaign ROI reached 3.4x', 'Digital engagement up 19%'],
-    risks: [ {sev:'Low', t:'Flagship roundtable needs CSO speaking confirmation'} ],
-    blockers: ['Awaiting CSO availability for keynote roundtable'],
-    actions: ['Confirm CSO speaking slot for flagship roundtable'],
+    achievements: ['Art Dubai coverage up 38% YoY with +72 sentiment', 'Campaign ROI reached 3.4x', 'We Emerge Stronger open call launched'],
+    risks: [ {sev:'Low', t:'Flagship roundtable needs CEO speaking confirmation'} ],
+    blockers: ['Awaiting CEO availability for keynote roundtable'],
+    actions: ['Confirm CEO speaking slot for flagship roundtable'],
     alert: 'Negative media spike or major event requiring CSO involvement',
     series: [2.8,2.9,3.0,3.1,3.2,3.3,3.3,3.4],
   },
@@ -214,79 +214,66 @@ export const AGENTS = [
     integ: 'Microsoft Graph · CRM register · SharePoint' },
   { id: 'strategy', n:'02', name: 'Strategy AI', icon: 'compass', color:'var(--gold-500)',
     fn: 'Always-available strategy & intelligence team',
-    caps: ['12-dimension competitor benchmarking', 'Live market intelligence', 'Investment opportunity scoring', 'Falcon Economy alignment', 'Scenario planning'],
+    caps: ['Portfolio benchmarking', 'Live market intelligence', 'Investment opportunity scoring', 'D33 alignment tracking', 'Scenario planning'],
     integ: 'Bloomberg / Refinitiv · regulatory feeds · KB' },
   { id: 'policy', n:'03', name: 'Policy AI', icon: 'gavel', color:'var(--status-info)',
     fn: 'Regulatory intelligence & policy drafting',
     caps: ['Live monitoring of 12 jurisdictions', 'Policy drafting', 'International benchmarking', 'Impact assessment'],
-    integ: 'Regulatory RSS + APIs · FSRA SharePoint' },
+    integ: 'Regulatory RSS + APIs · RERA portal' },
   { id: 'relationship', n:'04', name: 'Relationship AI', icon: 'network', color:'var(--sun-2)',
     fn: 'Institutional CRM memory',
     caps: ['Full interaction history', 'Living stakeholder profiles', 'Proactive follow-up alerts', 'Partnership tracking', 'Network mapping'],
     integ: 'CRM bidirectional sync · LinkedIn · Graph' },
   { id: 'comms', n:'05', name: 'Communications AI', icon: 'languages', color:'var(--status-good)',
     fn: 'All executive communications — EN & AR',
-    caps: ['Speech drafting', 'Executive writing', 'Correspondence management', 'Bilingual ministerial notes', 'CSO voice learning'],
+    caps: ['Speech drafting', 'Executive writing', 'Correspondence management', 'Bilingual board notes', 'CEO voice learning'],
     integ: 'Microsoft Graph email · KB · style loop' },
 ];
 
-// ---------- Competitor benchmarking ----------
-export const CENTRES = ['ADGM','DIFC','Singapore','Hong Kong','Luxembourg'];
+// ---------- Portfolio benchmarking ----------
+export const CENTRES = ['DREC','HUNA','HIVE','Emaar','Meraas'];
 
 /**
- * 12-Dimension Benchmark — ADGM vs global financial centres
- * Sources per dimension (cross-referenced):
- *   GFCI 37  = Z/Yen Global Financial Centres Index 37, March 2025
- *   WB       = World Bank Business Ready Index 2024
- *   ADGM     = ADGM Annual Report 2023 / published competitive positioning
- *   IMF      = IMF Article IV UAE Consultation 2024
- *   PwC      = PwC Global Crypto Regulation Report 2024
- *   FATF     = FATF Mutual Evaluation Report UAE 2024
- *   IOSCO    = IOSCO Transition Finance Final Report 2024
- * Scale 0–100. Validate against internal benchmark report before formal external use.
+ * 12-Dimension Benchmark — A.R.M. Holding portfolio vs Dubai developers
+ * Scale 0–100. Mock data for executive dashboard.
  */
 export const BENCH_DIMS: { d: string; src: string; v: number[] }[] = [
-  // Regulatory & Legal
-  { d: 'Regulatory framework & legal certainty',
-    src: 'GFCI 37 · ADGM Annual Report 2023',
-    v: [90, 84, 88, 80, 86] },
-  { d: 'Digital assets & tokenisation framework',
-    src: 'PwC Crypto Regulation Report 2024 · FSRA framework',
-    v: [88, 82, 90, 85, 68] },
-  { d: 'Governance & compliance maturity',
-    src: 'FATF Mutual Evaluation UAE 2024 · GFCI 37',
-    v: [90, 86, 92, 84, 90] },
-  // Market & Capital
-  { d: 'Capital access & market depth',
-    src: 'GFCI 37 · IMF Article IV UAE 2024',
-    v: [88, 85, 92, 94, 82] },
-  { d: 'Investor ecosystem & institutional base',
-    src: 'GFCI 37 · ADGM Annual Report 2023',
-    v: [84, 88, 92, 90, 84] },
-  { d: 'Market access & connectivity',
-    src: 'GFCI 37 · WB Business Ready Index 2024',
-    v: [86, 88, 93, 94, 82] },
-  // Innovation & Ecosystem
-  { d: 'Fintech ecosystem & innovation',
-    src: 'GFCI 37 FinTech sub-ranking',
-    v: [80, 84, 94, 82, 70] },
-  { d: 'Ease of setup & licensing speed',
-    src: 'WB Business Ready Index 2024 · ADGM published data',
-    v: [89, 84, 90, 82, 74] },
-  // Strategic Position
-  { d: 'Strategic ambition & sovereign backing',
-    src: 'Falcon Economy Strategy 2025–2045 · ADGM positioning',
-    v: [92, 88, 86, 70, 78] },
-  { d: 'Global perception & brand ranking',
-    src: 'GFCI 37 overall rank (#25 · #18 · #3 · #4 · #17)',
-    v: [74, 82, 94, 88, 82] },
-  // Sustainability & Talent
-  { d: 'Sustainable & transition finance',
-    src: 'IOSCO Final Report 2024 · ADGM Sustainable Finance Agenda',
-    v: [82, 76, 84, 72, 91] },
-  { d: 'Talent pipeline & workforce depth',
-    src: 'GFCI 37 Human Capital sub-score · IMF Article IV 2024',
-    v: [78, 82, 93, 85, 80] },
+  { d: 'Occupancy & asset utilisation',
+    src: 'DREC Portfolio Review Q1 2026',
+    v: [94, 88, 91, 92, 89] },
+  { d: 'Design differentiation & brand',
+    src: 'HUNA Development Strategy 2026',
+    v: [72, 95, 68, 78, 82] },
+  { d: 'Community & coliving experience',
+    src: 'HIVE Operations 2026',
+    v: [70, 74, 92, 65, 60] },
+  { d: 'Sales velocity & pre-sales',
+    src: 'CBRE Dubai Market Q1 2026',
+    v: [82, 88, 76, 94, 86] },
+  { d: 'Rental yield & collections',
+    src: 'DREC Portfolio Review Q1 2026',
+    v: [90, 78, 72, 85, 88] },
+  { d: 'Hospitality & RevPAR recovery',
+    src: 'STR Global Dubai',
+    v: [84, 92, 70, 88, 91] },
+  { d: 'Regulatory compliance (RERA/DLD)',
+    src: 'ARM RERA Compliance Framework',
+    v: [92, 90, 88, 86, 88] },
+  { d: 'Sustainability & ESG credentials',
+    src: 'Group ESG Position Paper 2026',
+    v: [78, 86, 74, 82, 80] },
+  { d: 'Cultural & public art integration',
+    src: 'We Emerge Stronger Commission Brief',
+    v: [88, 96, 70, 62, 58] },
+  { d: 'D33 alignment & economic contribution',
+    src: 'ARM D33 Alignment Tracker 2026',
+    v: [86, 84, 80, 78, 76] },
+  { d: 'Talent retention & Emiratisation',
+    src: 'HR Quarterly Review Q1 2026',
+    v: [74, 82, 88, 80, 78] },
+  { d: 'Digital & proptech adoption',
+    src: 'Technology & IT Dashboard',
+    v: [80, 86, 84, 88, 82] },
 ];
 
 // ---------- Briefing formats (focused executive workflows) ----------
@@ -299,14 +286,14 @@ export const BRIEF_FORMATS = [
 
 // ---------- 8-week plan ----------
 export const PLAN = [
-  { w:'01', focus:'Pilot', deliver:'Personalised prototype · 5 deliverables · HR + Sales + Ops loaded · Arabic demonstrated', gate:'CSO approves full build' },
-  { w:'02', focus:'Infrastructure', deliver:'Azure UAE North · Kubernetes · Weaviate + Neo4j · Azure AD SSO · RBAC · audit logging', gate:'ADGM IT security sign-off' },
+  { w:'01', focus:'Pilot', deliver:'Personalised prototype · 5 deliverables · HR + Sales + Ops loaded · Arabic demonstrated', gate:'CEO approves full build' },
+  { w:'02', focus:'Infrastructure', deliver:'Azure UAE North · Kubernetes · Weaviate + Neo4j · Azure AD SSO · RBAC · audit logging', gate:'A.R.M. Holding IT security sign-off' },
   { w:'03', focus:'Knowledge System', deliver:'Ingestion pipeline · 50+ docs seeded · Knowledge Graph · SharePoint auto-sync', gate:'50 test queries pass' },
-  { w:'04', focus:'Five Agents', deliver:'All 5 LangGraph agents · orchestration graph · all modules on seeded data', gate:'Agents pass CSO scenarios' },
-  { w:'05', focus:'Market & Docs', deliver:'Bloomberg/Refinitiv · FSRA sync · news feeds · 08:00 & 22:00 GST refresh', gate:'Briefing quality approved' },
+  { w:'04', focus:'Five Agents', deliver:'All 5 LangGraph agents · orchestration graph · all modules on seeded data', gate:'Agents pass CEO scenarios' },
+  { w:'05', focus:'Market & Docs', deliver:'Bloomberg/Refinitiv · RERA sync · news feeds · 08:00 & 22:00 GST refresh', gate:'Briefing quality approved' },
   { w:'06', focus:'Relationship & Comms', deliver:'Graph calendar + email · CRM history · Arabic RTL complete', gate:'Arabic QA sign-off' },
-  { w:'07', focus:'9 Depts + Regulatory', deliver:'ERP/HR ETL for all 9 departments · regulatory feeds active', gate:'Dashboards reviewed by ADGM' },
-  { w:'08', focus:'Go-Live', deliver:'Integration testing · security scan · CSO onboarding · go-live', gate:'CSO sign-off on system' },
+  { w:'07', focus:'9 Depts + Regulatory', deliver:'ERP/HR ETL for all 9 departments · regulatory feeds active', gate:'Dashboards reviewed by A.R.M. Holding' },
+  { w:'08', focus:'Go-Live', deliver:'Integration testing · security scan · CEO onboarding · go-live', gate:'CEO sign-off on system' },
 ];
 
 // ---------- Integrations ----------
@@ -315,9 +302,9 @@ export const INTEGRATIONS = [
   { name:'Document Repository', sys:'SharePoint / DMS (Graph)', wk:'Week 5', icon:'folder-sync' },
   { name:'Calendar & Email', sys:'Microsoft Exchange (Graph)', wk:'Week 6', icon:'mail' },
   { name:'CRM & Relationships', sys:'Salesforce or equivalent', wk:'Week 6', icon:'contact' },
-  { name:'Regulatory Intel', sys:'FCA · SEC · MAS · BIS · IOSCO', wk:'Week 7', icon:'gavel' },
+  { name:'Regulatory Intel', sys:'RERA · DLD · DET · CBUAE', wk:'Week 7', icon:'gavel' },
   { name:'Performance & HR', sys:'SAP / Oracle ERP + HR ETL', wk:'Week 7', icon:'database' },
-  { name:'ADGM FSRA Portal', sys:'SharePoint + internal API', wk:'Week 5', icon:'building-2' },
+  { name:'A.R.M. Holding RERA Portal', sys:'SharePoint + internal API', wk:'Week 5', icon:'building-2' },
   { name:'News & Intelligence', sys:'Reuters · Gulf News · regional', wk:'Week 5', icon:'newspaper' },
 ];
 
@@ -336,25 +323,25 @@ export const TICKER = [
 // ---------- Organisational momentum (index) ----------
 export const MOMENTUM = { data: [71, 73, 72, 75, 77, 76, 79, 81, 80, 83, 85, 87], labels: ['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'] };
 
-// ---------- Capital flows toward Abu Dhabi ----------
+// ---------- Capital flows toward Dubai real estate ----------
 export const FLOWS = [
   { k: 'GCC', kAr: 'الخليج', flow: 92, v: '+4.2%' },
-  { k: 'United States', kAr: 'أمريكا', flow: 70, v: '+2.8%' },
-  { k: 'Singapore', kAr: 'سنغافورة', flow: 64, v: '+3.1%' },
-  { k: 'Europe', kAr: 'أوروبا', flow: 52, v: '+1.6%' },
-  { k: 'South Asia', kAr: 'جنوب آسيا', flow: 58, v: '+2.4%' },
+  { k: 'Europe', kAr: 'أوروبا', flow: 68, v: '+2.8%' },
+  { k: 'South Asia', kAr: 'جنوب آسيا', flow: 74, v: '+3.4%' },
+  { k: 'East Asia', kAr: 'شرق آسيا', flow: 58, v: '+1.9%' },
+  { k: 'North America', kAr: 'أمريكا الشمالية', flow: 52, v: '+1.6%' },
 ];
 
 // ---------- Regulatory change monitor ----------
 export const REGULATORY = [
-  { body: 'FSRA', region: 'ADGM · Abu Dhabi', topic: 'Digital assets', date: 'Today', title: 'FSRA refreshes virtual-asset custody guidance', rel: 'High', impact: 'Directly strengthens ADGM\u2019s tokenisation proposition \u2014 foreground with institutional issuers this quarter.', titleAr: 'FSRA تُحدّث إرشادات حفظ الأصول الافتراضية', impactAr: 'يعزّز مباشرةً عرض الترميز لدى سوق أبوظبي العالمي.' },
-  { body: 'MAS', region: 'Singapore', topic: 'Funds', date: '2 days ago', title: 'MAS expands tokenised-fund pilot to retail tranches', rel: 'High', impact: 'Competitive pressure \u2014 ADGM should accelerate FSRA digital-fund guidance to hold its lead.', titleAr: 'MAS توسّع تجربة الصناديق المرمزة لتشمل شرائح التجزئة', impactAr: 'ضغط تنافسي \u2014 يُوصى بتسريع إرشادات الصناديق الرقمية.' },
-  { body: 'FATF', region: 'Global', topic: 'AML', date: '4 days ago', title: 'Updated guidance on virtual-asset travel rule', rel: 'High', impact: 'Aligns with ADGM\u2019s AML enhancement \u2014 Legal & Compliance FSRA filing due in 11 days.', titleAr: 'إرشادات محدّثة لقاعدة تتبّع الأصول الافتراضية', impactAr: 'يتوافق مع تعزيز مكافحة غسل الأموال \u2014 إيداع خلال 11 يوماً.' },
-  { body: 'FCA', region: 'United Kingdom', topic: 'Capital markets', date: '5 days ago', title: 'Consultation on private-fund disclosure regime', rel: 'Medium', impact: 'Monitor for benchmarking \u2014 informs ADGM private-markets positioning.', titleAr: 'استشارة حول نظام إفصاح الصناديق الخاصة', impactAr: 'يُراقب لأغراض المقارنة المرجعية.' },
-  { body: 'HKMA', region: 'Hong Kong', topic: 'Fintech', date: '1 week ago', title: 'Stablecoin issuer licensing framework finalised', rel: 'Medium', impact: 'Competitor capability gap to assess against ADGM digital-asset framework.', titleAr: 'إقرار إطار ترخيص مُصدري العملات المستقرة', impactAr: 'فجوة قدرات منافِسة يجب تقييمها.' },
-  { body: 'IOSCO', region: 'Global', topic: 'Sustainable finance', date: '1 week ago', title: 'Final report on transition-finance disclosures', rel: 'Medium', impact: 'Supports ADGM sustainable-finance differentiation thesis.', titleAr: 'تقرير نهائي حول إفصاحات تمويل التحول', impactAr: 'يدعم تميّز سوق أبوظبي في التمويل المستدام.' },
-  { body: 'BIS', region: 'Global', topic: 'Banking', date: '2 weeks ago', title: 'Basel guidance on crypto-asset exposures', rel: 'Low', impact: 'Background context for prudential framework alignment.', titleAr: 'إرشادات بازل حول التعرّض للأصول المشفّرة', impactAr: 'سياق خلفي لمواءمة الإطار التحوطي.' },
-  { body: 'CSSF', region: 'Luxembourg', topic: 'Funds', date: '2 weeks ago', title: 'ELTIF 2.0 marketing rules clarified', rel: 'Low', impact: 'Competitor fund-domicile development \u2014 low immediate relevance.', titleAr: 'توضيح قواعد تسويق ELTIF 2.0', impactAr: 'تطوّر لدى منافِس \u2014 صلة فورية منخفضة.' },
+  { body: 'RERA', region: 'Dubai', topic: 'Rental index', date: 'Today', title: 'RERA updates rental index guidance for Q3', rel: 'High', impact: 'Directly affects DREC portfolio repricing — review within 30 days.', titleAr: 'RERA تحدّث إرشادات مؤشر الإيجار للربع الثالث', impactAr: 'يؤثر مباشرة على إعادة تسعير محفظة DREC.' },
+  { body: 'DLD', region: 'Dubai', topic: 'Registration', date: '2 days ago', title: 'DLD streamlines off-plan registration for design-led projects', rel: 'High', impact: 'Positive for HUNA launch timeline — expedite H Residence filings.', titleAr: 'DLD تبسّط تسجيل المشاريع على الخارطة', impactAr: 'إيجابي لجدول إطلاق HUNA.' },
+  { body: 'DET', region: 'Dubai', topic: 'Tourism', date: '4 days ago', title: 'Dubai tourism targets 20M visitors — hospitality incentives expanded', rel: 'High', impact: 'Supports DREC hospitality assets and HUNA lifestyle positioning.', titleAr: 'دبي تستهدف 20 مليون زائر', impactAr: 'يدعم أصول الضيافة وموقع HUNA.' },
+  { body: 'Dubai Municipality', region: 'Dubai', topic: 'Planning', date: '5 days ago', title: 'Updated guidelines for public art in residential developments', rel: 'Medium', impact: 'Relevant to We Emerge Stronger sculpture at HUNA Sculpture Park.', titleAr: 'إرشادات محدّثة للفن العام في المشاريع السكنية', impactAr: 'ذات صلة بمنحوتة We Emerge Stronger.' },
+  { body: 'CBUAE', region: 'UAE', topic: 'Mortgage', date: '1 week ago', title: 'Mortgage affordability rules adjusted for expat buyers', rel: 'Medium', impact: 'May lift HUNA pre-sales conversion — monitor with Sales.', titleAr: 'تعديل قواعد تمويل الرهن العقاري للمشترين الأجانب', impactAr: 'قد يرفع مبيعات HUNA المسبقة.' },
+  { body: 'D33 Office', region: 'Dubai', topic: 'Economic agenda', date: '1 week ago', title: 'D33 SME accelerator fund — real estate tech eligible', rel: 'Medium', impact: 'HIVE proptech pilot may qualify — Strategy to assess.', titleAr: 'صندوق مسرّع الشركات الصغيرة D33', impactAr: 'تجربة HIVE قد تتأهل.' },
+  { body: 'RERA', region: 'Dubai', topic: 'Compliance', date: '2 weeks ago', title: 'Enhanced rental disclosure requirements for landlords', rel: 'High', impact: 'Group filing due in 11 days — Legal & Compliance action required.', titleAr: 'متطلبات إفصاح إيجار محسّنة', impactAr: 'إيداع المجموعة خلال 11 يوماً.' },
+  { body: 'DET', region: 'Dubai', topic: 'Events', date: '2 weeks ago', title: 'Art Dubai 2026 partnership framework published', rel: 'Low', impact: 'Supports We Emerge Stronger commission narrative.', titleAr: 'نشر إطار شراكة Art Dubai 2026', impactAr: 'يدعم سردية منحوتة We Emerge Stronger.' },
 ];
 
 // ---------- Approved knowledge base ----------
@@ -367,142 +354,137 @@ export const KB_CATS = [
   { id: 'general', label: 'General', labelAr: 'عام', color: 'var(--ink-3)' },
 ];
 export const KB_DOCS = [
-  { t: 'ADGM Five-Year Strategy 2025\u20132030', cat: 'strategy', date: 'May 2026', pages: 64, by: 'SharePoint sync' },
+  { t: 'A.R.M. Holding Group Strategy 2025\u20132030', cat: 'strategy', date: 'May 2026', pages: 64, by: 'SharePoint sync' },
   { t: 'Q1 2026 Board Pack \u2014 Full', cat: 'board', date: 'Apr 2026', pages: 112, by: 'Uploaded' },
-  { t: 'FSRA Digital Assets Regulatory Framework', cat: 'policy', date: 'Jun 2025', pages: 88, by: 'FSRA portal' },
-  { t: 'Global Financial Centres Benchmark Report', cat: 'market', date: 'May 2026', pages: 41, by: 'Bloomberg' },
+  { t: 'RERA & DLD Compliance Framework', cat: 'policy', date: 'Feb 2026', pages: 22, by: 'Legal & Compliance' },
+  { t: 'Dubai Real Estate Market Benchmark Report', cat: 'market', date: 'May 2026', pages: 41, by: 'CBRE / Knight Frank' },
   { t: 'HR Quarterly Performance Review', cat: 'performance', date: 'Apr 2026', pages: 23, by: 'ERP/HR ETL' },
-  { t: 'Falcon Economy Strategy 2025–2045 (English)', cat: 'strategy', date: 'Sep 2024', pages: 120, by: 'ADDED · Approved KB' },
-  { t: 'Falcon Strategy (Executive Summary)', cat: 'strategy', date: 'May 2024', pages: 24, by: 'ADDED · Approved KB' },
-  { t: 'ADGM Law No. 1547 — April 2026', cat: 'policy', date: 'Apr 2026', pages: 49, by: 'Archive · Approved KB' },
-  { t: 'ADGM Law No. 1547 — Version 2025', cat: 'policy', date: 'Jan 2025', pages: 28, by: 'Archive · Approved KB' },
-  { t: 'ADGM Law No. 1547 — Version 01.11.0319', cat: 'policy', date: 'Nov 2019', pages: 20, by: 'Archive · Approved KB' },
-  { t: 'ADGM Law No. 1547 — Version 3.14', cat: 'policy', date: 'Jan 2024', pages: 3, by: 'Archive · Approved KB' },
-  { t: 'Application of English Law Regulations — Amendment 1 (2022)', cat: 'policy', date: 'Jan 2022', pages: 1, by: 'Archive · Approved KB' },
-  { t: 'UAE Cabinet Resolution No. 4 of 2013', cat: 'policy', date: 'Jan 2013', pages: 1, by: 'Archive · Approved KB' },
-  { t: 'Falcon Economy Strategic Alignment Tracker', cat: 'strategy', date: 'May 2026', pages: 18, by: 'Uploaded' },
-  { t: 'ADFW 2025 Outcomes & MoU Register', cat: 'general', date: 'Dec 2025', pages: 36, by: 'SharePoint sync' },
-  { t: 'Sales Pipeline & Mandate Status', cat: 'performance', date: 'Apr 2026', pages: 14, by: 'CRM sync' },
-  { t: 'Sustainable Finance Position Paper', cat: 'market', date: 'Mar 2026', pages: 29, by: 'Uploaded' },
-  { t: 'AML Enhancement Programme Brief', cat: 'policy', date: 'Apr 2026', pages: 31, by: 'FSRA portal' },
+  { t: 'D33 Portfolio Alignment Tracker 2026', cat: 'strategy', date: 'May 2026', pages: 16, by: 'Strategy · Approved KB' },
+  { t: 'DREC Portfolio Review Q1 2026', cat: 'performance', date: 'Apr 2026', pages: 32, by: 'DREC · Approved KB' },
+  { t: 'HUNA Development Strategy 2026', cat: 'strategy', date: 'Mar 2026', pages: 18, by: 'HUNA · Approved KB' },
+  { t: 'HIVE Coliving Operations 2026', cat: 'performance', date: 'Apr 2026', pages: 14, by: 'HIVE · Approved KB' },
+  { t: 'We Emerge Stronger — Commission Brief', cat: 'strategy', date: 'Jun 2026', pages: 12, by: 'Art Dubai · Approved KB' },
+  { t: 'A.R.M. Holding Values & Leadership', cat: 'general', date: 'May 2026', pages: 8, by: 'armholding.ae · Approved KB' },
+  { t: 'Art Dubai 2026 Partnership Register', cat: 'general', date: 'Jun 2026', pages: 24, by: 'SharePoint sync' },
+  { t: 'Sales Pipeline & Leasing Status', cat: 'performance', date: 'Apr 2026', pages: 14, by: 'CRM sync' },
+  { t: 'Hospitality Recovery Position Paper', cat: 'market', date: 'Mar 2026', pages: 29, by: 'Uploaded' },
+  { t: 'RERA Rental Disclosure Programme Brief', cat: 'policy', date: 'Apr 2026', pages: 18, by: 'RERA portal' },
 ];
 
-// ---------- Abu Dhabi differentiation ----------
+// ---------- Dubai differentiation ----------
 export const DIFFERENTIATION = [
-  { icon: 'scale', t: 'Lead on legal certainty', d: 'Foreground direct English common law for tokenised instruments \u2014 a durable edge over MAS and HKMA.', tAr: 'الريادة في اليقين القانوني', dAr: 'إبراز تطبيق القانون الإنجليزي العام مباشرةً على الأدوات المرمزة.' },
-  { icon: 'coins', t: 'Win institutional custody', d: 'Move first on institutional-grade tokenised-RWA custody while DIFC is still framing its regime.', tAr: 'كسب الحفظ المؤسسي', dAr: 'التحرك أولاً في حفظ الأصول الحقيقية المرمزة للمؤسسات.' },
-  { icon: 'leaf', t: 'Own transition finance', d: 'Anchor a regional transition-finance taxonomy aligned to IOSCO \u2014 a space Luxembourg leads but Abu Dhabi can localise.', tAr: 'تصدّر تمويل التحول', dAr: 'ترسيخ تصنيف إقليمي لتمويل التحول متوافق مع IOSCO.' },
-  { icon: 'cpu', t: 'Magnet for AI capital', d: 'Pair sovereign compute capacity with fast-track licensing to capture record AI-infrastructure inflows (Falcon Economy fit 92).', tAr: 'قطب لرأس مال الذكاء', dAr: 'دمج سعة الحوسبة السيادية مع الترخيص السريع لجذب تدفقات الذكاء الاصطناعي.' },
+  { icon: 'palette', t: 'Lead on design-led living', d: 'HUNA curates architecture, culture and commerce — a durable edge over volume developers in Dubai.', tAr: 'الريادة في السكن بتصميم رائد', dAr: 'HUNA تجمع العمارة والثقافة والتجارة — ميزة دائمة على مطوري الحجم.' },
+  { icon: 'home', t: 'Own community coliving', d: 'HIVE captures young professionals and creatives — a segment Emaar and Meraas under-serve.', tAr: 'تصدّر العيش المشترك', dAr: 'HIVE تستهدف الشباب والمبدعين — شريحة يقلّل المنافسون خدمتها.' },
+  { icon: 'building-2', t: 'Stabilise income via DREC', d: '3,200+ units across Palm Spring Village and The Beach Centre provide resilient recurring revenue.', tAr: 'دخل مستقر عبر DREC', dAr: 'أكثر من 3200 وحدة توفر إيرادات متكررة مرنة.' },
+  { icon: 'sparkles', t: 'Culture in public life', d: 'We Emerge Stronger sculpture commission at HUNA Sculpture Park — art woven into everyday urban life (D33 fit 94).', tAr: 'الثقافة في الحياة العامة', dAr: 'منحوتة We Emerge Stronger — الفن جزء من الحياة اليومية.' },
 ];
 
 // ---------- Scripted chat suggestions + canned answers ----------
 /** Static fallback; UI uses getTimeBasedChatSuggestions() for GST-aware first chip */
 export const SUGGESTIONS = [
   { q: "Good morning — what's happened today?", agents: ['cos'] },
-  { q: "Compare ADGM's digital assets framework against Singapore MAS.", agents:['strategy','policy'] },
-  { q: "What strategic decisions did ADGM make in 2024 and how do they track against Falcon Economy priorities?", agents:['strategy','cos'] },
-  { q: "Brief me on my 3pm meeting tomorrow.", agents:['cos','relationship'] },
-  { q: "Top investment opportunities Abu Dhabi should prioritise from current capital flows?", agents:['strategy'] },
-  { q: "Draft a note to HH's office on ADGM's Q2 performance in Arabic.", agents:['comms'] },
+  { q: "How does HUNA's design-led positioning compare to Emaar this quarter?", agents:['strategy'] },
+  { q: "What strategic decisions did A.R.M. Holding make in 2025 and how do they track against D33 priorities?", agents:['strategy','cos'] },
+  { q: "Brief me on my DREC board meeting tomorrow.", agents:['cos','relationship'] },
+  { q: "Top investment opportunities in Dubai real estate from current capital flows?", agents:['strategy'] },
+  { q: "Draft talking points for the We Emerge Stronger sculpture announcement.", agents:['comms'] },
 ];
 
 export const CANNED = {
-  "Compare ADGM's digital assets framework against Singapore MAS.":
-`## ADGM vs MAS — digital assets
+  "How does HUNA's design-led positioning compare to Emaar this quarter?":
+`## HUNA vs Emaar — design positioning
 
-> **In plain terms:** ADGM suits big institutions; Singapore is slightly ahead on retail crypto and stablecoin rules.
+> **In plain terms:** HUNA leads on cultural curation; Emaar leads on scale and brand recognition.
 
-| What it means | Number | Signal |
-|---------------|--------|--------|
-| ADGM framework | 88/100 | 🟢 |
-| MAS framework | 90/100 | 🟡 |
-| Legal edge | English common law | 🟢 |
+| What it means | Score | Signal |
+|---------------|-------|--------|
+| HUNA design differentiation | 96/100 | 🟢 |
+| Emaar brand & scale | 94/100 | 🟢 |
+| Pre-sales velocity | HUNA catching up | 🟡 |
 
-████████░░ **88/100**
+████████░░ **90/100**
 
-| Topic | ADGM | Singapore |
-|-------|------|-----------|
-| Best for | Banks & funds | More retail tests |
-| Stablecoins | Aligning | Consultation ends Friday |
+| Topic | HUNA | Emaar |
+|-------|------|-------|
+| Strength | Culture + design | Volume + distribution |
+| Weakness | Scale | Design curation |
+| Next move | Waterfront launch | N/A |
 
-🔴 **Do this:** Brief FSRA on MAS outcome before **12 Jun**.
-
-*Agents: Policy · Strategy · Institutional intelligence*`,
-
-  "What strategic decisions did ADGM make in 2024 and how do they track against Falcon Economy priorities?":
-`## 2024 decisions vs Falcon Economy
-
-> **In plain terms:** Most initiatives are on track; talent retention needs attention.
-
-████████░░ **82/100**
-
-| Initiative | Status | Signal |
-|------------|--------|--------|
-| Digital assets framework | On track · Q2 2026 | 🟢 |
-| Italy engagement | Complete · May 2026 | 🟢 |
-| Fund reforms | Licences +12% YoY | 🟢 |
-| Talent pipeline | Attrition elevated | 🔴 |
-
-*Agents: Strategy · Chief of Staff · Falcon_Economy_Strategic_Alignment_2024-26.xlsx*`,
-
-  "Brief me on my 3pm meeting tomorrow.":
-`## Pre-meeting — Singapore MAS delegation
-
-> **In plain terms:** Tomorrow 15:00 — warm relationship; agree a working group before Q3.
-
-| Fact | Detail | Signal |
-|------|--------|--------|
-| When | Tomorrow 15:00 UAE | 🟢 |
-| Prep | Ready | 🟢 |
-| Relationship | Warm · ADFW 2025 | 🟢 |
-
-**Their focus:** digital-asset recognition · green finance rules
-
-**Your 3 bullets**
-- Common-law certainty for tokenised funds
-- Fast-track custodian pilot
-- Ecosystem growth (+12% licences YoY)
-
-🔴 **Do this:** Confirm Q3 working-group date.
-
-*Agents: Chief of Staff · Relationship · Strategy*`,
-
-  "Top investment opportunities Abu Dhabi should prioritise from current capital flows?":
-`## Top opportunities for Abu Dhabi
-
-> **In plain terms:** Climate tech and tokenised funds score highest on Falcon Economy right now.
-
-| Sector | Falcon Economy score | Signal |
-|--------|-----------|--------|
-| AI / sovereign compute | 92/100 | 🟢 |
-| Tokenised RWAs | 84/100 | 🟢 |
-| Private credit | 86/100 | 🟢 |
-| Climate tech | 88/100 | 🟢 |
-
-█████████░ **92/100**
-
-🔴 **Do this:** Lead with climate GPs + institutional tokenised fund pathway.
+🔴 **Do this:** Accelerate HUNA launch narrative before competitor waterfront announcement.
 
 *Agents: Strategy · Market intelligence*`,
 
-  "Draft a note to HH's office on ADGM's Q2 performance in Arabic.":
-`## Ministerial note — Q2
+  "What strategic decisions did A.R.M. Holding make in 2025 and how do they track against D33 priorities?":
+`## 2025 decisions vs D33
 
-> **In plain terms:** Report a strong quarter; keep it short and formal in both languages.
+> **In plain terms:** Portfolio initiatives on track; talent retention needs attention.
 
-| Metric | Value | Signal |
-|--------|-------|--------|
-| Falcon Economy alignment | 82/100 | 🟢 |
-| Licence growth | +12% YoY | 🟢 |
-| Risk | DIFC fintech pace | 🟡 |
+████████░░ **86/100**
 
-### العربية (short)
-معالي الوزير، أداء قوي للربع الثاني مع نمو التراخيص ومحاذاة الاقتصاد الصقور.
+| Initiative | Status | Signal |
+|------------|--------|--------|
+| HUNA design-led launches | On track · Q3 2026 | 🟢 |
+| We Emerge Stronger commission | Live · Jun 2026 | 🟢 |
+| DREC occupancy stabilisation | 94.2% | 🟢 |
+| Talent pipeline | Attrition elevated | 🔴 |
 
-### English (short)
-Your Excellency, ADGM delivered strong Q2 results: licence growth, robust FSRA pipeline, Falcon Economy score 82/100.
+*Agents: Strategy · Chief of Staff · ARM_D33_Alignment_Tracker_2026.xlsx*`,
 
-*Agents: Communications · Ministerial_Note_Q2_AR_EN.docx*`,
+  "Brief me on my DREC board meeting tomorrow.":
+`## Pre-meeting — DREC board
+
+> **In plain terms:** Tomorrow 10:00 — review occupancy, leasing pipeline, and RERA filing.
+
+| Fact | Detail | Signal |
+|------|--------|--------|
+| When | Tomorrow 10:00 UAE | 🟢 |
+| Prep | Ready | 🟢 |
+| Focus | Occupancy + RERA | 🟢 |
+
+**Agenda highlights**
+- Q1 occupancy 94.2% across core assets
+- AED 124M leasing pipeline — 1 deal at risk
+- RERA rental disclosure due in 11 days
+
+🔴 **Do this:** Confirm escalation path for stalled HUNA pre-sales link.
+
+*Agents: Chief of Staff · Relationship · Strategy*`,
+
+  "Top investment opportunities in Dubai real estate from current capital flows?":
+`## Top opportunities — Dubai real estate
+
+> **In plain terms:** Hospitality recovery and design-led residential score highest for the portfolio.
+
+| Sector | D33 score | Signal |
+|--------|-----------|--------|
+| Design-led residential | 90/100 | 🟢 |
+| Hospitality recovery | 88/100 | 🟢 |
+| Coliving / flexible living | 84/100 | 🟢 |
+| Commercial retail | 82/100 | 🟢 |
+
+█████████░ **90/100**
+
+🔴 **Do this:** Prioritise HUNA waterfront pre-sales and DREC hospitality asset review.
+
+*Agents: Strategy · Market intelligence*`,
+
+  "Draft talking points for the We Emerge Stronger sculpture announcement.":
+`## We Emerge Stronger — talking points
+
+> **In plain terms:** Culture woven into everyday life; permanent sculpture at HUNA Sculpture Park.
+
+| Theme | Message | Signal |
+|-------|---------|--------|
+| Commission | Open call live 17 Jun – 25 Jul | 🟢 |
+| Partnership | Art Dubai × A.R.M. Holding | 🟢 |
+| Inspiration | نظهر أقوى — resilience & renewal | 🟢 |
+
+### Key lines
+- "Art should be woven into everyday life."
+- "Giving artists freedom to develop bold, individual proposals."
+- "A lasting public presence deeply connected to its environment."
+
+*Agents: Communications · ARM_Values_Leadership_2026.pdf*`,
 };
 
 

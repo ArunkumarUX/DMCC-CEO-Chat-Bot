@@ -1,7 +1,7 @@
 import { ADGM_BRAND } from '../../config/brand';
 import { AdgmEmblem, AdgmWordmark } from './AdgmWordmark';
 
-/** Official ADGM mark / wordmark (vector) */
+/** Official A.R.M. Holding mark / wordmark */
 export function AdgmMark({
   size = 36,
   className = '',
@@ -17,7 +17,7 @@ export function AdgmMark({
   if (horizontal) {
     return <AdgmWordmark className={className} height={size} variant={variant} />;
   }
-  return <AdgmEmblem className={className} size={size} variant={variant} />;
+  return <AdgmEmblem className={className} size={size} variant={variant} display="symbol" />;
 }
 
 export function AdgmLogo({
@@ -32,21 +32,19 @@ export function AdgmLogo({
   className?: string;
   showTagline?: boolean;
   markOnly?: boolean;
-  /** Full wordmark strip (sidebar / headers on white) */
   horizontal?: boolean;
   size?: number;
 }) {
-  const fg = variant === 'onDark' ? '#FFFFFF' : ADGM_BRAND.navy.DEFAULT;
-  const sub = variant === 'onDark' ? '#CCE7FF' : ADGM_BRAND.neutral[500];
+  const sub = variant === 'onDark' ? 'rgba(255,255,255,0.72)' : ADGM_BRAND.neutral[500];
 
-  if (horizontal || (!markOnly && variant === 'onLight')) {
+  if (horizontal || (!markOnly && !showTagline)) {
     return (
-      <div className={className} title="ADGM">
+      <div className={className} title="A.R.M. Holding">
         <AdgmWordmark height={size} variant={variant} />
         {showTagline && (
           <p
-            className="text-[10px] font-medium uppercase tracking-[0.14em] mt-1"
-            style={{ color: sub }}
+            className="text-[10px] font-medium uppercase mt-1"
+            style={{ color: sub, letterSpacing: ADGM_BRAND.typography.trackingLogo }}
           >
             {ADGM_BRAND.tagline}
           </p>
@@ -65,23 +63,15 @@ export function AdgmLogo({
 
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      <AdgmMark size={size} alt={ADGM_BRAND.logoAlt} variant={variant} />
-      <div className="min-w-0">
+      <AdgmMark size={size} variant={variant} />
+      {showTagline && (
         <p
-          className="font-semibold text-[15px] leading-tight"
-          style={{ color: fg, fontFamily: 'var(--font-display)' }}
+          className="text-[10px] font-medium uppercase tracking-[0.14em] opacity-80"
+          style={{ color: sub }}
         >
-          ADGM
+          {ADGM_BRAND.tagline}
         </p>
-        {showTagline && (
-          <p
-            className="text-[10px] font-medium uppercase tracking-[0.14em] opacity-80"
-            style={{ color: sub }}
-          >
-            {ADGM_BRAND.tagline}
-          </p>
-        )}
-      </div>
+      )}
     </div>
   );
 }
