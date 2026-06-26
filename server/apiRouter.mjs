@@ -53,6 +53,16 @@ function requestUrl(request) {
   }
 }
 
+/** Netlify rewrites /api/* → /.netlify/functions/api — restore /api/... path for routing. */
+function normalizeApiPath(pathname) {
+  const netlifyPrefix = '/.netlify/functions/api';
+  if (pathname === netlifyPrefix) return '/api/health';
+  if (pathname.startsWith(`${netlifyPrefix}/`)) {
+    return `/api${pathname.slice(netlifyPrefix.length)}`;
+  }
+  return pathname;
+}
+
 export async function handleApiRequest(request, opts = {}) {
   const sessionStoreFactory = opts.sessionStore ?? createAuthSessionStore;
 
@@ -61,7 +71,7 @@ export async function handleApiRequest(request, opts = {}) {
   }
 
   const url = requestUrl(request);
-  const path = url.pathname;
+  const path = normalizeApiPath(url.pathname);
 
   if (request.method === 'GET' && path === '/api/health') {
     const { apiKey, model } = getAnthropicConfig();

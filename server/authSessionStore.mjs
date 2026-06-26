@@ -1,15 +1,11 @@
-import { getStore } from '@netlify/blobs';
 import { createBlobAuthStore } from './blobAuthStore.mjs';
 import { createMemoryAuthStore } from './memoryAuthStore.mjs';
+import { createNetlifyBlobAuthStore } from './netlifyBlobAuthStore.mjs';
 
-function netlifySessionStore() {
-  return getStore({ name: 'adgm-auth-sessions', consistency: 'strong' });
-}
-
-/** Production: Blob (Vercel) or Netlify Blobs; dev: in-memory Map. */
+/** Production: Netlify Blobs, Vercel Blob, or in-memory for local dev. */
 export function createAuthSessionStore() {
   if (process.env.NETLIFY === 'true' || process.env.NETLIFY_LOCAL === 'true') {
-    return netlifySessionStore();
+    return createNetlifyBlobAuthStore();
   }
   if (process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) {
     return createBlobAuthStore();
