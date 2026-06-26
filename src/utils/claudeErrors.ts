@@ -22,11 +22,22 @@ export function shouldFallbackToOfflineKb(message: string): boolean {
   );
 }
 
+function anthropicKeySetupHint(ar: boolean): string {
+  const onNetlify =
+    typeof window !== 'undefined' && window.location.hostname.includes('netlify.app');
+  if (onNetlify) {
+    return ar
+      ? 'مفتاح Claude API غير صالح. أنشئ مفتاحاً جديداً من console.anthropic.com ثم حدّث ANTHROPIC_API_KEY في Netlify → Site configuration → Environment variables وأعد النشر.'
+      : 'Invalid Claude API key. Create a new key at console.anthropic.com, update ANTHROPIC_API_KEY in Netlify → Site configuration → Environment variables, then redeploy.';
+  }
+  return ar
+    ? 'مفتاح Claude API غير صالح. أنشئ مفتاحاً جديداً من console.anthropic.com وأضفه إلى .env.local كـ ANTHROPIC_API_KEY ثم أعد تشغيل npm run dev.'
+    : 'Invalid Claude API key. Create a new key at console.anthropic.com, set ANTHROPIC_API_KEY in .env.local, and restart npm run dev.';
+}
+
 export function formatClaudeErrorForUser(message: string, ar = false): string {
   if (isInvalidAnthropicApiKey(message)) {
-    return ar
-      ? 'مفتاح Claude API غير صالح. أنشئ مفتاحاً جديداً من console.anthropic.com وأضفه إلى إعدادات الخادم (ANTHROPIC_API_KEY).'
-      : 'Invalid Claude API key. Create a new key at console.anthropic.com and set ANTHROPIC_API_KEY on the server.';
+    return anthropicKeySetupHint(ar);
   }
   return message;
 }

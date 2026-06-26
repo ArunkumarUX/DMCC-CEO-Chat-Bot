@@ -36,6 +36,38 @@ export function getAnthropicConfig() {
   };
 }
 
+/** Lightweight key check — used by /api/health?verify=1 (does not stream). */
+export async function verifyAnthropicApiKey() {
+  const { apiKey, model } = getAnthropicConfig();
+  if (!apiKey) return { status: 'missing' };
+
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 1,
+      messages: [{ role: 'user', content: 'ping' }],
+    }),
+  });
+
+  if (res.ok) return { status: 'ok' };
+
+  const errText = await res.text();
+  const invalid =
+    res.status === 401 ||
+    res.status === 403 ||
+    /authentication_error|invalid x-api-key/i.test(errText);
+  return {
+    status: invalid ? 'invalid' : 'error',
+    httpStatus: res.status,
+  };
+}
+
 
 export function buildSystemPrompt(ctx, language) {
   const ar = language === 'ar';

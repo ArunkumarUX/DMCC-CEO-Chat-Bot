@@ -1,4 +1,4 @@
-import { createChatHttpResponse, getAnthropicConfig } from './chatCore.mjs';
+import { createChatHttpResponse, getAnthropicConfig, verifyAnthropicApiKey } from './chatCore.mjs';
 import { createPresentationHttpResponse } from './presentationBuilder.mjs';
 import { createSlideAiHttpResponse } from './slideAi.mjs';
 import { createExecutiveSnapshotResponse } from './executiveSnapshot.mjs';
@@ -75,13 +75,21 @@ export async function handleApiRequest(request, opts = {}) {
 
   if (request.method === 'GET' && path === '/api/health') {
     const { apiKey, model } = getAnthropicConfig();
-    return json({
+    const payload = {
       ok: true,
       auth: true,
       claude: Boolean(apiKey),
+      claudeStatus: apiKey ? 'configured' : 'missing',
       model,
       dataTrust: buildHealthDataTrust(),
-    });
+    };
+    if (url.searchParams.get('verify') === '1') {
+      const verified = await verifyAnthropicApiKey();
+      payload.claudeStatus = verified.status;
+      payload.claudeVerified = verified.status === 'ok';
+      if (verified.httpStatus) payload.claudeHttpStatus = verified.httpStatus;
+    }
+    return json(payload);
   }
 
   if (
