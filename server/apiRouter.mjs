@@ -156,7 +156,11 @@ export async function handleApiRequest(request, opts = {}) {
     }
 
     const clientToken = `adgm-${randomId(32)}`;
-    await store.setJSON(`token:${clientToken}`, { valid: true, createdAt: Date.now() });
+    try {
+      await store.setJSON(`token:${clientToken}`, { valid: true, createdAt: Date.now() });
+    } catch (err) {
+      console.error('[auth/login] session store unavailable:', err);
+    }
     return json({ ok: true, clientToken });
   }
 

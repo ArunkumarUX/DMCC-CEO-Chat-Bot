@@ -5,7 +5,12 @@ import { createNetlifyBlobAuthStore } from './netlifyBlobAuthStore.mjs';
 /** Production: Netlify Blobs, Vercel Blob, or in-memory for local dev. */
 export function createAuthSessionStore() {
   if (process.env.NETLIFY === 'true' || process.env.NETLIFY_LOCAL === 'true') {
-    return createNetlifyBlobAuthStore();
+    try {
+      return createNetlifyBlobAuthStore();
+    } catch (err) {
+      console.warn('[auth] Netlify Blobs unavailable, using memory store:', err);
+      return createMemoryAuthStore();
+    }
   }
   if (process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID) {
     return createBlobAuthStore();

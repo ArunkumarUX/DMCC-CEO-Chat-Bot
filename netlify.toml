@@ -11,12 +11,10 @@
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  external_node_modules = ["@netlify/blobs"]
 
-# Auth API — must come before SPA fallback
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
+# API is served by netlify/functions/api.mjs via export const config.path = "/api/*"
+# (no redirect needed — avoids path stripping on rewrite)
 
 [[redirects]]
   from = "/*"

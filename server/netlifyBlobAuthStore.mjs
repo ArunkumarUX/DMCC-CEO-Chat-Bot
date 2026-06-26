@@ -3,7 +3,11 @@ import { SESSION_TTL_MS } from './memoryAuthStore.mjs';
 
 function parseEntry(raw) {
   if (raw == null) return null;
-  const text = typeof raw === 'string' ? raw : String(raw);
+  let text = '';
+  if (typeof raw === 'string') text = raw;
+  else if (raw instanceof ArrayBuffer) text = new TextDecoder().decode(raw);
+  else if (ArrayBuffer.isView(raw)) text = new TextDecoder().decode(raw);
+  else text = String(raw);
   if (!text) return null;
   try {
     return JSON.parse(text);
