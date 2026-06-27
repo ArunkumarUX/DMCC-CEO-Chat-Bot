@@ -34,7 +34,7 @@ export const SCQA_FORMULA = {
   ],
 };
 
-export const MCKINSEY_BOARD_TEMPLATE = `Create a 10-slide McKinsey board deck for H.E. Mohammad Saeed Al Shehhi, CEO A.R.M. Holding.
+export const MCKINSEY_BOARD_TEMPLATE = `Create a 10-slide McKinsey board deck for Amol, CEO A.R.M. Holding.
 
 Topic: [YOUR TOPIC]
 Situation (S): [Context — audience, portfolio (DREC · HUNA · HIVE · Capri LLC · Jebel Ali)]
@@ -84,7 +84,7 @@ export const PORTFOLIO_QUICK_STARTS = [
     labelAr: 'عرض توسع HIVE',
     descriptionEn: 'McKinsey board pack — 91% occupancy case for 3 new co-living sites',
     descriptionAr: 'حزمة مجلس McKinsey — حالة الإشغال 91% لـ 3 مواقع كوليفينغ',
-    prompt: `Create a 10-slide McKinsey board deck for H.E. Mohammad Saeed Al Shehhi, CEO A.R.M. Holding.
+    prompt: `Create a 10-slide McKinsey board deck for Amol, CEO A.R.M. Holding.
 
 Topic: HIVE Co-living Expansion — 3 New Dubai Sites
 Situation (S): HIVE operates 340 coliving units at 91% occupancy across Dubai; A.R.M. Holding portfolio strategy prioritises scalable residential formats.
@@ -103,7 +103,7 @@ Rules: action titles only, two-col + insightPanel on data slides, soWhat + sourc
     labelAr: 'عرض إطلاق HUNA',
     descriptionEn: 'Design-led residential launch — We Emerge Stronger positioning',
     descriptionAr: 'إطلاق سكني بتصميم رائد — موضع We Emerge Stronger',
-    prompt: `Create a 10-slide McKinsey board deck for H.E. Mohammad Saeed Al Shehhi, CEO A.R.M. Holding.
+    prompt: `Create a 10-slide McKinsey board deck for Amol, CEO A.R.M. Holding.
 
 Topic: HUNA Design-Led Residential Launch — H Residence & We Emerge Stronger
 Situation (S): HUNA is A.R.M.'s design-led residential brand; pipeline includes H Residence and cultural partnership "We Emerge Stronger" (open call closes 25 Jul 2026).
@@ -122,7 +122,7 @@ Rules: action titles, insightPanel on every exhibit slide, sourceNote citing CBR
     labelAr: 'عرض مخطط جبل علي',
     descriptionEn: '5 km² BIG + WSP racecourse masterplan — ground-break 2026',
     descriptionAr: 'مخطط سباق جبل علي 5 كم² BIG + WSP — انطلاق 2026',
-    prompt: `Create a 10-slide McKinsey board deck for H.E. Mohammad Saeed Al Shehhi, CEO A.R.M. Holding.
+    prompt: `Create a 10-slide McKinsey board deck for Amol, CEO A.R.M. Holding.
 
 Topic: Jebel Ali Racecourse Masterplan — 5 km² BIG + WSP Development
 Situation (S): A.R.M. Holding holds the Jebel Ali Racecourse land parcel; BIG and WSP have delivered a 5 km² masterplan with ground-break targeted 2026, aligned with Dubai D33 and tourism growth.

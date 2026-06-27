@@ -143,8 +143,8 @@ function buildOfflineEmailReply(paste: string, ar: boolean): string {
   return numberedSections([
     ['Email Understanding', `Main request: ${firstLine || 'see pasted text'} · Urgency: medium · Required action: reply confirming receipt and next steps.`],
     ['Recommended Reply Strategy', 'Acknowledge promptly, answer the key points directly, confirm ownership, and close with one clear next step.'],
-    ['Ready-to-Send Email', `${sender ? `Dear ${sender},` : 'Hello,'}\n\nThank you for your email. I confirm receipt of the points raised and we will take them forward. I will come back to you with details and next steps within two working days.\n\nBest regards,\nMohammad`],
-    ['Short Version', `${sender ? `Dear ${sender},` : 'Hello,'} thanks for your note — received and in hand; details to follow shortly. Mohammad`],
+    ['Ready-to-Send Email', `${sender ? `Dear ${sender},` : 'Hello,'}\n\nThank you for your email. I confirm receipt of the points raised and we will take them forward. I will come back to you with details and next steps within two working days.\n\nBest regards,\nAmol`],
+    ['Short Version', `${sender ? `Dear ${sender},` : 'Hello,'} thanks for your note — received and in hand; details to follow shortly. Amol`],
     ['Follow-Up Actions', '- Review the requested items and assign owners\n- Schedule a follow-up touchpoint'],
   ]) + OFFLINE_NOTE_EN;
 }

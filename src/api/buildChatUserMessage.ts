@@ -13,7 +13,7 @@ export function buildChatUserMessage(
 ): string {
   const question = userText.trim();
   const historyLength = options?.historyLength ?? 0;
-  const firstName = ctx.executiveFirstName ?? 'Mohammad';
+  const firstName = ctx.executiveFirstName ?? 'Amol';
 
   if (ctx.conversationalMode === 'greeting') {
     // System prompt already forces the exact single-sentence reply.

@@ -105,7 +105,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     {
       id: 'a1',
       title: 'Approve RERA rental repricing plan for DREC portfolio',
-      owner: 'H.E. Mohammad Saeed Al Shehhi',
+      owner: 'Amol',
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
       departmentId: 'legal',
@@ -113,7 +113,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     {
       id: 'a2',
       title: 'Approve retention packages — 2 property management roles',
-      owner: 'H.E. Mohammad Saeed Al Shehhi',
+      owner: 'Amol',
       due: dateOnly(addDays(today, 3)),
       status: 'open',
       departmentId: 'hr',
@@ -121,7 +121,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     {
       id: 'a3',
       title: 'HUNA launch narrative sign-off',
-      owner: 'Policy AI → Mohammad',
+      owner: 'Policy AI → Amol',
       due: dateOnly(addDays(today, 9)),
       status: 'open',
       departmentId: 'policy',
@@ -129,7 +129,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     {
       id: 'a4',
       title: 'Review Arabic ministerial note — HH office',
-      owner: 'H.E. Mohammad Saeed Al Shehhi',
+      owner: 'Amol',
       due: dateOnly(addDays(today, 2)),
       status: 'open',
     },

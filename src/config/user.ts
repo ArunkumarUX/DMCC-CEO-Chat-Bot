@@ -1,10 +1,10 @@
 /** Primary user — Personal AI for A.R.M. Holding CEO */
 export const EXECUTIVE_USER = {
-  firstName: 'Mohammad',
-  fullName: 'H.E. Mohammad Saeed Al Shehhi',
+  firstName: 'Amol',
+  fullName: 'Amol',
   /** Compact label for sidebar and tight UI slots */
-  shortName: 'Mohammad Al Shehhi',
-  initials: 'MS',
+  shortName: 'Amol',
+  initials: 'AM',
   profileImage: '/images/executive-profile.png',
   title: 'Chief Executive Officer',
   /** Full title as listed on armholding.ae */

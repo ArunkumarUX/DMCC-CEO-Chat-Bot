@@ -152,7 +152,7 @@ function buildDynamicActions(today: Date): ActionItem[] {
     {
       id: 'a1',
       title: 'Approve DREC RERA Smart Rental Index compliance plan — Ejari update for 3,200+ units',
-      owner: 'H.E. Mohammad Saeed Al Shehhi',
+      owner: 'Amol',
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
       departmentId: 'legal',
@@ -160,7 +160,7 @@ function buildDynamicActions(today: Date): ActionItem[] {
     {
       id: 'a2',
       title: 'Approve retention packages — 2 critical property management roles (attrition at 15.8%)',
-      owner: 'H.E. Mohammad Saeed Al Shehhi',
+      owner: 'Amol',
       due: dateOnly(addDays(today, 3)),
       status: 'open',
       departmentId: 'hr',
@@ -168,7 +168,7 @@ function buildDynamicActions(today: Date): ActionItem[] {
     {
       id: 'a3',
       title: 'HUNA launch narrative sign-off — competitor waterfront launches accelerating',
-      owner: 'Marketing → Mohammad',
+      owner: 'Marketing → Amol',
       due: dateOnly(addDays(today, 9)),
       status: 'open',
       departmentId: 'marketing',
@@ -176,14 +176,14 @@ function buildDynamicActions(today: Date): ActionItem[] {
     {
       id: 'a4',
       title: 'Confirm CEO speaking slot — We Emerge Stronger open call closes 25 Jul 2026',
-      owner: 'H.E. Mohammad Saeed Al Shehhi',
+      owner: 'Amol',
       due: dateOnly(addDays(today, 2)),
       status: 'open',
     },
     {
       id: 'a5',
       title: 'Jebel Ali Racecourse — review WSP masterplan milestone schedule with Alain Kallas',
-      owner: 'H.E. Mohammad Saeed Al Shehhi',
+      owner: 'Amol',
       due: dateOnly(addDays(today, 7)),
       status: 'open',
     },

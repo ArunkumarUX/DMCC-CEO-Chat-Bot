@@ -56,7 +56,7 @@ export const DECK_TEMPLATES = [
     icon: 'cpu',
     label: 'AI Decision Support Platform',
     description: '10-slide McKinsey-grade strategy deck — building the Personal AI for A.R.M. Holding CEO',
-    prompt: `Create a 10-slide consulting-grade, board-ready strategy presentation for A.R.M. Holding CEO H.E. Mohammad Saeed Al Shehhi.
+    prompt: `Create a 10-slide consulting-grade, board-ready strategy presentation for A.R.M. Holding CEO Amol.
 
 Topic: Building an AI-powered Executive Decision Support Platform for A.R.M. Holding
 Audience: CEO and A.R.M. Holding senior leadership team — commercially sharp, time-poor, decision-oriented
@@ -84,7 +84,7 @@ Rules: Answer-first, action slide titles (full sentence insight), one message pe
     prompt: `Create a 10-slide consulting-grade, chart-led, board-ready strategy presentation for A.R.M. Holding CEO.
 
 Topic: Tokenised Real Estate Finance & Digital Asset Strategy for A.R.M. Holding
-Audience: CEO H.E. Mohammad Saeed Al Shehhi and Capri LLC investment leadership — institutional, evidence-focused
+Audience: CEO Amol and Capri LLC investment leadership — institutional, evidence-focused
 Context: A.R.M. Holding (HUNA design-led residential, Capri LLC UAE & international investment arm, DREC 3,200+ units) is evaluating tokenised real estate finance as a strategic growth lane aligned with Dubai D33 economic agenda.
 
 Required 10-slide structure:

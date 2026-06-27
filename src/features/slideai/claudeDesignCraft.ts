@@ -180,7 +180,7 @@ LAYER 2 — McKINSEY VISUAL STANDARD:
 LAYER 3 — A.R.M. HOLDING DESIGN SYSTEM:
 - Navy #1A2332 + Clearsky #0087FF, Gilroy/Aptos, tagline "We Emerge Stronger"
 - Dark navy cover + dark closing; white/paper content slides ("sandwich")
-- Audience: H.E. Mohammad Saeed Al Shehhi, CEO, A.R.M. Holding
+- Audience: Amol, CEO, A.R.M. Holding
 - Portfolio: DREC (3,200+ units), HUNA (H Residence, We Emerge Stronger),
   HIVE (co-living, 91% occupancy), Capri LLC (investment arm),
   Jebel Ali Racecourse (5km² BIG+WSP masterplan, ground-break 2026)

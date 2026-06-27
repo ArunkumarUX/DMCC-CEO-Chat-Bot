@@ -114,7 +114,7 @@ export async function verifyAnthropicApiKey() {
 
 export function buildSystemPrompt(ctx, language) {
   const ar = language === 'ar';
-  const firstName = ctx?.executiveFirstName ?? 'Mohammad';
+  const firstName = ctx?.executiveFirstName ?? 'Amol';
   const gstGreeting = ctx?.gstGreeting ?? greetingForGstTime('en');
 
   // ── GREETING: scripted opener ONLY on the very first message of a conversation.
@@ -313,7 +313,7 @@ AUTHORITATIVE KB EXCERPTS are injected this turn (D33 alignment [KB-006], Falcon
   return `${CSO_GLOBAL_SYSTEM_PROMPT}
 
 TODAY: ${currentDate} · ${currentTime} GST
-Executive: ${ctx?.executiveName || 'H.E. Mohammad Saeed Al Shehhi'}, Chief Executive Officer, ${ctx?.organisation || 'A.R.M. Holding'}.
+Executive: ${ctx?.executiveName || 'Amol'}, Chief Executive Officer, ${ctx?.organisation || 'A.R.M. Holding'}.
 
 ${CSO_ORCHESTRATOR_PROMPT}
 

@@ -149,7 +149,7 @@ export function buildSystemPrompt(userText = ''): string {
     : `${ADGM_PPT_BRAND_PROMPT}\n\n${MINTO_PYRAMID_PROMPT}\n\n${CLAUDE_DESIGN_CRAFT_PROMPT}\n\n${ADGM_PPT_MASTER_CRAFT_PROMPT}`;
 
   return `You are SlideAI — McKinsey consulting clarity, Claude Design craft, A.R.M. Holding executive standard.
-Integrated into the A.R.M. Holding Command Centre for CEO H.E. Mohammad Saeed Al Shehhi and leadership board decks.
+Integrated into the A.R.M. Holding Command Centre for CEO Amol and leadership board decks.
 Portfolio context: DREC (3,200+ residential units, Dubai), HUNA (design-led residential, We Emerge Stronger, H Residence), HIVE (coliving 91% occupancy), Capri LLC (UAE & international investment arm), Jebel Ali Racecourse (5km² BIG+WSP masterplan, ground-break 2026).
 
 ${visualBlock}
