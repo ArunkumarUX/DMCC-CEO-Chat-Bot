@@ -25,7 +25,7 @@ export const ADGM_DECK_THEME = {
   text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
   accent: ADGM_BRAND.primary.clearsky.replace('#', ''),
   secondaryAccent: ADGM_BRAND.secondary.royal.replace('#', ''),
-  font: 'Gilroy',
+  font: 'Gotham',
   fontBody: 'Aptos',
   tagline: ADGM_BRAND.tagline,
 } as const;
@@ -42,7 +42,7 @@ export const THEME_PRESETS = {
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     accent: ADGM_BRAND.primary.clearsky.replace('#', ''),
     secondaryAccent: ADGM_BRAND.secondary.royal.replace('#', ''),
-    font: 'Gilroy',
+    font: 'Gotham',
     mood: 'Premium, authoritative, board and investor-ready',
   },
   bold: {
@@ -52,7 +52,7 @@ export const THEME_PRESETS = {
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     accent: ADGM_BRAND.primary.clearsky.replace('#', ''),
     secondaryAccent: ADGM_BRAND.primary.cyan.replace('#', ''),
-    font: 'Gilroy',
+    font: 'Gotham',
     mood: 'Energetic, confident, high-impact strategy narrative',
   },
   minimal: {
@@ -62,7 +62,7 @@ export const THEME_PRESETS = {
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     accent: ADGM_BRAND.primary.clearsky.replace('#', ''),
     secondaryAccent: ADGM_BRAND.primary.slate.replace('#', ''),
-    font: 'Gilroy',
+    font: 'Gotham',
     mood: 'Clean, Apple-like clarity — one idea per slide, lots of white space',
   },
   nature: {
@@ -72,7 +72,7 @@ export const THEME_PRESETS = {
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     accent: ADGM_BRAND.primary.clearsky.replace('#', ''),
     secondaryAccent: ADGM_BRAND.secondary.sand.replace('#', ''),
-    font: 'Gilroy',
+    font: 'Gotham',
     mood: 'Sustainability, health, ESG, and impact storytelling',
   },
   finance: {
@@ -82,7 +82,7 @@ export const THEME_PRESETS = {
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     accent: ADGM_BRAND.secondary.sand.replace('#', ''),
     secondaryAccent: ADGM_BRAND.primary.clearsky.replace('#', ''),
-    font: 'Gilroy',
+    font: 'Gotham',
     mood: 'Finance, legal, regulatory, enterprise consulting',
   },
   creative: {
@@ -92,7 +92,7 @@ export const THEME_PRESETS = {
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     accent: ADGM_BRAND.primary.cyan.replace('#', ''),
     secondaryAccent: ADGM_BRAND.primary.clearsky.replace('#', ''),
-    font: 'Gilroy',
+    font: 'Gotham',
     mood: 'Digital assets, fintech, innovation, and culture',
   },
 } as const;
@@ -115,7 +115,7 @@ function detectThemeContext(userText: string): string | null {
   return named ? getThemeContext(named[0] as ThemePresetKey) : null;
 }
 
-export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using Claude Design + A.R.M. Holding PPT Master craft (do not change core facts):
+export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using Claude Design + Apparel Group PPT Master craft (do not change core facts):
 1. Vary layouts — no two consecutive slides share a layout
 2. Action titles on every slide (complete insight, max 8 words)
 3. Convert 5+ bullet slides to icon-grid or two-col with exhibit/callout
@@ -123,7 +123,7 @@ export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using C
 5. Add quote slide if missing and a compelling line exists
 6. Dark/light sandwich: title=dark navy hero, content=paper, closing=dark
 7. Speaker notes: 60–90s executive talk track with [pause]; imagePrompt on ≥50% slides
-8. A.R.M. Holding Executive Standard: Clearsky accent, Gilroy/Aptos, footer "${ADGM_PPT_FOOTER}"
+8. Apparel Group Executive Standard: Navy + Lime accent, Gotham, footer "${ADGM_PPT_FOOTER}"
 Return action "update" with updatedSlides. Message: one short sentence — no template or branding mentions.`;
 
 function userRequestsBccTemplate(userText: string): boolean {
@@ -148,14 +148,14 @@ export function buildSystemPrompt(userText = ''): string {
     ? `${BCC_PORTFOLIO_TEMPLATE_PROMPT}\n\nBCC portfolio is active because the user requested it.`
     : `${ADGM_PPT_BRAND_PROMPT}\n\n${MINTO_PYRAMID_PROMPT}\n\n${CLAUDE_DESIGN_CRAFT_PROMPT}\n\n${ADGM_PPT_MASTER_CRAFT_PROMPT}`;
 
-  return `You are SlideAI — McKinsey consulting clarity, Claude Design craft, A.R.M. Holding executive standard.
-Integrated into the A.R.M. Holding Command Centre for CEO Amol and leadership board decks.
-Portfolio context: DREC (3,200+ residential units, Dubai), HUNA (design-led residential, We Emerge Stronger, H Residence), HIVE (coliving 91% occupancy), Capri LLC (UAE & international investment arm), Jebel Ali Racecourse (5km² BIG+WSP masterplan, ground-break 2026).
+  return `You are SlideAI — McKinsey consulting clarity, Claude Design craft, Apparel Group executive standard.
+Integrated into the Apparel Group Command Centre for CEO Neeraj and leadership board decks.
+Portfolio context: R&B (3,200+ residential units, Dubai), 6thStreet (omnichannel residential, Images RetailME Awards, Dubai Hills Mall), Club Apparel (loyalty programme 91% store performance), Nysaa (UAE & international investment arm), KSA expansion (5km² BIG+WSP masterplan, ground-break 2026).
 
 ${visualBlock}
 
 You generate beautiful, opinionated slide decks. Never produce generic slides.
-${useBcc ? '' : 'Default: A.R.M. Holding navy/Clearsky, Gilroy/Aptos, Claude Design exhibit + KPI patterns.'}
+${useBcc ? '' : 'Default: Apparel Group navy/lime, Gotham, Claude Design exhibit + KPI patterns.'}
 
 STORYLINE — Minto Pyramid Principle (apply to EVERY deck):
 - Governing thought on slide 2 (the answer first, always)
@@ -202,7 +202,7 @@ CONTENT RULES:
 - No filler slides — every slide earns its place
 
 TYPOGRAPHY:
-- Default: Gilroy display, Aptos body — Madani Arabic if Arabic content
+- Default: Gotham display and body — Noto Naskh Arabic if Arabic content
 ${useBcc ? '- BCC override active: Calibri Light (titles), Calibri (body)' : ''}
 - Dramatic size contrast: large titles, smaller body
 - Italic for quotes and emphasis; bold for titles only
@@ -434,10 +434,10 @@ export function buildUserMessage(
   const useBcc = userRequestsBccTemplate(userText);
   const templateBlock = useBcc
     ? '\n\nVisual override: BCC Senior Service Designer portfolio template.'
-    : '\n\nDesign stack: A.R.M. Holding Executive Standard + Claude Design craft + McKinsey action titles.';
+    : '\n\nDesign stack: Apparel Group Executive Standard + Claude Design craft + McKinsey action titles.';
   const themeBlock = themeHint ? `\n\nTheme direction: ${themeHint}` : '';
   const contextBlock = options?.executiveBrief
-    ? `\n\n${options.executiveBrief}\n\nApply A.R.M. Holding Executive Standard + Claude Design craft. Ground metrics in handles above; label inference.`
+    ? `\n\n${options.executiveBrief}\n\nApply Apparel Group Executive Standard + Claude Design craft. Ground metrics in handles above; label inference.`
     : '';
 
   const focus = deckForPrompt ? detectSlideFocus(userText, deckForPrompt) : null;

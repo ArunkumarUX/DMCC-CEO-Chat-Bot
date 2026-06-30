@@ -60,28 +60,28 @@ function buildSourceBlock(payload) {
   }
   if (payload.slideCount) parts.push(`Target slide count: ~${payload.slideCount}`);
   if (payload.tone) parts.push(`Tone: ${payload.tone}`);
-  return parts.join('\n\n') || 'General A.R.M. Holding executive strategy deck';
+  return parts.join('\n\n') || 'General Apparel Group executive strategy deck';
 }
 
 function demoClarifications() {
   return {
     questions: [
-      'Who is the primary audience — board, RERA, or external investors?',
-      'Should the deck emphasise D33 alignment alignment and Abu Dhabi positioning?',
+      'Who is the primary audience — board, UAE retail compliance, or external investors?',
+      'Should the deck emphasise GCC expansion alignment alignment and Abu Dhabi positioning?',
       'Do you need bilingual (Arabic + English) speaker notes on any slides?',
     ],
   };
 }
 
 function demoOutline(prompt) {
-  const topic = (prompt || 'A.R.M. Holding strategy update').slice(0, 80);
+  const topic = (prompt || 'Apparel Group strategy update').slice(0, 80);
   return {
     title: topic,
     theme: 'arm-executive',
     estimatedSlides: 10,
     storyline: 'SCQA — Situation → Complication → Question → Answer (Pyramid Principle)',
     outline: [
-      { type: 'title', title: topic, summary: 'Board-ready opening — We Emerge Stronger' },
+      { type: 'title', title: topic, summary: 'Board-ready opening — Images RetailME Awards' },
       {
         type: 'executive-summary',
         title: 'Approve [recommendation] — three decisions unlock AED [X]M value by [date]',
@@ -89,7 +89,7 @@ function demoOutline(prompt) {
       },
       {
         type: 'context-problem',
-        title: 'Portfolio context sets the stakes — DREC, HUNA, and HIVE face [complication]',
+        title: 'Portfolio context sets the stakes — R&B, 6thStreet, and Club Apparel face [complication]',
         summary: 'Situation + complication',
       },
       {
@@ -150,7 +150,7 @@ function demoSlides(outline) {
       metrics:
         o.type === 'data-metrics'
           ? [
-              { label: 'D33 alignment alignment', value: '82/100' },
+              { label: 'GCC expansion alignment alignment', value: '82/100' },
               { label: 'Licence growth YoY', value: '+12%' },
             ]
           : undefined,

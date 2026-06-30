@@ -52,8 +52,8 @@ function NavItem({
         collapsed ? 'justify-center p-2.5' : 'gap-3 px-3 py-2'
       } ${
         active
-          ? 'bg-adgm-primary text-white'
-          : 'text-adgm-charcoal hover:bg-adgm-sky-bg hover:text-adgm-navy'
+          ? 'bg-adgm-navy text-white'
+          : 'text-adgm-navy hover:bg-adgm-sky-bg hover:text-adgm-navy'
       }`}
     >
       <Icon className="h-[18px] w-[18px] shrink-0" strokeWidth={active ? 2.25 : 2} />

@@ -1,25 +1,25 @@
 /**
  * Public market quotes for production ticker (no API key required).
- * ARM Holding: Dubai indices, competitor developers, portfolio KPIs.
+ * Apparel Group CEO: GCC indices + portfolio KPIs + retail competitors.
  */
 
 /** @typedef {{ k: string; v: string; c: number }} TickerRow */
 
-/** Full ticker — live slots (DFM/ADX/Emaar/Damac) overlay Yahoo when available. */
-const ARM_MARKET_TICKER = [
+/** Full ticker — live slots (DFM/ADX) overlay Yahoo when available. */
+const CEO_MARKET_TICKER = [
   { k: 'DFM', v: '5,318.2', c: 0.41 },
   { k: 'ADX', v: '9,742.6', c: 0.84 },
-  { k: 'Emaar', v: 'AED 8.42', c: 1.8 },
-  { k: 'Damac', v: 'AED 1.86', c: -0.5 },
-  { k: 'DREC Occ.', v: '94.2%', c: 0.4 },
-  { k: 'HIVE Occ.', v: '91%', c: 1.2 },
-  { k: 'HUNA Pipe.', v: 'AED 124M', c: 12 },
-  { k: 'RERA Index', v: '+4.2%', c: 0.3 },
-  { k: 'Jebel Ali', v: 'WSP · 2026', c: 0 },
+  { k: 'GCC Retail', v: '+8.2%', c: 0.6 },
+  { k: 'R&B Stores', v: '100+', c: 2.1 },
+  { k: '6thStreet', v: '↑ 14%', c: 1.4 },
+  { k: 'Club Apparel', v: '10M+', c: 3.2 },
+  { k: 'Store Count', v: '2,500+', c: 1.8 },
+  { k: 'KSA Exp.', v: 'Active', c: 0 },
+  { k: 'Tim Hortons', v: '300+', c: 0.8 },
   { k: 'USD/AED', v: '3.6725', c: 0 },
 ];
 
-const LIVE_QUOTE_KEYS = new Set(['DFM', 'ADX', 'Emaar', 'Damac']);
+const LIVE_QUOTE_KEYS = new Set(['DFM', 'ADX']);
 
 async function fetchJson(url, timeoutMs = 12_000) {
   const res = await fetch(url, {
@@ -55,16 +55,12 @@ export async function fetchLiveMarketTicker() {
       .catch(() => null),
     yahooQuote('^FADGI', 'ADX', (p) => p.toLocaleString('en-US', { maximumFractionDigits: 1 }))
       .catch(() => null),
-    yahooQuote('EMAAR.DU', 'Emaar', (p) => `AED ${p.toFixed(2)}`)
-      .catch(() => yahooQuote('EMAAR.AE', 'Emaar', (p) => `AED ${p.toFixed(2)}`).catch(() => null)),
-    yahooQuote('DAMAC.DU', 'Damac', (p) => `AED ${p.toFixed(2)}`)
-      .catch(() => yahooQuote('DAMAC.AE', 'Damac', (p) => `AED ${p.toFixed(2)}`).catch(() => null)),
   ];
 
   const settled = await Promise.all(liveTasks);
   const liveByKey = Object.fromEntries(settled.filter(Boolean).map((row) => [row.k, row]));
 
-  return ARM_MARKET_TICKER.map((row) => {
+  return CEO_MARKET_TICKER.map((row) => {
     if (LIVE_QUOTE_KEYS.has(row.k) && liveByKey[row.k]) return liveByKey[row.k];
     return row;
   });
@@ -72,15 +68,7 @@ export async function fetchLiveMarketTicker() {
 
 /**
  * Live regional capital-flow proxy.
- * Uses equity-index daily % change as a directional flow indicator:
- *   GCC → ADX General (^FADGI) + DFM (^DFMGI) blended
- *   United States → S&P 500 (^GSPC)
- *   Singapore → Straits Times Index (^STI)
- *   Europe → Euro Stoxx 50 (^STOXX50E)
- *   South Asia → BSE Sensex (^BSESN)
- *
- * flow score = 50 + (changePercent * 6), clamped 10–99
- * v = formatted daily % change string
+ * Uses equity-index daily % change as a directional flow indicator.
  *
  * @returns {Promise<{ k: string; kAr: string; flow: number; v: string; live: boolean }[]>}
  */

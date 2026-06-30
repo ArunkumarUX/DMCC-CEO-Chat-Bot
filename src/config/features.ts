@@ -6,7 +6,7 @@
  */
 const isProdBuild = import.meta.env.PROD;
 
-/** Create PPT / SlideAI — enabled for A.R.M. Holding executive release */
+/** Create PPT / SlideAI — enabled for Apparel Group executive release */
 export const PPT_MASTER_ENABLED = true;
 
 /** Architecture page — local/preview only by default */

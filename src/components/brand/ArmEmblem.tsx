@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-/** A.R.M. Holding calligraphic emblem — three vertical strokes */
+/** Apparel Group calligraphic emblem — three vertical strokes */
 export function ArmEmblem({
   size = 48,
   className = '',

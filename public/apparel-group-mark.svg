@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Apparel Group">
+  <g transform="translate(12 3)">
+    <path d="M9 5 C9 24 8 46 7 67" stroke="#003399" stroke-width="3.6" stroke-linecap="round" fill="none"/>
+    <path d="M20 3 C20 28 20 50 20 69" stroke="#003399" stroke-width="4.2" stroke-linecap="round" fill="none"/>
+    <path d="M31 9 C31 26 32 44 33 63" stroke="#003399" stroke-width="3.3" stroke-linecap="round" fill="none"/>
+  </g>
+  <line x1="14" y1="52" x2="50" y2="52" stroke="#C5D92D" stroke-width="2"/>
+  <rect x="14" y="55" width="36" height="3.5" rx="1" fill="#C5D92D"/>
+</svg>

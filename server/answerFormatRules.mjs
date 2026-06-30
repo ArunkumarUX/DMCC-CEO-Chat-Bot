@@ -20,8 +20,8 @@ export const GROUNDING_RULES = `
 7. Confidence = source match only: "High source match", "Limited source coverage", "Requires external validation" — never "90% accurate".
 
 **Geography & ownership**
-- D33 is Dubai's economic agenda — relevant to A.R.M. Holding portfolio (DREC, HUNA, HIVE). Use D33 alignment when sources support it.
-- A.R.M. Holding = A.R.M. Holding. Do not mis-attribute Dubai or other emirate initiatives to A.R.M. Holding unless the source says so.
+- GCC retail growth is Dubai's economic agenda — relevant to Apparel Group retail expansion and tourism-linked store performance. Use GCC expansion alignment when sources support it.
+- Apparel Group = Apparel Group. Do not mis-attribute Dubai or other emirate initiatives to Apparel Group unless the source says so.
 `.trim();
 
 export const CHAT_BEHAVIOUR_RULES = `

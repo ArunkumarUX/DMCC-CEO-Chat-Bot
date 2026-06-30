@@ -12,7 +12,7 @@ import {
   saveVerifiedSession,
 } from '../../auth/authStorage';
 import { PRODUCT_NAME } from '../../config/user';
-import { AuthPortfolioBand } from '../../components/auth/AuthPortfolioBand';
+import { AuthGlobalNetwork } from '../../components/auth/AuthGlobalNetwork';
 import '../../styles/auth-gate.css';
 
 type Channel = 'mobile' | 'email';
@@ -61,86 +61,92 @@ export function LoginPage() {
 
   return (
     <div className="auth-gate auth-gate--login">
-      <div className="auth-gate__login-shell">
-        <div className="auth-gate__brand auth-gate__brand--above">
-          <AdgmLogo variant="onLight" horizontal size={80} showTagline={false} />
+      <div className="auth-gate__login-layout">
+        <aside className="auth-gate__login-visual">
+          <AuthGlobalNetwork />
+        </aside>
+
+        <div className="auth-gate__login-panel">
+          <div className="auth-gate__login-card">
+            <div className="auth-gate__brand auth-gate__brand--above">
+              <AdgmLogo variant="onLight" horizontal size={72} showTagline={false} />
+            </div>
+
+            <main className="auth-gate__main">
+              <h1 className="auth-gate__title">{PRODUCT_NAME}</h1>
+              <p className="auth-gate__subtitle">Secure access · Apparel Group</p>
+
+              <p className="auth-gate__instruction">
+                Enter any UAE mobile number or work email, then tap Continue to start your onboarding.
+              </p>
+
+              <div className="auth-gate__channel" role="tablist" aria-label="Sign-in method">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={channel === 'mobile'}
+                  className={channel === 'mobile' ? 'on' : ''}
+                  onClick={() => {
+                    setChannel('mobile');
+                    setError(null);
+                  }}
+                >
+                  <Smartphone size={15} aria-hidden />
+                  Mobile
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={channel === 'email'}
+                  className={channel === 'email' ? 'on' : ''}
+                  onClick={() => {
+                    setChannel('email');
+                    setError(null);
+                  }}
+                >
+                  <Mail size={15} aria-hidden />
+                  Email
+                </button>
+              </div>
+
+              <form className="auth-gate__login-form" onSubmit={handleSubmit}>
+                <label className="auth-gate__field-label" htmlFor="login-identifier">
+                  {channel === 'mobile' ? 'UAE mobile number' : 'Email address'}
+                </label>
+                <input
+                  id="login-identifier"
+                  className="auth-gate__text-input"
+                  type={channel === 'email' ? 'email' : 'tel'}
+                  inputMode={channel === 'mobile' ? 'tel' : 'email'}
+                  autoComplete={channel === 'email' ? 'email' : 'tel'}
+                  placeholder={channel === 'mobile' ? '+971 50 123 4567' : 'you@company.com'}
+                  value={identifier}
+                  disabled={submitting}
+                  onChange={(e) => {
+                    setIdentifier(e.target.value);
+                    setError(null);
+                  }}
+                />
+
+                {error && (
+                  <p className="auth-gate__error" role="alert">
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  className="auth-gate__submit auth-gate__submit--with-icon auth-gate__submit--login"
+                  disabled={!identifier.trim() || submitting}
+                >
+                  {submitting ? 'Continuing…' : 'Continue'}
+                  {!submitting && <ArrowRight size={18} aria-hidden />}
+                </button>
+              </form>
+            </main>
+          </div>
         </div>
-
-        <main className="auth-gate__main">
-        <h1 className="auth-gate__title">{PRODUCT_NAME}</h1>
-        <p className="auth-gate__subtitle">Secure access · A.R.M. Holding</p>
-
-        <p className="auth-gate__instruction">
-          Enter any UAE mobile number or work email, then tap Continue to start your onboarding.
-        </p>
-
-        <div className="auth-gate__channel" role="tablist" aria-label="Sign-in method">
-          <button
-            type="button"
-            role="tab"
-            aria-selected={channel === 'mobile'}
-            className={channel === 'mobile' ? 'on' : ''}
-            onClick={() => {
-              setChannel('mobile');
-              setError(null);
-            }}
-          >
-            <Smartphone size={15} aria-hidden />
-            Mobile
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={channel === 'email'}
-            className={channel === 'email' ? 'on' : ''}
-            onClick={() => {
-              setChannel('email');
-              setError(null);
-            }}
-          >
-            <Mail size={15} aria-hidden />
-            Email
-          </button>
-        </div>
-
-        <form className="auth-gate__login-form" onSubmit={handleSubmit}>
-          <label className="auth-gate__field-label" htmlFor="login-identifier">
-            {channel === 'mobile' ? 'UAE mobile number' : 'Email address'}
-          </label>
-          <input
-            id="login-identifier"
-            className="auth-gate__text-input"
-            type={channel === 'email' ? 'email' : 'tel'}
-            inputMode={channel === 'mobile' ? 'tel' : 'email'}
-            autoComplete={channel === 'email' ? 'email' : 'tel'}
-            placeholder={channel === 'mobile' ? '+971 50 123 4567' : 'you@company.com'}
-            value={identifier}
-            disabled={submitting}
-            onChange={(e) => {
-              setIdentifier(e.target.value);
-              setError(null);
-            }}
-          />
-
-          {error && (
-            <p className="auth-gate__error" role="alert">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            className="auth-gate__submit auth-gate__submit--with-icon"
-            disabled={!identifier.trim() || submitting}
-          >
-            {submitting ? 'Continuing…' : 'Continue'}
-            {!submitting && <ArrowRight size={18} aria-hidden />}
-          </button>
-        </form>
-        </main>
       </div>
-
-      <AuthPortfolioBand />
     </div>
   );
 }

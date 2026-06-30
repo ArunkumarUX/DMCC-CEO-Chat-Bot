@@ -1,9 +1,13 @@
 /**
- * ADGM Brand Book 2025 — mandatory rules for all Presentation Builder exports.
- * @see docs/brand-2025/TOKENS.md
- * @see docs/brand-2025/PPT-BRAND-RULES.md
+ * Apparel Group brand rules for all Presentation Builder exports.
+ * @see src/config/apparelGroupGuidelines.ts
  */
 import { ADGM_BRAND } from './brand';
+import {
+  APPAREL_GROUP_BRAND,
+  APPAREL_GROUP_DECK_FOOTER,
+  APPAREL_GROUP_DECK_BRAND_PROMPT,
+} from './apparelGroupGuidelines';
 
 /** pptxgenjs colours — no # prefix */
 export const ADGM_PPT_COLORS = {
@@ -32,24 +36,22 @@ export const ADGM_PPT_COLORS = {
   insightBar: ADGM_BRAND.primary.clearsky.replace('#', ''),
 } as const;
 
-/** Brand Book 2025 typography for PowerPoint (Gilroy → Aptos fallback on export) */
 export const ADGM_PPT_FONTS = {
-  display: 'Gilroy',
-  body: 'Aptos',
+  display: 'Gotham',
+  body: 'Gotham',
   mono: 'Consolas',
-  arabic: 'Madani Arabic',
+  arabic: 'Noto Naskh Arabic',
 } as const;
 
-export const ADGM_PPT_FOOTER = `A.R.M. Holding · ${ADGM_BRAND.tagline} · Confidential`;
+export const ADGM_PPT_FOOTER = APPAREL_GROUP_DECK_FOOTER;
 
 export const ADGM_PPT_LOGO_LABEL = ADGM_BRAND.logoAlt;
 
-/** Mandatory brandCheck items — always merge into generated decks */
 export const ADGM_DEFAULT_BRAND_CHECK = [
-  `A.R.M. Holding Executive Standard: Clearsky ${ADGM_BRAND.primary.clearsky} + navy ${ADGM_BRAND.navy.DEFAULT}`,
-  `Typography: Gilroy display / Aptos body · 16:9 widescreen`,
-  `Naming: "A.R.M. Holding" on title/close; portfolio companies (DREC, HUNA, HIVE, Capri LLC) on relevant slides`,
-  `Surfaces: white canvas, mint ${ADGM_BRAND.secondary.mint} or cyan ${ADGM_BRAND.primary.cyan} accents only`,
+  `Apparel Group Executive Standard: Navy ${APPAREL_GROUP_BRAND.colors.navy} + Lime ${APPAREL_GROUP_BRAND.colors.lime}`,
+  `Typography: Gotham display/body · 16:9 widescreen`,
+  `Naming: "Apparel Group" on title/close; portfolio (R&B, 6thStreet, Club Apparel, Nysaa) on relevant slides`,
+  `Surfaces: white canvas, #F4F7F9 section backgrounds, navy headings, lime accents`,
   `Tagline "${ADGM_BRAND.tagline}" on title or closing slide where appropriate`,
 ] as const;
 
@@ -59,7 +61,6 @@ export function mergeBrandCheck(existing?: string[]): string[] {
   return [...set];
 }
 
-/** CSS custom properties for HTML deck export */
 export function adgmDeckCssVars(): Record<string, string> {
   return {
     '--navy': ADGM_BRAND.navy.DEFAULT,
@@ -82,16 +83,4 @@ export function adgmDeckCssVars(): Record<string, string> {
   };
 }
 
-/** System-prompt block — A.R.M. Holding executive deck standard */
-export const ADGM_PPT_BRAND_PROMPT = `
-A.R.M. Holding Executive Deck Standard (MANDATORY — always apply):
-- Tagline: "${ADGM_BRAND.tagline}" · Brand: A.R.M. Holding · Portfolio: DREC, HUNA, HIVE, Capri LLC
-- Primary: Clearsky ${ADGM_BRAND.primary.clearsky}, Slate ${ADGM_BRAND.primary.slate}, Cyan ${ADGM_BRAND.primary.cyan}
-- Secondary: Royal ${ADGM_BRAND.secondary.royal}, Mint ${ADGM_BRAND.secondary.mint}, Sand ${ADGM_BRAND.secondary.sand}
-- Navy headers/text: ${ADGM_BRAND.navy.DEFAULT}, mid ${ADGM_BRAND.navy.mid}, deep ${ADGM_BRAND.navy.deep}
-- Typography: Gilroy (display/headlines), Aptos (body), Madani Arabic for Arabic content
-- Layout: 16:9 widescreen, white surfaces, Clearsky for CTAs/highlights only (not full-slide fills except title hero)
-- Footer: "${ADGM_PPT_FOOTER}"
-- Every slide must be specific to A.R.M. Holding, its portfolio companies, Dubai real estate context, or the user's topic
-- Do NOT use generic financial centre, ADGM, or FSRA content unless explicitly requested
-`.trim();
+export const ADGM_PPT_BRAND_PROMPT = APPAREL_GROUP_DECK_BRAND_PROMPT;

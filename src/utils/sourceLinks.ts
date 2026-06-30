@@ -4,15 +4,15 @@ import type { ExecutiveState } from '../data/executiveStore';
 import { kbHandle } from './sourceHandles';
 
 const DOC_EXTERNAL_URL: Record<string, string> = {
-  d2: 'https://www.armholding.ae/',
+  d2: 'https://www.apparelgroup.com/',
   d4: 'https://www.rera.gov.ae',
-  d1: 'https://www.armholding.ae/',
-  d5: 'https://www.armholding.ae/',
+  d1: 'https://www.apparelgroup.com/',
+  d5: 'https://www.apparelgroup.com/',
 };
 
 const CRM_EXTERNAL_URL: Record<string, string> = {
   'CRM-artdubai': 'https://www.artdubai.ae',
-  'CRM-drec': 'https://www.armholding.ae/',
+  'CRM-drec': 'https://www.apparelgroup.com/',
 };
 
 const MARKET_FEED_URL = 'https://www.cbre.ae/insights';
@@ -22,45 +22,45 @@ const MARKET_FEED_URL = 'https://www.cbre.ae/insights';
  * Keyed by KB source ID (from armKbChunks.json sources[].id).
  */
 export const KB_SOURCE_URLS: Record<string, { url: string; label: string; pdfPath: string }> = {
-  'arm-group-strategy': {
-    url: 'https://www.armholding.ae/',
-    label: 'A.R.M. Holding — Group Strategy',
-    pdfPath: '/kb/ARM_Group_Strategy_2026.pdf',
+  'ag-group-strategy': {
+    url: 'https://www.apparelgroup.com/',
+    label: 'Apparel Group — Group Strategy',
+    pdfPath: '/kb/Apparel_Group_Strategy_2026.pdf',
   },
   'arm-values': {
-    url: 'https://www.armholding.ae/',
-    label: 'A.R.M. Holding — Values & Leadership',
+    url: 'https://www.apparelgroup.com/',
+    label: 'Apparel Group — Values & Leadership',
     pdfPath: '/kb/ARM_Values_Leadership_2026.pdf',
   },
   'drec-portfolio': {
-    url: 'https://www.armholding.ae/',
-    label: 'DREC — Portfolio Review',
-    pdfPath: '/kb/DREC_Portfolio_Review_Q1_2026.pdf',
+    url: 'https://www.apparelgroup.com/',
+    label: 'R&B — Portfolio Review',
+    pdfPath: '/kb/R&B_Portfolio_Review_Q1_2026.pdf',
   },
   'huna-developments': {
-    url: 'https://www.armholding.ae/',
-    label: 'HUNA — Development Strategy',
-    pdfPath: '/kb/HUNA_Development_Strategy_2026.pdf',
+    url: 'https://www.apparelgroup.com/',
+    label: '6thStreet — Development Strategy',
+    pdfPath: '/kb/6thStreet_Development_Strategy_2026.pdf',
   },
-  'hive-coliving': {
-    url: 'https://www.armholding.ae/',
-    label: 'HIVE — Coliving Operations',
-    pdfPath: '/kb/HIVE_Operations_2026.pdf',
+  'hive-loyalty programme': {
+    url: 'https://www.apparelgroup.com/',
+    label: 'Club Apparel — Loyalty programme Operations',
+    pdfPath: '/kb/Club Apparel_Operations_2026.pdf',
   },
-  'we-emerge-stronger': {
-    url: 'https://www.armholding.ae/',
-    label: 'We Emerge Stronger — Commission Brief',
-    pdfPath: '/kb/We_Emerge_Stronger_Commission_Brief.pdf',
+  'retailme-awards': {
+    url: 'https://www.apparelgroup.com/',
+    label: 'Images RetailME Awards — Commission Brief',
+    pdfPath: '/kb/RetailME_Awards_Commission_Brief.pdf',
   },
   'dubai-d33-alignment': {
-    url: 'https://www.armholding.ae/',
-    label: 'D33 Portfolio Alignment Tracker',
-    pdfPath: '/kb/ARM_D33_Alignment_Tracker_2026.pdf',
+    url: 'https://www.apparelgroup.com/',
+    label: 'GCC retail growth Portfolio Alignment Tracker',
+    pdfPath: '/kb/AG_GCC_Expansion_Alignment_Tracker_2026.pdf',
   },
   'rera-compliance': {
     url: 'https://www.rera.gov.ae',
-    label: 'RERA & DLD Compliance Framework',
-    pdfPath: '/kb/ARM_RERA_Compliance_Framework_2026.pdf',
+    label: 'UAE retail compliance & DED Compliance Framework',
+    pdfPath: '/kb/AG_Retail_Compliance_Compliance_Framework_2026.pdf',
   },
 };
 
@@ -68,12 +68,12 @@ export const KB_SOURCE_URLS: Record<string, { url: string; label: string; pdfPat
  * Map a KB handle (e.g. KB-001-01) to its source ID.
  */
 const KB_HANDLE_TO_SOURCE_ID: Record<string, string> = {
-  'KB-001': 'arm-group-strategy',
+  'KB-001': 'ag-group-strategy',
   'KB-002': 'arm-values',
   'KB-003': 'drec-portfolio',
   'KB-004': 'huna-developments',
-  'KB-005': 'hive-coliving',
-  'KB-006': 'we-emerge-stronger',
+  'KB-005': 'hive-loyalty programme',
+  'KB-006': 'retailme-awards',
   'KB-007': 'dubai-d33-alignment',
   'KB-008': 'rera-compliance',
 };

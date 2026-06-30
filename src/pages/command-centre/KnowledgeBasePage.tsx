@@ -25,7 +25,7 @@ function RegulatoryView({ lang, onAsk }) {
   const { executiveState } = useApp();
   const ar = lang === 'ar';
   const [filter, setFilter] = useState('all');
-  const bodies = ['RERA', 'DLD', 'DET', 'Dubai Municipality', 'CBUAE', 'D33 Office'];
+  const bodies = ['UAE retail compliance', 'DED', 'DET', 'Dubai Municipality', 'CBUAE', 'GCC retail growth Office'];
 
   // Format ISO date string to relative label
   const relDate = (dateStr) => {
@@ -53,7 +53,7 @@ function RegulatoryView({ lang, onAsk }) {
       rel: 'High',
       impact: item.excerpt
         ? item.excerpt.slice(0, 180) + ' — Source: ' + item.source
-        : 'See source for full details. Click to analyse impact on A.R.M. Holding portfolio.',
+        : 'See source for full details. Click to analyse impact on Apparel Group portfolio.',
       impactAr: item.excerpt ? item.excerpt.slice(0, 180) : 'راجع المصدر للتفاصيل الكاملة.',
       url: item.url,
       isLive: true,
@@ -130,7 +130,7 @@ function RegulatoryView({ lang, onAsk }) {
           <IntelCard
             key={i}
             interactive
-            onClick={() => onAsk((ar ? 'حلّل أثر هذا التطور التنظيمي على محفظة A.R.M. Holding: ' : 'Analyse the impact of this regulatory development on A.R.M. Holding: ') + (ar ? r.titleAr : r.title))}
+            onClick={() => onAsk((ar ? 'حلّل أثر هذا التطور التنظيمي على محفظة Apparel Group: ' : 'Analyse the impact of this regulatory development on Apparel Group: ') + (ar ? r.titleAr : r.title))}
           >
             <IntelCardBody className="reg-item__body">
               <IntelIconBox icon={TOPIC_ICON[r.topic] || 'file-text'} size="lg" background="color-mix(in oklab, var(--accent-bright) 12%, transparent)" />

@@ -1,38 +1,57 @@
 /**
- * A.R.M. Holding — Proxima Nova (self-hosted in public/)
+ * Apparel Group — Gotham (Elevate programme brand typography)
+ * Drop official files in public/fonts/gotham/ — see README there.
+ * Montserrat loads as web fallback until Gotham files are present.
  */
 @font-face {
-  font-family: 'proxima-nova';
+  font-family: 'Gotham';
   src:
-    local('Proxima Nova'),
-    local('Proxima Nova Regular'),
-    local('ProximaNova-Regular'),
-    url('/ProximaNovaRegular/ProximaNovaRegular.woff') format('woff'),
-    url('/ProximaNovaRegular/ProximaNovaRegular.ttf') format('truetype');
+    local('Gotham'),
+    local('Gotham Book'),
+    local('Gotham-Book'),
+    local('GothamHTF-Book'),
+    local('Gotham HTF Book'),
+    url('/fonts/gotham/Gotham-Book.woff2') format('woff2'),
+    url('/fonts/gotham/Gotham-Book.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'proxima-nova';
+  font-family: 'Gotham';
   src:
-    local('Proxima Nova Bold'),
-    local('ProximaNova-Bold'),
-    url('/ProximaNovaBold/ProximaNovaBold.woff') format('woff'),
-    url('/ProximaNovaBold/ProximaNovaBold.ttf') format('truetype');
-  font-weight: 600 700;
+    local('Gotham Medium'),
+    local('Gotham-Medium'),
+    local('GothamHTF-Medium'),
+    url('/fonts/gotham/Gotham-Medium.woff2') format('woff2'),
+    url('/fonts/gotham/Gotham-Medium.woff') format('woff');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'proxima-nova';
+  font-family: 'Gotham';
   src:
-    local('Proxima Nova Black'),
-    local('ProximaNova-Black'),
-    url('/ProximaNovaBlack/ProximaNovaBlack.woff') format('woff'),
-    url('/ProximaNovaBlack/ProximaNovaBlack.ttf') format('truetype');
+    local('Gotham Bold'),
+    local('Gotham-Bold'),
+    local('GothamHTF-Bold'),
+    url('/fonts/gotham/Gotham-Bold.woff2') format('woff2'),
+    url('/fonts/gotham/Gotham-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src:
+    local('Gotham Black'),
+    local('Gotham-Black'),
+    local('GothamHTF-Black'),
+    url('/fonts/gotham/Gotham-Bold.woff2') format('woff2'),
+    url('/fonts/gotham/Gotham-Bold.woff') format('woff');
   font-weight: 800 900;
   font-style: normal;
   font-display: swap;

@@ -315,7 +315,7 @@ export function CapitalFlow({
       viewBox={`0 0 ${w} ${h}`}
       style={{ width: '100%', maxWidth: 420, height: 'auto', overflow: 'visible' }}
       role="img"
-      aria-label={ar ? 'تدفقات رأس المال نحو دبي' : 'Capital flows toward Dubai'}
+      aria-label={ar ? 'تدفقات رأس المال نحو Apparel Group' : 'Capital flows toward Apparel Group'}
     >
         <defs>
           <radialGradient id={`cfCore${gid}`} cx="42%" cy="38%" r="62%">
@@ -336,7 +336,7 @@ export function CapitalFlow({
               <path
                 d={pathD}
                 fill="none"
-                stroke="var(--accent-bright)"
+                stroke="var(--adgm-blue-500)"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeDasharray="3 6"
@@ -344,7 +344,7 @@ export function CapitalFlow({
                 className={reduced ? '' : 'cf-flow__arc'}
                 style={{ animationDelay: `${i * 0.14}s` }}
               />
-              <circle cx={x} cy={y} r="5.5" fill="var(--surface)" stroke="var(--accent-bright)" strokeWidth="2" />
+              <circle cx={x} cy={y} r="5.5" fill="var(--surface)" stroke="var(--adgm-blue-500)" strokeWidth="2" />
               <text x={lx} y={ly} textAnchor={anchor} dominantBaseline="middle" fontSize="10.5" fontWeight="600" fill="var(--ink-2)">
                 <tspan>{name}</tspan>
                 <tspan fill="var(--status-good)" fontWeight="700">{` ${rg.v}`}</tspan>
@@ -354,11 +354,11 @@ export function CapitalFlow({
         })}
 
         <circle cx={cx} cy={cy} r="32" fill={`url(#cfCore${gid})`} />
-        <text x={cx} y={cy - 4} textAnchor="middle" dominantBaseline="middle" fontSize="11" fontWeight="700" fill="#fff">
-          {ar ? 'دبي' : 'Dubai'}
+        <text x={cx} y={cy - 4} textAnchor="middle" dominantBaseline="middle" fontSize="10" fontWeight="700" fill="#fff">
+          {ar ? 'Apparel Group' : 'Apparel Group'}
         </text>
         <text x={cx} y={cy + 10} textAnchor="middle" dominantBaseline="middle" fontSize="7.5" fontWeight="600" fill="rgba(255,255,255,0.88)" letterSpacing="0.08em">
-          A.R.M.
+          {ar ? 'محفظة التجزئة' : 'Retail portfolio'}
         </text>
     </svg>
   );

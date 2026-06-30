@@ -1,18 +1,21 @@
 import '../../styles/auth-gate.css';
+import { APPAREL_GROUP_PORTFOLIO } from '../../config/apparelGroupGuidelines';
 
-const PORTFOLIO = [
-  { src: '/portfolio/drec-logo.svg', alt: 'Dubai Real Estate Centre (DREC)' },
-  { src: '/portfolio/huna-logo.svg', alt: 'HUNA' },
-  { src: '/portfolio/hive-logo.svg', alt: 'HIVE Coliv' },
-] as const;
+const PORTFOLIO = APPAREL_GROUP_PORTFOLIO.map((p) => ({
+  name: p.name,
+  tagline: p.tagline,
+}));
 
 export function AuthPortfolioBand() {
   return (
-    <section className="auth-portfolio-band" aria-label="A.R.M. Holding real estate portfolio">
-      <p className="auth-portfolio-band__eyebrow">Our Real Estate Portfolio</p>
-      <div className="auth-portfolio-band__logos">
-        {PORTFOLIO.map((logo) => (
-          <img key={logo.src} className="auth-portfolio-band__logo" src={logo.src} alt={logo.alt} />
+    <section className="auth-portfolio-band" aria-label="Apparel Group retail portfolio">
+      <p className="auth-portfolio-band__eyebrow">Our Retail Portfolio</p>
+      <div className="auth-portfolio-band__logos auth-portfolio-band__logos--text">
+        {PORTFOLIO.map((brand) => (
+          <div key={brand.name} className="auth-portfolio-band__brand">
+            <span className="auth-portfolio-band__brand-name">{brand.name}</span>
+            <span className="auth-portfolio-band__brand-tag">{brand.tagline}</span>
+          </div>
         ))}
       </div>
     </section>

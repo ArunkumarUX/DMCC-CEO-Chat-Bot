@@ -35,26 +35,26 @@ const MARKET_ROTATION = [
   {
     gccEquities: '+0.8%',
     digitalAssetsWoW: '+4.2%',
-    competitorNote: 'Emaar announces waterfront lifestyle district',
-    topSector: 'Design-led residential (HUNA fit 90)',
+    competitorNote: 'Noon accelerates fashion and beauty category investment',
+    topSector: 'Omnichannel fashion (6thStreet fit 92)',
   },
   {
     gccEquities: '+1.1%',
     digitalAssetsWoW: '+3.8%',
-    competitorNote: 'Meraas launches curated retail expansion',
-    topSector: 'Hospitality recovery (DREC assets)',
+    competitorNote: 'Namshi launches same-day delivery in KSA',
+    topSector: 'Value retail (R&B 100+ stores)',
   },
   {
     gccEquities: '+0.4%',
     digitalAssetsWoW: '+2.9%',
-    competitorNote: 'RERA rental index update published',
-    topSector: 'Coliving demand (HIVE occupancy 91%)',
+    competitorNote: 'UAE VAT guidance update for F&B operators',
+    topSector: 'F&B expansion (Tim Hortons 300+ stores)',
   },
   {
     gccEquities: '+0.6%',
     digitalAssetsWoW: '+3.1%',
-    competitorNote: 'Art Dubai partnership framework updated',
-    topSector: 'Cultural tourism (We Emerge Stronger)',
+    competitorNote: 'Images RetailME Awards — Apparel Group headline partner',
+    topSector: 'Loyalty & CRM (Club Apparel 10M+ members)',
   },
 ];
 
@@ -77,26 +77,26 @@ export async function buildExecutiveSnapshotPatch(cycle) {
   const meetings = [
     {
       id: 'mtg1',
-      title: 'DREC board — Q2 portfolio review',
+      title: 'Apparel Group leadership — Q2 store network review',
       time: meetingIso(today, 10, 0),
-      attendees: 'DREC leadership, Alain Kallas (CDO)',
-      location: 'A.R.M. Holding HQ, Dubai',
+      attendees: 'Kamal Kotak (CBO), Amit Samdaria (CFO), country heads',
+      location: 'Apparel Group HQ, Jebel Ali, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg2',
-      title: 'HUNA waterfront launch working session',
+      title: '6thStreet omnichannel strategy working session',
       time: meetingIso(addDays(today, 1), 14, 0),
-      attendees: 'HUNA development, Marketing, Design partners',
-      location: 'H Residence, Dubai',
+      attendees: 'Vivek Rajukumar (CEO 6thStreet), Marketing, IT',
+      location: 'Apparel Group HQ, Dubai',
       prepStatus: 'pending',
     },
     {
       id: 'mtg3',
-      title: 'Art Dubai — We Emerge Stronger commission',
+      title: 'KSA expansion — Arabian Alesaar partnership review',
       time: meetingIso(addDays(today, 2), 11, 0),
-      attendees: 'Art Dubai curators, A.R.M. Holding cultural team',
-      location: 'A.R.M. Holding HQ, Dubai',
+      attendees: 'Dheeraj Kalwani (VP KSA), Retail, Brand partners',
+      location: 'Apparel Group HQ, Dubai',
       prepStatus: 'ready',
     },
   ];
@@ -104,32 +104,32 @@ export async function buildExecutiveSnapshotPatch(cycle) {
   const actionRegister = [
     {
       id: 'a1',
-      title: 'Approve RERA rental repricing plan for DREC portfolio',
-      owner: 'Amol',
+      title: 'Approve KSA expansion milestone plan — Arabian Alesaar',
+      owner: 'Neeraj',
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
       departmentId: 'legal',
     },
     {
       id: 'a2',
-      title: 'Approve retention packages — 2 property management roles',
-      owner: 'Amol',
+      title: 'Approve retention packages — 3 store operations roles',
+      owner: 'Neeraj',
       due: dateOnly(addDays(today, 3)),
       status: 'open',
       departmentId: 'hr',
     },
     {
       id: 'a3',
-      title: 'HUNA launch narrative sign-off',
-      owner: 'Policy AI → Amol',
+      title: 'Club Apparel 10M member campaign sign-off',
+      owner: 'Policy AI → Neeraj',
       due: dateOnly(addDays(today, 9)),
       status: 'open',
       departmentId: 'policy',
     },
     {
       id: 'a4',
-      title: 'Review Arabic ministerial note — HH office',
-      owner: 'Amol',
+      title: 'Review Images RetailME Awards acceptance speech',
+      owner: 'Neeraj',
       due: dateOnly(addDays(today, 2)),
       status: 'open',
     },
@@ -236,7 +236,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       const competitor = getNewsByTag('competitor', liveNewsItems, 1)[0];
       if (competitor) return `${competitor.source}: ${competitor.title.slice(0, 120)}`;
       const gccComp = filterGccRelevant(liveNewsItems, 3).find((i) =>
-        /difc|dubai|saudi|qatar|competitor|rival|sandbox/i.test(i.title),
+        /namshi|noon|centrepoint|landmark|e-commerce|omnichannel|competitor|rival|retail/i.test(i.title),
       );
       if (gccComp) return `${gccComp.source}: ${gccComp.title.slice(0, 120)}`;
       return gccLive || digitalLive || newsLead
@@ -247,7 +247,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       bloomberg?.headline ||
         getNewsByTag('competitor', liveNewsItems, 1)[0] ||
         filterGccRelevant(liveNewsItems, 3).find((i) =>
-          /difc|dubai|saudi|qatar|sandbox/i.test(i.title),
+          /namshi|noon|centrepoint|landmark|e-commerce|omnichannel|retail/i.test(i.title),
         ),
     ),
 
@@ -303,7 +303,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       ?? signalNews.market.find((i) => /regulat|fsra|mas|fatf|policy|compliance/i.test(i.title))?.title
       ?? (gccLive || digitalLive || newsLead
         ? 'Regulatory wire unavailable at refresh'
-        : 'Visit armholding.ae/fsra for the latest RERA guidance'),
+        : 'Visit UAE DED and FTA portals for latest retail and F&B compliance guidance'),
     regulatoryHeadlineLive: Boolean(
       signalNews.regulatory[0] ||
         (bloomberg?.headline && /regulat|policy|crypto|stablecoin|vasp/i.test(bloomberg.headline)),
@@ -311,13 +311,13 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     liveTicker: liveTicker?.length ? liveTicker : [
       { k: 'DFM', v: '5,318.2', c: 0.41 },
       { k: 'ADX', v: '9,742.6', c: 0.84 },
-      { k: 'Emaar', v: 'AED 8.42', c: 1.8 },
-      { k: 'Damac', v: 'AED 1.86', c: -0.5 },
-      { k: 'DREC Occ.', v: '94.2%', c: 0.4 },
-      { k: 'HIVE Occ.', v: '91%', c: 1.2 },
-      { k: 'HUNA Pipe.', v: 'AED 124M', c: 12 },
-      { k: 'RERA Index', v: '+4.2%', c: 0.3 },
-      { k: 'Jebel Ali', v: 'WSP · 2026', c: 0 },
+      { k: 'GCC Retail', v: '+8.2%', c: 0.6 },
+      { k: 'R&B Stores', v: '100+', c: 2.1 },
+      { k: '6thStreet', v: '↑ 14%', c: 1.4 },
+      { k: 'Club Apparel', v: '10M+', c: 3.2 },
+      { k: 'Store Count', v: '2,500+', c: 1.8 },
+      { k: 'KSA Exp.', v: 'Active', c: 0 },
+      { k: 'Tim Hortons', v: '300+', c: 0.8 },
       { k: 'USD/AED', v: '3.6725', c: 0 },
     ],
     liveTickerFetchedAt: new Date().toISOString(),

@@ -1,30 +1,32 @@
 /**
- * A.R.M. Holding brand tokens — sourced from armholding.ae
- * Official logo ink: #242321
- * @see https://www.armholding.ae/
+ * Apparel Group brand tokens — sourced from apparelgroup.com
+ * @see https://www.apparelgroup.com/en/about-us/
+ * @see src/config/apparelGroupGuidelines.ts
  */
+import { APPAREL_GROUP_BRAND } from './apparelGroupGuidelines';
+
 export const ADGM_BRAND = {
   version: '2026',
-  tagline: 'We Emerge Stronger',
-  siteUrl: 'https://www.armholding.ae/',
-  logoSrc: '/arm-logo.svg',
-  logoOnDarkSrc: '/arm-logo-white.svg',
-  logoSymbolSrc: '/arm-symbol.svg',
-  logoMarkSrc: '/arm-symbol.svg',
-  logoAlt: 'A.R.M. Holding',
-  productMarkAlt: 'Personal AI — A.R.M. Holding',
+  tagline: APPAREL_GROUP_BRAND.tagline,
+  siteUrl: APPAREL_GROUP_BRAND.siteUrl,
+  logoSrc: '/apparel-group-logo.svg',
+  logoOnDarkSrc: '/apparel-group-logo-white.svg',
+  logoLockupSrc: '/apparel-group-logo-lockup.svg',
+  logoSymbolSrc: '/apparel-group-mark.svg',
+  logoMarkSrc: '/apparel-group-mark.svg',
+  logoAlt: APPAREL_GROUP_BRAND.name,
+  productMarkAlt: `Personal AI — ${APPAREL_GROUP_BRAND.name}`,
 
-  /** Official logo aspect ratio (228×128 from armholding.ae) */
-  logoAspect: 228 / 128,
+  logoAspect: 420 / 88,
 
   typography: {
-    primary: "'proxima-nova', 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif",
-    secondary: "'proxima-nova', 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif",
-    arabic: "'Noto Naskh Arabic', serif",
-    sans: "'proxima-nova', 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif",
-    display: "'proxima-nova', 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif",
-    trackingBody: '0.02em',
-    trackingLogo: '0.28em',
+    primary: APPAREL_GROUP_BRAND.typography.primary,
+    secondary: APPAREL_GROUP_BRAND.typography.primary,
+    arabic: APPAREL_GROUP_BRAND.typography.arabic,
+    sans: APPAREL_GROUP_BRAND.typography.primary,
+    display: APPAREL_GROUP_BRAND.typography.primary,
+    trackingBody: APPAREL_GROUP_BRAND.typography.trackingBody,
+    trackingLogo: APPAREL_GROUP_BRAND.typography.trackingLogo,
     numeric: 'var(--font-sans)',
     weights: {
       regular: 400,
@@ -37,62 +39,62 @@ export const ADGM_BRAND = {
   appleGreySecondary: '#F2F2F2',
 
   primary: {
-    clearsky: '#242321',
-    slate: '#8A8A8A',
-    cyan: '#E8E8E8',
-    black: '#000000',
+    clearsky: APPAREL_GROUP_BRAND.colors.lime,
+    slate: APPAREL_GROUP_BRAND.colors.slate,
+    cyan: '#E8EEF4',
+    black: APPAREL_GROUP_BRAND.colors.black,
   },
 
   secondary: {
-    royal: '#242321',
-    mint: '#F5F5F5',
-    sand: '#EBEBEB',
+    royal: APPAREL_GROUP_BRAND.colors.navy,
+    mint: APPAREL_GROUP_BRAND.colors.canvas,
+    sand: '#E8EEF4',
   },
 
   blue: {
-    50: '#FAFAFA',
-    100: '#F0F0F0',
-    200: '#E0E0E0',
-    300: '#C8C8C8',
-    400: '#8A8A8A',
-    500: '#242321',
-    600: '#1A1A1A',
-    700: '#000000',
+    50: APPAREL_GROUP_BRAND.colors.canvas,
+    100: '#E8EEF8',
+    200: '#DDE4EA',
+    300: '#B8C5D9',
+    400: '#335CAD',
+    500: APPAREL_GROUP_BRAND.colors.navy,
+    600: '#002B7A',
+    700: '#001F5C',
   },
 
   navy: {
-    DEFAULT: '#000000',
-    mid: '#141414',
-    deep: '#242321',
+    DEFAULT: APPAREL_GROUP_BRAND.colors.navy,
+    mid: '#002B7A',
+    deep: '#001F5C',
   },
 
   cyan: {
     50: '#F5F5F5',
-    border: '#E0E0E0',
+    border: APPAREL_GROUP_BRAND.colors.line,
   },
 
   neutral: {
-    50: '#FAFAFA',
-    100: '#F5F5F5',
-    200: '#EBEBEB',
-    300: '#D4D4D4',
-    400: '#8A8A8A',
-    500: '#6F6F6F',
-    600: '#4A4A4A',
+    50: APPAREL_GROUP_BRAND.colors.canvas,
+    100: '#E8EEF4',
+    200: '#DDE4EA',
+    300: '#C5CED8',
+    400: APPAREL_GROUP_BRAND.colors.slate,
+    500: APPAREL_GROUP_BRAND.colors.body,
+    600: '#3D3D3D',
   },
 
   surface: {
-    mint: '#F5F5F5',
-    sand: '#EBEBEB',
-    sky: '#FAFAFA',
-    white: '#FFFFFF',
+    mint: APPAREL_GROUP_BRAND.colors.canvas,
+    sand: '#E8EEF4',
+    sky: '#FFFFFF',
+    white: APPAREL_GROUP_BRAND.colors.white,
   },
 
   semantic: {
-    success: '#157347',
-    warning: '#B8860B',
-    error: '#EB5757',
-    info: '#242321',
+    success: APPAREL_GROUP_BRAND.colors.success,
+    warning: APPAREL_GROUP_BRAND.colors.warning,
+    error: APPAREL_GROUP_BRAND.colors.error,
+    info: APPAREL_GROUP_BRAND.colors.navy,
   },
 } as const;
 

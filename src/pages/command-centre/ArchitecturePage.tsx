@@ -56,7 +56,7 @@ function OrchestrationDemo({ lang }) {
         </p>
         <div style={{ background: 'var(--surface-2)', border: '1px solid var(--line)', borderRadius: 14, padding: 18, marginTop: 4 }}>
           <div className="muted-3" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 8 }}>{ar ? 'مثال' : 'Example query'}</div>
-          <div className="type-title" style={{ fontSize: 16, marginBottom: 18 }}>{ar ? '«جهّز لي إحاطة عن اجتماع مجلس DREC غداً».' : '"Brief me on tomorrow\'s DREC board meeting."'}</div>
+          <div className="type-title" style={{ fontSize: 16, marginBottom: 18 }}>{ar ? '«جهّز لي إحاطة عن اجتماع مجلس R&B غداً».' : '"Brief me on tomorrow\'s R&B board meeting."'}</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
             {fire.map((id, i) => (
               <Fragment key={id}>

@@ -14,27 +14,27 @@ export interface FocusArea {
   workflowIds: string[];
 }
 
-/** Core focus areas — A.R.M. Holding CEO personal AI */
+/** Core focus areas — Apparel Group CEO personal AI */
 export const CORE_FOCUS_AREAS: FocusArea[] = [
   {
     id: 'strategic-intelligence',
     title: 'Strategic Intelligence & Briefings',
     shortTitle: 'Intelligence',
     description:
-      'Daily AI-generated briefings on Dubai real estate, hospitality, banking, healthtech and fintech markets relevant to A.R.M. Holding\'s portfolio (DREC, HUNA, HIVE), plus competitor and sector signals aligned to the Dubai Economic Agenda (D33).',
+      'Daily AI-generated briefings on GCC retail, fashion, footwear, F&B and e-commerce markets relevant to Apparel Group\'s portfolio (R&B, 6thStreet, Club Apparel), plus competitor and sector signals across 2,500+ stores and 85+ brands.',
     capabilities: [
-      'Daily briefings on markets, regulation, fintech and portfolio news',
-      'Sector intelligence across real estate, hospitality, banking and fintech',
-      'Real-time alerts on Dubai and UAE developments affecting the group',
+      'Daily briefings on retail markets, consumer trends and portfolio news',
+      'Sector intelligence across fashion, footwear, F&B and omnichannel',
+      'Real-time alerts on GCC and UAE developments affecting the group',
     ],
     icon: 'globe',
     agents: ['strategy', 'policy'],
     workflowIds: [],
     prompts: [
       'Give me my overnight intelligence briefing — what are the most important developments I need to know today?',
-      'What are the top investment opportunities A.R.M. Holding should prioritise from current Dubai capital flows?',
-      'How is HUNA\'s design-led positioning compared to other Dubai developers this quarter?',
-      'What does the latest D33 agenda mean for our real estate and hospitality portfolio?',
+      'What are the top retail expansion opportunities Apparel Group should prioritise from current GCC consumer trends?',
+      'How is 6thStreet\'s omnichannel positioning compared to regional e-commerce players this quarter?',
+      'What does the latest Dubai retail and tourism momentum mean for our store network?',
     ],
   },
   {
@@ -53,9 +53,9 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     workflowIds: ['w1', 'w2'],
     prompts: [
       'Brief me on my 3pm meeting tomorrow — attendees and context',
-      'Extract action items from my last DREC board meeting notes',
-      'Executive summary of the Q2 board pack for the holding group',
-      'Draft follow-up email after today\'s HUNA development review',
+      'Extract action items from my last Apparel Group leadership meeting notes',
+      'Executive summary of the Q2 board pack for the group',
+      'Draft follow-up email after today\'s R&B store expansion review',
     ],
   },
   {
@@ -63,20 +63,20 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Regulatory & Policy Intelligence',
     shortTitle: 'Regulatory',
     description:
-      'Monitoring of UAE regulatory changes relevant to real estate (RERA/DLD), financial services (DFSA, CBUAE), hospitality and healthtech. AI-assisted drafting of policy briefs and consultation responses.',
+      'Monitoring of UAE regulatory changes relevant to retail licensing (DED), VAT, labour law, consumer protection and sustainability. AI-assisted drafting of policy briefs and consultation responses.',
     capabilities: [
-      'Monitoring UAE regulation across real estate, banking and fintech',
+      'Monitoring UAE regulation across retail, labour and consumer protection',
       'AI-assisted drafting of policy documents and consultation responses',
-      'Cross-reference group policies against international best practice',
+      'Cross-reference group policies against international retail best practice',
     ],
     icon: 'scale',
     agents: ['policy', 'strategy'],
     workflowIds: ['w4'],
     prompts: [
-      'Assess impact of the latest RERA rental index update on DREC\'s portfolio',
-      'Compare UAE fintech licensing against regional benchmarks',
-      'Draft an executive summary for a DFSA consultation response',
-      'Which regulatory changes affect HIVE\'s coliving operations this quarter?',
+      'Assess impact of the latest UAE VAT changes on our F&B and retail operations',
+      'Compare GCC retail licensing frameworks against regional benchmarks',
+      'Draft an executive summary for a consumer protection consultation response',
+      'Which regulatory changes affect our Saudi Arabia expansion this quarter?',
     ],
   },
   {
@@ -84,7 +84,7 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Correspondence & Communications',
     shortTitle: 'Communications',
     description:
-      'AI-assisted drafting of executive communications, speeches, and public statements — including cultural initiatives such as We Emerge Stronger. Prioritisation and summarisation of inbound correspondence in Arabic and English.',
+      'AI-assisted drafting of executive communications, speeches, and public statements — including brand launches, awards and sustainability messaging. Prioritisation and summarisation of inbound correspondence in Arabic and English.',
     capabilities: [
       'AI-assisted drafting of speeches, statements, and executive letters',
       'Prioritisation and summarisation of inbound correspondence',
@@ -94,10 +94,10 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     agents: ['comms', 'cos'],
     workflowIds: ['w5'],
     prompts: [
-      'Draft a note on A.R.M. Holding\'s Q2 portfolio performance in Arabic and English',
-      'Draft talking points for the We Emerge Stronger sculpture commission announcement',
+      'Draft a note on Apparel Group\'s Q2 portfolio performance in Arabic and English',
+      'Draft talking points for the Images RetailME Awards acceptance speech',
       'Summarise my priority inbound correspondence from the last 48 hours',
-      'Review this board note for tone and cultural initiative messaging',
+      'Review this board note for tone and brand launch messaging',
     ],
   },
   {
@@ -105,7 +105,7 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Stakeholder & Relationship Management',
     shortTitle: 'Stakeholders',
     description:
-      'Intelligent CRM tracking relationships, interactions, commitments, and follow-ups. Briefing notes on key stakeholders before engagements. Tracking A.R.M. Holding strategic partnerships across real estate, hospitality and cultural initiatives.',
+      'Intelligent CRM tracking relationships, interactions, commitments, and follow-ups. Briefing notes on key stakeholders before engagements. Tracking Apparel Group strategic partnerships with brand licensors, mall operators and franchise partners.',
     capabilities: [
       'Track relationships, last interactions, commitments, and follow-ups',
       'Briefing notes on key stakeholders before engagements',
@@ -115,10 +115,10 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     agents: ['relationship', 'cos'],
     workflowIds: ['w3'],
     prompts: [
-      'What did I commit to in my last DREC leadership meeting?',
-      'Stakeholder profile for Art Dubai partnership — history and sensitivities',
-      'Which HUNA development partnerships have follow-ups due this month?',
-      'Open commitments with banking JV partners — status check',
+      'What did I commit to in my last leadership team meeting?',
+      'Stakeholder profile for a major mall operator partnership — history and sensitivities',
+      'Which 6thStreet brand partnerships have follow-ups due this month?',
+      'Open commitments with international brand licensors — status check',
     ],
   },
   {
@@ -126,7 +126,7 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Knowledge Management',
     shortTitle: 'Knowledge',
     description:
-      'Instant access to A.R.M. Holding institutional knowledge — group strategy, portfolio reviews, board decisions, and precedents. AI-powered search across internal documents and correspondence.',
+      'Instant access to Apparel Group institutional knowledge — group strategy, store performance reviews, board decisions, and precedents. AI-powered search across internal documents and correspondence.',
     capabilities: [
       'Instant access to reports, frameworks, decisions, and precedents',
       'AI-powered search across documents, contracts, and correspondence',
@@ -136,10 +136,10 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     agents: ['policy', 'strategy', 'cos'],
     workflowIds: [],
     prompts: [
-      'What strategic decisions did A.R.M. Holding make in 2025 and how do they track against D33 priorities?',
-      'Find precedents on HUNA design partnerships in our knowledge base',
-      'Summarise the DREC portfolio review for a new board member',
-      'Search internal documents for We Emerge Stronger commission milestones',
+      'What strategic decisions did Apparel Group make in 2025 and how do they track against expansion goals?',
+      'Find precedents on R&B franchise partnerships in our knowledge base',
+      'Summarise the Club Apparel loyalty programme review for a new board member',
+      'Search internal documents for Saudi Arabia expansion milestones',
     ],
   },
 ];
@@ -174,12 +174,13 @@ export function matchFocusArea(query: string): FocusAreaId | null {
   const q = query.toLowerCase();
   if (
     (q.includes('daily') && (q.includes('brief') || q.includes('briefing'))) ||
-    q.includes('geopolitical') ||
     q.includes('competitor') ||
-    q.includes('d33') ||
-    q.includes('real estate') ||
-    q.includes('hospitality') ||
-    q.includes('portfolio')
+    q.includes('retail') ||
+    q.includes('fashion') ||
+    q.includes('footwear') ||
+    q.includes('omnichannel') ||
+    q.includes('portfolio') ||
+    q.includes('store network')
   ) {
     return 'strategic-intelligence';
   }
@@ -194,7 +195,7 @@ export function matchFocusArea(query: string): FocusAreaId | null {
     return 'meetings';
   }
   if (
-    (q.includes('regulat') || q.includes('rera') || q.includes('dfsa') || q.includes('consultation')) &&
+    (q.includes('regulat') || q.includes('vat') || q.includes('licensing') || q.includes('consultation')) &&
     !q.includes('inbound')
   ) {
     if (q.includes('policy') || q.includes('framework') || q.includes('best practice')) {
@@ -204,23 +205,24 @@ export function matchFocusArea(query: string): FocusAreaId | null {
   if (
     q.includes('correspondence') ||
     q.includes('inbound') ||
-    q.includes('ministerial') ||
     q.includes('talking points') ||
     q.includes('speech') ||
     (q.includes('arabic') && q.includes('draft')) ||
-    q.includes('we emerge stronger')
+    q.includes('brand launch') ||
+    q.includes('press release')
   ) {
     return 'correspondence';
   }
   if (
     q.includes('stakeholder') ||
-    q.includes('drec') ||
-    q.includes('huna') ||
-    q.includes('hive') ||
+    q.includes('r&b') ||
+    q.includes('6thstreet') ||
+    q.includes('club apparel') ||
     q.includes('commitment') ||
     q.includes('partnership') ||
     q.includes('crm') ||
-    q.includes('art dubai')
+    q.includes('franchise') ||
+    q.includes('mall operator')
   ) {
     return 'stakeholders';
   }

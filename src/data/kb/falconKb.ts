@@ -33,7 +33,7 @@ const STOP = new Set([
 ]);
 
 const INSTITUTIONAL_KB_QUERY =
-  /\b(a\.?r\.?m\.?\s*holding|arm\s*holding|we\s*emerge\s*stronger|drec|huna|hive|dubai\s*real\s*estate|coliving|design[- ]led|h\s*residence|sculpture\s*park|art\s*dubai|portfolio|group\s*strategy|d33|dubai\s*economic\s*agenda|rera|dld|hospitality|palm\s*spring|beach\s*centre|emerge\s*stronger|integrity|cooperation|agility|creativity|humility|mohammad\s*saeed|al\s*shehhi)\b/i;
+  /\b(a\.?r\.?m\.?\s*holding|arm\s*holding|we\s*emerge\s*stronger|drec|huna|hive|dubai\s*real\s*estate|loyalty programme|design[- ]led|h\s*residence|sculpture\s*park|art\s*dubai|portfolio|group\s*strategy|d33|dubai\s*economic\s*agenda|rera|dld|F&B|palm\s*spring|beach\s*centre|emerge\s*stronger|integrity|cooperation|agility|creativity|humility|mohammad\s*saeed|al\s*shehhi)\b/i;
 
 export const FALCON_KB_SOURCES = SOURCES;
 
@@ -73,11 +73,11 @@ function scoreChunk(query: string, chunk: FalconKbChunk): number {
   for (const t of tokens) {
     if (hay.includes(t)) score += 1;
   }
-  if (/\b(arm|holding|portfolio|strategy)\b/i.test(query) && chunk.sourceId === 'arm-group-strategy') score += 2;
+  if (/\b(arm|holding|portfolio|strategy)\b/i.test(query) && chunk.sourceId === 'ag-group-strategy') score += 2;
   if (/\b(drec|real\s*estate|palm\s*spring|beach\s*centre)\b/i.test(query) && chunk.sourceId === 'drec-portfolio') score += 3;
   if (/\b(huna|design|sculpture|h\s*residence)\b/i.test(query) && chunk.sourceId === 'huna-developments') score += 3;
-  if (/\b(hive|coliv|coliving)\b/i.test(query) && chunk.sourceId === 'hive-coliving') score += 3;
-  if (/\b(emerge\s*stronger|art\s*dubai|sculpture)\b/i.test(query) && chunk.sourceId === 'we-emerge-stronger') score += 3;
+  if (/\b(hive|coliv|loyalty programme)\b/i.test(query) && chunk.sourceId === 'hive-loyalty programme') score += 3;
+  if (/\b(emerge\s*stronger|art\s*dubai|sculpture)\b/i.test(query) && chunk.sourceId === 'retailme-awards') score += 3;
   if (/\b(d33|dubai\s*economic)\b/i.test(query) && chunk.sourceId === 'dubai-d33-alignment') score += 3;
   if (/\b(rera|dld|compliance|rental)\b/i.test(query) && chunk.sourceId === 'rera-compliance') score += 3;
   if (/\b(values|integrity|leadership|shehhi)\b/i.test(query) && chunk.sourceId === 'arm-values') score += 2;
@@ -117,7 +117,7 @@ export function retrieveFalconExcerpts(query: string, maxChunks = 8): FalconKbCh
   }
 
   if (isBroadFalconOverviewQuery(normalized)) {
-    for (const srcId of ['arm-group-strategy', 'arm-values']) {
+    for (const srcId of ['ag-group-strategy', 'arm-values']) {
       const lead = CHUNKS.find((c) => c.sourceId === srcId && c.chunkIndex === 0);
       if (lead) push(lead);
     }

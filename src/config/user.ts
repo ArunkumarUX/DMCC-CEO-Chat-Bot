@@ -1,43 +1,43 @@
-/** Primary user — Personal AI for A.R.M. Holding CEO */
+/** Primary user — Personal AI for Apparel Group CEO */
 export const EXECUTIVE_USER = {
-  firstName: 'Amol',
-  fullName: 'Amol',
+  firstName: 'Neeraj',
+  fullName: 'Neeraj Teckchandani',
   /** Compact label for sidebar and tight UI slots */
-  shortName: 'Amol',
-  initials: 'AM',
+  shortName: 'Neeraj',
+  initials: 'NT',
   profileImage: '/images/executive-profile.png',
   title: 'Chief Executive Officer',
-  /** Full title as listed on armholding.ae */
-  titleFull: 'Vice Chairman of the National Media Authority, CEO of A.R.M. Holding and Director of the Board and General Manager of Emirates Racing Authority',
-  organisation: 'A.R.M. Holding',
-  orgShort: 'A.R.M. Holding',
-  email: 'ceo@armholding.ae',
-  mobile: '+971 4 373 0000',
-  mobileE164: '97143730000',
+  /** Full title as listed on apparelgroup.com */
+  titleFull: 'Chief Executive Officer, Apparel Group',
+  organisation: 'Apparel Group',
+  orgShort: 'Apparel Group',
+  email: 'ceo@apparelgroup.com',
+  mobile: '+971 4 881 8811',
+  mobileE164: '97148818811',
   role: 'ceo' as const,
 };
 
 /** Product naming — browser title & auth chrome */
-export const PRODUCT_NAME = 'Personal AI — A.R.M. Holding';
-export const PRODUCT_NAME_AR = 'الذكاء الشخصي — A.R.M. Holding';
+export const PRODUCT_NAME = 'Personal AI — Apparel Group';
+export const PRODUCT_NAME_AR = 'الذكاء الشخصي — Apparel Group';
 export const PRODUCT_AGENT_NAME = 'Personal AI Agent';
 export const PRODUCT_AGENT_NAME_AR = 'وكيل الذكاء الشخصي';
 /** @deprecated Use PRODUCT_AGENT_NAME in product UI */
 export const PRODUCT_SHORT_NAME = PRODUCT_AGENT_NAME;
 export const PRODUCT_SHORT_NAME_AR = PRODUCT_AGENT_NAME_AR;
-export const PRODUCT_SUBTITLE = 'CEO · A.R.M. Holding';
-export const PRODUCT_SUBTITLE_AR = 'الرئيس التنفيذي · A.R.M. Holding';
+export const PRODUCT_SUBTITLE = 'CEO · Apparel Group';
+export const PRODUCT_SUBTITLE_AR = 'الرئيس التنفيذي · Apparel Group';
 export const PRODUCT_TAGLINE =
-  'Portfolio intelligence, Dubai market signals, real estate and investment insight, stakeholder readiness and performance visibility across DREC, HUNA, HIVE and Capri LLC.';
+  'Exceed Expectations Everyday — retail intelligence, GCC market signals, and executive visibility across R&B, 6thStreet, Club Apparel and 85+ international brands.';
 export const PRODUCT_TAGLINE_AR =
-  'استخبارات المحفظة، إشارات سوق دبي، رؤى العقارات والاستثمار، جاهزية أصحاب المصلحة، ورؤية الأداء عبر DREC وHUNA وHIVE وCapri LLC.';
+  'تتجاوز التوقعات كل يوم — استخبارات التجزئة، إشارات سوق الخليج، ورؤية تنفيذية عبر R&B و6thStreet وClub Apparel وأكثر من 85 علامة دولية.';
 
 export const CEO_DAILY_CAPABILITIES = [
-  'Ask strategic questions across approved portfolio and corporate knowledge sources',
-  'Generate board-ready summaries and executive briefings for the holding group',
-  'Compare DREC, HUNA and HIVE performance against Dubai market benchmarks',
-  'Review opportunities, risks and performance signals across real estate, hospitality and coliving',
-  'Track Capri LLC investment pipeline across UAE and international markets',
+  'Ask strategic questions across approved retail and corporate knowledge sources',
+  'Generate board-ready summaries and executive briefings for the group',
+  'Compare R&B, 6thStreet and Club Apparel performance against GCC retail benchmarks',
+  'Review opportunities, risks and performance signals across fashion, footwear, F&B and e-commerce',
+  'Track expansion pipeline across 2,500+ stores in 14 countries',
 ] as const;
 
 /** @deprecated Use CEO_DAILY_CAPABILITIES */

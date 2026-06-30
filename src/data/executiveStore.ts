@@ -38,8 +38,8 @@ import {
 } from '../utils/executiveAnswerVisuals';
 import { isLegacyLiveTicker } from '../utils/marketTicker';
 
-const STORAGE_KEY = 'arm-executive-state-v3';
-const LEGACY_STORAGE_KEYS = ['arm-executive-state-v1', 'arm-executive-state-v2'] as const;
+const STORAGE_KEY = 'apparel-group-executive-state-v3';
+const LEGACY_STORAGE_KEYS = ['arm-executive-state-v1', 'arm-executive-state-v2', 'arm-executive-state-v3'] as const;
 
 /** Drop stale ADGM-era cache; use in DevTools for a full reset with STORAGE_KEY too. */
 export function clearExecutiveStateCache() {
@@ -65,26 +65,26 @@ const MARKET_ROTATION: ExecutiveState['marketSnapshot'][] = [
   {
     gccEquities: '+0.8%',
     digitalAssetsWoW: '+4.2%',
-    competitorNote: 'Emaar launches design-led waterfront district — HUNA positioning at stake',
-    topSector: 'Off-plan residential (30,000 deals · AED 73.4B in Q1 2026)',
+    competitorNote: 'Noon accelerates fashion and beauty category investment',
+    topSector: 'Omnichannel fashion (6thStreet · 90-min delivery)',
   },
   {
     gccEquities: '+1.1%',
     digitalAssetsWoW: '+3.8%',
-    competitorNote: 'Meraas expands curated retail — competitor to DREC Beach Centre',
-    topSector: 'Jebel Ali Racecourse — ARM + BIG 5km² masterplan, ground-break 2026',
+    competitorNote: 'Namshi launches same-day delivery in KSA',
+    topSector: 'Value retail (R&B 100+ stores across GCC)',
   },
   {
     gccEquities: '+0.4%',
     digitalAssetsWoW: '+2.9%',
-    competitorNote: 'RERA Smart Rental Index 2026 live — Ejari compliance mandatory for all units',
-    topSector: 'Coliving demand rising — HIVE occupancy 91%, expansion pipeline active',
+    competitorNote: 'UAE VAT guidance update for F&B operators',
+    topSector: 'F&B expansion (Tim Hortons 300+ stores in GCC & India)',
   },
   {
     gccEquities: '+0.6%',
     digitalAssetsWoW: '+3.1%',
-    competitorNote: 'Dubai May sales -19% vs April — sentiment recovering post US-Iran agreement',
-    topSector: 'Cultural & art tourism — We Emerge Stronger open call closes 25 Jul 2026',
+    competitorNote: 'Images RetailME Awards — Apparel Group headline partner',
+    topSector: 'Loyalty & CRM (Club Apparel 10M+ members)',
   },
 ];
 
@@ -114,34 +114,34 @@ function buildDynamicMeetings(today: Date): Meeting[] {
   return [
     {
       id: 'mtg1',
-      title: 'DREC board — Q2 portfolio review',
+      title: 'Apparel Group leadership — Q2 store network review',
       time: meetingIso(today, 10, 0),
-      attendees: 'DREC leadership, Alain Kallas (CDO)',
-      location: 'A.R.M. Holding HQ, Dubai',
+      attendees: 'Kamal Kotak (CBO), Amit Samdaria (CFO), country heads',
+      location: 'Apparel Group HQ, Jebel Ali, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg2',
-      title: 'HUNA waterfront launch working session',
+      title: '6thStreet omnichannel strategy working session',
       time: meetingIso(addDays(today, 1), 14, 0),
-      attendees: 'HUNA development, Marketing, Design partners',
-      location: 'H Residence, Dubai',
+      attendees: 'Vivek Rajukumar (CEO 6thStreet), Marketing, IT',
+      location: 'Apparel Group HQ, Dubai',
       prepStatus: 'pending',
     },
     {
       id: 'mtg3',
-      title: 'Art Dubai — We Emerge Stronger commission debrief',
+      title: 'KSA expansion — Arabian Alesaar partnership review',
       time: meetingIso(addDays(today, 2), 11, 0),
-      attendees: 'Art Dubai curators, A.R.M. Holding cultural team, Raya Wakim (Marketing)',
-      location: 'A.R.M. Holding HQ, Dubai',
+      attendees: 'Dheeraj Kalwani (VP KSA), Retail, Brand partners',
+      location: 'Apparel Group HQ, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg4',
-      title: 'Jebel Ali Racecourse — WSP masterplan milestone review',
+      title: 'Images RetailME Awards — CEO speaking slot prep',
       time: meetingIso(addDays(today, 7), 9, 30),
-      attendees: 'Alain Kallas (CDO), WSP team, Amol Mankani (Finance)',
-      location: 'A.R.M. Holding HQ, Dubai',
+      attendees: 'Anda Dalati (CMO), Communications team',
+      location: 'Apparel Group HQ, Dubai',
       prepStatus: 'pending',
     },
   ];
@@ -151,39 +151,39 @@ function buildDynamicActions(today: Date): ActionItem[] {
   return [
     {
       id: 'a1',
-      title: 'Approve DREC RERA Smart Rental Index compliance plan — Ejari update for 3,200+ units',
-      owner: 'Amol',
+      title: 'Approve KSA expansion milestone plan — Arabian Alesaar partnership',
+      owner: 'Neeraj',
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
       departmentId: 'legal',
     },
     {
       id: 'a2',
-      title: 'Approve retention packages — 2 critical property management roles (attrition at 15.8%)',
-      owner: 'Amol',
+      title: 'Approve retention packages — 3 store operations roles (attrition at 18%)',
+      owner: 'Neeraj',
       due: dateOnly(addDays(today, 3)),
       status: 'open',
       departmentId: 'hr',
     },
     {
       id: 'a3',
-      title: 'HUNA launch narrative sign-off — competitor waterfront launches accelerating',
-      owner: 'Marketing → Amol',
+      title: 'Club Apparel 10M member campaign sign-off',
+      owner: 'Marketing → Neeraj',
       due: dateOnly(addDays(today, 9)),
       status: 'open',
       departmentId: 'marketing',
     },
     {
       id: 'a4',
-      title: 'Confirm CEO speaking slot — We Emerge Stronger open call closes 25 Jul 2026',
-      owner: 'Amol',
+      title: 'Confirm CEO speaking slot — Images RetailME Awards (14 days left)',
+      owner: 'Neeraj',
       due: dateOnly(addDays(today, 2)),
       status: 'open',
     },
     {
       id: 'a5',
-      title: 'Jebel Ali Racecourse — review WSP masterplan milestone schedule with Alain Kallas',
-      owner: 'Amol',
+      title: 'R&B 100-store milestone celebration — board visibility with Arun Pagarani',
+      owner: 'Neeraj',
       due: dateOnly(addDays(today, 7)),
       status: 'open',
     },
@@ -260,78 +260,78 @@ const SEED_DOCUMENTS: DocumentFile[] = [
     uploadedAt: '2026-06-01',
     status: 'ready',
     summary:
-      'Q2 board materials: DREC occupancy, HUNA launch, We Emerge Stronger commission. Three board decisions flagged.',
+      'Q2 board materials: R&B store performance, 6thStreet launch, Images RetailME Awards commission. Three board decisions flagged.',
     keyInsights: [
-      'HUNA waterfront launch — board decision required',
-      'DREC occupancy 94.2%',
-      'Emaar waterfront competitive pressure — proactive HUNA positioning recommended',
+      '6thStreet omnichannel launch — board decision required',
+      'R&B store performance 94.2%',
+      'Namshi waterfront competitive pressure — proactive 6thStreet positioning recommended',
     ],
     focusAreaIds: ['meetings', 'knowledge'],
     clauses: [
       {
         title: 'Section 2 — Executive summary',
-        text: 'A.R.M. Holding continues to strengthen its Dubai real estate and investment portfolio across DREC, HUNA and HIVE...',
+        text: 'Apparel Group continues to strengthen its Dubai retail and investment portfolio across R&B, 6thStreet and Club Apparel...',
       },
     ],
   },
   {
     id: 'd2',
-    name: 'ARM_RERA_Compliance_Framework_2026.pdf',
+    name: 'AG_Retail_Compliance_Compliance_Framework_2026.pdf',
     type: 'PDF',
     size: '2.8 MB',
     uploadedAt: '2026-05-29',
     status: 'ready',
-    summary: 'Group RERA/DLD compliance framework — rental index, escrow, broker licensing across portfolio.',
+    summary: 'Group UAE retail compliance/DED compliance framework — rental index, escrow, broker licensing across portfolio.',
     keyInsights: ['Rental repricing within 30 days', 'Escrow audited quarterly', 'Filing due in 11 days'],
     focusAreaIds: ['regulatory', 'knowledge'],
     clauses: [],
   },
   {
     id: 'd3',
-    name: 'We_Emerge_Stronger_Talking_Points.docx',
+    name: 'RetailME_Awards_Talking_Points.docx',
     type: 'DOCX',
     size: '620 KB',
     uploadedAt: '2026-05-28',
     status: 'ready',
-    summary: 'Bilingual talking points — We Emerge Stronger sculpture commission with Art Dubai.',
+    summary: 'Bilingual talking points — Images RetailME Awards awards acceptance with Images RetailME.',
     keyInsights: ['Formal register verified', 'Cultural initiative messaging aligned'],
     focusAreaIds: ['correspondence'],
     clauses: [],
   },
   {
     id: 'd4',
-    name: 'DREC_Portfolio_Review_Q1_2026.pdf',
+    name: 'R&B_Portfolio_Review_Q1_2026.pdf',
     type: 'PDF',
     size: '1.1 MB',
     uploadedAt: '2026-06-02',
     status: 'ready',
-    summary: 'DREC Q1 review — 3,200+ units, Palm Spring Village, The Beach Centre.',
-    keyInsights: ['Occupancy 94.2%', 'Leasing pipeline AED 124M', 'Beach Centre footfall +11% YoY'],
+    summary: 'R&B Q1 review — 3,200+ units, Palm Spring Village, The Beach Centre.',
+    keyInsights: ['Store performance 94.2%', 'Sales pipeline AED 124M', 'Beach Centre footfall +11% YoY'],
     focusAreaIds: ['strategic-intelligence', 'knowledge'],
     clauses: [],
   },
   {
     id: 'd5',
-    name: 'ARM_D33_Alignment_Tracker_2026.xlsx',
+    name: 'AG_GCC_Expansion_Alignment_Tracker_2026.xlsx',
     type: 'XLSX',
     size: '890 KB',
     uploadedAt: '2026-05-20',
     status: 'ready',
-    summary: 'Portfolio alignment with Dubai Economic Agenda D33 — mapped to DREC, HUNA, HIVE.',
-    keyInsights: ['Alignment score 86/100', 'HUNA launch on track Q3', 'We Emerge Stronger launched'],
+    summary: 'Portfolio alignment with Dubai Economic Agenda GCC retail growth — mapped to R&B, 6thStreet, Club Apparel.',
+    keyInsights: ['Alignment score 86/100', '6thStreet launch on track Q3', 'Images RetailME Awards launched'],
     focusAreaIds: ['knowledge', 'strategic-intelligence'],
     clauses: [],
   },
 ];
 
 function kbSeedSizeMb(src: { pageEstimate?: number; id: string }): string {
-  if (src.id === 'arm-group-strategy') return '2.1 MB';
-  if (src.id === 'we-emerge-stronger') return '1.4 MB';
+  if (src.id === 'ag-group-strategy') return '2.1 MB';
+  if (src.id === 'retailme-awards') return '1.4 MB';
   const mb = Math.max(0.2, (src.pageEstimate ?? 12) * 0.08);
   return `${mb.toFixed(1)} MB`;
 }
 
-/** Indexed institutional PDFs — A.R.M. Holding corporate KB */
+/** Indexed institutional PDFs — Apparel Group corporate KB */
 const FALCON_SEED_DOCUMENTS: DocumentFile[] = FALCON_KB_SOURCES.map((src) => ({
   id: src.docId,
   name: src.pdfName,
@@ -348,8 +348,8 @@ const FALCON_SEED_DOCUMENTS: DocumentFile[] = FALCON_KB_SOURCES.map((src) => ({
     src.title,
     `Knowledge base · ${src.handle} · ${src.chunkCount} indexed sections`,
     src.category === 'policy'
-      ? 'RERA/DLD compliance — cite KB handles in answers'
-      : 'A.R.M. Holding group strategy — cite KB handles in answers',
+      ? 'UAE retail compliance/DED compliance — cite KB handles in answers'
+      : 'Apparel Group group strategy — cite KB handles in answers',
   ],
   focusAreaIds: ['knowledge', src.category === 'policy' ? 'regulatory' : 'strategic-intelligence'],
   clauses: [],
@@ -370,20 +370,20 @@ function buildSeedConversations(today: Date): Conversation[] {
   return [
     {
       id: 'c1',
-      title: 'DREC board brief — Q2',
+      title: 'R&B board brief — Q2',
       category: 'Meetings',
       updatedAt: stamp,
       pinned: true,
-      preview: 'Brief me on my DREC board meeting',
+      preview: 'Brief me on my R&B board meeting',
       messages: [],
     },
     {
       id: 'c2',
-      title: 'HUNA vs Emaar — design positioning',
+      title: '6thStreet vs Namshi — design positioning',
       category: 'Intelligence',
       updatedAt: stamp,
       pinned: false,
-      preview: "How does HUNA's design-led positioning compare to Emaar?",
+      preview: "How does 6thStreet's omnichannel positioning compare to Namshi?",
       messages: [],
     },
   ];
@@ -537,7 +537,7 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       title: 'Overnight intelligence',
       summary: `Dubai portfolio priorities · GCC ${m.gccEquities} · ${m.topSector}.`,
       detail:
-        'Daily summary of major developments across A.R.M. Holding, DREC, HUNA, HIVE and Dubai real estate markets.',
+        'Daily summary of major developments across Apparel Group, R&B, 6thStreet, Club Apparel and Dubai retail markets.',
       icon: 'overnight',
       priority: 'normal',
       href: '/chat',
@@ -546,9 +546,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'market',
       pillar: '02',
       title: 'Market signals',
-      summary: `Dubai RE +4.2% · ${m.topSector} momentum.`,
+      summary: `GCC retail pulse · ${m.topSector} momentum.`,
       detail:
-        'Where investors and buyers are moving across Dubai residential, hospitality and coliving segments.',
+        'GCC consumer demand, mall footfall, and category trends across R&B, 6thStreet, Club Apparel and F&B.',
       icon: 'market',
       priority: 'medium',
       href: '/chat',
@@ -559,7 +559,7 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       title: 'Competitor moves',
       summary: m.competitorNote,
       detail:
-        'Emaar, Meraas, Nakheel and peer Dubai developers — launches, pricing and positioning.',
+        'Namshi, Noon, Centrepoint and regional omnichannel players — delivery, pricing and positioning.',
       icon: 'competitor',
       priority: 'high',
       href: '/chat',
@@ -568,9 +568,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'regulatory',
       pillar: '04',
       title: 'Regulatory shifts',
-      summary: 'RERA rental index update · DLD registration streamlining · Art Dubai partnership.',
+      summary: 'UAE retail compliance rental index update · DED registration streamlining · Images RetailME partnership.',
       detail:
-        'Dubai real estate regulation, hospitality permits and compliance relevant to DREC, HUNA and HIVE.',
+        'Dubai retail regulation, F&B permits and compliance relevant to R&B, 6thStreet and Club Apparel.',
       icon: 'regulatory',
       priority: 'high',
       href: '/chat?focus=regulatory',
@@ -641,7 +641,7 @@ export function resolveAnswerGrounding(
   const meta = deriveGroundingMeta(answerText, records);
 
   // Only show sources that Claude actually cited via handles in the response text.
-  // Never fall back to guessing — that produces fake "armholding.ae" chips on unrelated answers.
+  // Never fall back to guessing — that produces fake "apparelgroup.com" chips on unrelated answers.
   if (!meta.citedHandles.length) {
     return { grounding: undefined, sources: [] };
   }
@@ -697,26 +697,26 @@ export function buildIntelligentResponse(query: string, state: ExecutiveState): 
       confidence: 0.92,
       sourceDocIds: ['d9', 'd4'],
       followUps: [
-        'Show HUNA waterfront launch timeline',
-        'Open DREC portfolio review for context',
+        'Show 6thStreet omnichannel launch timeline',
+        'Open R&B portfolio review for context',
         'Draft board narrative on design differentiation',
       ],
-      content: `## HUNA vs Emaar — design positioning
+      content: `## 6thStreet vs Namshi — design positioning
 
-${plainTerms('HUNA leads on cultural curation and design; Emaar leads on scale and distribution.')}
+${plainTerms('6thStreet leads on cultural curation and design; Namshi leads on scale and distribution.')}
 ${metricTable(
   ['What it means', 'Score', 'Signal'],
   [
-    ['HUNA design differentiation', '96/100', `${signalEmoji('good')} Strong`],
-    ['Emaar brand & scale', '94/100', `${signalEmoji('good')} Strong`],
-    ['DREC occupancy (income base)', '94.2%', signalEmoji('good')],
+    ['6thStreet design differentiation', '96/100', `${signalEmoji('good')} Strong`],
+    ['Namshi brand & scale', '94/100', `${signalEmoji('good')} Strong`],
+    ['R&B store performance (income base)', '94.2%', signalEmoji('good')],
     ['GCC markets today', state.marketSnapshot.gccEquities, signalEmoji('good')],
   ],
 )}
-**D33 alignment**
+**GCC expansion alignment**
 ${scoreBar(86)}
 
-${actionNow('Accelerate HUNA waterfront launch narrative before competitor announcement.')}
+${actionNow('Accelerate 6thStreet omnichannel launch narrative before competitor announcement.')}
 ${agentTag(['Strategy AI'])}`,
     };
   }
@@ -735,13 +735,13 @@ ${agentTag(['Strategy AI'])}`,
         confidence: 0.94,
         sourceDocIds: ['d6', 'd12'],
         followUps: [
-          'Summarise D33 alignment for DREC, HUNA and HIVE',
+          'Summarise GCC expansion alignment for R&B, 6thStreet and Club Apparel',
           'Compare group strategy vs current portfolio priorities',
-          'Which initiatives need RERA alignment first?',
+          'Which initiatives need UAE retail compliance alignment first?',
         ],
-        content: `## A.R.M. Holding portfolio & D33 — knowledge base
+        content: `## Apparel Group portfolio & GCC retail growth — knowledge base
 
-${plainTerms('Answer grounded in approved A.R.M. Holding corporate documents in the knowledge base.')}
+${plainTerms('Answer grounded in approved Apparel Group corporate documents in the knowledge base.')}
 
 ${excerptBlock}
 
@@ -754,13 +754,13 @@ ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
       confidence: 0.89,
       sourceDocIds: ['d6', 'd12', 'd5'],
       followUps: [
-        'Open D33 Alignment Tracker in Knowledge Base',
-        'Which portfolio companies lead on D33 priorities?',
-        'Prepare board narrative on We Emerge Stronger',
+        'Open GCC retail growth Alignment Tracker in Knowledge Base',
+        'Which portfolio companies lead on GCC retail growth priorities?',
+        'Prepare board narrative on Images RetailME Awards',
       ],
-      content: `## Portfolio strategy & D33
+      content: `## Portfolio strategy & GCC retail growth
 
-${plainTerms('A.R.M. Holding documents are in the knowledge base — ask about DREC, HUNA, HIVE or We Emerge Stronger for cited excerpts.')}
+${plainTerms('Apparel Group documents are in the knowledge base — ask about R&B, 6thStreet, Club Apparel or Images RetailME Awards for cited excerpts.')}
 ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
     };
   }
@@ -773,19 +773,19 @@ ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
       confidence: 0.91,
       sourceDocIds: ['d11', 'd3'],
       followUps: [
-        'Draft talking points for We Emerge Stronger',
+        'Draft talking points for Images RetailME Awards',
         'Log follow-up in action register',
         'Open full CRM record',
       ],
       content: `## Stakeholder — ${mtg.title}
 
-${plainTerms('Strong Art Dubai partnership; sculpture commission open call is live until 25 July.')}
+${plainTerms('Strong Images RetailME partnership; awards acceptance open call is live until 25 July.')}
 ${metricTable(
   ['CRM fact', 'Detail', 'Signal'],
   [
-    ['Partnership', 'Art Dubai × A.R.M. Holding', signalEmoji('good')],
-    ['Commission', 'We Emerge Stronger — open call', signalEmoji('good')],
-    ['Location', 'HUNA Sculpture Park, H Residence', signalEmoji('good')],
+    ['Partnership', 'Images RetailME × Apparel Group', signalEmoji('good')],
+    ['Commission', 'Images RetailME Awards — open call', signalEmoji('good')],
+    ['Location', '6thStreet loyalty programme, Dubai Hills Mall', signalEmoji('good')],
   ],
 )}
 ${metricTable(
@@ -796,7 +796,7 @@ ${metricTable(
     a.status === 'overdue' ? signalEmoji('risk') : signalEmoji('watch'),
   ]),
 )}
-${actionNow('Confirm CEO speaking slot for Art Dubai commission announcement.')}
+${actionNow('Confirm CEO speaking slot for Images RetailME commission announcement.')}
 ${agentTag(['Relationship AI', 'Chief of Staff AI'])}`,
     };
   }
@@ -808,13 +808,13 @@ ${agentTag(['Relationship AI', 'Chief of Staff AI'])}`,
       confidence: 0.94,
       sourceDocIds: ['d8', 'd13'],
       followUps: [
-        'Draft talking points for DREC board',
-        'Show open RERA commitments',
+        'Draft talking points for R&B board',
+        'Show open UAE retail compliance commitments',
         'Add to action register',
       ],
       content: `## Pre-meeting — ${mtg.title}
 
-${plainTerms('You are ready for the DREC board; RERA filing still due in 11 days.')}
+${plainTerms('You are ready for the R&B board; UAE retail compliance filing still due in 11 days.')}
 ${metricTable(
   ['Meeting fact', 'Detail', 'Signal'],
   [
@@ -827,9 +827,9 @@ ${metricTable(
 ${metricTable(
   ['Agenda item', 'Detail', 'Signal'],
   [
-    ['DREC occupancy', '94.2%', signalEmoji('good')],
-    ['Leasing pipeline', 'AED 124M', signalEmoji('good')],
-    ['RERA filing', 'Due in 11 days', signalEmoji('watch')],
+    ['R&B store performance', '94.2%', signalEmoji('good')],
+    ['Sales pipeline', 'AED 124M', signalEmoji('good')],
+    ['UAE retail compliance filing', 'Due in 11 days', signalEmoji('watch')],
   ],
 )}
 | Metric | Value | Signal |
@@ -849,28 +849,28 @@ ${agentTag(['Chief of Staff', 'Relationship', 'Strategy', 'Comms'])}`,
       confidence: 0.93,
       sourceDocIds: ['d1', 'd8'],
       followUps: [
-        'What did we commit to at the last DREC board?',
-        'Draft talking points on occupancy and leasing',
+        'What did we commit to at the last R&B board?',
+        'Draft talking points on store performance and leasing',
         'Flag action register items',
       ],
       content: `## Pre-meeting — ${mtg.title}
 
-${plainTerms('DREC board today — clear the overdue RERA repricing approval before new asks.')}
+${plainTerms('R&B board today — clear the overdue UAE retail compliance repricing approval before new asks.')}
 ${metricTable(
   ['Meeting', 'Detail', 'Signal'],
   [
     ['Time', '10:00 UAE today', signalEmoji('good')],
     ['With', mtg.attendees, '—'],
-    ['Occupancy', '94.2%', signalEmoji('good')],
+    ['Store performance', '94.2%', signalEmoji('good')],
   ],
 )}
 ${overdue ? actionNow(`Send overdue item: ${overdue.title} (was due ${overdue.due}).`) : `${signalEmoji('good')} No overdue actions.`}
 ${metricTable(
   ['Talking point', 'Why', ''],
   [
-    ['Occupancy 94.2%', 'Income stability', '—'],
-    ['Beach Centre footfall +11%', 'Hospitality recovery', '—'],
-    ['RERA repricing plan', 'Compliance deadline', '—'],
+    ['Store performance 94.2%', 'Income stability', '—'],
+    ['Beach Centre footfall +11%', 'F&B recovery', '—'],
+    ['UAE retail compliance repricing plan', 'Compliance deadline', '—'],
   ],
 )}
 | Metric | Value | Signal |
@@ -887,20 +887,20 @@ ${agentTag(['Chief of Staff', 'Relationship', 'Strategy'])}`,
       confidence: 0.9,
       sourceDocIds: ['d5', 'd8'],
       followUps: [
-        'Deep dive HUNA waterfront pre-sales',
-        'We Emerge Stronger talking points',
-        'Compare vs Emaar positioning',
+        'Deep dive 6thStreet waterfront pre-sales',
+        'Images RetailME Awards talking points',
+        'Compare vs Namshi positioning',
       ],
-      content: `## Dubai real estate — top opportunities
+      content: `## Dubai retail — top opportunities
 
-${plainTerms('Design-led residential and hospitality recovery score highest for the A.R.M. Holding portfolio.')}
+${plainTerms('Omnichannel residential and F&B recovery score highest for the Apparel Group portfolio.')}
 ${metricTable(
-  ['Sector', 'D33 score', 'Signal'],
+  ['Sector', 'GCC retail growth score', 'Signal'],
   [
-    ['Design-led residential (HUNA)', '90/100', signalEmoji('good')],
-    ['Hospitality recovery (DREC)', '88/100', signalEmoji('good')],
-    ['Coliving (HIVE)', '84/100', signalEmoji('good')],
-    ['Commercial retail (DREC)', '82/100', signalEmoji('good')],
+    ['Omnichannel fashion (6thStreet)', '90/100', signalEmoji('good')],
+    ['F&B recovery (R&B)', '88/100', signalEmoji('good')],
+    ['Loyalty programme (Club Apparel)', '84/100', signalEmoji('good')],
+    ['Commercial retail (R&B)', '82/100', signalEmoji('good')],
   ],
 )}
 **Top pick**
@@ -909,10 +909,10 @@ ${state.marketSnapshot.topSector}
 
 | Market signal | Value |
 |---------------|-------|
-| Dubai RE transactions | +4.2% |
+| GCC retail growth | +8.2% |
 | GCC equities | ${state.marketSnapshot.gccEquities} |
 
-${actionNow('Prioritise HUNA waterfront pre-sales and DREC hospitality asset review.')}
+${actionNow('Prioritise 6thStreet omnichannel GMV targets and R&B same-store sales review.')}
 ${agentTag(['Strategy AI', 'Policy AI'])}`,
     };
   }
@@ -925,17 +925,17 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
       followUps: [
         'Open full bilingual draft in Documents',
         'Adjust cultural initiative messaging',
-        'Schedule Art Dubai announcement',
+        'Schedule Images RetailME announcement',
       ],
-      content: `## We Emerge Stronger — communications draft
+      content: `## Images RetailME Awards — communications draft
 
-${plainTerms('Culture woven into everyday life; permanent sculpture at HUNA Sculpture Park with Art Dubai.')}
+${plainTerms('Culture woven into everyday life; permanent sculpture at 6thStreet loyalty programme with Images RetailME.')}
 ${metricTable(
   ['Theme', 'Message', 'Signal'],
   [
     ['Commission', 'Open call 17 Jun – 25 Jul 2026', signalEmoji('good')],
     ['Inspiration', 'نظهر أقوى — resilience & renewal', signalEmoji('good')],
-    ['Location', 'HUNA Sculpture Park', signalEmoji('good')],
+    ['Location', '6thStreet loyalty programme', signalEmoji('good')],
   ],
 )}
 ### English (short)
@@ -944,7 +944,7 @@ Culture is essential to how we build cities and communities. Art should be woven
 ### العربية (مختصر)
 الثقافة أساسية في بناء مدننا ومجتمعاتنا. يجب أن يكون الفن جزءاً من الحياة اليومية.
 
-*Full draft: We_Emerge_Stronger_Talking_Points.docx*
+*Full draft: RetailME_Awards_Talking_Points.docx*
 ${agentTag(['Communications AI', 'Strategy AI'])}`,
     };
   }
@@ -992,7 +992,7 @@ ${agentTag(['Chief of Staff AI', 'Strategy AI'])}`,
       sourceDocIds: [],
       followUps: [
         'Search online for latest UAE climate policy',
-        'Compare HUNA design positioning vs Emaar',
+        'Compare 6thStreet design positioning vs Namshi',
         nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
       ],
       content: `**Explorer AI**
@@ -1010,7 +1010,7 @@ Please try again. If you see this repeatedly, hard-refresh the page (**Cmd+Shift
     confidence: 0.82,
     sourceDocIds: ['d1'],
     followUps: [
-      'Compare HUNA design positioning vs Emaar',
+      'Compare 6thStreet design positioning vs Namshi',
       nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
       'Show department performance snapshot',
     ],

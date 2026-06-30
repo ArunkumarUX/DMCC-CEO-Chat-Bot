@@ -5,14 +5,14 @@ export function demoClarifications() {
   return {
     questions: [
       'Who is the primary audience — board, FSRA, or external investors?',
-      'Should the deck emphasise Falcon Economy alignment and Abu Dhabi positioning?',
+      'Should the deck emphasise Apparel Group GCC retail expansion and portfolio positioning?',
       'Do you need bilingual (Arabic + English) speaker notes on any slides?',
     ],
   };
 }
 
 export function demoOutline(prompt: string): PresentationOutline {
-  const topic = (prompt || 'ADGM strategy update').slice(0, 80);
+  const topic = (prompt || 'Apparel Group strategy update').slice(0, 80);
   return {
     title: topic,
     theme: 'adgm-executive',
@@ -21,11 +21,11 @@ export function demoOutline(prompt: string): PresentationOutline {
     outline: [
       { type: 'title', title: topic, summary: 'Board-ready opening' },
       { type: 'executive-summary', title: 'Executive summary', summary: '3 decisions for the CSO' },
-      { type: 'context-problem', title: 'Context & stakes', summary: 'Why now for ADGM' },
+      { type: 'context-problem', title: 'Context & stakes', summary: 'Why now for Apparel Group' },
       { type: 'key-insights', title: 'Key insights', summary: 'GCC and regulatory signals' },
       { type: 'strategy-recommendation', title: 'Strategic recommendation', summary: 'One clear path' },
       { type: 'framework-model', title: 'Decision framework', summary: 'MECE options' },
-      { type: 'data-metrics', title: 'Metrics that matter', summary: 'Falcon Economy & licence KPIs' },
+      { type: 'data-metrics', title: 'Metrics that matter', summary: 'Apparel Group retail & portfolio KPIs' },
       { type: 'visual-infographic', title: 'Market snapshot', summary: 'Visual competitive lens' },
       { type: 'action-roadmap', title: '90-day roadmap', summary: 'Owners and dates' },
       { type: 'conclusion-next-steps', title: 'Next steps', summary: 'Ask of leadership' },
@@ -48,7 +48,7 @@ export function demoSlides(outline: PresentationOutline): PresentationDeck {
       title: o.title,
       bullets: [
         'Lead with one crisp insight for the CSO',
-        'Ground claims in approved ADGM sources where available',
+        'Ground claims in approved Apparel Group sources where available',
         'Label strategic read as analysis, not fact',
       ],
       visualHint:
@@ -57,8 +57,8 @@ export function demoSlides(outline: PresentationOutline): PresentationDeck {
       metrics:
         o.type === 'data-metrics'
           ? [
-              { label: 'Falcon Economy alignment', value: '82/100' },
-              { label: 'Licence growth YoY', value: '+12%' },
+              { label: 'GCC retail alignment', value: '82/100' },
+              { label: 'Store growth YoY', value: '+12%' },
             ]
           : undefined,
     })),

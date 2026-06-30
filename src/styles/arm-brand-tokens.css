@@ -1,87 +1,107 @@
 /**
- * A.R.M. Holding brand overrides — armholding.ae
- * Maps legacy --adgm-* tokens to official monochrome palette (#242321 ink).
+ * Apparel Group brand overrides — Elevate palette + Gotham
  */
 :root {
-  --arm-ink: #242321;
+  --ag-navy: #003399;
+  --ag-lime: #c5d92d;
+  --ag-body: #4d4d4d;
+  --ag-canvas: #f4f7f9;
+
+  --arm-ink: var(--ag-navy);
   --arm-black: #000000;
   --arm-white: #ffffff;
-  --arm-canvas: #fafafa;
-  --arm-line: #e0e0e0;
-  --arm-sidebar: #e5e5e5;
-  --arm-portfolio-bg: #ebebeb;
+  --arm-canvas: var(--ag-canvas);
+  --arm-line: #dde4ea;
+  --arm-sidebar: #ffffff;
+  --arm-portfolio-bg: var(--ag-canvas);
 
-  --adgm-clearsky: var(--arm-ink);
-  --adgm-slate: #8a8a8a;
-  --adgm-cyan: #f0f0f0;
-  --adgm-royal: var(--arm-ink);
-  --adgm-mint: #f5f5f5;
-  --adgm-sand: #ebebeb;
+  --adgm-clearsky: var(--ag-lime);
+  --adgm-slate: #6f7a85;
+  --adgm-cyan: #e8eef4;
+  --adgm-royal: var(--ag-navy);
+  --adgm-mint: var(--ag-canvas);
+  --adgm-sand: #e8eef4;
 
-  --adgm-blue-500: var(--arm-ink);
-  --adgm-blue-600: #1a1a1a;
-  --adgm-blue-400: #4a4a4a;
-  --adgm-blue-100: #f0f0f0;
-  --adgm-cyan-50: #f5f5f5;
-  --adgm-cyan-border: #e0e0e0;
-  --adgm-navy: var(--arm-black);
-  --adgm-navy-mid: #141414;
-  --adgm-navy-deep: var(--arm-ink);
+  --adgm-blue-500: var(--ag-navy);
+  --adgm-blue-600: #002b7a;
+  --adgm-blue-400: #335cad;
+  --adgm-blue-100: #e8eef8;
+  --adgm-cyan-50: var(--ag-canvas);
+  --adgm-cyan-border: var(--arm-line);
+  --adgm-navy: var(--ag-navy);
+  --adgm-navy-mid: #002b7a;
+  --adgm-navy-deep: #001f5c;
 
-  --petrol-900: var(--arm-black);
-  --petrol-800: var(--arm-black);
-  --petrol-700: #141414;
-  --petrol-600: var(--arm-ink);
-  --petrol-500: var(--arm-ink);
-  --teal-400: var(--arm-ink);
-  --teal-300: #4a4a4a;
-  --aqua: var(--arm-ink);
-  --aqua-soft: #f0f0f0;
+  --petrol-900: var(--ag-navy);
+  --petrol-800: #002b7a;
+  --petrol-700: #002b7a;
+  --petrol-600: var(--ag-navy);
+  --petrol-500: var(--ag-navy);
+  --teal-400: var(--ag-lime);
+  --teal-300: #d4e84a;
+  --aqua: var(--ag-navy);
+  --aqua-soft: var(--ag-canvas);
 
-  --gold-700: var(--arm-ink);
-  --gold-600: var(--arm-ink);
-  --gold-500: var(--arm-ink);
-  --gold-300: #8a8a8a;
-  --gold-100: #f0f0f0;
+  --gold-700: var(--ag-navy);
+  --gold-600: var(--ag-navy);
+  --gold-500: var(--ag-lime);
+  --gold-300: #6f7a85;
+  --gold-100: var(--ag-canvas);
 
-  --sun-1: #4a4a4a;
-  --sun-2: var(--arm-ink);
-  --sun-3: var(--arm-black);
+  --sun-1: #6f7a85;
+  --sun-2: var(--ag-navy);
+  --sun-3: #001f5c;
 
-  --status-info: var(--arm-ink);
-  --status-info-bg: #f5f5f5;
+  --status-info: var(--ag-navy);
+  --status-info-bg: var(--ag-canvas);
 
-  --canvas: var(--arm-canvas);
-  --canvas-2: #f5f5f5;
-  --surface-2: #f5f5f5;
-  --ink: var(--arm-black);
+  --canvas: var(--ag-canvas);
+  --canvas-2: #ffffff;
+  --surface-2: var(--ag-canvas);
+  --ink: var(--ag-navy);
+  --ink-2: var(--ag-body);
   --line: var(--arm-line);
-  --line-strong: #c8c8c8;
-  --sidebar-ink: var(--arm-black);
-  --font-sans: 'proxima-nova', 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  --line-strong: #c5ced8;
+  --sidebar-ink: var(--ag-navy);
+  --font-sans: 'Gotham', 'Gotham Book', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
   --font-display: var(--font-sans);
   --font-numeric: var(--font-sans);
-  --tracking-body: 0.02em;
+  --tracking-body: 0.01em;
   --sidebar-bg: var(--arm-sidebar);
-  --sidebar-border: #d8d8d8;
-  --sidebar-active: linear-gradient(135deg, var(--arm-ink) 0%, var(--arm-black) 100%);
-  --sidebar-hover: rgba(36, 35, 33, 0.06);
-  --accent: var(--arm-ink);
-  --accent-bright: #4a4a4a;
+  --sidebar-border: var(--arm-line);
+  --sidebar-active: linear-gradient(135deg, #003399 0%, #002b7a 100%);
+  --sidebar-hover: rgba(0, 51, 153, 0.06);
+  --accent: var(--ag-lime);
+  --accent-bright: #d4e84a;
 }
 
 [data-theme='dark'] {
-  --sidebar-active: linear-gradient(135deg, #4a4a4a 0%, var(--arm-ink) 100%);
-  --accent: #ffffff;
+  --sidebar-active: linear-gradient(135deg, #335cad 0%, var(--ag-navy) 100%);
+  --accent: var(--ag-lime);
+}
+
+html,
+body,
+#root,
+.command-centre-app,
+.auth-gate {
+  font-family: var(--font-sans);
 }
 
 .brand-logo-full .arm-logo-img,
-.brand-logo-full .adgm-logo-img {
+.brand-logo-full .adgm-logo-img,
+.apparel-logo-lockup {
   width: auto !important;
   max-width: 100%;
-  height: 60px;
   object-fit: contain;
   object-position: center center;
+}
+
+.auth-gate--login .auth-gate__brand--above .arm-logo-img,
+.auth-gate--login .auth-gate__brand--above .adgm-logo-img {
+  height: 56px;
+  width: auto;
+  max-width: min(320px, 90vw);
 }
 
 .adgm-logo-img--on-dark {

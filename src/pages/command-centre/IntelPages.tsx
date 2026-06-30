@@ -24,6 +24,7 @@ import {
 import { useApp } from '../../context/AppContext';
 import { generateBriefing } from '../../api/generateBriefing';
 import { INTEL_LAYMAN } from '../../data/intelLaymanCopy';
+import { buildCeoMorningBriefingItems, ceoMorningBriefingFallback } from '../../data/morningBriefingItems';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const BRIEF_PASTE_PLACEHOLDERS: Record<string, { en: string; ar: string }> = {
@@ -59,67 +60,14 @@ function IntelSourceNote({ children, className = '', style = undefined }) {
 function MorningBriefing({ lang }) {
   const { executiveState } = useApp();
   const ar = lang === 'ar';
-  const sn = executiveState?.signalNews;
   const m = executiveState?.marketSnapshot;
 
-  // Structured items: { text, source, sourceUrl? } so source renders as a pill
-  const liveItems = useMemo(() => {
-    const seen = new Set<string>();
-    const items: { text: string; source: string; sourceUrl?: string }[] = [];
-    const push = (text: string, source: string, sourceUrl?: string) => {
-      const key = text.slice(0, 50);
-      if (!seen.has(key)) { seen.add(key); items.push({ text, source, sourceUrl }); }
-    };
+  const { items: liveItems, isLive } = useMemo(
+    () => buildCeoMorningBriefingItems(executiveState, ar),
+    [executiveState, ar],
+  );
 
-    // 1. Top GCC headline
-    const gccLead = sn?.gccTop?.[0];
-    if (gccLead) push(gccLead.source + ': ' + gccLead.title, '', gccLead.url);
-
-    // 2. Live market prices
-    if (m?.gccEquitiesLive && m.gccEquities && !/unavailable/i.test(m.gccEquities)) {
-      push('GCC equities — ' + m.gccEquities, 'Yahoo Finance', m.gccEquitiesSourceUrl ?? undefined);
-    } else if (m?.digitalAssetsLive && m.digitalAssetsWoW) {
-      push('Digital assets — ' + m.digitalAssetsWoW, 'CoinGecko', m.digitalAssetsSourceUrl ?? undefined);
-    }
-
-    // 3. Commodities — source as pill, not in text
-    if (m?.goldSummary) {
-      push(
-        'Commodities — ' + m.goldSummary + (m.oilSummary ? ' · ' + m.oilSummary : ''),
-        'Yahoo Finance',
-        m.goldSourceUrl ?? undefined,
-      );
-    }
-
-    // 4. Competitor headline
-    const compLead = sn?.competitor?.[0];
-    if (compLead) push(compLead.source + ': ' + compLead.title, '', compLead.url);
-
-    // 5. Regulatory headline
-    const regLead = sn?.regulatory?.[0];
-    if (regLead) push(regLead.source + ': ' + regLead.title, '', regLead.url);
-
-    // 6. Investment headline
-    const invLead = sn?.investment?.[0];
-    if (invLead) push(invLead.source + ': ' + invLead.title, '', invLead.url);
-
-    // Fill remaining slots
-    for (const item of [...(sn?.market ?? []), ...(sn?.gccTop?.slice(1) ?? [])]) {
-      if (items.length >= 4) break;
-      push(item.source + ': ' + item.title, '', item.url);
-    }
-
-    return items.slice(0, 4);
-  }, [sn, m]);
-
-  const isLive = liveItems.length > 0;
-  const fallback = ar ? [
-    { text: 'في انتظار تحديث البيانات — يظهر محتوى مباشر بعد مزامنة 08:00 أو 22:00.', source: '' },
-    { text: 'المصادر: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA.', source: '' },
-  ] : [
-    { text: 'Awaiting refresh — live headlines appear after the 08:00 or 22:00 GST sync.', source: '' },
-    { text: 'Sources: Yahoo Finance · CoinGecko · Reuters · Arabian Business · ZAWYA · Gulf News.', source: '' },
-  ];
+  const fallback = ceoMorningBriefingFallback(ar);
   const displayItems = isLive ? liveItems : fallback;
 
   return (
@@ -130,7 +78,7 @@ function MorningBriefing({ lang }) {
         title={ar ? 'إحاطة الصباح' : 'Morning briefing'}
         subtitle={ar
           ? ('يُحدَث 08:00 و 22:00 بتوقيت الإمارات' + (m?.asOf ? ' · ' + m.asOf.slice(0, 10) : ''))
-          : ('Refreshed 08:00 & 22:00 GST · Dubai property · developer watch · RERA · portfolio' + (m?.asOf ? ' · ' + m.asOf.slice(0, 10) : ''))}
+          : ('Refreshed 08:00 & 22:00 GST · GCC retail · competitor watch · KSA expansion · portfolio · compliance' + (m?.asOf ? ' · ' + m.asOf.slice(0, 10) : ''))}
         badge={
           isLive ? (
             <span className="pill" style={{ background: 'rgba(255,255,255,0.14)', color: '#fff', height: 26 }}>
@@ -187,9 +135,9 @@ function Benchmark({ lang }) {
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'مقارنة 12 بُعداً' : '12-dimension benchmark'}
-          title={ar ? 'محفظة A.R.M. Holding مقابل مطوري دبي' : 'A.R.M. Holding portfolio vs. Dubai developers'}
+          title={ar ? 'محفظة Apparel Group مقابل المنافسين الإقليميين' : 'Apparel Group portfolio vs. regional competitors'}
           laymanInfo={ar ? INTEL_LAYMAN.benchmark12.ar : INTEL_LAYMAN.benchmark12.en}
-          action={<span className="pill ghost" style={{ color: 'var(--status-info)', borderColor: 'var(--status-info)' }}><CcIcon name="book-open" size={12} />{ar ? 'مصادر: DREC · HUNA · CBRE' : 'Source: DREC · HUNA · CBRE'}</span>}
+          action={<span className="pill ghost" style={{ color: 'var(--status-info)', borderColor: 'var(--status-info)' }}><CcIcon name="book-open" size={12} />{ar ? 'مصادر: R&B · 6thStreet · CBRE' : 'Source: R&B · 6thStreet · CBRE'}</span>}
         />
 
         {/* legend / overall */}
@@ -234,8 +182,8 @@ function Benchmark({ lang }) {
         </div>
         <IntelSourceNote style={{ marginTop: 20 }}>
           {ar
-            ? 'المصادر: مراجعة محفظة DREC Q1 2026 · استراتيجية تطوير HUNA 2026 · عمليات HIVE 2026 · CBRE دبي Q1 2026 · إطار امتثال RERA · A.R.M. Holding HR Q1 2026. تحقق من التقرير المرجعي الداخلي المعتمد قبل الاستخدام الرسمي.'
-            : 'Sources: DREC Portfolio Review Q1 2026 · HUNA Development Strategy 2026 · HIVE Operations 2026 · CBRE Dubai Market Q1 2026 · ARM RERA Compliance Framework · HR Quarterly Review Q1 2026. Validate against approved internal benchmark before formal external use.'}
+            ? 'المصادر: مراجعة محفظة R&B Q1 2026 · استراتيجية تطوير 6thStreet 2026 · عمليات Club Apparel 2026 · CBRE دبي Q1 2026 · إطار امتثال UAE retail compliance · Apparel Group HR Q1 2026. تحقق من التقرير المرجعي الداخلي المعتمد قبل الاستخدام الرسمي.'
+            : 'Sources: R&B Portfolio Review Q1 2026 · 6thStreet Development Strategy 2026 · Club Apparel Operations 2026 · CBRE Dubai Market Q1 2026 · Apparel Group UAE Retail Compliance Framework · HR Quarterly Review Q1 2026. Validate against approved internal benchmark before formal external use.'}
         </IntelSourceNote>
       </IntelCardBody>
     </IntelCard>
@@ -245,22 +193,22 @@ function Benchmark({ lang }) {
 function InvestmentOps({ lang }) {
   const ar = lang === 'ar';
   const ops = ar ? [
-    { t: 'توسعة HIVE — مواقع عيش مشترك جديدة في دبي', s: 92, note: 'إشغال 91٪؛ الطلب يتجاوز العرض في شريحة الشباب المبدع' },
-    { t: 'إطلاق HUNA على الواجهة المائية — التصميم الرائد', s: 89, note: 'التوقيت قبل تحرك إعمار يمنح ميزة تنافسية دائمة' },
-    { t: 'ميدان جبل علي — مرحلة البناء 2026', s: 86, note: 'مخطط BIG الرئيسي 5 كم²؛ WSP تقود التفاصيل — انطلاق 2026' },
-    { t: 'خط صفقات Capri LLC — الإمارات والأسواق الدولية', s: 83, note: 'يتوافق مع أهداف التنويع في أجندة D33' },
+    { t: 'توسعة Club Apparel — مواقع عيش مشترك جديدة في دبي', s: 92, note: 'إشغال 91٪؛ الطلب يتجاوز العرض في شريحة الشباب المبدع' },
+    { t: 'إطلاق 6thStreet omnichannel — توسعة الواجهة المائية', s: 89, note: 'التوقيت قبل تحرك نامشي يمنح ميزة تنافسية دائمة' },
+    { t: 'توسع السعودية — مرحلة افتتاح المتاجر 2026', s: 86, note: 'شراكة Arabian Alesaar؛ HEYDUDE وBarbour وForever New — انطلاق 2026' },
+    { t: 'خط صفقات Nysaa — الإمارات والأسواق الدولية', s: 83, note: 'يتوافق مع أهداف التنويع في أجندة GCC retail growth' },
   ] : [
-    { t: 'HIVE coliving expansion — new Dubai sites', s: 92, note: '91% occupancy; demand outpacing supply in young professional segment' },
-    { t: 'HUNA waterfront design-led launch', s: 89, note: 'Timing ahead of Emaar move creates durable competitive edge' },
-    { t: 'Jebel Ali Racecourse — construction phase 2026', s: 86, note: 'BIG 5km² masterplan; WSP detailed design underway — ground-break 2026' },
-    { t: 'Capri LLC deal pipeline — UAE & international', s: 83, note: 'Aligns with D33 economic diversification targets' },
+    { t: 'Club Apparel loyalty programme expansion — new Dubai sites', s: 92, note: '91% store performance; demand outpacing supply in young professional segment' },
+    { t: '6thStreet waterfront omnichannel launch', s: 89, note: 'Timing ahead of Namshi move creates durable competitive edge' },
+    { t: 'KSA expansion — store rollout phase 2026', s: 86, note: 'Arabian Alesaar partnership; HEYDUDE, Barbour, Forever New launches — ground-break 2026' },
+    { t: 'Nysaa deal pipeline — UAE & international', s: 83, note: 'Aligns with GCC retail growth economic diversification targets' },
   ];
   return (
     <IntelCard>
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'فرص الاستثمار' : 'Investment opportunities'}
-          title={ar ? 'مُقيّمة وفق أولويات D33 لدبي' : 'Scored against Dubai D33 priorities'}
+          title={ar ? 'مُقيّمة وفق أولويات نمو التجزئة في الخليج' : 'Scored against Apparel Group GCC retail growth priorities'}
           laymanInfo={ar ? INTEL_LAYMAN.investmentOps.ar : INTEL_LAYMAN.investmentOps.en}
         />
         <IntelRows>
@@ -286,8 +234,8 @@ function InvestmentOps({ lang }) {
         </IntelRows>
         <IntelSourceNote>
           {ar
-            ? 'درجات التوافق مستمدة من استراتيجية A.R.M. Holding 2025–2030 وتقرير سوق دبي العقاري Q1 2026 (CBRE) ومؤشر D33. تحقق من أحدث البيانات قبل الاستخدام الرسمي.'
-            : 'Alignment scores derived from A.R.M. Holding Group Strategy 2025–2030, CBRE Dubai Market Q1 2026, and D33 Economic Agenda tracker. Verify before formal external use.'}
+            ? 'درجات التوافق مستمدة من استراتيجية Apparel Group 2025–2030 وتقرير سوق دبي العقاري Q1 2026 (CBRE) ومؤشر GCC retail growth. تحقق من أحدث البيانات قبل الاستخدام الرسمي.'
+            : 'Alignment scores derived from Apparel Group Strategy 2025–2030, CBRE Dubai Market Q1 2026, and GCC retail growth Economic Agenda tracker. Verify before formal external use.'}
         </IntelSourceNote>
       </IntelCardBody>
     </IntelCard>
@@ -297,7 +245,7 @@ function InvestmentOps({ lang }) {
 function RadarCard({ lang }) {
   const ar = lang === 'ar';
   const narrow = useMediaQuery('(max-width: 640px)');
-  const [ci, setCi] = useState(3); // Emaar by default
+  const [ci, setCi] = useState(3); // Namshi by default
   const dims = BENCH_DIMS.map((d) => d.d);
   const aVals = BENCH_DIMS.map((d) => d.v[0]);
   const bVals = BENCH_DIMS.map((d) => d.v[ci]);
@@ -307,7 +255,7 @@ function RadarCard({ lang }) {
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'بصمة تنافسية' : 'Competitive footprint'}
-          title={<>{ar ? 'A.R.M. Holding مقابل' : 'A.R.M. Holding vs.'} {CENTRES[ci]}</>}
+          title={<>{ar ? 'Apparel Group مقابل' : 'Apparel Group vs.'} {CENTRES[ci]}</>}
           laymanInfo={ar ? INTEL_LAYMAN.competitiveFootprint.ar : INTEL_LAYMAN.competitiveFootprint.en}
           style={{ marginBottom: 6 }}
         />
@@ -331,7 +279,7 @@ function RadarCard({ lang }) {
         <div className="mi-intel-viz__legend">
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <span style={{ width: 14, height: 4, borderRadius: 2, background: 'var(--accent-bright)' }} />
-            <span style={{ fontSize: 12.5, fontWeight: 700 }}>A.R.M. Holding</span>
+            <span style={{ fontSize: 12.5, fontWeight: 700 }}>Apparel Group</span>
             <span className="kpi-num muted-3" style={{ fontSize: 11 }}>{avg(aVals)}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -342,8 +290,8 @@ function RadarCard({ lang }) {
         </div>
         <IntelSourceNote>
           {ar
-            ? 'المصادر: استراتيجية A.R.M. Holding 2025–2030 · CBRE دبي Q1 2026 · مراجعة محفظة DREC وHUNA وHIVE. تحقق قبل الاستخدام الرسمي.'
-            : 'Source: A.R.M. Holding Group Strategy 2025–2030 · CBRE Dubai Q1 2026 · DREC, HUNA & HIVE portfolio reviews. Validate before formal external use.'}
+            ? 'المصادر: استراتيجية Apparel Group 2025–2030 · CBRE دبي Q1 2026 · مراجعة محفظة R&B و6thStreet وClub Apparel. تحقق قبل الاستخدام الرسمي.'
+            : 'Source: Apparel Group Strategy 2025–2030 · CBRE Dubai Q1 2026 · R&B, 6thStreet & Club Apparel portfolio reviews. Validate before formal external use.'}
         </IntelSourceNote>
       </IntelCardBody>
     </IntelCard>
@@ -363,7 +311,7 @@ function CapitalFlowCard({ lang }) {
       <IntelCardBody>
         <IntelSectionHead
           eyebrow={ar ? 'تدفقات رأس المال' : 'Capital flows'}
-          title={ar ? 'تتجه نحو دبي' : 'Rotating toward Dubai'}
+          title={ar ? 'تتجه نحو Apparel Group' : 'Rotating toward Apparel Group'}
           laymanInfo={ar ? INTEL_LAYMAN.capitalFlows.ar : INTEL_LAYMAN.capitalFlows.en}
           action={
             isLive ? (
@@ -390,21 +338,21 @@ function CapitalFlowCard({ lang }) {
         </div>
         <div className="mi-intel-viz__legend">
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <span style={{ width: 14, height: 4, borderRadius: 2, background: 'var(--accent-bright)' }} />
+            <span style={{ width: 14, height: 4, borderRadius: 2, background: 'var(--adgm-blue-500)' }} />
             <span style={{ fontSize: 12.5, fontWeight: 700 }}>{ar ? leader.kAr : leader.k}</span>
             <span className="kpi-num" style={{ fontSize: 11, color: 'var(--status-good)' }}>{leader.v}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <span style={{ width: 14, height: 4, borderRadius: 2, background: 'var(--petrol-700)' }} />
-            <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--ink-2)' }}>{ar ? 'دبي' : 'Dubai'}</span>
-            <span className="kpi-num muted-3" style={{ fontSize: 11 }}>A.R.M. Holding</span>
+            <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--ink-2)' }}>{ar ? 'Apparel Group' : 'Apparel Group'}</span>
+            <span className="kpi-num muted-3" style={{ fontSize: 11 }}>{ar ? 'محفظة التجزئة' : 'Retail portfolio'}</span>
           </div>
         </div>
         {isLive && (
           <IntelSourceNote>
             {ar
-              ? 'المصدر: ADX · DFM · مؤشرات عالمية · Yahoo Finance — تدفقات نحو محفظة A.R.M. Holding'
-              : 'Source: ADX · DFM · global indices · Yahoo Finance — flows toward A.R.M. Holding portfolio'}
+              ? 'المصدر: ADX · DFM · مؤشرات عالمية · Yahoo Finance — تدفقات نحو محفظة Apparel Group'
+              : 'Source: ADX · DFM · global indices · Yahoo Finance — flows toward Apparel Group portfolio'}
           </IntelSourceNote>
         )}
       </IntelCardBody>
@@ -647,8 +595,8 @@ export function BriefingsPage() {
                 />
                 <IntelSourceNote className="intel-source-note--inset">
                   {ar
-                    ? 'يُولَّد من المحتوى الملصق + قاعدة المعرفة (Portfolio alignment، A.R.M. Holding، RERA، وغيرها).'
-                    : 'Generated from your paste + knowledge base (Portfolio alignment, A.R.M. Holding, RERA, and related docs).'}
+                    ? 'يُولَّد من المحتوى الملصق + قاعدة المعرفة (Portfolio alignment، Apparel Group، UAE retail compliance، وغيرها).'
+                    : 'Generated from your paste + knowledge base (Portfolio alignment, Apparel Group, UAE retail compliance, and related docs).'}
                 </IntelSourceNote>
                 <div className="briefings-page__input-actions">
                   <button

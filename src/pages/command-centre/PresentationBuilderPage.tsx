@@ -67,14 +67,14 @@ export function PresentationBuilderPage() {
     ? {
         eyebrow: 'العروض التقديمية',
         title: 'منشئ العروض بالذكاء الاصطناعي',
-        sub: 'عرض استثنائي لمجلس A.R.M. Holding — McKinsey + Claude Design · Opus 4.8',
+        sub: 'عرض استثنائي لمجلس Apparel Group — McKinsey + Claude Design · Opus 4.8',
         craftLabel: 'حرفة التصميم',
         exportUnified: 'جميع المهارات (Cursor)',
         badge: 'McKinsey · Opus 4.8',
         statusOffline: 'التوليف بالذكاء الاصطناعي غير متصل — تحقق من الخادم وANTHROPIC_API_KEY.',
         steps: ['المدخلات', 'توضيح', 'المخطط', 'معاينة', 'تصدير'],
         prompt: 'صف العرض',
-        promptPh: 'مثال: عرض توسع HIVE — 3 مواقع كوليفينغ، نموذج مالي بثلاثة سيناريوهات، قرارات المجلس',
+        promptPh: 'مثال: عرض توسع Club Apparel — 3 مواقع كوليفينغ، نموذج مالي بثلاثة سيناريوهات، قرارات المجلس',
         notes: 'ملاحظات أو أفكار خام',
         link: 'رابط (اختياري)',
         doc: 'لصق نص مستند',
@@ -109,14 +109,14 @@ export function PresentationBuilderPage() {
     : {
         eyebrow: 'Presentations',
         title: 'AI Presentation Builder',
-        sub: 'Outstanding board decks for A.R.M. Holding — McKinsey SCQA + Claude Design · powered by Opus 4.8.',
+        sub: 'Outstanding board decks for Apparel Group — McKinsey SCQA + Claude Design · powered by Opus 4.8.',
         craftLabel: 'Design craft',
         exportUnified: 'All skills (Cursor)',
         badge: 'McKinsey · Opus 4.8',
         statusOffline: 'AI synthesis offline — check server connection and ANTHROPIC_API_KEY.',
         steps: ['Input', 'Clarify', 'Outline', 'Preview', 'Export'],
         prompt: 'Describe your presentation',
-        promptPh: 'e.g. HIVE expansion board pack — 3 co-living sites, 3-scenario model, CEO decisions required',
+        promptPh: 'e.g. Club Apparel expansion board pack — 3 co-living sites, 3-scenario model, CEO decisions required',
         notes: 'Notes or rough ideas',
         link: 'Website link (optional)',
         doc: 'Paste document text',
@@ -531,7 +531,7 @@ export function PresentationBuilderPage() {
           <div className="cc-pres-builder__stage">
             <article className="cc-pres-builder__slide cc-pres-builder__slide--wow">
               <header className="cc-pres-builder__slide-header">
-                <span className="cc-pres-builder__slide-brand">ADGM</span>
+                <span className="cc-pres-builder__slide-brand">Apparel Group</span>
                 <span className="cc-pres-builder__slide-meta">
                   {t.slideOf} {previewIndex + 1} / {deck.slides.length}
                 </span>

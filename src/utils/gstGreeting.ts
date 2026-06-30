@@ -8,7 +8,7 @@ export type GreetingPeriod = 'morning' | 'afternoon' | 'evening';
 const MORNING_END = 12;
 const AFTERNOON_END = 17;
 
-/** Current hour 0–23 in Abu Dhabi, independent of device timezone */
+/** Current hour 0–23 in Dubai (GST), independent of device timezone */
 export function gstHour(at: Date = new Date()): number {
   return Number(
     new Intl.DateTimeFormat('en-GB', {
@@ -107,28 +107,28 @@ export const CSO_PERSONA_PROMPTS: {
     agents: ['cos'],
   },
   {
-    en: "Compare DREC's residential pipeline against the Dubai market.",
-    ar: 'قارن خط أنابيب DREC السكني مع سوق دبي.',
+    en: "Compare R&B's residential pipeline against the Dubai market.",
+    ar: 'قارن خط أنابيب R&B السكني مع سوق دبي.',
     agents: ['strategy', 'policy'],
   },
   {
-    en: 'Top investment opportunities A.R.M. Holding should prioritise from current Dubai capital flows?',
-    ar: 'ما أبرز فرص الاستثمار التي ينبغي لـ A.R.M. Holding إعطاؤها الأولوية من تدفقات رأس المال في دبي؟',
+    en: 'Top investment opportunities Apparel Group should prioritise from current Dubai capital flows?',
+    ar: 'ما أبرز فرص الاستثمار التي ينبغي لـ Apparel Group إعطاؤها الأولوية من تدفقات رأس المال في دبي؟',
     agents: ['strategy'],
   },
   {
-    en: 'Any RERA or Dubai regulatory updates I should know about this week?',
-    ar: 'هل هناك مستجدات تنظيمية من RERA أو دبي يجب أن أعرفها هذا الأسبوع؟',
+    en: 'Any UAE retail compliance or Dubai regulatory updates I should know about this week?',
+    ar: 'هل هناك مستجدات تنظيمية من UAE retail compliance أو دبي يجب أن أعرفها هذا الأسبوع؟',
     agents: ['policy'],
   },
   {
-    en: 'Brief me on Art Dubai before the We Emerge Stronger commission review.',
-    ar: 'أطلعني على Art Dubai قبل مراجعة عمولة We Emerge Stronger.',
+    en: 'Brief me on Images RetailME before the Images RetailME Awards commission review.',
+    ar: 'أطلعني على Images RetailME قبل مراجعة عمولة Images RetailME Awards.',
     agents: ['relationship'],
   },
   {
-    en: "Draft a note on A.R.M. Holding's Q2 portfolio performance in Arabic.",
-    ar: 'صِغ مذكرة حول أداء محفظة A.R.M. Holding في الربع الثاني باللغة العربية.',
+    en: "Draft a note on Apparel Group's Q2 portfolio performance in Arabic.",
+    ar: 'صِغ مذكرة حول أداء محفظة Apparel Group في الربع الثاني باللغة العربية.',
     agents: ['comms'],
   },
 ];

@@ -1,49 +1,39 @@
-import { ArmEmblem } from './ArmEmblem';
+import { ADGM_BRAND } from '../../config/brand';
+import { AdgmWordmark } from './AdgmWordmark';
 
 type Variant = 'onLight' | 'onDark';
 
-const INK = {
-  onLight: '#1A1A1A',
-  onDark: '#FFFFFF',
-} as const;
-
-/** Official-style horizontal lockup: emblem + A.R.M. / HOLDING */
+/** Apparel Group horizontal logo lockup */
 export function ArmLogoLockup({
   height = 48,
   variant = 'onLight',
   className = '',
+  showTagline = false,
 }: {
   height?: number;
   variant?: Variant;
   className?: string;
+  showTagline?: boolean;
 }) {
-  const ink = INK[variant];
-  const emblemH = Math.round(height * 0.92);
-  const armSize = Math.max(11, Math.round(height * 0.24));
-  const holdingSize = Math.max(18, Math.round(height * 0.42));
+  const src = showTagline
+    ? ADGM_BRAND.logoLockupSrc
+    : variant === 'onDark'
+      ? ADGM_BRAND.logoOnDarkSrc
+      : ADGM_BRAND.logoSrc;
+  const width = Math.round(height * ADGM_BRAND.logoAspect);
 
   return (
-    <div
-      className={['arm-logo-lockup', className].filter(Boolean).join(' ')}
-      style={{ height, color: ink }}
-      role="img"
-      aria-label="A.R.M. Holding"
-    >
-      <ArmEmblem size={emblemH} color={ink} className="arm-logo-lockup__emblem" />
-      <div className="arm-logo-lockup__text">
-        <span
-          className="arm-logo-lockup__arm"
-          style={{ fontSize: armSize, letterSpacing: '0.38em' }}
-        >
-          A.R.M.
-        </span>
-        <span
-          className="arm-logo-lockup__holding"
-          style={{ fontSize: holdingSize, letterSpacing: '0.22em' }}
-        >
-          HOLDING
-        </span>
-      </div>
-    </div>
+    <img
+      src={src}
+      alt={ADGM_BRAND.logoAlt}
+      width={width}
+      height={height}
+      className={['apparel-logo-lockup', 'arm-logo-img', className].filter(Boolean).join(' ')}
+      decoding="async"
+      draggable={false}
+      style={{ height, width: 'auto', maxWidth: '100%', objectFit: 'contain' }}
+    />
   );
 }
+
+export { AdgmWordmark };

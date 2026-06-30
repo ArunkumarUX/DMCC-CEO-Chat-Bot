@@ -130,7 +130,7 @@ export function McKinseyDeckGuidance({ lang, onApplyPrompt, className = '' }: Pr
       </section>
 
       <section className="mck-guidance__section">
-        <h4 className="mck-guidance__label">{ar ? 'بداية سريعة — محفظة A.R.M.' : 'Quick-start prompts'}</h4>
+        <h4 className="mck-guidance__label">{ar ? 'بداية سريعة — محفظة Apparel Group' : 'Quick-start prompts'}</h4>
         <div className="mck-guidance__quick">
           {PORTFOLIO_QUICK_STARTS.map((q) => (
             <button

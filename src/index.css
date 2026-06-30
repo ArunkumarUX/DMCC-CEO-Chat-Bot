@@ -1,43 +1,43 @@
 @import "tailwindcss";
 
-/* A.R.M. Holding — armholding.ae brand tokens */
+/* Apparel Group — apparelgroup.com brand tokens */
 @theme {
-  --font-sans: 'proxima-nova', 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  --font-sans: 'Gotham', 'Gotham Book', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
   --font-display: var(--font-sans);
   --font-arabic: "Noto Naskh Arabic", serif;
   --font-numeric: var(--font-sans);
-  --tracking-body: 0.02em;
+  --tracking-body: 0.01em;
 
-  --color-adgm-primary: #242321;
-  --color-adgm-primary-hover: #000000;
-  --color-adgm-primary-light: #f0f0f0;
-  --color-adgm-sky-200: #e0e0e0;
+  --color-adgm-primary: #003399;
+  --color-adgm-primary-hover: #002b7a;
+  --color-adgm-primary-light: #e8eef8;
+  --color-adgm-sky-200: #dde4ea;
 
-  --color-adgm-navy: #000000;
-  --color-adgm-navy-mid: #141414;
-  --color-adgm-navy-deep: #242321;
+  --color-adgm-navy: #003399;
+  --color-adgm-navy-mid: #002b7a;
+  --color-adgm-navy-deep: #001f5c;
 
   --color-adgm-white: #ffffff;
-  --color-adgm-ivory: #fafafa;
-  --color-adgm-sand: #f5f5f5;
-  --color-adgm-champagne: #f0f0f0;
-  --color-adgm-sky-bg: #fafafa;
-  --color-adgm-cyan-50: #f5f5f5;
-  --color-adgm-cyan-border: #e0e0e0;
-  --color-adgm-mint: #f5f5f5;
-  --color-adgm-slate: #8a8a8a;
+  --color-adgm-ivory: #f4f7f9;
+  --color-adgm-sand: #e8eef4;
+  --color-adgm-champagne: #e8eef4;
+  --color-adgm-sky-bg: #f4f7f9;
+  --color-adgm-cyan-50: #f4f7f9;
+  --color-adgm-cyan-border: #dde4ea;
+  --color-adgm-mint: #f4f7f9;
+  --color-adgm-slate: #6f7a85;
 
-  --color-adgm-gold: #242321;
-  --color-adgm-gold-deep: #000000;
+  --color-adgm-gold: #c5d92d;
+  --color-adgm-gold-deep: #003399;
 
-  --color-adgm-charcoal: #242321;
-  --color-adgm-mist: #8a8a8a;
-  --color-adgm-line: #e0e0e0;
+  --color-adgm-charcoal: #4d4d4d;
+  --color-adgm-mist: #6f7a85;
+  --color-adgm-line: #dde4ea;
 
   --color-adgm-success: #157347;
   --color-adgm-warning: #b8860b;
   --color-adgm-error: #eb5757;
-  --color-adgm-info: #242321;
+  --color-adgm-info: #003399;
 
   --shadow-adgm-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-adgm-md: 0 4px 24px rgba(0, 0, 0, 0.08);
@@ -69,7 +69,7 @@ body {
   font-family: var(--font-sans);
   letter-spacing: var(--tracking-body);
   background: var(--color-adgm-ivory);
-  color: var(--color-adgm-navy);
+  color: var(--color-adgm-charcoal);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -99,7 +99,7 @@ body {
   letter-spacing: var(--tracking-body);
 }
 
-/* Large display headings — Proxima Nova, tighter than body copy */
+/* Large display headings — Gotham, tighter than body copy */
 .font-display.tracking-tight,
 h1.font-display {
   letter-spacing: -0.02em;
@@ -159,7 +159,7 @@ a.bg-adgm-primary:hover {
 }
 
 .adgm-hero-band {
-  background: linear-gradient(135deg, #000000 0%, #141414 55%, #242321 100%);
+  background: linear-gradient(135deg, #001f5c 0%, #003399 55%, #335cad 100%);
 }
 
 .glass-panel-dark {
@@ -238,13 +238,13 @@ a.bg-adgm-primary:hover {
 }
 
 .command-hero {
-  background: linear-gradient(135deg, #000000 0%, #141414 50%, #242321 100%);
+  background: linear-gradient(135deg, #001f5c 0%, #003399 50%, #335cad 100%);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
 /* Home dashboard — executive command deck */
 .home-hero {
-  background: linear-gradient(145deg, #000000 0%, #141414 42%, #242321 100%);
+  background: linear-gradient(145deg, #001f5c 0%, #003399 42%, #335cad 100%);
   box-shadow:
     0 24px 64px rgba(0, 0, 0, 0.22),
     0 0 0 1px rgba(255, 255, 255, 0.06) inset;

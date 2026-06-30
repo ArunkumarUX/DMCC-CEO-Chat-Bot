@@ -124,7 +124,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
           snapLive
             ? 'Live price feeds partially unavailable. Scenario fallback hidden for GCC percentages.'
             : `GCC ${snap.gccEquities}; digital ${snap.digitalAssetsWoW}.`,
-          'https://www.armholding.ae',
+          'https://www.apparelgroup.com',
           date,
           0.4,
         ),
@@ -147,7 +147,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
         feed('src-competitor-scenario', 'Competitor intelligence — scenario',
           'Market scenario snapshot (prototype)',
           `${snap.competitorNote || 'Scenario data only.'}`,
-          'https://www.armholding.ae', date, 0.4),
+          'https://www.apparelgroup.com', date, 0.4),
       ];
     }
 
@@ -168,7 +168,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
         feed('src-investment-scenario', 'Investment signals — scenario data',
           'Market scenario snapshot (prototype)',
           `Sector focus: ${snap.topSector}. Scenario data only.`,
-          'https://www.armholding.ae', date, 0.4),
+          'https://www.apparelgroup.com', date, 0.4),
       ];
     }
 
@@ -207,10 +207,10 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
       // Always add official portal reference links
       return [
         ...liveSources,
-        feed('src-fsra-portal', 'A.R.M. Holding RERA — Official Portal',
-          'A.R.M. Holding RERA (official public portal)',
-          'Visit armholding.ae/fsra for the latest A.R.M. Holding RERA rules, guidance, consultation papers and regulatory announcements.',
-          'https://www.armholding.ae/fsra', date, 0.95),
+        feed('src-fsra-portal', 'Apparel Group UAE retail compliance — Official Portal',
+          'Apparel Group UAE retail compliance (official public portal)',
+          'Visit apparelgroup.com/fsra for the latest Apparel Group UAE retail compliance rules, guidance, consultation papers and regulatory announcements.',
+          'https://www.apparelgroup.com/fsra', date, 0.95),
         feed('src-mas-portal', 'MAS Singapore — Consultations',
           'MAS Singapore (official public portal)',
           'Visit mas.gov.sg for the latest MAS consultation papers, digital asset regulations and policy publications.',

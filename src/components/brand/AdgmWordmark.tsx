@@ -41,7 +41,7 @@ export function AdgmEmblem({
   display?: 'badge' | 'symbol' | 'inline';
 }) {
   const px = Math.round(size);
-  const ink = variant === 'onDark' ? '#FFFFFF' : '#242321';
+  const ink = variant === 'onDark' ? '#FFFFFF' : '#003399';
 
   if (display === 'symbol' || display === 'badge' || display === 'inline') {
     return (

@@ -13,7 +13,7 @@ export function buildChatUserMessage(
 ): string {
   const question = userText.trim();
   const historyLength = options?.historyLength ?? 0;
-  const firstName = ctx.executiveFirstName ?? 'Amol';
+  const firstName = ctx.executiveFirstName ?? 'Neeraj';
 
   if (ctx.conversationalMode === 'greeting') {
     // System prompt already forces the exact single-sentence reply.
@@ -30,7 +30,7 @@ USER MESSAGE:
 "${question}"
 
 Instructions:
-- Open with a warm greeting for ${firstName} using Abu Dhabi time (${gstClock}): e.g. "${gstPhrase}, ${firstName}"
+- Open with a warm greeting for ${firstName} using Dubai time (${gstClock}): e.g. "${gstPhrase}, ${firstName}"
 - Summarise today from the action register and market snapshot — cite source handles inline ([MKT-…], [ACT-…]).
 - CALENDAR NOT CONNECTED: do NOT mention meetings or a next meeting; no calendar is connected. You may add one short line: "Connect your calendar and I'll include your meetings here too."
 - Use markdown: one short plain-terms line, then **What's happened today** as a bold heading, then bullet list (Markets / Teams / Actions).
@@ -78,10 +78,10 @@ Reply briefly and warmly to ${firstName}. Offer to continue with context from th
   const hasFalconKb = Boolean(ctx.falconExcerpts?.length);
   const falconBlock = hasFalconKb
     ? `${formatFalconExcerptBlock(ctx.falconExcerpts!)}
-- Falcon KB is loaded: answer NOW from the excerpts above and grounded KB handles ([KB-006], [KB-007], etc.).
-- Do NOT ask which Falcon document the user means. Do NOT say Group Strategy is missing from the KB.
+- Apparel Group KB is loaded: answer NOW from the excerpts above and grounded KB handles ([KB-006], [KB-007], etc.).
+- Do NOT ask which Apparel Group document the user means. Do NOT say Group Strategy is missing from the KB.
 - If a specific fact is absent from excerpts, say so for that fact only — still summarise what the excerpts do contain.
-- Do not use uncited metrics or generic Falcon scorecards.`
+- Do not use uncited metrics or generic strategy scorecards.`
     : '';
   const clarifyLine = hasFalconKb
     ? '- KB excerpts are present — do NOT ask clarifying questions; answer from the excerpts.'
@@ -104,7 +104,7 @@ Routing instructions (CSO Prompt Pack):
 - Primary lead: ${primary?.name ?? 'Chief of Staff AI'} — open with executive takeaway (2–3 lines).
 - Supporting specialists (merge, dedupe): ${supportLine}
 - Answer the exact question using grounded source handles only; separate facts, interpretation, and recommendations.
-- Do not reference D33 (Dubai); A.R.M. Holding is Abu Dhabi. Use D33 alignment only when sources support it.
+- Apparel Group is headquartered in Dubai, UAE. Use GCC retail expansion alignment only when sources support it.
 - Do NOT output generic guides, product overviews, or sample prompts unless explicitly asked.
 ${clarifyLine}${contextBlock}${continuity}${falconBlock}`;
 }

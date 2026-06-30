@@ -1,7 +1,7 @@
 import { ADGM_BRAND } from '../../config/brand';
 import { AdgmEmblem, AdgmWordmark } from './AdgmWordmark';
 
-/** Official A.R.M. Holding mark / wordmark */
+/** Official Apparel Group mark / wordmark */
 export function AdgmMark({
   size = 36,
   className = '',
@@ -39,7 +39,7 @@ export function AdgmLogo({
 
   if (horizontal || (!markOnly && !showTagline)) {
     return (
-      <div className={className} title="A.R.M. Holding">
+      <div className={className} title="Apparel Group">
         <AdgmWordmark height={size} variant={variant} />
         {showTagline && (
           <p

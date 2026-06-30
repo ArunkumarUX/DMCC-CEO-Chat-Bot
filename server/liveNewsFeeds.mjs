@@ -11,7 +11,7 @@ const FEEDS = [
     label: 'Google News — GCC Finance',
     siteUrl: 'https://news.google.com',
     rssUrl:
-      'https://news.google.com/rss/search?q=%22Dubai+real+estate%22+OR+%22Dubai+property%22+OR+%22Jebel+Ali+Racecourse%22+OR+%22A.R.M.+Holding%22+OR+RERA+OR+Emaar+OR+Meraas+OR+%22Dubai+developer%22&hl=en-AE&gl=AE&ceid=AE:en',
+      'https://news.google.com/rss/search?q=%22Apparel+Group%22+OR+%22GCC+retail%22+OR+%22Dubai+retail%22+OR+%226thStreet%22+OR+%22Club+Apparel%22+OR+Namshi+OR+Noon+OR+%22Tim+Hortons%22&hl=en-AE&gl=AE&ceid=AE:en',
     tags: ['market', 'competitor', 'investment', 'regulatory', 'followup'],
   },
   {
@@ -202,47 +202,54 @@ export async function fetchAllNewsFeeds() {
 }
 
 /**
- * A.R.M. Holding-relevance keywords — an article must mention at least one of these
- * to appear on the Executive Home signal cards.
- * Deliberately excludes broad region words (gcc, gulf, emirates) that match
- * unrelated articles (webinars, sports, airlines, etc.).
+ * Apparel Group CEO relevance — article must match retail/portfolio keywords
+ * and must NOT match property/real-estate exclusions.
  */
-const ARM_RELEVANCE_KEYWORDS = [
-  // Company & brands
-  'arm holding', 'a.r.m.', 'drec', 'huna', 'hive coliv', 'capri llc',
-  // Properties & projects
-  'jebel ali racecourse', 'palm spring village', 'beach centre', 'h residence',
-  'huna sculpture', 'we emerge stronger', 'art dubai',
-  // Dubai real estate specifics
-  'dubai real estate', 'dubai property', 'dubai developer', 'dubai developer',
-  'dubai land department', 'dubai residential', 'dubai off-plan', 'dubai rental',
-  // Regulators
-  'rera', 'dld', 'ejari', 'rental index', 'smart rental',
-  // Competitors
-  'emaar', 'meraas', 'nakheel', 'damac', 'aldar', 'sobha', 'ellington',
-  // Market metrics
-  'revpar', 'occupancy rate', 'pre-sales', 'leasing', 'coliving',
-  // Portfolio topics
-  'real estate investment', 'property market', 'd33', 'hospitality recovery',
-  // Specific current initiatives
-  'jebel ali', 'bjarke ingels', 'big architect', 'wsp masterplan',
+const CEO_RELEVANCE_KEYWORDS = [
+  'apparel group', 'r&b', '6thstreet', '6th street', 'club apparel', 'nysaa',
+  'neeraj teckchandani', 'retail', 'fashion', 'mall', 'footfall', 'consumer',
+  'store', 'omnichannel', 'e-commerce', 'ecommerce', 'loyalty', 'namshi', 'noon',
+  'centrepoint', 'landmark', 'tim hortons', 'cold stone', 'aldo', 'charles keith',
+  'ksa', 'saudi retail', 'uae retail', 'gcc retail', 'arabian alesaar', 'heydude',
+  'barbour', 'forever new', 'images retailme', 'vat', 'ded', 'mohre', 'fta', 'f&b',
+  'franchise', 'brand launch', 'store opening', 'value retail', 'athleisure',
+  'beauty retail', 'lifestyle', 'dubai retail',
+];
+
+const CEO_EXCLUDE_KEYWORDS = [
+  'property market', 'real estate', 'townhouse', 'townhouses', 'apartment',
+  'villa sales', 'off-plan', 'off plan', 'data center', 'data centre', 'ai infra',
+  'masterplan', 'racecourse', 'drec', 'huna sculpture', 'arm holding', 'a.r.m.',
+  'difc', 'fsra', 'rental index', 'ejari', 'rera', 'dld', 'damac', 'nakheel',
+  'meraas', 'sobha', 'ellington', 'emaar', 'aldar', 'jebel ali racecourse',
+  'sold for $', 'homes sold', 'units sold', 'coingecko', 'bitcoin', 'ethereum',
 ];
 
 /**
- * Per-signal keyword classifiers — ensures articles are routed to the
- * most relevant signal slot rather than all appearing in the same card.
+ * Per-signal keyword classifiers — routes articles to the most relevant CEO card.
  */
 const SIGNAL_KEYWORDS = {
-  market:     ['dubai real estate', 'dubai property', 'property market', 'transactions', 'revpar', 'occupancy', 'off-plan', 'property prices', 'market update', 'q1 2026', 'q2 2026'],
-  competitor: ['emaar', 'meraas', 'nakheel', 'damac', 'aldar', 'sobha', 'ellington', 'developer launch', 'waterfront', 'lifestyle district', 'rival'],
-  investment: ['jebel ali', 'jebel ali racecourse', 'arm holding', 'capri', 'investment', 'masterplan', 'ground-break', 'bjarke ingels', 'wsp', 'off-plan'],
-  regulatory: ['rera', 'dld', 'ejari', 'rental index', 'smart rental', 'compliance', 'regulation', 'cbuae', 'dfsa'],
-  followup:   ['art dubai', 'we emerge stronger', 'sculpture', 'h residence', 'huna', 'drec', 'hive'],
+  market: ['retail', 'fashion', 'mall', 'footfall', 'consumer', 'tourism', 'gcc retail', 'uae retail', 'ksa retail', 'lifestyle', 'spending'],
+  competitor: ['namshi', 'noon', 'centrepoint', 'landmark', 'e-commerce', 'omnichannel', 'delivery', 'fast fashion', 'marketplace', 'competitor', 'rival'],
+  investment: ['apparel group', 'store opening', 'expansion', 'ksa', 'saudi', 'franchise', 'heydude', 'barbour', 'forever new', 'arabian alesaar', 'new store', 'flagship'],
+  regulatory: ['vat', 'ded', 'mohre', 'fta', 'retail license', 'labour', 'labor', 'visa', 'compliance', 'f&b', 'tim hortons', 'cold stone'],
+  followup: ['images retailme', 'club apparel', 'loyalty', 'award', 'sustainability', 'brand', 'campaign', 'nysaa', 'ceo', 'apparel group'],
 };
 
-function isArmRelevant(item) {
-  const text = (item.title + ' ' + (item.excerpt || '')).toLowerCase();
-  return ARM_RELEVANCE_KEYWORDS.some((kw) => text.includes(kw));
+function itemText(item) {
+  return (item.title + ' ' + (item.excerpt || '')).toLowerCase();
+}
+
+function isExcludedForCeo(item) {
+  const text = itemText(item);
+  return CEO_EXCLUDE_KEYWORDS.some((kw) => text.includes(kw));
+}
+
+function isCeoRelevant(item) {
+  if (!item?.title) return false;
+  if (isExcludedForCeo(item)) return false;
+  const text = itemText(item);
+  return CEO_RELEVANCE_KEYWORDS.some((kw) => text.includes(kw));
 }
 
 function signalScore(tag, item) {
@@ -252,14 +259,11 @@ function signalScore(tag, item) {
 }
 
 /**
- * Get news items for a given signal tag — A.R.M. Holding/Dubai real estate only.
- * First filters by ARM relevance, then scores by signal-specific keywords so
- * competitor/investment/regulatory cards each get the most appropriate articles.
+ * Get news items for a given signal tag — Apparel Group CEO retail intelligence only.
  */
 export function getNewsByTag(tag, allItems, limit = 3) {
   const tagged = allItems.filter((i) => i.tags?.includes(tag));
-  const relevant = tagged.filter(isArmRelevant);
-  // Sort by signal-specific keyword score then recency
+  const relevant = tagged.filter(isCeoRelevant);
   const scored = relevant
     .map((item) => ({ item, score: signalScore(tag, item) }))
     .sort((a, b) => b.score - a.score || new Date(b.item.date).getTime() - new Date(a.item.date).getTime());
@@ -267,18 +271,13 @@ export function getNewsByTag(tag, allItems, limit = 3) {
 }
 
 export function filterGccRelevant(items, limit = 5) {
-  const keywords = [
-    'arm holding', 'drec', 'huna', 'hive', 'capri', 'jebel ali',
-    'dubai real estate', 'dubai property', 'rera', 'dld', 'ejari',
-    'emaar', 'meraas', 'nakheel', 'damac', 'aldar',
-    'art dubai', 'we emerge stronger', 'leasing', 'rental index',
-    'd33', 'occupancy', 'revpar', 'off-plan', 'developer',
-  ];
-  const scored = items.map((item) => {
-    const text = (item.title + ' ' + (item.excerpt || '')).toLowerCase();
-    const score = keywords.reduce((acc, kw) => acc + (text.includes(kw) ? 1 : 0), 0);
-    return { item, score };
-  });
+  const scored = items
+    .filter(isCeoRelevant)
+    .map((item) => {
+      const text = itemText(item);
+      const score = CEO_RELEVANCE_KEYWORDS.reduce((acc, kw) => acc + (text.includes(kw) ? 1 : 0), 0);
+      return { item, score };
+    });
   scored.sort(
     (a, b) => b.score - a.score || new Date(b.item.date).getTime() - new Date(a.item.date).getTime(),
   );

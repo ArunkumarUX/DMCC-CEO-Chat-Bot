@@ -54,8 +54,8 @@ const OPEN_ACTIONS = (state: ExecutiveState) =>
 export const BRIEFING_CONFIGS: Record<BriefingFormatId, BriefingConfig> = {
   premeeting: {
     id: 'premeeting',
-    fallbackQuery: 'Brief me on my DREC board meeting tomorrow.',
-    cannedKey: 'Brief me on my DREC board meeting tomorrow.',
+    fallbackQuery: 'Brief me on my R&B board meeting tomorrow.',
+    cannedKey: 'Brief me on my R&B board meeting tomorrow.',
     agents: ['cos', 'relationship', 'strategy'],
     buildUserMessage: (state, ar, userPaste) => {
       return ar
@@ -84,8 +84,8 @@ Follow the mandatory pre-meeting brief template (sections 1–9: Meeting Snapsho
 
   boardpack: {
     id: 'boardpack',
-    fallbackQuery: 'What strategic decisions did A.R.M. Holding make in 2025 and how do they track against D33 priorities?',
-    cannedKey: 'What strategic decisions did A.R.M. Holding make in 2025 and how do they track against D33 priorities?',
+    fallbackQuery: 'What strategic decisions did Apparel Group make in 2025 and how do they track against GCC retail growth priorities?',
+    cannedKey: 'What strategic decisions did Apparel Group make in 2025 and how do they track against GCC retail growth priorities?',
     agents: ['cos', 'strategy'],
     buildUserMessage: (state, ar, userPaste) => {
       const boardDocs = state.documents
@@ -115,7 +115,7 @@ Follow the board pack template (sections 1–8). Write "Not in available sources
   stakeholder: {
     id: 'stakeholder',
     fallbackQuery:
-      'Stakeholder profile for Art Dubai partnership from CRM and meeting history.',
+      'Stakeholder profile for Images RetailME partnership from CRM and meeting history.',
     cannedKey: null,
     agents: ['relationship', 'cos'],
     buildUserMessage: (state, ar, userPaste) => {

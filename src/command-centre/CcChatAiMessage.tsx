@@ -2,7 +2,7 @@
 import { useMemo } from 'react';
 import { SourceCitationChip } from '../components/chat/SourceCitationChip';
 import { CcIcon } from './CcIcon';
-import { Emblem } from './CcPrimitives';
+import { AdgmEmblem } from '../components/brand/AdgmWordmark';
 import { mdToNodes } from './CcMarkdown';
 import type { Source } from '../types';
 import { panelSources } from '../utils/sourceLinks';
@@ -62,8 +62,8 @@ export function CcChatAiMessage({
 
   return (
     <div className="chat-ai-msg mi-chat-in">
-      <div className="chat-ai-msg__avatar">
-        <Emblem size={22} />
+      <div className="chat-ai-msg__avatar" aria-hidden>
+        <AdgmEmblem size={22} variant="onDark" decorative display="inline" />
       </div>
       <div className="chat-ai-msg__body">
         {showRoster ? (

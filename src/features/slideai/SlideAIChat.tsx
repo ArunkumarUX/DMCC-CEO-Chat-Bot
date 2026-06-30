@@ -16,19 +16,19 @@ const QUICK_PROMPTS_EN = [
     id: 'ceo-board',
     label: 'CEO board pack',
     prompt:
-      'Use Command Centre context — 10-slide A.R.M. Holding CEO board pack: portfolio performance, Jebel Ali progress, RERA compliance, We Emerge Stronger',
+      'Use Command Centre context — 10-slide Apparel Group CEO board pack: portfolio performance, KSA expansion, UAE retail compliance, Images RetailME Awards',
   },
   {
     id: 'strategy-update',
     label: 'Leadership strategy update',
     prompt:
-      '8-slide McKinsey-style strategy update for A.R.M. Holding leadership — navy hero, KPI slides, DREC/HUNA/HIVE benchmarks',
+      '8-slide McKinsey-style strategy update for Apparel Group leadership — navy hero, KPI slides, R&B/6thStreet/Club Apparel benchmarks',
   },
   {
-    id: 'capri-investor',
-    label: 'Capri LLC investor deck',
+    id: 'nysaa-investor',
+    label: 'Nysaa beauty expansion deck',
     prompt:
-      'Create an investor deck for Capri LLC: UAE & international investment pipeline, D33 alignment, deal pipeline strategy',
+      'Create an investor deck for Nysaa: Nykaa GCC partnership, beauty retail expansion, omnichannel growth strategy',
   },
 ];
 
@@ -37,17 +37,17 @@ const QUICK_PROMPTS_AR = [
     id: 'ceo-board',
     label: 'حزمة مجلس الرئيس التنفيذي',
     prompt:
-      'أنشئ عرضاً من 10 شرائح لمجلس A.R.M. Holding: أداء المحفظة، جبل علي، امتثال RERA، We Emerge Stronger',
+      'أنشئ عرضاً من 10 شرائح لمجلس Apparel Group: أداء المحفظة، توسع السعودية، امتثال التجزئة في الإمارات، Images RetailME Awards',
   },
   {
-    id: 'capri-investor',
-    label: 'عرض مستثمرين Capri LLC',
-    prompt: 'عرض للمستثمرين حول خط صفقات Capri LLC وتوافق أجندة D33',
+    id: 'nysaa-investor',
+    label: 'عرض توسع Nysaa',
+    prompt: 'عرض لتوسع Nysaa وجمال التجزئة في الخليج وشراكة Nykaa',
   },
 ];
 
 /**
- * Consulting-grade deck templates — full prompts adapted to A.R.M. Holding context.
+ * Consulting-grade deck templates — full prompts adapted to Apparel Group context.
  * These populate the input field (not auto-sent) so the user can review before generating.
  */
 export const DECK_TEMPLATES = [
@@ -55,20 +55,20 @@ export const DECK_TEMPLATES = [
     id: 'ai-platform',
     icon: 'cpu',
     label: 'AI Decision Support Platform',
-    description: '10-slide McKinsey-grade strategy deck — building the Personal AI for A.R.M. Holding CEO',
-    prompt: `Create a 10-slide consulting-grade, board-ready strategy presentation for A.R.M. Holding CEO Amol.
+    description: '10-slide McKinsey-grade strategy deck — building the Personal AI for Apparel Group CEO',
+    prompt: `Create a 10-slide consulting-grade, board-ready strategy presentation for Apparel Group CEO Neeraj Teckchandani.
 
-Topic: Building an AI-powered Executive Decision Support Platform for A.R.M. Holding
-Audience: CEO and A.R.M. Holding senior leadership team — commercially sharp, time-poor, decision-oriented
-Context: A.R.M. Holding (DREC 3,200+ units, HUNA design-led residential + We Emerge Stronger, HIVE coliving 91% occupancy, Capri LLC investment arm, Jebel Ali Racecourse 5km² BIG+WSP) needs a governed AI intelligence layer for CEO decision-making.
+Topic: Building an AI-powered Executive Decision Support Platform for Apparel Group
+Audience: CEO and Apparel Group senior leadership team — commercially sharp, time-poor, decision-oriented
+Context: Apparel Group (2,500+ stores, 85+ brands, R&B 100+ stores, 6thStreet omnichannel, Club Apparel 10M+ members, Nysaa beauty retail) needs a governed AI intelligence layer for CEO decision-making.
 
 Required 10-slide structure:
 1. Title slide — premium navy hero
 2. Executive summary — recommendation first: pilot the AI platform starting with 3 high-value use cases
-3. Strategic context — information fragmentation and decision speed pressure facing A.R.M. Holding leadership
-4. Current pain points — manual synthesis, inconsistent briefing quality, fragmented portfolio signals
-5. Strategic positioning — intelligence layer (not chatbot): market signals, RERA compliance, Jebel Ali milestones, board briefings
-6. Priority use cases 2×2 matrix — CEO meeting briefings, Dubai market signals, DREC compliance tracker, board pack generation
+3. Strategic context — information fragmentation and decision speed pressure facing Apparel Group leadership
+4. Current pain points — manual synthesis, inconsistent briefing quality, fragmented portfolio signals across 14 countries
+5. Strategic positioning — intelligence layer (not chatbot): GCC retail signals, store performance, KSA expansion, board briefings
+6. Priority use cases 2×2 matrix — CEO meeting briefings, GCC market signals, R&B store tracker, board pack generation
 7. Target platform model — Executive Home + AI Strategy Agent + Briefings + Knowledge Base + Governance Layer
 8. Governance and trust model — source control, permissioning, audit trail, human review
 9. Pilot roadmap — 3 phases: design → build → launch
@@ -77,29 +77,29 @@ Required 10-slide structure:
 Rules: Answer-first, action slide titles (full sentence insight), one message per slide, MECE structure, exhibit on every slide, no generic AI language, separate facts/assumptions/recommendations. Deep navy hero title and close, white content slides. Use Command Centre context.`,
   },
   {
-    id: 'tokenised-finance',
+    id: 'omnichannel-growth',
     icon: 'trending-up',
-    label: 'Tokenised Finance Strategy',
-    description: '10-slide exhibit-led deck — tokenised real estate & digital asset opportunity for Capri LLC and HUNA',
-    prompt: `Create a 10-slide consulting-grade, chart-led, board-ready strategy presentation for A.R.M. Holding CEO.
+    label: 'Omnichannel Growth Strategy',
+    description: '10-slide exhibit-led deck — 6thStreet, Club Apparel and KSA expansion for Apparel Group',
+    prompt: `Create a 10-slide consulting-grade, chart-led, board-ready strategy presentation for Apparel Group CEO Neeraj Teckchandani.
 
-Topic: Tokenised Real Estate Finance & Digital Asset Strategy for A.R.M. Holding
-Audience: CEO Amol and Capri LLC investment leadership — institutional, evidence-focused
-Context: A.R.M. Holding (HUNA design-led residential, Capri LLC UAE & international investment arm, DREC 3,200+ units) is evaluating tokenised real estate finance as a strategic growth lane aligned with Dubai D33 economic agenda.
+Topic: Omnichannel Growth & KSA Expansion Strategy for Apparel Group
+Audience: CEO Neeraj and Apparel Group senior leadership — institutional, evidence-focused
+Context: Apparel Group (6thStreet omnichannel, Club Apparel 10M+ loyalty members, R&B 100+ stores, 2,500+ stores in 14 countries) is accelerating KSA expansion via Arabian Alesaar partnership and 90-minute fashion delivery.
 
 Required 10-slide structure:
-1. Title slide — "Tokenised real estate finance is moving from experimentation toward regulated institutional adoption in Dubai"
-2. Executive summary — recommended strategic posture: prioritise tokenised HUNA units, Capri LLC digital deals, DREC coliving REITs before speculative crypto
-3. Market momentum — stablecoin & tokenised RWA growth chart (line chart with inflection points, institutional adoption callout)
-4. Settlement opportunity — cross-border payment value pool for Capri LLC (bar chart: corporate treasury, UAE-international, trade finance)
-5. Jurisdiction benchmark table — Dubai/DIFC, Abu Dhabi/ADGM, Singapore, Hong Kong, Switzerland: regulatory clarity, tokenised fund activity, custody maturity
-6. Regulatory maturity heatmap — RERA/DLD/CBUAE/DFSA rows vs jurisdictions: green/amber/red maturity scoring
-7. Opportunity prioritisation 2×2 matrix — strategic value vs feasibility: tokenised HUNA units, Capri LLC digital deals, DREC REITs, stablecoin settlement, retail crypto (do not prioritise)
-8. Strategic options matrix — 4 options scored: Tokenised HUNA launch, Capri LLC digital fund, DREC coliving REIT, broad crypto exchange (not recommended)
-9. Risk and governance model — AML, custody, stablecoin reserve, regulatory arbitrage, reputational risk — risk heatmap with controls
-10. Decisions required — approve 3 priority lanes, regulatory review scope, target institution segments, pilot partnership themes, next milestone
+1. Title slide — "Omnichannel delivery and KSA expansion are Apparel Group's highest-growth vectors in 2026"
+2. Executive summary — recommended posture: prioritise 6thStreet delivery scale, Club Apparel engagement, KSA store rollout
+3. Market momentum — GCC retail sales growth chart (+8.2% YoY, e-commerce penetration 22%)
+4. Omnichannel opportunity — 6thStreet 90-min delivery vs Namshi/Noon benchmark (bar chart)
+5. GCC jurisdiction benchmark table — UAE, KSA, Qatar, Bahrain: retail licensing, VAT, labour law maturity
+6. KSA expansion heatmap — Arabian Alesaar partnership milestones vs competitor mall openings
+7. Opportunity prioritisation 2×2 matrix — strategic value vs feasibility: 6thStreet KSA, Club Apparel campaigns, R&B new stores, Nysaa beauty
+8. Strategic options matrix — 4 options scored with IRR and risk
+9. Risk and governance model — labour attrition, mall lease terms, brand partner dependencies
+10. Decisions required — approve KSA milestones, 6thStreet delivery expansion, Club Apparel campaign, next milestone
 
-Rules: Chart-led (8+ exhibits), at least 5 quantitative charts, action titles, source notes on every chart, no crypto hype language. All placeholder data clearly marked [insert verified metric]. Deep navy executive theme.`,
+Rules: Chart-led (8+ exhibits), at least 5 quantitative charts, action titles, source notes on every chart. Deep navy executive theme.`,
   },
 ] as const;
 
@@ -237,8 +237,8 @@ export default function SlideAIChat() {
           <div className="cc-slideai__empty">
             <p className="cc-slideai__empty-title">
               {ar
-                ? 'صف عرضك — A.R.M. Holding · Opus 4.8'
-                : 'Describe your deck — A.R.M. Holding · Powered by Claude Opus 4.8'}
+                ? 'صف عرضك — Apparel Group · Opus 4.8'
+                : 'Describe your deck — Apparel Group · Powered by Claude Opus 4.8'}
             </p>
             <p className="cc-slideai__empty-sub">
               {ar

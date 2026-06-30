@@ -60,7 +60,7 @@ function GreetingHero({ lang, setView }) {
       className="card rise greeting-hero"
       style={{ background: 'linear-gradient(135deg, var(--adgm-navy) 0%, var(--adgm-navy-mid) 55%, var(--adgm-navy-deep) 100%)', border: 'none', color: '#fff', overflow: 'hidden' }}
     >
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(70% 120% at 100% -10%, rgba(52,214,223,0.22), transparent 55%), radial-gradient(50% 80% at 90% 120%, rgba(201,163,91,0.18), transparent)', pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(70% 120% at 100% -10%, rgba(197,217,45,0.18), transparent 55%), radial-gradient(50% 80% at 90% 120%, rgba(0,51,153,0.22), transparent)', pointerEvents: 'none' }}></div>
       <div className="card-pad" style={{ position: 'relative', padding: 30, display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-end', justifyContent: 'space-between' }}>
         <div className="greeting-hero__copy">
           <div className="greeting-hero__meta">
@@ -78,8 +78,8 @@ function GreetingHero({ lang, setView }) {
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 16, maxWidth: 560, lineHeight: 1.5, margin: 0 }}>
             {ar
-              ? 'إليك ما حدث بين عشية وضحاها عبر أولوياتك الاستراتيجية، و3 شركات محفظة، و9 فرق.'
-              : "Here's what happened overnight across your strategic priorities, 3 portfolio companies (DREC · HUNA · HIVE), and 9 teams."}
+              ? 'إليك ما حدث بين عشية وضحاها عبر أولوياتك الاستراتيجية، و4 شركات محفظة، و9 فرق.'
+              : "Here's what happened overnight across your strategic priorities, 4 portfolio companies (R&B · 6thStreet · Club Apparel · Nysaa), and 9 teams."}
             <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, display: 'block', marginTop: 4 }}>{dateStr}</span>
           </p>
           <div style={{ display: 'flex', gap: 10, marginTop: 20, flexWrap: 'wrap' }}>
@@ -89,7 +89,7 @@ function GreetingHero({ lang, setView }) {
         </div>
         <div className="greeting-hero__stats">
           {[
-            { n: 3, l: ar ? 'شركات المحفظة' : 'portfolio companies', t: undefined },
+            { n: 4, l: ar ? 'شركات المحفظة' : 'portfolio companies', t: undefined },
             { n: 9, l: ar ? 'إدارات مباشرة' : 'live departments', t: undefined },
             { n: falcon.score, l: ar ? 'توافق المحفظة' : 'Portfolio health', t: ar ? falcon.tooltipAr : falcon.tooltip },
           ].map((s) => (
@@ -104,43 +104,61 @@ function GreetingHero({ lang, setView }) {
   );
 }
 
+const SIGNAL_TONES: Record<string, { color: string; stripe: string }> = {
+  market: { color: '#003399', stripe: '#003399' },
+  competitor: { color: '#8B6914', stripe: '#C5D92D' },
+  investment: { color: '#1A6B4A', stripe: '#1A6B4A' },
+  performance: { color: '#4338CA', stripe: '#4338CA' },
+  regulatory: { color: '#B42318', stripe: '#B42318' },
+  followup: { color: '#0D7C6E', stripe: '#0D7C6E' },
+};
+
 function SignalCard({ s, lang, big, sources }) {
   const ar = lang === 'ar';
   const L = ar ? s.ar : s;
-  const toneColor = { good: 'var(--status-good)', warn: 'var(--status-warn)', risk: 'var(--status-risk)', info: 'var(--status-info)' }[s.tone];
+  const tone = SIGNAL_TONES[s.id] ?? SIGNAL_TONES.market;
   const cardInfo = SIGNAL_CARD_INFO[s.id]?.[ar ? 'ar' : 'en'];
   return (
     <IntelCard
-      className={big ? 'intel-card--wide' : undefined}
+      className={['cc-signal-card', `cc-signal-card--${s.id}`, big ? 'intel-card--wide' : ''].filter(Boolean).join(' ')}
+      accentColor={tone.stripe}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
-      <IntelCardBody style={{ display: 'flex', flexDirection: 'column', flex: 1, gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <IntelIconBox icon={s.icon} color={toneColor} background={'color-mix(in oklab,' + toneColor + ' 14%, transparent)'} size="sm" />
-          <div className="eyebrow" style={{ color: toneColor }}>{L.label}</div>
-          {cardInfo ? <IntelLaymanInfo copy={cardInfo} /> : null}
-          <div className="kpi-num" style={{ marginInlineStart: 'auto', fontSize: 22, color: toneColor, fontWeight: 600 }}>{s.metric}</div>
+      <div
+        className="cc-signal-card__header"
+        style={{ '--signal-tone': tone.color } as React.CSSProperties}
+      >
+        <div className="cc-signal-card__header-top">
+          <IntelIconBox icon={s.icon} color={tone.color} background="#f4f7f9" size="md" />
+          <div className="cc-signal-card__header-main">
+            <div className="cc-signal-card__category-row">
+              <span className="cc-signal-card__category">{L.label}</span>
+              {cardInfo ? <IntelLaymanInfo copy={cardInfo} /> : null}
+            </div>
+          </div>
+          <div className="cc-signal-card__metric">
+            <span className="cc-signal-card__metric-value kpi-num">{s.metric}</span>
+            <span className="cc-signal-card__metric-label">{L.metricLabel}</span>
+          </div>
         </div>
+        <div className="cc-signal-card__header-meta">
+          <span className={`cc-signal-card__live-pill${L.freshnessLabel?.startsWith('Live') || L.freshnessLabel?.startsWith('مباشر') ? ' cc-signal-card__live-pill--live' : ''}`}>
+            <span className="cc-signal-card__live-dot" aria-hidden />
+            {L.freshnessLabel}
+          </span>
+        </div>
+      </div>
+      <IntelCardBody className="cc-signal-card__body">
         <div className="intel-signal-headline">
-          <div className={`type-title ${big ? 'type-title-md' : ''}`} style={{ fontSize: big ? 21 : 17, lineHeight: 1.35 }}>
+          <div className={`cc-signal-card__headline type-title ${big ? 'type-title-md' : ''}`}>
             {L.headline}
           </div>
-          {L.headlineSub ? (
-            <div className="intel-signal-headline__sub">{L.headlineSub}</div>
-          ) : null}
+          <div className="cc-signal-card__headline-sub">{L.headlineSub}</div>
         </div>
-        <p className="muted intel-signal-body" style={{ margin: 0, fontSize: 13.5, lineHeight: 1.5, flex: 1 }}>
-          {L.body}
-        </p>
-        {L.sourceLine ? (
-          <div className="eyebrow muted-3" style={{ fontSize: 11, marginTop: -4 }}>
-            {L.sourceLine}
-          </div>
-        ) : null}
-        <div className="cc-card-foot">
-          <div className="cc-card-foot__spark">
-            <Sparkline data={s.spark} color={toneColor} height={34} />
-            <div className="eyebrow muted-3" style={{ fontSize: 10.5, marginTop: 2 }}>{L.metricLabel}</div>
+        <p className="cc-signal-card__copy">{L.body}</p>
+        <div className="cc-signal-card__footer">
+          <div className="cc-signal-card__spark">
+            <Sparkline data={s.spark} color={tone.color} height={32} />
           </div>
         </div>
         <IntelCardSources sources={sources} ar={ar} />
@@ -179,34 +197,43 @@ export function ExecutiveHomePage() {
       <MarketTicker items={tickerItems} />
       <GreetingHero lang={lang} setView={setView} />
 
-      <div className="section-head" style={{ marginBottom: -4, marginTop: 6 }}>
-        <div>
-          <div className="eyebrow">{ar ? 'إشارات اليوم ذات الأولوية' : "Today's priority signals"}</div>
-          <h2 style={{ fontSize: 22, marginTop: 4 }}>{ar ? 'أهم ما يجب أن تعرفه' : 'The most important things to know'}</h2>
-          <p className="muted" style={{ margin: '6px 0 0', fontSize: 13.5, maxWidth: 560 }}>
+      <section className="cc-signals-block" aria-labelledby="executive-signals-heading">
+        <div
+          className="section-head cc-signals-section"
+          style={{ marginBottom: -4, marginTop: 6 }}
+        >
+          <div>
+            <p className="eyebrow cc-signals-section__eyebrow">
+              {ar ? 'إشارات اليوم ذات الأولوية' : "Today's priority signals"}
+            </p>
+            <h2 id="executive-signals-heading" className="cc-signals-section__title">
+              {ar ? 'أهم ما يجب أن تعرفه' : 'The most important things to know'}
+            </h2>
+            <p className="cc-signals-section__desc">
+              {ar
+                ? 'إشارات مخصصة لرئيس تنفيذي Apparel Group — تجزئة الخليج، المنافسون، التوسع، المحفظة، والامتثال — تحديث 08:00 و22:00.'
+                : 'CEO-tailored signals for Apparel Group — GCC retail, competitors, expansion, portfolio health, and compliance — refreshed 08:00 & 22:00 GST.'}
+            </p>
+          </div>
+          <span className="pill cc-signals-section__pill" role="status">
+            <span className="dot good pulse" aria-hidden="true" style={{ color: 'var(--status-good)' }} />
             {ar
-              ? 'عناوين وأسعار من مصادر عامة موثقة (Yahoo Finance، CoinGecko، RSS) — تُحدَّث 08:00 و22:00 بتوقيت الإمارات.'
-              : 'Headlines and prices from cited public sources (Yahoo Finance, CoinGecko, RSS wires) — refreshed 08:00 & 22:00 GST.'}
-          </p>
+              ? `${liveSignalCount}/6 إشارات بمصادر مباشرة`
+              : `${liveSignalCount}/6 signals with live sources`}
+          </span>
         </div>
-        <span className="pill ghost">
-          <span className="dot good pulse" style={{ color: 'var(--status-good)' }}></span>
-          {ar
-            ? `${liveSignalCount}/6 إشارات بمصادر مباشرة`
-            : `${liveSignalCount}/6 signals with live sources`}
-        </span>
-      </div>
 
-      <div className="grid mi-stagger cc-grid-auto">
-        {signals.map((s) => (
-          <SignalCard
-            key={s.id}
-            s={s}
-            lang={lang}
-            sources={signalSourcesById[s.id] ?? []}
-          />
-        ))}
-      </div>
+        <div className="grid mi-stagger cc-grid-auto">
+          {signals.map((s) => (
+            <SignalCard
+              key={s.id}
+              s={s}
+              lang={lang}
+              sources={signalSourcesById[s.id] ?? []}
+            />
+          ))}
+        </div>
+      </section>
 
       <div className="card card-adgm-dark rise" style={{ marginTop: 4 }}>
         <div className="card-pad card-adgm-dark__layout">
@@ -242,7 +269,7 @@ export function ExecutiveHomePage() {
               الردود المعروضة مستمدة من قواعد المعرفة المعتمدة ومحادثات تنفيذية نموذجية. الهدف
               توضيحي ولا يُعدّ استشارة قانونية أو تنظيمية.
             </p>
-            <p>عند التعارض مع اللوائح أو السياسات الرسمية لـ A.R.M. Holding، تسود الوثائق الرسمية.</p>
+            <p>عند التعارض مع اللوائح أو السياسات الرسمية لـ Apparel Group، تسود الوثائق الرسمية.</p>
           </>
         ) : (
           <>
@@ -251,7 +278,7 @@ export function ExecutiveHomePage() {
               records. They aim to offer clarity and do not constitute legal or regulatory advice.
             </p>
             <p>
-              If there is any conflict with official A.R.M. Holding regulations, rules, or guidance, the
+              If there is any conflict with official Apparel Group regulations, rules, or guidance, the
               official documents prevail.
             </p>
           </>

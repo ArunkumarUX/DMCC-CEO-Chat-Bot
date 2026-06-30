@@ -26,31 +26,31 @@ export function buildFocusAreaResponse(
   const area = FOCUS_AREA_MAP[areaId];
   const m = state.marketSnapshot;
   const hr = getDepartment(state, 'hr');
-  const attrition = hr?.kpis.find((k) => k.label.includes('Attrition'))?.value ?? '15.8%';
+  const attrition = hr?.kpis.find((k) => k.label.includes('Attrition'))?.value ?? '18%';
 
   const agents = area.agents as AgentType[];
 
   switch (areaId) {
     case 'strategic-intelligence': {
       const q = query.toLowerCase();
-      if (q.includes('emaar') || q.includes('huna') || q.includes('competitor')) {
+      if (q.includes('6thstreet') || q.includes('namshi') || q.includes('competitor')) {
         return {
           agents,
           confidence: 0.9,
           sourceDocIds: ['d9', 'd8'],
           followUps: baseFollowUps(areaId),
-          content: `## HUNA vs Emaar — design positioning
+          content: `## 6thStreet vs Namshi — omnichannel positioning
 
-${plainTerms('HUNA leads on cultural curation and design; Emaar leads on scale and distribution.')}
+${plainTerms('6thStreet leads on phygital experience and 90-min delivery; Namshi leads on marketplace scale in KSA.')}
 ${metricTable(
-  ['Signal', 'HUNA', 'Emaar'],
+  ['Signal', '6thStreet', 'Namshi'],
   [
-    ['Design differentiation', '96/100', '78/100'],
-    ['Pre-sales velocity', 'Catching up', 'Market leader'],
-    ['Cultural narrative', 'We Emerge Stronger', 'Volume-led'],
+    ['Omnichannel score', '92/100', '85/100'],
+    ['Delivery speed', '90-min (UAE)', 'Same-day (KSA)'],
+    ['Brand portfolio depth', '85+ brands', 'Marketplace-led'],
   ],
 )}
-${actionNow('Accelerate HUNA waterfront launch narrative this week.')}
+${actionNow('Accelerate 6thStreet KSA delivery proposition this quarter.')}
 ${agentTag(['Strategy AI'])}`,
         };
       }
@@ -60,16 +60,16 @@ ${agentTag(['Strategy AI'])}`,
           confidence: 0.91,
           sourceDocIds: ['d8'],
           followUps: baseFollowUps(areaId),
-          content: `## Geopolitical brief — Dubai portfolio
+          content: `## Geopolitical brief — GCC retail
 
-${plainTerms('No crisis for the group today — watch GCC capital flows and mortgage rule changes for HUNA pre-sales.')}
+${plainTerms('No crisis for the group today — watch GCC consumer confidence and tourism flows for store footfall.')}
 ${metricTable(
   ['Topic', 'Status', 'Signal'],
   [
-    ['Dubai RE transactions', '+4.2% overnight', signalEmoji('good')],
+    ['GCC retail sales', '+8.2% YoY', signalEmoji('good')],
     ['GCC equities', m.gccEquities, signalEmoji('good')],
-    ['Mortgage rules (CBUAE)', 'Expat affordability eased', signalEmoji('good')],
-    ['Regional stability', 'Stable inflows', signalEmoji('good')],
+    ['Tourism arrivals (UAE)', 'Strong summer season', signalEmoji('good')],
+    ['Regional stability', 'Stable consumer spending', signalEmoji('good')],
   ],
 )}
 ${agentTag(['Strategy AI', 'Policy AI'])}`,
@@ -82,32 +82,32 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
         followUps: baseFollowUps(areaId),
         content: `## Daily briefing — ${new Date().toLocaleDateString('en-AE', { weekday: 'short', day: 'numeric', month: 'short' })}
 
-${plainTerms('Dubai real estate steady; hospitality recovery supports DREC and HUNA. Watch RERA filing deadline.')}
+${plainTerms('GCC retail steady; omnichannel growth supports 6thStreet and Club Apparel. Watch KSA expansion milestones.')}
 ${metricTable(
   ['Market', 'Move', 'Signal'],
   [
-    ['Dubai RE transactions', '+4.2%', signalEmoji('good')],
-    ['Hospitality RevPAR', 'Climbing', signalEmoji('good')],
+    ['GCC retail sales', '+8.2% YoY', signalEmoji('good')],
+    ['E-commerce penetration', '22%', signalEmoji('good')],
     ['Top sector', m.topSector.split('(')[0].trim(), signalEmoji('good')],
   ],
 )}
 ${metricTable(
   ['Competitor', 'Headline', 'Signal'],
   [
-    ['Emaar', m.competitorNote, signalEmoji('watch')],
-    ['Meraas', 'Waterfront community launch', signalEmoji('watch')],
-    ['Nakheel', 'No major move', signalEmoji('good')],
+    ['Noon', m.competitorNote, signalEmoji('watch')],
+    ['Namshi', 'Same-day KSA delivery push', signalEmoji('watch')],
+    ['Regional malls', 'Footfall recovering', signalEmoji('good')],
   ],
 )}
-**D33 portfolio alignment**
-${scoreBar(86)}
+**Portfolio alignment**
+${scoreBar(88)}
 ${agentTag(['Strategy AI', 'Policy AI'])}`,
       };
     }
 
     case 'meetings': {
       const qLower = query.toLowerCase();
-      const mtg = state.meetings.find((m) => qLower.includes('drec') && m.title.toLowerCase().includes('drec'))
+      const mtg = state.meetings.find((m) => qLower.includes('leadership') && m.title.toLowerCase().includes('leadership'))
         ?? state.meetings[0];
       if (query.toLowerCase().includes('board pack') || query.toLowerCase().includes('executive summary')) {
         return {
@@ -117,26 +117,27 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
           followUps: baseFollowUps(areaId),
           content: `## Board pack — executive summary
 
-**Document:** Q2_Board_Pack_Draft_v3.pdf
+**Document:** Q2_Board_Pack_Apparel_Group_v3.pdf
 
 ### Decisions required (3)
-1. HUNA waterfront launch — board sign-off Q3
-2. We Emerge Stronger commission — artist shortlist approval
-3. Talent pipeline — HR attrition **${attrition}** — retention actions recommended
+1. KSA expansion — Arabian Alesaar milestone approval
+2. Club Apparel 10M member campaign — launch sign-off
+3. Store operations talent — HR attrition **${attrition}** — retention actions recommended
 
 ### Portfolio highlights
-- DREC occupancy 94.2% · leasing pipeline AED 124M
-- HUNA pre-sales inquiries +12% QoQ
-- HIVE occupancy 91%
+- R&B: 100+ stores across GCC · Most Admired Value Retailer 2025
+- 6thStreet: 90-min delivery live · phygital store network expanding
+- Club Apparel: 10M+ loyalty members
+- Tim Hortons: 300+ stores in GCC & India
 
 ### Risks for board attention
-- One HUNA pre-sales deal stalled 3 weeks
-- RERA rental disclosure due in 11 days
+- Store labour attrition above threshold in UAE and KSA
+- Competitor omnichannel acceleration (Noon, Namshi)
 
 *Ready for export to board portal · Communications AI can draft covering note*`,
         };
       }
-      if (query.toLowerCase().includes('action item') || query.toLowerCase().includes('drec')) {
+      if (query.toLowerCase().includes('action item') || query.toLowerCase().includes('leadership')) {
         return {
           agents,
           confidence: 0.9,
@@ -144,15 +145,15 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
           followUps: baseFollowUps(areaId),
           content: `## Post-meeting — action extraction
 
-**Meeting:** DREC board (Apr 2026)
+**Meeting:** Apparel Group leadership (Q2 2026)
 
 | Action | Owner | Due | Status |
 |--------|-------|-----|--------|
-| Approve RERA rental repricing plan | ${EXECUTIVE_USER.firstName} | 30 Jun | Open |
-| HUNA launch narrative sign-off | Marketing | End Q2 | Open |
-| Escalate stalled pre-sales deal | Sales | This week | **Urgent** |
+| Approve KSA expansion milestone plan | ${EXECUTIVE_USER.firstName} | 30 Jun | Open |
+| Club Apparel campaign sign-off | Marketing | End Q2 | Open |
+| Escalate store manager vacancies (KSA, Qatar) | HR | This week | **Urgent** |
 
-**Follow-up draft (excerpt):** Thank you for a productive session. DREC will circulate the RERA compliance update by [date]. We welcome progress on the HUNA waterfront launch timeline.
+**Follow-up draft (excerpt):** Thank you for a productive session. The group will circulate the KSA expansion update by [date]. We welcome progress on the 6thStreet omnichannel roadmap.
 
 *Add to action register · Chief of Staff AI*`,
         };
@@ -168,15 +169,15 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
 **Prep status:** ${mtg.prepStatus === 'ready' ? 'Ready' : 'In progress'}
 
 ### Context
-- Last board: occupancy held at 94.2%; leasing pipeline healthy
-- Open item: RERA rental disclosure due in 11 days
+- Store network: 2,500+ globally; GCC same-store sales tracking to plan
+- Open item: Images RetailME Awards speaking slot due in 14 days
 
 ### Suggested questions
-1. Timeline for stalled AED 90M pre-sales link?
-2. Beach Centre footfall recovery — sustain Q2 gains?
+1. Timeline for Arabian Alesaar KSA store rollout?
+2. 6thStreet 90-min delivery — expansion to additional emirates?
 
 ### Sensitivities
-- Avoid over-committing on HUNA launch date before design partner sign-off`,
+- Avoid over-committing on KSA store count before retail partner sign-off`,
       };
     }
 
@@ -190,18 +191,19 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
 
 **Query:** ${query.slice(0, 120)}...
 
-### A.R.M. Holding group position
-RERA rental index update requires DREC portfolio repricing within 30 days. DLD registration SLA 5 business days for new leases.
+### Apparel Group position
+UAE VAT guidance update affects F&B operations (Tim Hortons, Cold Stone). Saudi retail licensing requirements changing for foreign brand operators.
 
-### Dubai benchmark
-**RERA:** Enhanced rental disclosure requirements — group filing due in 11 days
+### GCC benchmark
+**UAE DED:** Retail licensing renewal cycle — group filing on track  
+**MOHRE:** Labour law updates affecting store operations headcount planning
 
 ### Recommended CEO actions
-1. Clear RERA filing with Legal & Compliance on time
-2. Review HUNA escrow compliance for off-plan sales
-3. Board visibility on DLD registration bottleneck (5.6-day turnaround)
+1. Clear VAT compliance review with Finance for F&B division
+2. Review KSA licensing timeline with Legal & country head
+3. Board visibility on consumer protection e-commerce returns policy
 
-*Cross-reference complete against RERA, DLD, DET feeds · updated today*`,
+*Cross-reference complete against UAE DED, FTA, MOHRE feeds · updated today*`,
       };
 
     case 'correspondence':
@@ -213,16 +215,16 @@ RERA rental index update requires DREC portfolio repricing within 30 days. DLD r
         content: `## Correspondence & communications
 
 ### Priority inbound (last 48h — simulated)
-1. **Art Dubai** — We Emerge Stronger commission timeline confirmation
+1. **Images RetailME Awards** — CEO acceptance speech confirmation
 2. **Board secretariat** — Q2 pack circulation draft approval
-3. **DREC Legal** — RERA filing gap memo
+3. **KSA Legal** — Arabian Alesaar partnership milestone memo
 
 ### Draft capability
 - **Arabic / English** executive register with honorifics verified
 - CEO voice learning applied from prior approved notes
 
-### Sample (English excerpt — We Emerge Stronger)
-Culture is essential to how we build cities and communities. This commission reflects our belief that art should be woven into everyday life at HUNA Sculpture Park.
+### Sample (English excerpt — RetailME Awards)
+Apparel Group's 2,500 stores and 85 brands represent the diversity and ambition of GCC retail. This recognition reflects our team's commitment to innovation, sustainability, and exceptional customer experience.
 
 *Full bilingual draft in Documents library · Communications AI*`,
       };
@@ -238,13 +240,13 @@ Culture is essential to how we build cities and communities. This commission ref
 ### CRM summary
 | Stakeholder | Last interaction | Open commitments |
 |-------------|------------------|------------------|
-| **Art Dubai** | Jun 2026 | Sculpture commission launch |
-| **DREC board** | Apr 2026 | RERA repricing approval |
-| **Banking JV partner** | May 2026 | Q2 portfolio review |
+| **Arabian Alesaar Group** | Jun 2026 | KSA expansion milestone |
+| **Apparel Group leadership** | Q2 2026 | Store network review |
+| **Major mall operator** | May 2026 | New store openings Q3 |
 
 ### Partnerships requiring follow-up
-- We Emerge Stronger × Art Dubai — open call live until 25 Jul
-- HUNA design partnerships — 2 follow-ups due this month
+- Arabian Alesaar × Apparel Group — KSA store rollout plan
+- Nykaa × Nysaa — GCC beauty expansion follow-ups due this month
 
 ### Before next engagement
 Request a full stakeholder brief naming the organisation for attendee history, sensitivities, and talking points.`,
@@ -261,12 +263,12 @@ Request a full stakeholder brief naming the organisation for attendee history, s
 **Corpus:** ${state.metrics.documentsInKb}+ indexed documents · Knowledge Graph active
 
 ### Results for your query
-- **ARM_Group_Strategy_2026.pdf** — investment approach, DREC/HUNA/HIVE portfolio
-- **DREC_Portfolio_Review_Q1_2026.pdf** — 3,200+ units, 94.2% occupancy
-- **We_Emerge_Stronger_Commission_Brief.pdf** — Art Dubai open call, HUNA Sculpture Park
+- **Apparel_Group_Strategy_2026.pdf** — GCC expansion, omnichannel, 85+ brand portfolio
+- **RB_Store_Network_Review_Q1_2026.pdf** — 100+ stores, value retail positioning
+- **Club_Apparel_Loyalty_Review_2026.pdf** — 10M+ members, engagement metrics
 
 ### Historical precedent
-2025 strategic decisions: accelerate HUNA design-led launches, launch We Emerge Stronger commission, stabilise DREC income base.
+2025 strategic decisions: accelerate KSA expansion, launch 6thStreet 90-min delivery, scale Club Apparel to 10M members, new brand launches (HEYDUDE, Barbour, Forever New).
 
 *Institutional knowledge preserved across tenures · cite sources in export*`,
       };
@@ -284,8 +286,8 @@ Request a full stakeholder brief naming the organisation for attendee history, s
 
 function ALL_FOCUS_PROMPTS_FALLBACK(): string[] {
   return [
-    'Give me my daily executive briefing for Dubai real estate and the A.R.M. Holding portfolio',
-    'Brief me on my next DREC board meeting',
-    'Search our knowledge base for We Emerge Stronger commission details',
+    'Give me my daily executive briefing for GCC retail and the Apparel Group portfolio',
+    'Brief me on my next leadership team meeting',
+    'Search our knowledge base for KSA expansion milestones',
   ];
 }

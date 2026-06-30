@@ -91,7 +91,7 @@ export function WelcomePage() {
             target="_blank"
             rel="noreferrer"
           >
-            A.R.M. Holding — armholding.ae
+            Apparel Group — apparelgroup.com
           </a>
         </p>
       </section>

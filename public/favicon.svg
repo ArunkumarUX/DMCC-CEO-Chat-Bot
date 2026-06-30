@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <rect width="64" height="64" rx="12" fill="#000000"/>
-  <g fill="#FFFFFF" transform="translate(14 10) scale(0.42)">
-    <path d="M6 8c0 16 2 30 5 42 2 7 4 12 6 15 1 2 2 3 4 3 2 0 3-1 4-3 2-3 4-8 6-15 3-12 5-26 5-42V6H6v2z"/>
-    <path d="M26 4c0 20 2 38 7 52 2 4 4 8 6 10 2 2 4 3 5 3s3-1 5-3c2-2 4-6 6-10 5-14 7-32 7-52V2H26v2z"/>
-    <path d="M48 10c0 14 2 26 4 36 1 6 3 10 5 13 1 1 2 2 4 2s3-1 4-2c2-3 4-7 5-13 2-10 4-22 4-36 0-3-1-5-2-7-1-2-4-3-6-3s-5 1-6 3c-1 2-2 4-2 7z"/>
-  </g>
+  <text x="32" y="30" text-anchor="middle" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="0.08em">AG</text>
+  <line x1="12" y1="34" x2="52" y2="34" stroke="#C5D92D" stroke-width="2"/>
+  <rect x="12" y="38" width="40" height="4" fill="#C5D92D"/>
 </svg>

@@ -114,7 +114,7 @@ export async function verifyAnthropicApiKey() {
 
 export function buildSystemPrompt(ctx, language) {
   const ar = language === 'ar';
-  const firstName = ctx?.executiveFirstName ?? 'Amol';
+  const firstName = ctx?.executiveFirstName ?? 'Neeraj';
   const gstGreeting = ctx?.gstGreeting ?? greetingForGstTime('en');
 
   // ── GREETING: scripted opener ONLY on the very first message of a conversation.
@@ -152,7 +152,7 @@ ${calConnected ? '' : `5. CALENDAR NOT CONNECTED: do NOT mention meetings or a "
 
   // ── GENERAL KNOWLEDGE FALLBACK: answer like a capable AI assistant ──
   if (ctx?.conversationalMode === 'irrelevant') {
-    return `You are the Personal AI Assistant for ${firstName} at ${ctx?.organisation || 'A.R.M. Holding'}.
+    return `You are the Personal AI Assistant for ${firstName} at ${ctx?.organisation || 'Apparel Group'}.
 The user has asked a general knowledge question outside the specialist CSO scope, but you are still a highly capable AI — answer helpfully and accurately from your training knowledge, exactly as a knowledgeable assistant would.
 - Be concise, clear and friendly.
 - Stay in your persona as the Personal AI Assistant.
@@ -217,7 +217,7 @@ For all other questions:
 - Answer directly and concisely — like a knowledgeable assistant, not a strategy advisor.
 - NEVER ask clarifying questions when a reasonable interpretation exists — assume the most likely meaning, answer, and add one short "tell me if you meant something else" line only if truly ambiguous.
 - Do NOT use executive sections: no "Executive Takeaway", "Source Basis", "Strategic Implication", or any CSO structure.
-- Do NOT add follow-up suggestions or A.R.M. Holding-related prompts at the end.
+- Do NOT add follow-up suggestions or Apparel Group-related prompts at the end.
 - If web results are injected, cite them inline.
 ${hasWebResults
   ? '✅ Web search results injected below — extract the concrete answer and state it directly.'
@@ -264,10 +264,10 @@ ${hasWebResults
 ══════════════════════════════════════════
 FALCON / INSTITUTIONAL KB — MANDATORY (overrides clarifying questions)
 ══════════════════════════════════════════
-AUTHORITATIVE KB EXCERPTS are injected this turn (D33 alignment [KB-006], Falcon Strategy [KB-007], A.R.M. Holding archive, etc.).
+AUTHORITATIVE KB EXCERPTS are injected this turn (GCC expansion alignment [KB-006], Falcon Strategy [KB-007], Apparel Group archive, etc.).
 - Answer IMMEDIATELY from those excerpts — synthesize a clear executive summary.
-- NEVER ask which Falcon document the user means. NEVER say the KB lacks Falcon Strategy or D33 alignment.
-- If the user says "Falcon strategy" (or a typo like "stratgey"), lead with [KB-007] Falcon Strategy Executive Summary; cross-reference [KB-006] D33 alignment 2025–2045 where relevant.
+- NEVER ask which Falcon document the user means. NEVER say the KB lacks Falcon Strategy or GCC expansion alignment.
+- If the user says "Falcon strategy" (or a typo like "stratgey"), lead with [KB-007] Falcon Strategy Executive Summary; cross-reference [KB-006] GCC expansion alignment 2025–2045 where relevant.
 - Cite inline handles with source URLs. Grounding: full when excerpts cover the question.
 `
     : '';
@@ -313,7 +313,7 @@ AUTHORITATIVE KB EXCERPTS are injected this turn (D33 alignment [KB-006], Falcon
   return `${CSO_GLOBAL_SYSTEM_PROMPT}
 
 TODAY: ${currentDate} · ${currentTime} GST
-Executive: ${ctx?.executiveName || 'Amol'}, Chief Executive Officer, ${ctx?.organisation || 'A.R.M. Holding'}.
+Executive: ${ctx?.executiveName || 'Neeraj Teckchandani'}, Chief Executive Officer, ${ctx?.organisation || 'Apparel Group'}.
 
 ${CSO_ORCHESTRATOR_PROMPT}
 
@@ -381,7 +381,7 @@ ${ctx?.webSearchBlock ? ctx.webSearchBlock : ''}
 
 SOURCE CITATION FORMAT (mandatory for every response):
 When citing a KB source inline, include the handle and real URL from the excerpt header where helpful. Example:
-  [KB-006] D33 alignment Strategy 2025–2045 | added.gov.ae | /kb/20240923_FalconEconomy-Eng.pdf
+  [KB-006] GCC expansion alignment Strategy 2025–2045 | added.gov.ae | /kb/20240923_FalconEconomy-Eng.pdf
 Do NOT duplicate citations in a trailing Sources / Grounding / Sources Used footer — the app renders source chips below the answer automatically.
 
 DATA INTEGRITY — TIERED ANSWERING (mandatory, in this order):
@@ -391,7 +391,7 @@ Always check the conversation history first. If the answer (or part of it) was a
 
 TIER 1 — INTERNAL KB / GROUNDED RECORDS (highest source priority):
 ${hasGrounding
-  ? '✅ Grounded records ARE injected this turn. Cite handles inline (KB-, MKT-, CAL-, ACT-, CRM-, BBG-). Do NOT invent licence growth %, Falcon scores, market prices, or A.R.M. Holding legal clauses. For market figures: add "as of [date], Source: Yahoo Finance / CoinGecko".'
+  ? '✅ Grounded records ARE injected this turn. Cite handles inline (KB-, MKT-, CAL-, ACT-, CRM-, BBG-). Do NOT invent licence growth %, Falcon scores, market prices, or Apparel Group legal clauses. For market figures: add "as of [date], Source: Yahoo Finance / CoinGecko".'
   : '⚠️  No internal records injected this turn — proceed to Tier 2 or Tier 3.'}
 
 TIER 2 — LIVE WEB SEARCH RESULTS (if injected above):
@@ -405,9 +405,9 @@ If the question has no match in grounded records AND no web search results, answ
 ══════════════════════════════════════════
 CRITICAL OVERRIDE — GENERAL KNOWLEDGE RULE
 ══════════════════════════════════════════
-The source rules and "do not invent" rules in this prompt apply ONLY to A.R.M. Holding-specific internal facts:
+The source rules and "do not invent" rules in this prompt apply ONLY to Apparel Group-specific internal facts:
   - Internal KPIs, targets, or performance numbers
-  - Official A.R.M. Holding/RERA positions or decisions
+  - Official Apparel Group/UAE retail positions or decisions
   - Private meeting details or stakeholder commitments
   - Unpublished internal documents or strategies
 
@@ -418,7 +418,7 @@ They do NOT apply to general world knowledge. For any question about:
   - How-to questions, definitions, explanations
 → Answer immediately and helpfully from training knowledge. Do NOT treat these as "missing source material." This is mandatory.
 
-If you know the answer from general knowledge, give it. Only flag missing data for facts that are genuinely A.R.M. Holding-internal and cannot be known without an approved source.
+If you know the answer from general knowledge, give it. Only flag missing data for facts that are genuinely Apparel Group-internal and cannot be known without an approved source.
 
 ${calendarConnected
   ? '- Calendar (CAL- handles) is CONNECTED — cite meeting records freely.'
@@ -436,7 +436,7 @@ Institutional metrics (cite matching handle if used):
 - Documents in KB: ${ctx?.metrics?.documentsInKb ?? '—'}
 - Departments green: ${ctx?.metrics?.departmentsOnTrack ?? '—'} / 9
 - Open actions: ${ctx?.metrics?.openActions ?? '—'}
-- Falcon / A.R.M. Holding Law questions: use KB-006–KB-015 excerpts if available; otherwise answer from general knowledge.
+- Falcon / Apparel Group Law questions: use KB-006–KB-015 excerpts if available; otherwise answer from general knowledge.
 
 Department headlines (ERP):
 ${deptLine || '(none injected — answer from general knowledge if asked)'}`;
@@ -468,10 +468,10 @@ export async function streamChat(payload, writeEvent) {
   // ── WEB SEARCH STRATEGY: KB first, external search supplements gaps ──
   // Every query now attempts live web search so Claude always has fresh external
   // data to supplement the internal knowledge base.
-  // - Explorer (general / outside-A.R.M. Holding): broad unscoped search for any topic.
-  // - CSO agents (A.R.M. Holding-specific): scoped search on approved financial/regulatory sources.
+  // - Explorer (general / outside-Apparel Group): broad unscoped search for any topic.
+  // - CSO agents (Apparel Group-specific): scoped search on approved financial/regulatory sources.
   // Internal KB / grounded records are injected via the system prompt separately;
-  // Claude is instructed to prefer KB for A.R.M. Holding-internal facts and use web for the rest.
+  // Claude is instructed to prefer KB for Apparel Group-internal facts and use web for the rest.
   let webSearchBlock = '';
   try {
     if (isExplorerQuery) {
@@ -486,7 +486,7 @@ export async function streamChat(payload, writeEvent) {
       }
     } else {
       // CSO query — always search even if shouldWebSearch is false;
-      // scoped to A.R.M. Holding-relevant financial/regulatory sources
+      // scoped to Apparel Group-relevant financial/regulatory sources
       const results = await smartSearch(message, 5);
       if (results?.length) {
         webSearchBlock = formatSearchResultsBlock(results, message);

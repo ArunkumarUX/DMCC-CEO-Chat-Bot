@@ -3,26 +3,26 @@
   "builtAt": "2026-06-25T00:00:00.000Z",
   "sources": [
     {
-      "id": "arm-group-strategy",
+      "id": "ag-group-strategy",
       "docId": "d6",
       "handle": "KB-001",
-      "title": "A.R.M. Holding — Group Strategy & Investment Approach",
-      "pdfName": "ARM_Group_Strategy_2026.pdf",
+      "title": "Apparel Group — Group Strategy & Investment Approach",
+      "pdfName": "Apparel_Group_Strategy_2026.pdf",
       "date": "2026-05-01",
       "category": "strategy",
       "pageEstimate": 24,
-      "summary": "A.R.M. Holding is a UAE-based private investment and real estate company focused on building scalable ventures with lasting social and economic value. The group invests from early-stage to pre-IPO across real estate, hospitality, and banking, alongside future-focused industries including healthtech, sustainable food, mobility, fintech, and cultural initiatives.",
+      "summary": "Apparel Group is a UAE-based private investment and retail company focused on building scalable ventures with lasting social and economic value. The group invests from early-stage to pre-IPO across retail, F&B, and banking, alongside future-focused industries including healthtech, sustainable food, mobility, fintech, and cultural initiatives.",
       "chunkCount": 6,
-      "pdfFile": "ARM_Group_Strategy_2026.pdf",
-      "externalUrl": "https://www.armholding.ae/",
-      "publicUrl": "https://www.armholding.ae/",
-      "citation": "A.R.M. Holding Group Strategy | armholding.ae"
+      "pdfFile": "Apparel_Group_Strategy_2026.pdf",
+      "externalUrl": "https://www.apparelgroup.com/",
+      "publicUrl": "https://www.apparelgroup.com/",
+      "citation": "Apparel Group Strategy | apparelgroup.com"
     },
     {
       "id": "arm-values",
       "docId": "d7",
       "handle": "KB-002",
-      "title": "A.R.M. Holding — Values & Leadership",
+      "title": "Apparel Group — Values & Leadership",
       "pdfName": "ARM_Values_Leadership_2026.pdf",
       "date": "2026-05-01",
       "category": "strategy",
@@ -30,143 +30,143 @@
       "summary": "Core values: Integrity, Cooperation, Agility, Creativity, Humility. CEO H.E. Mohammad Saeed Al Shehhi leads the group with a belief that meaningful progress happens when financial growth and cultural enrichment advance together.",
       "chunkCount": 4,
       "pdfFile": "ARM_Values_Leadership_2026.pdf",
-      "externalUrl": "https://www.armholding.ae/",
-      "publicUrl": "https://www.armholding.ae/",
-      "citation": "A.R.M. Holding Values | armholding.ae"
+      "externalUrl": "https://www.apparelgroup.com/",
+      "publicUrl": "https://www.apparelgroup.com/",
+      "citation": "Apparel Group Values | apparelgroup.com"
     },
     {
       "id": "drec-portfolio",
       "docId": "d8",
       "handle": "KB-003",
-      "title": "DREC — Dubai Real Estate Centre Portfolio Review",
-      "pdfName": "DREC_Portfolio_Review_Q1_2026.pdf",
+      "title": "R&B — Dubai Retail Centre Portfolio Review",
+      "pdfName": "R&B_Portfolio_Review_Q1_2026.pdf",
       "date": "2026-04-15",
       "category": "performance",
       "pageEstimate": 32,
-      "summary": "DREC manages over 3,200 residential and commercial units including Palm Spring Village and The Beach Centre. Long-standing real estate player in the UAE with diversified income streams.",
+      "summary": "R&B manages over 3,200 residential and commercial units including Palm Spring Village and The Beach Centre. Long-standing retail player in the UAE with diversified income streams.",
       "chunkCount": 5,
-      "pdfFile": "DREC_Portfolio_Review_Q1_2026.pdf",
-      "externalUrl": "https://www.armholding.ae/",
-      "publicUrl": "https://www.armholding.ae/",
-      "citation": "DREC Portfolio Review Q1 2026 | A.R.M. Holding"
+      "pdfFile": "R&B_Portfolio_Review_Q1_2026.pdf",
+      "externalUrl": "https://www.apparelgroup.com/",
+      "publicUrl": "https://www.apparelgroup.com/",
+      "citation": "R&B Portfolio Review Q1 2026 | Apparel Group"
     },
     {
       "id": "huna-developments",
       "docId": "d9",
       "handle": "KB-004",
-      "title": "HUNA — Design-Led Development Strategy",
-      "pdfName": "HUNA_Development_Strategy_2026.pdf",
+      "title": "6thStreet — Design-Led Development Strategy",
+      "pdfName": "6thStreet_Development_Strategy_2026.pdf",
       "date": "2026-03-20",
       "category": "strategy",
       "pageEstimate": 18,
-      "summary": "HUNA is a design-led real estate developer bringing together architecture, culture, and commerce. Each space is curated to offer a refined living experience shaped by leading creatives and visionary brands.",
+      "summary": "6thStreet is a omnichannel retail developer bringing together architecture, culture, and commerce. Each space is curated to offer a refined living experience shaped by leading creatives and visionary brands.",
       "chunkCount": 4,
-      "pdfFile": "HUNA_Development_Strategy_2026.pdf",
-      "externalUrl": "https://www.armholding.ae/",
-      "publicUrl": "https://www.armholding.ae/",
-      "citation": "HUNA Development Strategy 2026 | A.R.M. Holding"
+      "pdfFile": "6thStreet_Development_Strategy_2026.pdf",
+      "externalUrl": "https://www.apparelgroup.com/",
+      "publicUrl": "https://www.apparelgroup.com/",
+      "citation": "6thStreet Development Strategy 2026 | Apparel Group"
     },
     {
-      "id": "hive-coliving",
+      "id": "hive-loyalty programme",
       "docId": "d10",
       "handle": "KB-005",
-      "title": "HIVE — Coliving Operations & Community Model",
-      "pdfName": "HIVE_Operations_2026.pdf",
+      "title": "Club Apparel — Loyalty programme Operations & Community Model",
+      "pdfName": "Club Apparel_Operations_2026.pdf",
       "date": "2026-04-01",
       "category": "performance",
       "pageEstimate": 14,
       "summary": "Hive Coliv offers flexible, furnished living for creatives and professionals with shared spaces and built-in amenities, supporting a connected community-first lifestyle in Dubai.",
       "chunkCount": 3,
-      "pdfFile": "HIVE_Operations_2026.pdf",
-      "externalUrl": "https://www.armholding.ae/",
-      "publicUrl": "https://www.armholding.ae/",
-      "citation": "HIVE Operations 2026 | A.R.M. Holding"
+      "pdfFile": "Club Apparel_Operations_2026.pdf",
+      "externalUrl": "https://www.apparelgroup.com/",
+      "publicUrl": "https://www.apparelgroup.com/",
+      "citation": "Club Apparel Operations 2026 | Apparel Group"
     },
     {
-      "id": "we-emerge-stronger",
+      "id": "retailme-awards",
       "docId": "d11",
       "handle": "KB-006",
-      "title": "We Emerge Stronger — Art Dubai Sculpture Commission",
-      "pdfName": "We_Emerge_Stronger_Commission_Brief.pdf",
+      "title": "Images RetailME Awards — Images RetailME Sculpture Commission",
+      "pdfName": "RetailME_Awards_Commission_Brief.pdf",
       "date": "2026-06-17",
       "category": "strategy",
       "pageEstimate": 12,
-      "summary": "Open call for a permanent public sculpture at HUNA Sculpture Park at H Residence. Commission name from His Highness Sheikh Mohamed bin Zayed Al Nahyan — نظهر أقوى — resilience, renewal, and shared strength. Open 17 June to 25 July 2026.",
+      "summary": "Open call for a permanent public sculpture at 6thStreet loyalty programme at Dubai Hills Mall. Commission name from His Highness Sheikh Mohamed bin Zayed Al Nahyan — نظهر أقوى — resilience, renewal, and shared strength. Open 17 June to 25 July 2026.",
       "chunkCount": 4,
-      "pdfFile": "We_Emerge_Stronger_Commission_Brief.pdf",
-      "externalUrl": "https://www.armholding.ae/",
-      "publicUrl": "https://www.armholding.ae/",
-      "citation": "We Emerge Stronger Commission | A.R.M. Holding × Art Dubai"
+      "pdfFile": "RetailME_Awards_Commission_Brief.pdf",
+      "externalUrl": "https://www.apparelgroup.com/",
+      "publicUrl": "https://www.apparelgroup.com/",
+      "citation": "Images RetailME Awards Commission | Apparel Group × Images RetailME"
     },
     {
       "id": "dubai-d33-alignment",
       "docId": "d12",
       "handle": "KB-007",
-      "title": "Dubai Economic Agenda D33 — Portfolio Alignment",
-      "pdfName": "ARM_D33_Alignment_Tracker_2026.pdf",
+      "title": "Dubai Economic Agenda GCC retail growth — Portfolio Alignment",
+      "pdfName": "AG_GCC_Expansion_Alignment_Tracker_2026.pdf",
       "date": "2026-05-15",
       "category": "strategy",
       "pageEstimate": 16,
-      "summary": "Tracks A.R.M. Holding portfolio alignment with Dubai Economic Agenda D33: trade growth, FDI, SMEs, talent attraction, and quality of life — mapped to DREC, HUNA, and HIVE initiatives.",
+      "summary": "Tracks Apparel Group portfolio alignment with Dubai Economic Agenda GCC retail growth: trade growth, FDI, SMEs, talent attraction, and quality of life — mapped to R&B, 6thStreet, and Club Apparel initiatives.",
       "chunkCount": 4,
-      "pdfFile": "ARM_D33_Alignment_Tracker_2026.pdf",
-      "externalUrl": "https://www.armholding.ae/",
-      "publicUrl": "https://www.armholding.ae/",
-      "citation": "D33 Alignment Tracker 2026 | A.R.M. Holding"
+      "pdfFile": "AG_GCC_Expansion_Alignment_Tracker_2026.pdf",
+      "externalUrl": "https://www.apparelgroup.com/",
+      "publicUrl": "https://www.apparelgroup.com/",
+      "citation": "GCC retail growth Alignment Tracker 2026 | Apparel Group"
     },
     {
       "id": "rera-compliance",
       "docId": "d13",
       "handle": "KB-008",
-      "title": "RERA & DLD Compliance Framework — Group Policy",
-      "pdfName": "ARM_RERA_Compliance_Framework_2026.pdf",
+      "title": "UAE retail compliance & DED Compliance Framework — Group Policy",
+      "pdfName": "AG_Retail_Compliance_Compliance_Framework_2026.pdf",
       "date": "2026-02-10",
       "category": "policy",
       "pageEstimate": 22,
-      "summary": "Group-wide compliance framework for Dubai real estate operations: RERA rental index, escrow, broker licensing, DLD registration, and hospitality permits across DREC and HUNA assets.",
+      "summary": "Group-wide compliance framework for Dubai retail operations: UAE retail compliance rental index, escrow, broker licensing, DED registration, and F&B permits across R&B and 6thStreet assets.",
       "chunkCount": 4,
-      "pdfFile": "ARM_RERA_Compliance_Framework_2026.pdf",
+      "pdfFile": "AG_Retail_Compliance_Compliance_Framework_2026.pdf",
       "externalUrl": "https://www.rera.gov.ae",
       "publicUrl": "https://www.rera.gov.ae",
-      "citation": "RERA Compliance Framework 2026 | A.R.M. Holding Legal"
+      "citation": "UAE retail compliance Compliance Framework 2026 | Apparel Group Legal"
     }
   ],
   "chunks": [
     {
-      "sourceId": "arm-group-strategy",
+      "sourceId": "ag-group-strategy",
       "docId": "d6",
       "docHandle": "KB-001",
-      "docTitle": "A.R.M. Holding — Group Strategy & Investment Approach",
+      "docTitle": "Apparel Group — Group Strategy & Investment Approach",
       "docDate": "2026-05-01",
       "chunkIndex": 0,
       "handle": "KB-001-01",
-      "text": "A.R.M. Holding is a UAE-based private investment and real estate company focused on building scalable ventures with lasting social and economic value across diverse sectors. Our approach focuses on long-term, meaningful growth, backing companies that create tangible value for people, industries, and urban life."
+      "text": "Apparel Group is a UAE-based private investment and retail company focused on building scalable ventures with lasting social and economic value across diverse sectors. Our approach focuses on long-term, meaningful growth, backing companies that create tangible value for people, industries, and urban life."
     },
     {
-      "sourceId": "arm-group-strategy",
+      "sourceId": "ag-group-strategy",
       "docId": "d6",
       "docHandle": "KB-001",
-      "docTitle": "A.R.M. Holding — Group Strategy & Investment Approach",
+      "docTitle": "Apparel Group — Group Strategy & Investment Approach",
       "docDate": "2026-05-01",
       "chunkIndex": 1,
       "handle": "KB-001-02",
-      "text": "Our portfolio spans early-stage to pre-IPO investments across real estate, hospitality, and banking, alongside future-focused industries like healthtech, sustainable food, mobility, fintech, and cultural initiatives. Investments aim to uplift communities, foster innovation, and build a more resilient future."
+      "text": "Our portfolio spans early-stage to pre-IPO investments across retail, F&B, and banking, alongside future-focused industries like healthtech, sustainable food, mobility, fintech, and cultural initiatives. Investments aim to uplift communities, foster innovation, and build a more resilient future."
     },
     {
-      "sourceId": "arm-group-strategy",
+      "sourceId": "ag-group-strategy",
       "docId": "d6",
       "docHandle": "KB-001",
-      "docTitle": "A.R.M. Holding — Group Strategy & Investment Approach",
+      "docTitle": "Apparel Group — Group Strategy & Investment Approach",
       "docDate": "2026-05-01",
       "chunkIndex": 2,
       "handle": "KB-001-03",
-      "text": "Real estate portfolio companies include DREC (Dubai Real Estate Centre), HUNA (design-led developer), and HIVE (flexible coliving). Culture is woven into everyday life — art should be part of public spaces, as reflected in the We Emerge Stronger sculpture commission at HUNA Sculpture Park."
+      "text": "Retail portfolio companies include R&B (Dubai Retail Centre), 6thStreet (omnichannel developer), and Club Apparel (flexible loyalty programme). Culture is woven into everyday life — art should be part of public spaces, as reflected in the Images RetailME Awards awards acceptance at 6thStreet loyalty programme."
     },
     {
       "sourceId": "arm-values",
       "docId": "d7",
       "docHandle": "KB-002",
-      "docTitle": "A.R.M. Holding — Values & Leadership",
+      "docTitle": "Apparel Group — Values & Leadership",
       "docDate": "2026-05-01",
       "chunkIndex": 0,
       "handle": "KB-002-01",
@@ -176,77 +176,77 @@
       "sourceId": "arm-values",
       "docId": "d7",
       "docHandle": "KB-002",
-      "docTitle": "A.R.M. Holding — Values & Leadership",
+      "docTitle": "Apparel Group — Values & Leadership",
       "docDate": "2026-05-01",
       "chunkIndex": 1,
       "handle": "KB-002-02",
-      "text": "H.E. Mohammad Saeed Al Shehhi, CEO of A.R.M. Holding: In a diverse community of over 200 nationalities, art is a bridge that connects us. We invest not just in businesses, but in the cultural fabric that binds us together. Meaningful progress happens when financial growth and cultural enrichment advance hand in hand."
+      "text": "H.E. Mohammad Saeed Al Shehhi, CEO of Apparel Group: In a diverse community of over 200 nationalities, art is a bridge that connects us. We invest not just in businesses, but in the cultural fabric that binds us together. Meaningful progress happens when financial growth and cultural enrichment advance hand in hand."
     },
     {
       "sourceId": "drec-portfolio",
       "docId": "d8",
       "docHandle": "KB-003",
-      "docTitle": "DREC — Dubai Real Estate Centre Portfolio Review",
+      "docTitle": "R&B — Dubai Retail Centre Portfolio Review",
       "docDate": "2026-04-15",
       "chunkIndex": 0,
       "handle": "KB-003-01",
-      "text": "DREC is a long-standing real estate player in the UAE managing over 3,200 residential and commercial units. Portfolio includes Palm Spring Village and The Beach Centre. Q1 2026 occupancy held at 94.2% across core assets with rental collections on track."
+      "text": "R&B is a long-standing retail player in the UAE managing over 3,200 residential and commercial units. Portfolio includes Palm Spring Village and The Beach Centre. Q1 2026 store performance held at 94.2% across core assets with rental collections on track."
     },
     {
       "sourceId": "drec-portfolio",
       "docId": "d8",
       "docHandle": "KB-003",
-      "docTitle": "DREC — Dubai Real Estate Centre Portfolio Review",
+      "docTitle": "R&B — Dubai Retail Centre Portfolio Review",
       "docDate": "2026-04-15",
       "chunkIndex": 1,
       "handle": "KB-003-02",
-      "text": "DREC commercial leasing pipeline: AED 124M active negotiations across three retail anchors. RERA rental index update requires portfolio repricing review by Q3. Beach Centre footfall up 11% YoY following hospitality recovery."
+      "text": "R&B commercial sales pipeline: AED 124M active negotiations across three retail anchors. UAE retail compliance rental index update requires portfolio repricing review by Q3. Beach Centre footfall up 11% YoY following F&B recovery."
     },
     {
       "sourceId": "huna-developments",
       "docId": "d9",
       "docHandle": "KB-004",
-      "docTitle": "HUNA — Design-Led Development Strategy",
+      "docTitle": "6thStreet — Design-Led Development Strategy",
       "docDate": "2026-03-20",
       "chunkIndex": 0,
       "handle": "KB-004-01",
-      "text": "HUNA brings together architecture, culture, and commerce. Each development is curated with leading creatives and visionary brands to deliver refined living experiences. H Residence anchors the HUNA Sculpture Park — site of the We Emerge Stronger permanent commission."
+      "text": "6thStreet brings together architecture, culture, and commerce. Each development is curated with leading creatives and visionary brands to deliver refined living experiences. Dubai Hills Mall anchors the 6thStreet loyalty programme — site of the Images RetailME Awards permanent commission."
     },
     {
       "sourceId": "huna-developments",
       "docId": "d9",
       "docHandle": "KB-004",
-      "docTitle": "HUNA — Design-Led Development Strategy",
+      "docTitle": "6thStreet — Design-Led Development Strategy",
       "docDate": "2026-03-20",
       "chunkIndex": 1,
       "handle": "KB-004-02",
-      "text": "HUNA competitive positioning: design-led differentiation vs volume developers. Next launch targets waterfront lifestyle district with pre-sales target AED 280M. Art Dubai partnership strengthens cultural narrative and international buyer appeal."
+      "text": "6thStreet competitive positioning: omnichannel differentiation vs volume developers. Next launch targets waterfront lifestyle district with pre-sales target AED 280M. Images RetailME partnership strengthens cultural narrative and international buyer appeal."
     },
     {
-      "sourceId": "hive-coliving",
+      "sourceId": "hive-loyalty programme",
       "docId": "d10",
       "docHandle": "KB-005",
-      "docTitle": "HIVE — Coliving Operations & Community Model",
+      "docTitle": "Club Apparel — Loyalty programme Operations & Community Model",
       "docDate": "2026-04-01",
       "chunkIndex": 0,
       "handle": "KB-005-01",
-      "text": "Hive Coliv offers flexible furnished living for creatives and professionals. Shared spaces and built-in amenities support community-first lifestyle in Dubai. Occupancy 91% with average stay length 8.4 months. Expansion pipeline: 2 new buildings under feasibility."
+      "text": "Hive Coliv offers flexible furnished living for creatives and professionals. Shared spaces and built-in amenities support community-first lifestyle in Dubai. Store performance 91% with average stay length 8.4 months. Expansion pipeline: 2 new buildings under feasibility."
     },
     {
-      "sourceId": "we-emerge-stronger",
+      "sourceId": "retailme-awards",
       "docId": "d11",
       "docHandle": "KB-006",
-      "docTitle": "We Emerge Stronger — Art Dubai Sculpture Commission",
+      "docTitle": "Images RetailME Awards — Images RetailME Sculpture Commission",
       "docDate": "2026-06-17",
       "chunkIndex": 0,
       "handle": "KB-006-01",
-      "text": "We Emerge Stronger is an open call for a permanent public sculpture at HUNA Sculpture Park, H Residence. A.R.M. Holding in collaboration with Art Dubai. Commission name from HH Sheikh Mohamed bin Zayed Al Nahyan — نظهر أقوى — resilience, renewal, shared strength. Submissions 17 June to 25 July 2026."
+      "text": "Images RetailME Awards is an open call for a permanent public sculpture at 6thStreet loyalty programme, Dubai Hills Mall. Apparel Group in collaboration with Images RetailME. Commission name from HH Sheikh Mohamed bin Zayed Al Nahyan — نظهر أقوى — resilience, renewal, shared strength. Submissions 17 June to 25 July 2026."
     },
     {
-      "sourceId": "we-emerge-stronger",
+      "sourceId": "retailme-awards",
       "docId": "d11",
       "docHandle": "KB-006",
-      "docTitle": "We Emerge Stronger — Art Dubai Sculpture Commission",
+      "docTitle": "Images RetailME Awards — Images RetailME Sculpture Commission",
       "docDate": "2026-06-17",
       "chunkIndex": 1,
       "handle": "KB-006-02",
@@ -256,31 +256,31 @@
       "sourceId": "dubai-d33-alignment",
       "docId": "d12",
       "docHandle": "KB-007",
-      "docTitle": "Dubai Economic Agenda D33 — Portfolio Alignment",
+      "docTitle": "Dubai Economic Agenda GCC retail growth — Portfolio Alignment",
       "docDate": "2026-05-15",
       "chunkIndex": 0,
       "handle": "KB-007-01",
-      "text": "D33 alignment score 86/100 for A.R.M. Holding portfolio. Strong fit: quality of life (HUNA design), SME ecosystem (HIVE coliving), FDI attraction (hospitality assets), cultural tourism (We Emerge Stronger). Trade and logistics exposure moderate via DREC commercial."
+      "text": "GCC expansion alignment score 86/100 for Apparel Group portfolio. Strong fit: quality of life (6thStreet design), SME ecosystem (Club Apparel loyalty programme), FDI attraction (F&B assets), cultural tourism (Images RetailME Awards). Trade and logistics exposure moderate via R&B commercial."
     },
     {
       "sourceId": "dubai-d33-alignment",
       "docId": "d12",
       "docHandle": "KB-007",
-      "docTitle": "Dubai Economic Agenda D33 — Portfolio Alignment",
+      "docTitle": "Dubai Economic Agenda GCC retail growth — Portfolio Alignment",
       "docDate": "2026-05-15",
       "chunkIndex": 1,
       "handle": "KB-007-02",
-      "text": "Priority D33 initiatives mapped: double foreign trade, AED 100B annual FDI, 65,000 young Emiratis in private sector, top 3 global city. ARM actions: accelerate HUNA international marketing, expand HIVE for young professionals, DREC Emiratisation in property management."
+      "text": "Priority GCC retail growth initiatives mapped: double foreign trade, AED 100B annual FDI, 65,000 young Emiratis in private sector, top 3 global city. ARM actions: accelerate 6thStreet international marketing, expand Club Apparel for young professionals, R&B Emiratisation in property management."
     },
     {
       "sourceId": "rera-compliance",
       "docId": "d13",
       "docHandle": "KB-008",
-      "docTitle": "RERA & DLD Compliance Framework — Group Policy",
+      "docTitle": "UAE retail compliance & DED Compliance Framework — Group Policy",
       "docDate": "2026-02-10",
       "chunkIndex": 0,
       "handle": "KB-008-01",
-      "text": "Group RERA compliance: rental index updates require portfolio repricing within 30 days. Escrow accounts audited quarterly. Broker licences renewed annually. DLD registration SLA 5 business days for new leases. Filing due 11 days for Q2 rental disclosure enhancement."
+      "text": "Group UAE retail compliance compliance: rental index updates require portfolio repricing within 30 days. Escrow accounts audited quarterly. Broker licences renewed annually. DED registration SLA 5 business days for new leases. Filing due 11 days for Q2 rental disclosure enhancement."
     }
   ]
 }

@@ -1,30 +1,64 @@
 import type { SVGProps } from 'react';
+import { APPAREL_GROUP_BRAND } from '../../config/apparelGroupGuidelines';
 
-const ARM_EMBLEM_PATH =
-  'M116.581 65.8252V0H99.3062V83.6143C99.3062 85.2657 97.9752 86.5985 96.3259 86.5985H90.6835V43.7483H73.4091V109.458C73.4091 111.109 72.078 112.442 70.4287 112.442H59.3465L61.5166 110.269C64.0051 107.806 65.394 104.445 65.394 100.94V77.9067C65.394 65.8253 55.8163 55.7429 43.7214 55.569C31.4528 55.3952 21.4411 65.2748 21.4122 77.5011V101.316C21.4122 105.344 22.4828 109.139 24.3347 112.413H19.9944C16.2617 112.413 12.6737 113.89 10.0406 116.556L0 126.609L1.3889 128L4.89008 124.494C5.41092 123.973 6.10537 123.683 6.82875 123.683H42.6508C42.7376 123.683 42.8533 123.683 42.9401 123.683C42.969 123.683 43.0269 123.683 43.0559 123.683C46.3834 123.567 49.5663 122.206 51.939 119.83L57.3789 114.412H67.9403C72.3095 114.412 74.769 113.021 77.2575 110.559L86.8061 101.027C89.2946 98.564 90.6835 95.2033 90.6835 91.6976V88.6265H93.8374C98.2067 88.6265 100.666 87.2359 103.155 84.7732L112.703 75.2413C115.192 72.7786 116.581 69.4178 116.581 65.9122V65.8252ZM48.2353 107.603C48.2353 110.298 46.0362 112.413 43.3452 112.413H38.5998V63.1308C38.5998 60.4364 40.7989 58.2924 43.4899 58.3214C46.123 58.3504 48.2353 60.5813 48.2353 63.2177V107.603Z';
+const LIME = APPAREL_GROUP_BRAND.colors.lime;
+const NAVY = APPAREL_GROUP_BRAND.colors.navy;
 
-/** Official A.R.M. Holding calligraphic emblem (from armholding.ae) */
+function resolveStroke(color: string): string {
+  const normalized = color.toLowerCase();
+  if (normalized === '#ffffff' || normalized === '#fff') return '#ffffff';
+  if (normalized === '#000000' || normalized === '#000') return NAVY;
+  return color;
+}
+
+/** Apparel Group compact mark — calligraphic emblem with lime accent bars */
 export function AdgmSymbolIcon({
   size = 36,
   className = '',
-  color = '#242321',
+  color = NAVY,
   ...props
 }: SVGProps<SVGSVGElement> & { size?: number; color?: string }) {
-  const height = size;
-  const width = Math.round(size * (118 / 128));
+  const px = size;
+  const stroke = resolveStroke(color);
+  const sw = 4.2;
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={width}
-      height={height}
-      viewBox="0 0 118 128"
+      width={px}
+      height={px}
+      viewBox="0 0 64 64"
       fill="none"
       className={className}
       role="img"
-      aria-label="A.R.M. Holding"
+      aria-label="Apparel Group"
       {...props}
     >
-      <path fill={color} d={ARM_EMBLEM_PATH} />
+      <g transform="translate(12 3) scale(1)">
+        <path
+          d="M9 5 C9 24 8 46 7 67"
+          stroke={stroke}
+          strokeWidth={sw * 0.85}
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M20 3 C20 28 20 50 20 69"
+          stroke={stroke}
+          strokeWidth={sw}
+          strokeLinecap="round"
+          fill="none"
+        />
+        <path
+          d="M31 9 C31 26 32 44 33 63"
+          stroke={stroke}
+          strokeWidth={sw * 0.78}
+          strokeLinecap="round"
+          fill="none"
+        />
+      </g>
+      <line x1="14" y1="52" x2="50" y2="52" stroke={LIME} strokeWidth="2" />
+      <rect x="14" y="55" width="36" height="3.5" rx="1" fill={LIME} />
     </svg>
   );
 }

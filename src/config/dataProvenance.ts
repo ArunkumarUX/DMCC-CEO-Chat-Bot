@@ -72,11 +72,11 @@ export function buildDefaultProvenance(opts?: {
       },
       {
         id: 'kb',
-        labelEn: 'Knowledge base (A.R.M. Holding corporate PDFs)',
+        labelEn: 'Knowledge base (Apparel Group corporate PDFs)',
         labelAr: 'قاعدة المعرفة',
         mode: 'institutional',
-        detailEn: `${KB_CHUNK_COUNT} grounded chunks from official A.R.M. Holding corporate PDFs (KB-006–KB-015).`,
-        detailAr: `${KB_CHUNK_COUNT} مقطعاً من مستندات A.R.M. Holding واقتصاد الصقور الرسمية.`,
+        detailEn: `${KB_CHUNK_COUNT} grounded chunks from official Apparel Group corporate PDFs (KB-006–KB-015).`,
+        detailAr: `${KB_CHUNK_COUNT} مقطعاً من مستندات Apparel Group واقتصاد الصقور الرسمية.`,
       },
       {
         id: 'calendar',

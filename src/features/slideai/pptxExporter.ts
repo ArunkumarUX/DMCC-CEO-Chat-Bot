@@ -1,5 +1,5 @@
 /**
- * A.R.M. Holding SlideAI — PPTX Exporter
+ * Apparel Group SlideAI — PPTX Exporter
  * Consulting-grade output matching Perceptis / McKinsey standard.
  * Pixel-perfect alignment grid — all positions derived from layout constants.
  */
@@ -7,7 +7,7 @@
 import pptxgen from 'pptxgenjs';
 import type { Deck, Slide, SlideChart, SlideTable } from './slideTypes';
 
-// ─── A.R.M. Holding Design Tokens ────────────────────────────────────────────
+// ─── Apparel Group Design Tokens ────────────────────────────────────────────
 const C = {
   navy:           '1A2332',
   navyMid:        '1E3A4F',
@@ -36,7 +36,7 @@ const C = {
   soWhatBorder:   '0087FF',
 } as const;
 
-const FONT_DISPLAY = 'Gilroy';
+const FONT_DISPLAY = 'Gotham';
 const FONT_BODY    = 'Aptos';
 const FONT_MONO    = 'Consolas';
 
@@ -109,8 +109,8 @@ function safeFilename(title: string): string {
 }
 
 function deckFooter(deck: Deck): string {
-  const tag = deck.theme.tagline || 'We Emerge Stronger';
-  return `A.R.M. Holding · ${tag} · Confidential`;
+  const tag = deck.theme.tagline || 'Images RetailME Awards';
+  return `Apparel Group · ${tag} · Confidential`;
 }
 
 // ─── Common atoms ─────────────────────────────────────────────────────────────
@@ -979,8 +979,8 @@ export async function exportToPptx(deck: Deck, filename?: string) {
   const pres = new pptxgen();
   pres.layout  = 'LAYOUT_16x9';
   pres.title   = deck.title;
-  pres.author  = 'SlideAI · A.R.M. Holding';
-  pres.company = 'A.R.M. Holding Group';
+  pres.author  = 'SlideAI · Apparel Group';
+  pres.company = 'Apparel Group';
   pres.subject = deck.title;
 
   deck.slides.forEach((slide, i) =>
