@@ -515,7 +515,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           }
 
           if (!streamed.trim()) {
-            throw new Error('Empty response from Claude');
+            throw new Error('Empty response from AI service');
           }
 
           const intel = buildIntelligentResponse(content, executiveState);

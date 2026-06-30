@@ -48,8 +48,8 @@ export function buildDefaultProvenance(opts?: {
     sources: [
       {
         id: 'claude',
-        labelEn: 'Personal AI (Claude Sonnet 4.6)',
-        labelAr: 'الذكاء الشخصي (Claude Sonnet 4.6)',
+        labelEn: 'Personal AI',
+        labelAr: 'الذكاء الشخصي',
         mode: 'ai',
         detailEn: opts?.claudeEnabled
           ? 'Answers synthesised from grounded records below — no invented figures.'

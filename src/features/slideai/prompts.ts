@@ -17,6 +17,8 @@ export type SlideAiUserMessageOptions = {
   executiveBrief?: string;
   /** Treat as new deck even if a deck exists in the store */
   forceNewDeck?: boolean;
+  /** Target slide count for new decks (6, 8, or 12) */
+  slideCount?: number;
 };
 
 /** ADGM Brand Book 2025 — default Create PPT theme (Claude Design craft) */
@@ -116,7 +118,7 @@ function detectThemeContext(userText: string): string | null {
   return named ? getThemeContext(named[0] as ThemePresetKey) : null;
 }
 
-export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using Claude Design + Apparel Group PPT Master craft (do not change core facts):
+export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using Executive Design + Apparel Group PPT Master craft (do not change core facts):
 1. Vary layouts — no two consecutive slides share a layout
 2. Action titles on every slide (complete insight, max 8 words)
 3. Convert 5+ bullet slides to icon-grid or two-col with exhibit/callout
@@ -149,14 +151,14 @@ export function buildSystemPrompt(userText = ''): string {
     ? `${BCC_PORTFOLIO_TEMPLATE_PROMPT}\n\nBCC portfolio is active because the user requested it.`
     : `${ADGM_PPT_BRAND_PROMPT}\n\n${APPAREL_GROUP_PPT_STANDARD}\n\n${MINTO_PYRAMID_PROMPT}\n\n${CLAUDE_DESIGN_CRAFT_PROMPT}\n\n${ADGM_PPT_MASTER_CRAFT_PROMPT}`;
 
-  return `You are SlideAI — McKinsey consulting clarity, Claude Design craft, Apparel Group executive standard.
+  return `You are SlideAI — McKinsey consulting clarity, Executive Design craft, Apparel Group executive standard.
 Integrated into the Apparel Group Command Centre for CEO Neeraj and leadership board decks.
 Portfolio context: R&B (3,200+ residential units, Dubai), 6thStreet (omnichannel residential, Images RetailME Awards, Dubai Hills Mall), Club Apparel (loyalty programme 91% store performance), Nysaa (UAE & international investment arm), KSA expansion (5km² BIG+WSP masterplan, ground-break 2026).
 
 ${visualBlock}
 
 You generate beautiful, opinionated slide decks. Never produce generic slides.
-${useBcc ? '' : 'Default: Apparel Group navy/lime, Gotham, Claude Design exhibit + KPI patterns.'}
+${useBcc ? '' : 'Default: Apparel Group navy/lime, Gotham, Executive Design exhibit + KPI patterns.'}
 
 STORYLINE — Minto Pyramid Principle (apply to EVERY deck):
 - Governing thought on slide 2 (the answer first, always)
@@ -435,10 +437,10 @@ export function buildUserMessage(
   const useBcc = userRequestsBccTemplate(userText);
   const templateBlock = useBcc
     ? '\n\nVisual override: BCC Senior Service Designer portfolio template.'
-    : '\n\nDesign stack: Apparel Group Executive Standard + Claude Design craft + McKinsey action titles.';
+    : '\n\nDesign stack: Apparel Group Executive Standard + Executive Design craft + McKinsey action titles.';
   const themeBlock = themeHint ? `\n\nTheme direction: ${themeHint}` : '';
   const contextBlock = options?.executiveBrief
-    ? `\n\n${options.executiveBrief}\n\nApply Apparel Group Executive Standard + Claude Design craft. Ground metrics in handles above; label inference.`
+    ? `\n\n${options.executiveBrief}\n\nApply Apparel Group Executive Standard + Executive Design craft. Ground metrics in handles above; label inference.`
     : '';
 
   const focus = deckForPrompt ? detectSlideFocus(userText, deckForPrompt) : null;
@@ -448,7 +450,11 @@ export function buildUserMessage(
   const userIntentBlock = `\n\nUSER REQUEST (authoritative — all slide copy must match this):\n"""${userText.trim()}"""`;
 
   if (!deckForPrompt) {
-    return `Create a presentation: ${userText}${userIntentBlock}${templateBlock}${themeBlock}${contextBlock}
+    const countBlock =
+      options?.slideCount != null
+        ? `\n\nTarget slide count: exactly ${options.slideCount} slides (no more, no fewer).`
+        : '';
+    return `Create a presentation: ${userText}${userIntentBlock}${countBlock}${templateBlock}${themeBlock}${contextBlock}
 
 Rich prompts produce better decks. Include: topic, audience, tone, key facts/numbers, must-have slides.
 Say "use Command Centre context" to ground slides in live KB, calendar, actions, and market data.

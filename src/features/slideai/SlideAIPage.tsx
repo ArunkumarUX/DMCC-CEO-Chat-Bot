@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { CcIcon } from '../../command-centre/CcIcon';
 import { useApp } from '../../context/AppContext';
-import { downloadDeckJob } from '../../api/perceptisDeck';
 import { useSlideStore } from './useSlideStore';
-import { usePerceptisDeckStore } from './perceptisDeckStore';
+import { exportToPptx } from './pptxExporter';
 import { bccPortfolioCssVars } from './bccPortfolioTemplate';
 import SlideAIChat from './SlideAIChat';
 import { SlideAiHistorySheet } from './SlideAiHistorySheet';
@@ -15,20 +14,13 @@ export function SlideAIPage() {
   const { settings, showToast } = useApp();
   const ar = settings.language === 'ar';
   const [showHistory, setShowHistory] = useState(false);
-  const { reset: resetChat, refreshHistory } = useSlideStore(
+  const { deck, exportBusy, reset: resetChat, refreshHistory, setExportBusy } = useSlideStore(
     useShallow((s) => ({
+      deck: s.deck,
+      exportBusy: s.exportBusy,
       reset: s.reset,
       refreshHistory: s.refreshHistory,
-    })),
-  );
-
-  const { phase, title, prompt, jobId, downloadReady } = usePerceptisDeckStore(
-    useShallow((s) => ({
-      phase: s.phase,
-      title: s.title,
-      prompt: s.prompt,
-      jobId: s.jobId,
-      downloadReady: s.downloadReady,
+      setExportBusy: s.setExportBusy,
     })),
   );
 
@@ -36,37 +28,36 @@ export function SlideAIPage() {
     refreshHistory();
   }, [refreshHistory]);
 
-  const hasJob = phase !== 'idle' || Boolean(prompt);
-  const downloadReadyNow = downloadReady && Boolean(jobId);
-  const isGenerating = ['queued', 'analysing', 'generating', 'downloading', 'stalled'].includes(phase);
+  const hasDeck = Boolean(deck?.slides?.length);
+  const previewTitle = deck?.title;
 
   const onNewPpt = () => {
-    const store = usePerceptisDeckStore.getState();
-    if (isGenerating) store.cancel();
-    store.reset();
     resetChat();
     setShowHistory(false);
     showToast(ar ? 'ابدأ عرض PowerPoint جديد' : 'Start a new PowerPoint', 'success');
   };
 
-  const onDownloadPptx = () => {
-    if (!jobId || !downloadReady) return;
+  const onDownloadPptx = async () => {
+    if (!deck?.slides?.length || exportBusy) return;
+    setExportBusy(true);
     try {
-      const name = (title || prompt || 'apparel-group-deck').replace(/[^\w.-]+/g, '-').slice(0, 60);
-      downloadDeckJob(jobId, `${name}.pptx`);
+      const name = (deck.title || 'apparel-group-deck').replace(/[^\w.-]+/g, '-').slice(0, 60);
+      await exportToPptx(deck, `${name}.pptx`);
       showToast(ar ? 'تم تنزيل PowerPoint' : 'PowerPoint downloaded', 'success');
     } catch (err) {
       showToast(
         ar ? 'فشل التنزيل' : `Download failed: ${err instanceof Error ? err.message : 'unknown'}`,
         'info',
       );
+    } finally {
+      setExportBusy(false);
     }
   };
 
-  const downloadLabel = isGenerating
+  const downloadLabel = exportBusy
     ? ar
-      ? 'جاري الإنشاء…'
-      : 'Generating…'
+      ? 'جاري التصدير…'
+      : 'Exporting…'
     : ar
       ? 'تنزيل .pptx'
       : 'Download .pptx';
@@ -78,7 +69,7 @@ export function SlideAIPage() {
           <div>
             <span className="cc-slideai__brand">SlideAI</span>
             <span className="cc-slideai__brand-sub">
-              {ar ? 'Perceptis AI · عروض تنفيذية' : 'Perceptis AI · executive decks'}
+              {ar ? 'SlideAI · عروض تنفيذية' : 'SlideAI · executive decks'}
             </span>
           </div>
           <div className="cc-slideai__panel-head-actions">
@@ -109,39 +100,17 @@ export function SlideAIPage() {
       <section className="cc-slideai__panel cc-slideai__panel--preview">
         <header className="cc-slideai__panel-head">
           <div className="cc-slideai__preview-title">
-            <span className="cc-slideai__preview-title-text" title={title || prompt}>
-              {title || (ar ? 'معاينة العرض' : 'Deck preview')}
+            <span className="cc-slideai__preview-title-text" title={previewTitle}>
+              {previewTitle || (ar ? 'معاينة العرض' : 'Deck preview')}
             </span>
           </div>
-          {hasJob && (
+          {hasDeck && (
             <div className="cc-slideai__preview-actions">
-              <span className="cc-slideai__perceptis-pill" data-phase={phase}>
-                <CcIcon name="sparkles" size={14} />
-                {phase === 'ready' || phase === 'ppt_ready'
-                  ? ar
-                    ? 'جاهز'
-                    : 'Ready'
-                  : phase === 'stalled'
-                    ? ar
-                      ? 'لا يزال قيد المعالجة'
-                      : 'Still processing'
-                  : phase === 'error'
-                    ? ar
-                      ? 'أعد المحاولة'
-                      : 'Retry available'
-                    : isGenerating
-                      ? ar
-                        ? 'جاري الإنشاء…'
-                        : 'Generating…'
-                      : ar
-                        ? 'في الانتظار'
-                        : 'Waiting'}
-              </span>
               <button
                 type="button"
                 className="btn-primary cc-slideai__export"
                 onClick={onDownloadPptx}
-                disabled={!downloadReadyNow}
+                disabled={exportBusy}
               >
                 <CcIcon name="download" size={16} />
                 {downloadLabel}

@@ -11,7 +11,7 @@ export function buildPresentationMarkdown(
   const lines: string[] = [
     `# ${deck.title}`,
     ``,
-    `**Theme:** ${deck.theme} · **ADGM Brand Book ${ADGM_BRAND.version}** + unified craft (McKinsey + Open Design + Claude Design + PPT Master) · 16:9`,
+    `**Theme:** ${deck.theme} · **ADGM Brand Book ${ADGM_BRAND.version}** + unified craft (McKinsey + Open Design + Executive Design + PPT Master) · 16:9`,
     ``,
   ];
 

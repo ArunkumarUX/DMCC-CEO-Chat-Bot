@@ -17,11 +17,11 @@ export function ChatApiNotice({ kind, ar = false }: Props) {
         <p className="chat-api-notice__title">
           {billing
             ? ar
-              ? 'خدمة Claude غير متاحة'
-              : 'Claude API unavailable'
+              ? 'خدمة الذكاء الاصطناعي غير متاحة'
+              : 'AI service unavailable'
             : ar
-              ? 'خدمة Claude غير متاحة مؤقتاً'
-              : 'Claude API temporarily unavailable'}
+              ? 'خدمة الذكاء الاصطناعي غير متاحة مؤقتاً'
+              : 'AI service temporarily unavailable'}
         </p>
         <p className="chat-api-notice__body">
           {billing ? (

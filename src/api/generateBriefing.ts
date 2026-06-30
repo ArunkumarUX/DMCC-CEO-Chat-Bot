@@ -255,7 +255,7 @@ export async function generateBriefing({
       if (streamed.trim()) {
         return { text: streamed, source: 'claude', agents };
       }
-      throw new Error('Empty response from Claude');
+      throw new Error('Empty response from AI service');
     } catch (err) {
       console.warn('[briefing] Claude failed, using offline template fallback', err);
     }

@@ -239,7 +239,7 @@ export function CommandCentreChatPage() {
           if (ac.signal.aborted) return null;
 
           if (!streamed.trim()) {
-            throw new Error('Empty response from Claude');
+            throw new Error('Empty response from AI service');
           }
 
           // Skip grounding only for lightweight conversational turns

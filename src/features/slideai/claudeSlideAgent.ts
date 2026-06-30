@@ -82,7 +82,7 @@ function demoResponse(
       action: 'create',
       deck,
       updatedSlides: null,
-      message: `${prefix}Built a topic-aware preview (${deck.slides.length} slides). Connect Claude API for fully custom AI decks.`,
+      message: `${prefix}Built a topic-aware preview (${deck.slides.length} slides). Connect the AI service for fully custom decks.`,
     };
   }
 
@@ -94,7 +94,7 @@ function demoResponse(
       action: 'message',
       deck: null,
       updatedSlides: null,
-      message: `${prefix}Connect Claude API for conversational editing.`,
+      message: `${prefix}Connect the AI service for conversational editing.`,
     };
   }
 

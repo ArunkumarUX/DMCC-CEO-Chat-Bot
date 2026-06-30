@@ -24,7 +24,7 @@ import { PerceptisDeckSync } from '../../features/slideai/PerceptisDeckSync';
 import { PerceptisPptxViewer } from '../../features/slideai/PerceptisPptxViewer';
 import { usePerceptisDeckStore } from '../../features/slideai/perceptisDeckStore';
 
-const CRAFT_STACK = ['McKinsey', 'Open Design', 'Claude Design', 'PPT Master'];
+const CRAFT_STACK = ['McKinsey', 'Open Design', 'Executive Design', 'PPT Master'];
 
 const STEPS = ['input', 'clarify', 'outline', 'preview', 'export'];
 
@@ -84,7 +84,7 @@ export function PresentationBuilderPage() {
     ? {
         eyebrow: 'العروض التقديمية',
         title: 'منشئ العروض بالذكاء الاصطناعي',
-        sub: 'عرض استثنائي لمجلس Apparel Group — McKinsey + Claude Design · Opus 4.8',
+        sub: 'عرض استثنائي لمجلس Apparel Group — McKinsey + Executive Design',
         craftLabel: 'حرفة التصميم',
         exportUnified: 'جميع المهارات (Cursor)',
         badge: 'McKinsey · Opus 4.8',
@@ -128,7 +128,7 @@ export function PresentationBuilderPage() {
     : {
         eyebrow: 'Presentations',
         title: 'AI Presentation Builder',
-        sub: 'Outstanding board decks for Apparel Group — McKinsey SCQA + Claude Design · powered by Opus 4.8.',
+        sub: 'Outstanding board decks for Apparel Group — McKinsey SCQA + Executive Design.',
         craftLabel: 'Design craft',
         exportUnified: 'All skills (Cursor)',
         badge: 'McKinsey · Opus 4.8',

@@ -4,7 +4,6 @@ node_modules
 .env*.local
 data/kb-pdfs
 docs
-scripts
 *.md
 .cursor
 netlify

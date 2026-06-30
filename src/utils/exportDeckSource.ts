@@ -71,7 +71,7 @@ export function downloadDeckSourceMarkdown(markdown: string, filename = 'apparel
   URL.revokeObjectURL(url);
 }
 
-export const PPT_MASTER_CURSOR_PROMPT = `Read tools/claude-design-ai/DESIGN-FOR-DECKS.md (Claude Design deck craft).
+export const PPT_MASTER_CURSOR_PROMPT = `Read tools/claude-design-ai/DESIGN-FOR-DECKS.md (Executive Design deck craft).
 Read tools/ppt-master/skills/ppt-master/SKILL.md (run npm run ppt-master:setup first if missing).
 
 Create a native editable PowerPoint from the exported deck-source.md.
@@ -86,7 +86,7 @@ Read .cursor/skills/adgm-claude-design-ppt/SKILL.md.
 
 Polish or rebuild the Apparel Group board deck from the exported Markdown deck-source.md.
 
-Apply Claude Design + McKinsey rules: action titles, MECE, exhibit panels, KPI layouts.
+Apply Executive Design + McKinsey rules: action titles, MECE, exhibit panels, KPI layouts.
 Deliver .pptx (PPT Master) or HTML deck per the skill workflow.`;
 
 export const UNIFIED_PPT_CURSOR_PROMPT = `You are building an outstanding, board-ready Apparel Group executive deck. Apply ALL shared skills together.
@@ -100,7 +100,7 @@ tools/adgm-deck-craft/MASTER.md
 
 ## 2 — Skill stack
 - McKinsey: action titles, MECE, hypothesis-led storyline (every title = full insight sentence)
-- Claude Design: tools/claude-design-ai/DESIGN-FOR-DECKS.md
+- Executive Design: tools/claude-design-ai/DESIGN-FOR-DECKS.md
 - PPT Master (native .pptx): tools/ppt-master/skills/ppt-master/SKILL.md (npm run ppt-master:setup)
 
 ## 3 — Source

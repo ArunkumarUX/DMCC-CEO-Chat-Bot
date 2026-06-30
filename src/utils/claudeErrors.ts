@@ -24,7 +24,8 @@ export function shouldFallbackToOfflineKb(message: string): boolean {
     m.includes('rate limit') ||
     m.includes('overloaded') ||
     m.includes('529') ||
-    m.includes('empty response from claude')
+    m.includes('empty response from claude') ||
+    m.includes('empty response from ai service')
   );
 }
 
@@ -33,12 +34,12 @@ function anthropicKeySetupHint(ar: boolean): string {
     typeof window !== 'undefined' && window.location.hostname.includes('netlify.app');
   if (onNetlify) {
     return ar
-      ? 'مفتاح Claude API غير صالح على Netlify. احذف ANTHROPIC_API_KEY الحالي وأضف مفتاح sk-ant-… من console.anthropic.com (ليس رمز JWT). ثم أعد النشر.'
+      ? 'مفتاح API غير صالح على Netlify. احذف ANTHROPIC_API_KEY الحالي وأضف مفتاح sk-ant-… من console.anthropic.com (ليس رمز JWT). ثم أعد النشر.'
       : 'Wrong value on Netlify for ANTHROPIC_API_KEY — it must be an sk-ant-… key from console.anthropic.com (not a JWT token). Delete the current variable, paste the correct key, and redeploy.';
   }
   return ar
-    ? 'مفتاح Claude API غير صالح. أنشئ مفتاح sk-ant-… من console.anthropic.com وأضفه إلى .env.local ثم أعد تشغيل npm run dev.'
-    : 'Invalid Claude API key. Set ANTHROPIC_API_KEY to an sk-ant-… key from console.anthropic.com in .env.local, then restart npm run dev.';
+    ? 'مفتاح API غير صالح. أنشئ مفتاح sk-ant-… من console.anthropic.com وأضفه إلى .env.local ثم أعد تشغيل npm run dev.'
+    : 'Invalid API key. Set ANTHROPIC_API_KEY to an sk-ant-… key from console.anthropic.com in .env.local, then restart npm run dev.';
 }
 
 export function formatClaudeErrorForUser(message: string, ar = false): string {
@@ -61,7 +62,7 @@ export function offlineNoticeKind(message: string): OfflineNoticeKind {
 
 /** Legacy markdown banners prepended before KB fallback — strip when rendering. */
 const LEGACY_OFFLINE_BANNER_RE =
-  /^>\s*⚠️\s*\*\*Claude API (?:unavailable|temporarily unavailable)\*\*[^\n]*\n\n?/i;
+  /^>\s*⚠️\s*\*\*AI (?:service|API) (?:unavailable|temporarily unavailable)\*\*[^\n]*\n\n?/i;
 
 export function stripOfflineFallbackBanner(text: string): {
   text: string;

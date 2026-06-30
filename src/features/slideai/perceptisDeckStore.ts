@@ -303,8 +303,10 @@ export const usePerceptisDeckStore = create<PerceptisDeckStore>((set, get) => ({
     if (!lastPayload || !lastSourceKey) return;
     runId += 1;
     const id = runId;
-    const idempotencyKey = lastIdempotencyKey || buildIdempotencyKey(lastSourceKey);
-    set(() => ({ error: null, blob: null, downloadReady: false }));
+    // Fresh idempotency key so a prior failed attempt cannot block retry.
+    const idempotencyKey = buildIdempotencyKey(`${lastSourceKey}:retry:${Date.now()}`);
+    lastIdempotencyKey = idempotencyKey;
+    set(() => ({ error: null, blob: null, downloadReady: false, phase: 'queued' }));
     void runDeckBuild(lastPayload, lastSourceKey, lastDisplayPrompt, idempotencyKey, set, id);
   },
 

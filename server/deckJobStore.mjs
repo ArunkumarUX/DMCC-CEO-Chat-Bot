@@ -239,16 +239,26 @@ export async function createDeckJob(payload, { idempotencyKey, displayPrompt } =
   stamp(job, 'perceptis_request_sent');
 
   const { templateName: envTemplate } = getPerceptisConfig();
-  const started = await startPerceptisDeckJob(compactPrompt, {
-    templateName: payload?.templateName?.trim() || envTemplate || APPAREL_GROUP_DECK_CONFIG.brandTemplateId,
-    useWebSearch: Boolean(payload?.useWebSearch),
-    useKnowledgeBase: Boolean(payload?.useKnowledgeBase),
-    idempotencyKey: idempotencyKey || undefined,
-  });
+  const templateName =
+    payload?.templateName?.trim() || envTemplate?.trim() || APPAREL_GROUP_DECK_CONFIG.brandTemplateId?.trim() || '';
 
-  job.perceptisJobId = started.job_id;
-  stamp(job, 'perceptis_acknowledged');
-  await saveDeckJob(job);
+  try {
+    const started = await startPerceptisDeckJob(compactPrompt, {
+      templateName: templateName || undefined,
+      useWebSearch: Boolean(payload?.useWebSearch),
+      useKnowledgeBase: Boolean(payload?.useKnowledgeBase),
+      idempotencyKey: idempotencyKey || undefined,
+    });
+
+    job.perceptisJobId = started.job_id;
+    stamp(job, 'perceptis_acknowledged');
+    await saveDeckJob(job);
+  } catch (err) {
+    job.error = err?.message || 'Perceptis deck generation failed';
+    setStatus(job, 'failed', job.error);
+    await saveDeckJob(job);
+    return job;
+  }
 
   if (process.env.VERCEL) {
     return job;
@@ -262,17 +272,12 @@ export async function getDeckJob(jobId) {
   const job = await loadDeckJob(jobId);
   if (!job) return null;
   if (process.env.VERCEL) {
-    // Serverless: no persistent process between requests, so this request has
-    // to do the advancing itself (bounded to stay under the function timeout).
+    // Keep each status request under the browser client's ~25s fetch timeout.
     if (!job.downloadReady && job.status !== 'failed') {
-      await advanceDeckJob(job, { maxMs: 52_000 });
+      await advanceDeckJob(job, { maxMs: 18_000 });
     }
     return job;
   }
-  // Local/persistent server: runDeckJobBackground() is already polling Perceptis
-  // continuously for this job. Re-polling here on every single client status
-  // check duplicated that work and blocked each GET for up to 8s for nothing —
-  // just return the freshest state the background poller has already written.
   return job;
 }
 

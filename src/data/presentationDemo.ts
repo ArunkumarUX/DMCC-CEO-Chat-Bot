@@ -38,7 +38,7 @@ export function demoSlides(outline: PresentationOutline): PresentationDeck {
     title: outline.title,
     theme: 'adgm-brand-2025',
     brandCheck: mergeBrandCheck([
-      'Unified craft: McKinsey + Open Design + Claude Design',
+      'Unified craft: McKinsey + Open Design + Executive Design',
       'Action titles on every slide',
       'KPI towers + exhibit panels enabled',
     ]),

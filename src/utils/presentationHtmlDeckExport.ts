@@ -182,7 +182,7 @@ ${cssVars}
     ${slides}
   </div>
   <div class="progress" id="progress" style="width:0%"></div>
-  <p class="hint">← → navigate · ADGM unified deck craft · McKinsey + Open Design + Claude Design</p>
+  <p class="hint">← → navigate · ADGM unified deck craft · McKinsey + Open Design + Executive Design</p>
   <script>
     const slides = [...document.querySelectorAll('.slide')];
     const progress = document.getElementById('progress');

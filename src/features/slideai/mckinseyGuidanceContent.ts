@@ -3,7 +3,7 @@
 export const MCKINSEY_MODELS = [
   {
     id: 'claude-opus-4-8',
-    label: 'Claude Opus 4.8',
+    label: 'Advanced AI',
     badge: 'Recommended',
     descriptionEn: 'Best reasoning and structure — the right choice for McKinsey-level decks.',
     descriptionAr: 'أفضل استدلال وبنية — الخيار المناسب لعروض مستوى McKinsey.',
@@ -11,7 +11,7 @@ export const MCKINSEY_MODELS = [
   },
   {
     id: 'claude-sonnet-4-6',
-    label: 'Claude Sonnet 4.6',
+    label: 'Fast AI',
     badge: null,
     descriptionEn: 'Faster, still high quality — use when speed matters.',
     descriptionAr: 'أسرع وجودة عالية — عندما يكون السرعة أولوية.',

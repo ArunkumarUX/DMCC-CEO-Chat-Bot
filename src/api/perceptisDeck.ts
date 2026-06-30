@@ -27,6 +27,7 @@ export type DeckJobResponse = {
 };
 
 const REQUEST_TIMEOUT_MS = 25_000;
+const STATUS_REQUEST_TIMEOUT_MS = 22_000;
 
 function wait(ms: number, signal?: AbortSignal) {
   return new Promise<void>((resolve, reject) => {
@@ -101,12 +102,19 @@ export async function createDeckJob(
   if (!res.ok) {
     throw new Error(data.error || `Deck job failed (${res.status})`);
   }
+  if (data.status === 'failed') {
+    throw new Error(data.error || data.message || 'Deck generation failed');
+  }
   return data;
 }
 
 /** GET /api/decks/:id — lightweight status check (never blocks on generation). */
 export async function fetchDeckJobStatus(jobId: string): Promise<DeckJobResponse> {
-  const res = await fetchWithTimeout(`/api/decks/${encodeURIComponent(jobId)}`);
+  const res = await fetchWithTimeout(
+    `/api/decks/${encodeURIComponent(jobId)}`,
+    {},
+    STATUS_REQUEST_TIMEOUT_MS,
+  );
   let data: DeckJobResponse & { error?: string } = {} as DeckJobResponse & { error?: string };
   try {
     data = await res.json();

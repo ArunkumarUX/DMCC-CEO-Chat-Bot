@@ -19,6 +19,17 @@ export function assertPerceptisConfigured() {
   }
 }
 
+function formatPerceptisError(data, text, status) {
+  if (typeof data?.error === 'string') return data.error;
+  if (data?.error && typeof data.error === 'object') {
+    return data.error.message || data.error.detail || JSON.stringify(data.error);
+  }
+  if (typeof data?.message === 'string') return data.message;
+  if (data?.detail) return typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail);
+  if (text?.trim()) return text.trim().slice(0, 500);
+  return 'Request failed';
+}
+
 async function perceptisFetch(path, { method = 'GET', body, idempotencyKey } = {}) {
   const { apiKey, baseUrl } = getPerceptisConfig();
   assertPerceptisConfigured();
@@ -30,7 +41,8 @@ async function perceptisFetch(path, { method = 'GET', body, idempotencyKey } = {
   if (body) headers['Content-Type'] = 'application/json';
   if (idempotencyKey) headers['Idempotency-Key'] = idempotencyKey;
 
-  const res = await fetch(`${baseUrl}${path}`, {
+  const url = `${baseUrl}${path}`;
+  const res = await fetch(url, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
@@ -45,7 +57,8 @@ async function perceptisFetch(path, { method = 'GET', body, idempotencyKey } = {
   }
 
   if (!res.ok) {
-    const msg = data?.error || data?.message || text || res.statusText;
+    const msg = formatPerceptisError(data, text, res.status);
+    console.error(`[perceptis] ${method} ${url} → ${res.status}:`, msg);
     throw new Error(`Perceptis API ${res.status}: ${msg}`);
   }
 
@@ -53,19 +66,28 @@ async function perceptisFetch(path, { method = 'GET', body, idempotencyKey } = {
 }
 
 export async function startPerceptisDeckJob(prompt, options = {}) {
+  const templateName = options.templateName?.trim();
   const payload = {
     prompt: String(prompt).trim(),
     output_type: 'deck',
-    ...(options.templateName ? { template_name: options.templateName } : {}),
+    ...(templateName ? { template_name: templateName } : {}),
     ...(options.useWebSearch ? { use_web_search: true } : {}),
     ...(options.useKnowledgeBase ? { use_knowledge_base: true } : {}),
   };
 
-  return perceptisFetch('/api/v1/generate', {
+  const data = await perceptisFetch('/api/v1/generate', {
     method: 'POST',
     body: payload,
     idempotencyKey: options.idempotencyKey || randomUUID(),
   });
+
+  const jobId = data.job_id || data.jobId || data.id;
+  if (!jobId) {
+    console.error('[perceptis] generate response missing job id:', JSON.stringify(data).slice(0, 500));
+    throw new Error('Perceptis did not return a job id');
+  }
+
+  return { ...data, job_id: jobId };
 }
 
 export async function getPerceptisJobStatus(jobId) {
