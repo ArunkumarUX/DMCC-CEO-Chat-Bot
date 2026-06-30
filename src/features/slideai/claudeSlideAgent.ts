@@ -163,9 +163,6 @@ function parseAgentResponse(raw: string): AgentResponse {
     parsed.deck = normalizeDeck(parsed.deck!);
   } else if (hasPartial && parsed.action === 'message') {
     parsed.action = 'update';
-  } else if (hasFull && parsed.action === 'update' && !hasPartial) {
-    parsed.action = 'create';
-    parsed.deck = normalizeDeck(parsed.deck!);
   } else if (parsed.action === 'create' && parsed.deck) {
     parsed.deck = normalizeDeck(parsed.deck);
   } else if (hasPartial) {

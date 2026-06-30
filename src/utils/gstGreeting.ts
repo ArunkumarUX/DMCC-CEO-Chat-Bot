@@ -39,7 +39,7 @@ export function greetingForGstTime(lang: GreetingLang = 'en', at: Date = new Dat
 }
 
 /** @deprecated Use greetingForGstTime — kept for imports; always uses GST */
-export function greetingForTime(_date = new Date(), lang: GreetingLang = 'en'): string {
+export function greetingForTime(_unused?: Date, lang: GreetingLang = 'en'): string {
   return greetingForGstTime(lang);
 }
 

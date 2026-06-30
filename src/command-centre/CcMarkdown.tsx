@@ -28,7 +28,7 @@ function isTableRow(line: string) {
 
 function isTableSep(line: string) {
   const t = line.trim().replace(/\|/g, '').replace(/ /g, '');
-  return /^[\-:]+$/.test(t) && line.includes('-');
+  return /^[-:]+$/.test(t) && line.includes('-');
 }
 
 function parseTableRow(line: string): string[] {
@@ -126,9 +126,9 @@ export function mdToNodes(text: string) {
       continue;
     }
 
-    if (/^[•\-]\s/.test(t) || /^\d+\.\s/.test(t)) {
+    if (/^[•-]\s/.test(t) || /^\d+\.\s/.test(t)) {
       list = list || [];
-      const item = t.replace(/^[•\-]\s/, '').replace(/^\d+\.\s/, '');
+      const item = t.replace(/^[•-]\s/, '').replace(/^\d+\.\s/, '');
       list.push(
         <li key={key++} className="chat-md-list__item">
           {inline(item)}

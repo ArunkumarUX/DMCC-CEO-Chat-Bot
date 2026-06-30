@@ -34,11 +34,6 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  if (hasVerifiedToken()) {
-    if (needsWelcome()) return <Navigate to={WELCOME_PATH} replace />;
-    return <Navigate to={isFullyAuthenticated() ? HOME_PATH : CHAT_PATH} replace />;
-  }
-
   const submitLogin = useCallback(async () => {
     const id = identifier.trim();
     if (!id) return;
@@ -53,6 +48,11 @@ export function LoginPage() {
     setError(loginErrorMessage(result.error));
     setSubmitting(false);
   }, [channel, identifier, navigate]);
+
+  if (hasVerifiedToken()) {
+    if (needsWelcome()) return <Navigate to={WELCOME_PATH} replace />;
+    return <Navigate to={isFullyAuthenticated() ? HOME_PATH : CHAT_PATH} replace />;
+  }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

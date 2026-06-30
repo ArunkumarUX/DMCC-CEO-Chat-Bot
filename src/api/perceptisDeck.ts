@@ -133,7 +133,7 @@ export async function pollDeckJobUntilReady(
     let status: DeckJobResponse;
     try {
       status = await fetchDeckJobStatus(jobId);
-    } catch (err) {
+    } catch (_err) {
       // Transient network/timeout — keep polling unless cancelled
       if (options.signal?.aborted) throw new Error('Cancelled');
       await wait(deckPollIntervalMs(Date.now() - started), options.signal);

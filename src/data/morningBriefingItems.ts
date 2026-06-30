@@ -1,14 +1,13 @@
 /**
  * Apparel Group CEO — morning briefing rows (Intel → Market Intelligence).
  */
-import type { LiveNewsItem } from '../types/marketIntel';
+import type { LiveNewsItem, SignalNewsBundle } from '../types/marketIntel';
 import type { ExecutiveState } from './executiveStore';
 import {
   CEO_SIGNAL_FALLBACKS,
   isExcludedForCeo,
   isRelevantForCeo,
   pickCeoLead,
-  type CeoSignalId,
 } from './apparelGroupCeoSignals';
 
 export type MorningBriefingItem = {
@@ -17,7 +16,9 @@ export type MorningBriefingItem = {
   sourceUrl?: string;
 };
 
-const BRIEFING_SLOTS: CeoSignalId[] = ['market', 'competitor', 'investment', 'regulatory'];
+type BriefingNewsSlot = keyof Pick<SignalNewsBundle, 'market' | 'competitor' | 'investment' | 'regulatory'>;
+
+const BRIEFING_SLOTS: BriefingNewsSlot[] = ['market', 'competitor', 'investment', 'regulatory'];
 
 function sanitizeNewsItem(item?: LiveNewsItem | null): LiveNewsItem | undefined {
   if (!item?.title) return undefined;
@@ -34,7 +35,7 @@ function newsItemToBriefing(item: LiveNewsItem): MorningBriefingItem {
   };
 }
 
-function fallbackBriefing(id: CeoSignalId, ar: boolean): MorningBriefingItem {
+function fallbackBriefing(id: BriefingNewsSlot, ar: boolean): MorningBriefingItem {
   const fb = ar ? CEO_SIGNAL_FALLBACKS.ar[id] : CEO_SIGNAL_FALLBACKS.en[id];
   return {
     text: `${fb.headline} — ${fb.body}`,

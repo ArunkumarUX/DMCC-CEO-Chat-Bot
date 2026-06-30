@@ -3,7 +3,7 @@
  * Consulting-grade output matching Perceptis / McKinsey standard.
  * Pixel-perfect alignment grid — all positions derived from layout constants.
  */
-// @ts-nocheck
+// @ts-nocheck — pptxgenjs layout helpers use dynamic slide shapes
 import pptxgen from 'pptxgenjs';
 import { ADGM_PPT_COLORS } from '../../config/adgmBrandForDeck';
 import type { Deck, Slide, SlideChart, SlideTable } from './slideTypes';
@@ -90,11 +90,6 @@ function safeBottom(hasSoWhat: boolean, hasSource: boolean): number {
 /** Y coordinate of the soWhat callout */
 function soWhatY(hasSource: boolean): number {
   return (hasSource ? SOURCE_Y : FOOTER_Y) - SOWHAT_H - 0.05;
-}
-
-/** Body content Y given whether an eyebrow was rendered */
-function bodyY(hasEyebrow: boolean): number {
-  return hasEyebrow ? BODY_Y_EYE : BODY_Y_PLAIN;
 }
 
 // ─── Utility helpers ──────────────────────────────────────────────────────────
@@ -233,8 +228,9 @@ function addConsultingTable(
   y: number,
   w: number,
   maxH: number,
-  accent: string = C.clearsky,
+  _accent: string = C.clearsky,
 ) {
+  void _accent;
   const colCount = table.headers.length;
   if (!colCount) return;
 

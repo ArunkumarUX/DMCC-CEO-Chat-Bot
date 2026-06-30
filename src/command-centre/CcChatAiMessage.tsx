@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — legacy chat message renderer with dynamic markdown nodes
 import { useMemo } from 'react';
 import { SourceCitationChip } from '../components/chat/SourceCitationChip';
 import { CcIcon } from './CcIcon';

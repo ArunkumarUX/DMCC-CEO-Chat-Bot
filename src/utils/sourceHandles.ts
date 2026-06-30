@@ -204,7 +204,7 @@ export function extractCitedHandles(text: string): string[] {
 export function stripAnswerSourceFooter(text: string): string {
   if (!text?.trim()) return text ?? '';
 
-  let out = text.replace(
+  const out = text.replace(
     /\n\*\*Sources Used\*\*\s*\n(?:(?:[-*•]|\s*\[[A-Z]{2,3}-).*\n?)*/gi,
     '\n',
   );

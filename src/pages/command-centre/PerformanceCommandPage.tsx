@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// @ts-nocheck
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// @ts-nocheck — performance dept views use legacy mock data shapes
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { CcIcon } from '../../command-centre/CcIcon';
-import { Emblem, AnimatedNumber, Sparkline, RingGauge, RagPill } from '../../command-centre/CcPrimitives';
-import { RadarChart, Donut, MomentumChart, CapitalFlow } from '../../command-centre/CcCharts';
-import { mdToNodes } from '../../command-centre/CcMarkdown';
-import {
-  SIGNALS, DEPARTMENTS, AGENTS, CENTRES, BENCH_DIMS, BRIEF_FORMATS, PLAN, INTEGRATIONS,
-  SUGGESTIONS, CANNED, TICKER, MOMENTUM, FLOWS, REGULATORY, KB_CATS, KB_DOCS, DIFFERENTIATION,
-} from '../../data/commandCentreData';
+import { AnimatedNumber, Sparkline, RagPill } from '../../command-centre/CcPrimitives';
+import { Donut, MomentumChart } from '../../command-centre/CcCharts';
+import { DEPARTMENTS, MOMENTUM } from '../../data/commandCentreData';
 import { useApp } from '../../context/AppContext';
 import { computeFalconScore } from '../../utils/falconScore';
 import { TREND_ICON } from '../../command-centre/utils';
@@ -70,10 +64,18 @@ function EscalationBanner({ items, ar, onOpen }) {
 
 const SEV_COLOR = { High: 'risk', Medium: 'warn', Low: 'info' };
 
-function DeptDetail({ d, lang, onBack }) {
-  const ar = lang === 'ar';
-  const toneColor = { good: 'var(--status-good)', warn: 'var(--status-warn)', risk: 'var(--status-risk)' }[d.rag];
-  const Block = ({ icon, title, children, accent }) => (
+function DeptDetailBlock({
+  icon,
+  title,
+  children,
+  accent,
+}: {
+  icon: string;
+  title: string;
+  children: ReactNode;
+  accent?: string;
+}) {
+  return (
     <IntelCard>
       <IntelCardBody>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, marginBottom: 14 }}>
@@ -84,6 +86,11 @@ function DeptDetail({ d, lang, onBack }) {
       </IntelCardBody>
     </IntelCard>
   );
+}
+
+function DeptDetail({ d, lang, onBack }) {
+  const ar = lang === 'ar';
+  const toneColor = { good: 'var(--status-good)', warn: 'var(--status-warn)', risk: 'var(--status-risk)' }[d.rag];
   return (
     <div className="grid mi-stagger cc-page perf-page rise" style={{ gap: 20 }}>
       <button className="btn btn-ghost btn-sm" style={{ alignSelf: 'flex-start' }} onClick={onBack}><CcIcon name={ar ? 'arrow-right' : 'arrow-left'} size={15} />{ar ? 'كل الإدارات' : 'All departments'}</button>
@@ -105,7 +112,7 @@ function DeptDetail({ d, lang, onBack }) {
       </IntelCard>
 
       {/* KPIs */}
-      <Block icon="activity" title={ar ? 'مؤشرات الأداء المتتبعة' : 'KPIs tracked'}>
+      <DeptDetailBlock icon="activity" title={ar ? 'مؤشرات الأداء المتتبعة' : 'KPIs tracked'}>
         <div className="grid perf-detail-kpis">
           {d.kpis.map((k) => {
             const c = { good: 'var(--status-good)', warn: 'var(--status-warn)', risk: 'var(--status-risk)' }[k.tone];
@@ -121,10 +128,10 @@ function DeptDetail({ d, lang, onBack }) {
             );
           })}
         </div>
-      </Block>
+      </DeptDetailBlock>
 
       <div className="grid perf-detail-split">
-        <Block icon="award" title={ar ? 'أبرز الإنجازات' : 'Key achievements'} accent="var(--status-good)">
+        <DeptDetailBlock icon="award" title={ar ? 'أبرز الإنجازات' : 'Key achievements'} accent="var(--status-good)">
           <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 11 }}>
             {d.achievements.map((a, i) => (
               <li key={i} style={{ display: 'flex', gap: 10, fontSize: 13.5, lineHeight: 1.45 }}>
@@ -132,8 +139,8 @@ function DeptDetail({ d, lang, onBack }) {
               </li>
             ))}
           </ul>
-        </Block>
-        <Block icon="alert-triangle" title={ar ? 'المخاطر والمخاوف' : 'Concerns & risks'} accent="var(--status-warn)">
+        </DeptDetailBlock>
+        <DeptDetailBlock icon="alert-triangle" title={ar ? 'المخاطر والمخاوف' : 'Concerns & risks'} accent="var(--status-warn)">
           <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 10 }}>
             {d.risks.map((r, i) => (
               <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13.5, lineHeight: 1.45 }}>
@@ -141,18 +148,18 @@ function DeptDetail({ d, lang, onBack }) {
               </li>
             ))}
           </ul>
-        </Block>
+        </DeptDetailBlock>
       </div>
 
       <div className="grid perf-detail-split">
         {d.blockers.length > 0 && (
-          <Block icon="construction" title={ar ? 'المعوقات' : 'Blockers'} accent="var(--status-risk)">
+          <DeptDetailBlock icon="construction" title={ar ? 'المعوقات' : 'Blockers'} accent="var(--status-risk)">
             <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 10 }}>
               {d.blockers.map((b, i) => <li key={i} style={{ display: 'flex', gap: 10, fontSize: 13.5, lineHeight: 1.45 }}><CcIcon name="x-circle" size={16} style={{ color: 'var(--status-risk)', flex: 'none', marginTop: 1 }} /><span>{b}</span></li>)}
             </ul>
-          </Block>
+          </DeptDetailBlock>
         )}
-        <Block icon="zap" title={ar ? 'إجراءات قيادية موصى بها' : 'Recommended leadership actions'} accent="var(--accent-bright)">
+        <DeptDetailBlock icon="zap" title={ar ? 'إجراءات قيادية موصى بها' : 'Recommended leadership actions'} accent="var(--accent-bright)">
           <div style={{ display: 'grid', gap: 9 }}>
             {d.actions.map((a, i) => (
               <div key={i} className="perf-action-row">
@@ -162,7 +169,7 @@ function DeptDetail({ d, lang, onBack }) {
               </div>
             ))}
           </div>
-        </Block>
+        </DeptDetailBlock>
       </div>
 
       <IntelCard className="intel-card--muted">
@@ -243,9 +250,8 @@ export function PerformanceCommandPage() {
   const escalations = useMemo(() => getPerformanceEscalations(ar, company), [ar, company]);
   const companyMeta = company === 'all' ? null : KB_COMPANIES.find((c) => c.id === company);
 
-  useEffect(() => {
-    if (selected && !departments.some((x) => x.id === selected)) setSelected(null);
-  }, [selected, departments]);
+  const visibleSelected =
+    selected && departments.some((x) => x.id === selected) ? selected : null;
 
   const clearCompanyFilter = useCallback(() => setCompany('all'), []);
 
@@ -258,8 +264,8 @@ export function PerformanceCommandPage() {
         ? `إدارة الأداء · ${companyMeta?.labelAr ?? ''}`
         : `Performance management · ${companyMeta?.label ?? ''}`;
 
-  const d = selected
-    ? departments.find((x) => x.id === selected) ?? DEPARTMENTS.find((x) => x.id === selected)
+  const d = visibleSelected
+    ? departments.find((x) => x.id === visibleSelected) ?? DEPARTMENTS.find((x) => x.id === visibleSelected)
     : null;
   if (d) return <DeptDetail d={d} lang={lang} onBack={() => setSelected(null)} />;
 

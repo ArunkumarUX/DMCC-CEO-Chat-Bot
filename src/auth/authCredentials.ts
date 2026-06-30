@@ -3,7 +3,7 @@ export function normalizeEmail(value: string): string {
 }
 
 export function normalizeMobile(value: string): string {
-  let digits = String(value || '').replace(/\D/g, '');
+  const digits = String(value || '').replace(/\D/g, '');
   if (!digits) return '';
   if (digits.startsWith('971')) return digits;
   if (digits.startsWith('0') && digits.length >= 9) return `971${digits.slice(1)}`;

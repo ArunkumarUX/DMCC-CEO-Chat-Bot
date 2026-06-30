@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — chat history sheet uses legacy conversation shape
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CcIcon } from '../../command-centre/CcIcon';

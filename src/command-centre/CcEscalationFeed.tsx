@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-nocheck — escalation feed uses dynamic severity metadata
 import { CcIcon } from './CcIcon';
 
 export type EscalationItem = {
