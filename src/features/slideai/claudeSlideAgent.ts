@@ -183,15 +183,11 @@ function parseAgentResponse(raw: string): AgentResponse {
   return parsed;
 }
 
+import { fetchSlideAiHealth } from './slideAiHealth';
+
 export async function checkSlideAiAvailable(): Promise<boolean> {
-  try {
-    const res = await fetch('/api/health');
-    if (!res.ok) return false;
-    const data = (await res.json()) as { claude?: boolean };
-    return Boolean(data.claude);
-  } catch {
-    return false;
-  }
+  const health = await fetchSlideAiHealth();
+  return health.available;
 }
 
 export type RunSlideAgentOptions = SlideAiUserMessageOptions & {

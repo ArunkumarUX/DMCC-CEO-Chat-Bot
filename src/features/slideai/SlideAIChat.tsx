@@ -4,7 +4,8 @@ import { CcIcon } from '../../command-centre/CcIcon';
 import { useApp } from '../../context/AppContext';
 import { useSlideStore } from './useSlideStore';
 import { ALLOWED_SLIDE_COUNTS } from '../../api/perceptisDeckPayload';
-import { checkSlideAiAvailable, runSlideAgent } from './claudeSlideAgent';
+import { runSlideAgent } from './claudeSlideAgent';
+import { fetchSlideAiHealth, slideAiBannerMessage } from './slideAiHealth';
 import { PORTFOLIO_QUICK_STARTS } from './mckinseyGuidanceContent';
 import {
   formatSlideAiExecutiveBrief,
@@ -143,12 +144,12 @@ export default function SlideAIChat() {
   const abortRef = useRef<AbortController | null>(null);
   const suggestions = ar ? QUICK_PROMPTS_AR : QUICK_PROMPTS_EN;
   const loadingSteps = ar ? LOADING_STEPS_AR : LOADING_STEPS_EN;
-  const [apiLive, setApiLive] = useState<boolean | null>(null);
+  const [apiHealth, setApiHealth] = useState<Awaited<ReturnType<typeof fetchSlideAiHealth>> | null>(null);
   const [showTemplates, setShowTemplates] = useState(false);
   const [slideCount, setSlideCount] = useState<number>(8);
 
   useEffect(() => {
-    checkSlideAiAvailable().then(setApiLive);
+    fetchSlideAiHealth().then(setApiHealth);
   }, []);
 
   useEffect(() => {
@@ -234,19 +235,17 @@ export default function SlideAIChat() {
         abortRef.current = null;
       }
       setLoading(false);
-      checkSlideAiAvailable().then(setApiLive);
+      fetchSlideAiHealth().then(setApiHealth);
     }
   }
 
   return (
     <div className="cc-slideai__chat">
-      {apiLive === false && (
+      {apiHealth && !apiHealth.available ? (
         <div className="cc-slideai__api-banner" role="status">
-          {ar
-            ? 'الخادم غير متصل — تأكد من تشغيل npm run dev وتعيين ANTHROPIC_API_KEY.'
-            : 'Server offline — start npm run dev and set ANTHROPIC_API_KEY in .env.local.'}
+          {slideAiBannerMessage(ar, apiHealth)}
         </div>
-      )}
+      ) : null}
       <div className="cc-slideai__messages" role="log" aria-live="polite">
         {chatHistory.length === 0 && (
           <div className="cc-slideai__empty">
