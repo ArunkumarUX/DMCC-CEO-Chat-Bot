@@ -71,7 +71,7 @@ export function buildDailyCatchUpResponse(
     followUps: [
       nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
       'What needs my attention today?',
-      'Compare R&B store performance against GCC retail benchmarks',
+      'Compare DMCC diamond trade against regional free zone benchmarks',
     ],
     content: `${part}, **${firstName}** — good to see you.
 

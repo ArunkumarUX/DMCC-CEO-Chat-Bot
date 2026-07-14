@@ -53,7 +53,7 @@ export async function handleDeckDownloadRequest(jobId) {
     };
   }
 
-  const filename = `${(job.title || 'apparel-group-deck').replace(/[^\w.-]+/g, '-').slice(0, 60)}.pptx`;
+  const filename = `${(job.title || 'dmcc-deck').replace(/[^\w.-]+/g, '-').slice(0, 60)}.pptx`;
   return {
     status: 200,
     body: pptxBuffer,

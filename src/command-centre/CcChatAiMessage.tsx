@@ -2,7 +2,7 @@
 import { useMemo } from 'react';
 import { SourceCitationChip } from '../components/chat/SourceCitationChip';
 import { CcIcon } from './CcIcon';
-import { AdgmEmblem } from '../components/brand/AdgmWordmark';
+import { ADGM_BRAND } from '../config/brand';
 import { mdToNodes } from './CcMarkdown';
 import type { Source } from '../types';
 import { panelSources } from '../utils/sourceLinks';
@@ -86,7 +86,16 @@ export function CcChatAiMessage({
   return (
     <div className="chat-ai-msg mi-chat-in">
       <div className="chat-ai-msg__avatar" aria-hidden>
-        <AdgmEmblem size={22} variant="onDark" decorative display="inline" />
+        <img
+          src="/personal-ai-mark.svg"
+          alt=""
+          width={34}
+          height={34}
+          className="chat-ai-msg__avatar-logo"
+          decoding="async"
+          draggable={false}
+          title={ADGM_BRAND.productMarkAlt}
+        />
       </div>
       <div className="chat-ai-msg__body">
         {showRoster ? (

@@ -1,6 +1,7 @@
 import { createChatHttpResponse, getAnthropicConfig, verifyAnthropicApiKey, anthropicKeyFingerprint, describeAnthropicKeyProblem } from './chatCore.mjs';
 import { createPresentationHttpResponse } from './presentationBuilder.mjs';
 import { createSlideAiHttpResponse } from './slideAi.mjs';
+import { createDocAiHttpResponse } from './docAi.mjs';
 import { createExecutiveSnapshotResponse } from './executiveSnapshot.mjs';
 import { createAuthSessionStore } from './authSessionStore.mjs';
 import { SESSION_TTL_MS } from './memoryAuthStore.mjs';
@@ -109,7 +110,7 @@ export async function handleApiRequest(request, opts = {}) {
       model,
       perceptis: Boolean(perceptisKey),
       perceptisStatus: perceptisKey ? 'configured' : 'missing',
-      perceptisTemplate: perceptisTemplate || 'apparel-group-executive',
+      perceptisTemplate: perceptisTemplate || 'dmcc-executive',
       blob: blobConfigured,
       blobStatus: blobConfigured ? 'configured' : 'missing',
       liveReady: Boolean(apiKey && perceptisKey && blobConfigured),
@@ -204,6 +205,10 @@ export async function handleApiRequest(request, opts = {}) {
 
   if (request.method === 'POST' && path === '/api/slideai') {
     return createSlideAiHttpResponse(request);
+  }
+
+  if (request.method === 'POST' && path === '/api/docai') {
+    return createDocAiHttpResponse(request);
   }
 
   if (request.method === 'GET' && path === '/api/dev/public-origin') {

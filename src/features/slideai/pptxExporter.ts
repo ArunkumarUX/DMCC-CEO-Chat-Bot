@@ -1,5 +1,5 @@
 /**
- * Apparel Group SlideAI — PPTX Exporter
+ * DMCC SlideAI — PPTX Exporter
  * Consulting-grade output matching Perceptis / McKinsey standard.
  * Pixel-perfect alignment grid — all positions derived from layout constants.
  */
@@ -8,7 +8,7 @@ import pptxgen from 'pptxgenjs';
 import { ADGM_PPT_COLORS } from '../../config/adgmBrandForDeck';
 import type { Deck, Slide, SlideChart, SlideTable } from './slideTypes';
 
-// ─── Apparel Group Design Tokens (from brand guidelines) ─────────────────────
+// ─── DMCC Design Tokens (from brand guidelines) ─────────────────────
 const C = {
   navy:           ADGM_PPT_COLORS.navy,
   navyMid:        ADGM_PPT_COLORS.navyMid,
@@ -21,7 +21,7 @@ const C = {
   paper:          ADGM_PPT_COLORS.paper,
   paperSoft:      ADGM_PPT_COLORS.paperSoft,
   line:           ADGM_PPT_COLORS.line,
-  gold:           'C5D92D',
+  gold:           'C9A84C',
   mint:           ADGM_PPT_COLORS.mint,
   tableHead:      ADGM_PPT_COLORS.tableHead,
   tableEven:      ADGM_PPT_COLORS.paperSoft,
@@ -29,7 +29,7 @@ const C = {
   highlightText:  ADGM_PPT_COLORS.navyMid,
   highCell:       ADGM_PPT_COLORS.navy,
   highCellText:   ADGM_PPT_COLORS.white,
-  medCell:        'C5D92D',
+  medCell:        'C9A84C',
   medCellText:    ADGM_PPT_COLORS.ink,
   lowCell:        ADGM_PPT_COLORS.line,
   lowCellText:    ADGM_PPT_COLORS.inkMuted,
@@ -37,9 +37,9 @@ const C = {
   soWhatBorder:   ADGM_PPT_COLORS.accent,
 } as const;
 
-const FONT_DISPLAY = 'Gotham';
-const FONT_BODY    = 'Aptos';
-const FONT_MONO    = 'Consolas';
+const FONT_DISPLAY = 'Montserrat';
+const FONT_BODY = 'Montserrat';
+const FONT_MONO = 'Consolas';
 
 // ─── Pixel-perfect layout grid (all positions derived from these constants) ───
 //
@@ -101,12 +101,12 @@ function hex(c?: string, fallback = C.ink): string {
 
 function safeFilename(title: string): string {
   const base = title.trim().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').slice(0, 64);
-  return `${base || 'arm-deck'}.pptx`;
+  return `${base || 'dmcc-deck'}.pptx`;
 }
 
 function deckFooter(deck: Deck): string {
-  const tag = deck.theme.tagline || 'Images RetailME Awards';
-  return `Apparel Group · ${tag} · Confidential`;
+  const tag = deck.theme.tagline || 'Where the world does business';
+  return `DMCC · ${tag} · Confidential`;
 }
 
 // ─── Common atoms ─────────────────────────────────────────────────────────────
@@ -976,8 +976,8 @@ export async function exportToPptx(deck: Deck, filename?: string) {
   const pres = new pptxgen();
   pres.layout  = 'LAYOUT_16x9';
   pres.title   = deck.title;
-  pres.author  = 'SlideAI · Apparel Group';
-  pres.company = 'Apparel Group';
+  pres.author  = 'SlideAI · DMCC';
+  pres.company = 'DMCC';
   pres.subject = deck.title;
 
   deck.slides.forEach((slide, i) =>

@@ -13,7 +13,7 @@ export function buildChatUserMessage(
 ): string {
   const question = userText.trim();
   const historyLength = options?.historyLength ?? 0;
-  const firstName = ctx.executiveFirstName ?? 'Neeraj';
+  const firstName = ctx.executiveFirstName ?? 'Ahmed';
 
   if (ctx.conversationalMode === 'greeting') {
     // System prompt already forces the exact single-sentence reply.
@@ -78,8 +78,8 @@ Reply briefly and warmly to ${firstName}. Offer to continue with context from th
   const hasFalconKb = Boolean(ctx.falconExcerpts?.length);
   const falconBlock = hasFalconKb
     ? `${formatFalconExcerptBlock(ctx.falconExcerpts!)}
-- Apparel Group KB is loaded: answer NOW from the excerpts above and grounded KB handles ([KB-006], [KB-007], etc.).
-- Do NOT ask which Apparel Group document the user means. Do NOT say Group Strategy is missing from the KB.
+- DMCC KB is loaded: answer NOW from the excerpts above and grounded KB handles ([KB-006], [KB-007], etc.).
+- Do NOT ask which DMCC document the user means. Do NOT say Group Strategy is missing from the KB.
 - If a specific fact is absent from excerpts, say so for that fact only — still summarise what the excerpts do contain.
 - Do not use uncited metrics or generic strategy scorecards.`
     : '';
@@ -104,7 +104,7 @@ Routing instructions (CSO Prompt Pack):
 - Primary lead: ${primary?.name ?? 'Chief of Staff AI'} — open with executive takeaway (2–3 lines).
 - Supporting specialists (merge, dedupe): ${supportLine}
 - Answer the exact question using grounded source handles only; separate facts, interpretation, and recommendations.
-- Apparel Group is headquartered in Dubai, UAE. Use GCC retail expansion alignment only when sources support it.
+- DMCC is headquartered in Dubai, UAE. Use GCC retail expansion alignment only when sources support it.
 - Do NOT output generic guides, product overviews, or sample prompts unless explicitly asked.
 ${clarifyLine}${contextBlock}${continuity}${falconBlock}`;
 }

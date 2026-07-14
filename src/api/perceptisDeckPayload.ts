@@ -48,7 +48,7 @@ export function buildPerceptisPromptPayload(
     slideCount: options.slideCount != null ? clampSlideCount(options.slideCount) : inferSlideCount(trimmed),
     tone: options.tone ?? 'executive',
     audience: 'Group CEO',
-    // No confirmed Perceptis template exists for Apparel Group yet — omit
+    // No confirmed Perceptis template exists for DMCC yet — omit
     // templateName so the server falls back to PERCEPTIS_TEMPLATE_NAME (if set)
     // or Perceptis's own org default, instead of guessing a name that may not
     // match anything. Brand colors/fonts/footer are spelled out explicitly in

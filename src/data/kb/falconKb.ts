@@ -34,7 +34,7 @@ const STOP = new Set([
 ]);
 
 const INSTITUTIONAL_KB_QUERY =
-  /\b(a\.?r\.?m\.?\s*holding|arm\s*holding|we\s*emerge\s*stronger|drec|huna|hive|dubai\s*real\s*estate|loyalty programme|design[- ]led|h\s*residence|sculpture\s*park|art\s*dubai|portfolio|group\s*strategy|d33|dubai\s*economic\s*agenda|rera|dld|F&B|palm\s*spring|beach\s*centre|emerge\s*stronger|integrity|cooperation|agility|creativity|humility|mohammad\s*saeed|al\s*shehhi)\b/i;
+  /\b(dmcc|dubai\s*multi\s*commodit|future\s*of\s*trade|free\s*zone|commodity|commodities|diamond|gold|precious\s*metals|crypto|tether|uptown\s*dubai|almas|jlt|member\s*compan|corporate\s*tax|qualifying\s*income|ahmed\s*bin\s*sulayem)\b/i;
 
 export const FALCON_KB_SOURCES = SOURCES;
 
@@ -54,8 +54,8 @@ export function isFalconKbQuery(query: string): boolean {
 export function isBroadFalconOverviewQuery(query: string): boolean {
   const q = normalizeKbQuery(query).toLowerCase();
   return (
-    /\b(tell me|explain|what is|what are|describe|overview of|summar(y|ise|ize))\b.*\b(a\.?r\.?m|arm\s*holding|drec|huna|hive|portfolio|we\s*emerge)\b/.test(q) ||
-    (/\b(arm|holding|portfolio|drec|huna|hive)\b/.test(q) && /\b(tell me|explain|what is|describe|overview)\b/.test(q))
+    /\b(tell me|explain|what is|what are|describe|overview of|summar(y|ise|ize))\b.*\b(dmcc|future\s*of\s*trade|commodit|free\s*zone|diamond|crypto)\b/.test(q) ||
+    (/\b(dmcc|commodit|diamond|gold|crypto|member)\b/.test(q) && /\b(tell me|explain|what is|describe|overview)\b/.test(q))
   );
 }
 
@@ -74,14 +74,14 @@ function scoreChunk(query: string, chunk: FalconKbChunk): number {
   for (const t of tokens) {
     if (hay.includes(t)) score += 1;
   }
-  if (/\b(arm|holding|portfolio|strategy)\b/i.test(query) && chunk.sourceId === 'ag-group-strategy') score += 2;
-  if (/\b(drec|real\s*estate|palm\s*spring|beach\s*centre)\b/i.test(query) && chunk.sourceId === 'drec-portfolio') score += 3;
-  if (/\b(huna|design|sculpture|h\s*residence)\b/i.test(query) && chunk.sourceId === 'huna-developments') score += 3;
-  if (/\b(hive|coliv|loyalty programme)\b/i.test(query) && chunk.sourceId === 'hive-loyalty programme') score += 3;
-  if (/\b(emerge\s*stronger|art\s*dubai|sculpture)\b/i.test(query) && chunk.sourceId === 'retailme-awards') score += 3;
-  if (/\b(d33|dubai\s*economic)\b/i.test(query) && chunk.sourceId === 'dubai-d33-alignment') score += 3;
-  if (/\b(rera|dld|compliance|rental)\b/i.test(query) && chunk.sourceId === 'rera-compliance') score += 3;
-  if (/\b(values|integrity|leadership|shehhi)\b/i.test(query) && chunk.sourceId === 'arm-values') score += 2;
+  if (/\b(dmcc|strategy|future\s*of\s*trade)\b/i.test(query) && chunk.sourceId === 'ag-group-strategy') score += 2;
+  if (/\b(gold|precious\s*metals)\b/i.test(query) && chunk.sourceId === 'drec-portfolio') score += 3;
+  if (/\b(crypto|digital\s*asset|tether|cyber)\b/i.test(query) && chunk.sourceId === 'huna-developments') score += 3;
+  if (/\b(diamond|dde|bourse)\b/i.test(query) && chunk.sourceId === 'hive-loyalty programme') score += 3;
+  if (/\b(diamond\s*conference|keynote|london\s*diamond)\b/i.test(query) && chunk.sourceId === 'retailme-awards') score += 3;
+  if (/\b(future\s*of\s*trade|singapore|alignment)\b/i.test(query) && chunk.sourceId === 'dubai-d33-alignment') score += 3;
+  if (/\b(corporate\s*tax|qualifying\s*income|free\s*zone\s*status|compliance)\b/i.test(query) && chunk.sourceId === 'rera-compliance') score += 3;
+  if (/\b(values|integrity|leadership|ahmed\s*bin\s*sulayem)\b/i.test(query) && chunk.sourceId === 'arm-values') score += 2;
   return score;
 }
 

@@ -1,134 +1,134 @@
 {
-  "version": 3,
-  "builtAt": "2026-06-25T00:00:00.000Z",
+  "version": 4,
+  "builtAt": "2026-07-14T00:00:00.000Z",
   "sources": [
     {
       "id": "ag-group-strategy",
       "docId": "d6",
       "handle": "KB-001",
-      "title": "Apparel Group — Group Strategy & Investment Approach",
-      "pdfName": "Apparel_Group_Strategy_2026.pdf",
+      "title": "DMCC Strategy 2025–2030",
+      "pdfName": "DMCC_Strategy_2025_2030.pdf",
       "date": "2026-05-01",
       "category": "strategy",
-      "pageEstimate": 24,
-      "summary": "Apparel Group is a UAE-based private investment and retail company focused on building scalable ventures with lasting social and economic value. The group invests from early-stage to pre-IPO across retail, F&B, and banking, alongside future-focused industries including healthtech, sustainable food, mobility, fintech, and cultural initiatives.",
-      "chunkCount": 6,
-      "pdfFile": "Apparel_Group_Strategy_2026.pdf",
-      "externalUrl": "https://www.apparelgroup.com/",
-      "publicUrl": "https://www.apparelgroup.com/",
-      "citation": "Apparel Group Strategy | apparelgroup.com"
+      "pageEstimate": 72,
+      "summary": "DMCC is the world's premier commodities free zone — 26,000+ member companies from 180+ countries, 900+ licensed activities, headquartered at Almas Tower, JLT, with Uptown Dubai activation and Future of Trade thought leadership.",
+      "chunkCount": 3,
+      "pdfFile": "DMCC_Strategy_2025_2030.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "DMCC Strategy 2025–2030 | dmcc.ae"
     },
     {
       "id": "arm-values",
       "docId": "d7",
       "handle": "KB-002",
-      "title": "Apparel Group — Values & Leadership",
-      "pdfName": "ARM_Values_Leadership_2026.pdf",
+      "title": "DMCC Leadership & Values",
+      "pdfName": "DMCC_Leadership_Values_2026.pdf",
       "date": "2026-05-01",
       "category": "strategy",
       "pageEstimate": 8,
-      "summary": "Core values: Integrity, Cooperation, Agility, Creativity, Humility. CEO H.E. Mohammad Saeed Al Shehhi leads the group with a belief that meaningful progress happens when financial growth and cultural enrichment advance together.",
-      "chunkCount": 4,
-      "pdfFile": "ARM_Values_Leadership_2026.pdf",
-      "externalUrl": "https://www.apparelgroup.com/",
-      "publicUrl": "https://www.apparelgroup.com/",
-      "citation": "Apparel Group Values | apparelgroup.com"
+      "summary": "Ahmed Bin Sulayem, Executive Chairman and CEO. Tagline: Where the world does business. Values: integrity, global connectivity, commercial precision, trade-forward leadership.",
+      "chunkCount": 2,
+      "pdfFile": "DMCC_Leadership_Values_2026.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "DMCC Leadership | dmcc.ae"
     },
     {
       "id": "drec-portfolio",
       "docId": "d8",
       "handle": "KB-003",
-      "title": "R&B — Dubai Retail Centre Portfolio Review",
-      "pdfName": "R&B_Portfolio_Review_Q1_2026.pdf",
+      "title": "Gold & Precious Metals Ecosystem Review",
+      "pdfName": "DMCC_Gold_Precious_Metals_Q1_2026.pdf",
       "date": "2026-04-15",
       "category": "performance",
       "pageEstimate": 32,
-      "summary": "R&B manages over 3,200 residential and commercial units including Palm Spring Village and The Beach Centre. Long-standing retail player in the UAE with diversified income streams.",
-      "chunkCount": 5,
-      "pdfFile": "R&B_Portfolio_Review_Q1_2026.pdf",
-      "externalUrl": "https://www.apparelgroup.com/",
-      "publicUrl": "https://www.apparelgroup.com/",
-      "citation": "R&B Portfolio Review Q1 2026 | Apparel Group"
+      "summary": "Gold ecosystem members +12% YoY. Dubai Precious Metals Conference pipeline strong. DMCC Good Delivery standards underpin market trust.",
+      "chunkCount": 2,
+      "pdfFile": "DMCC_Gold_Precious_Metals_Q1_2026.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "Gold & Precious Metals Q1 2026 | DMCC"
     },
     {
       "id": "huna-developments",
       "docId": "d9",
       "handle": "KB-004",
-      "title": "6thStreet — Design-Led Development Strategy",
-      "pdfName": "6thStreet_Development_Strategy_2026.pdf",
+      "title": "Crypto & Digital Assets — DMCC Cyber Strategy",
+      "pdfName": "DMCC_Cyber_Digital_Assets_2026.pdf",
       "date": "2026-03-20",
       "category": "strategy",
       "pageEstimate": 18,
-      "summary": "6thStreet is a omnichannel retail developer bringing together architecture, culture, and commerce. Each space is curated to offer a refined living experience shaped by leading creatives and visionary brands.",
-      "chunkCount": 4,
-      "pdfFile": "6thStreet_Development_Strategy_2026.pdf",
-      "externalUrl": "https://www.apparelgroup.com/",
-      "publicUrl": "https://www.apparelgroup.com/",
-      "citation": "6thStreet Development Strategy 2026 | Apparel Group"
+      "summary": "DMCC Cyber unites 4,000+ tech companies. Tether MoU advances blockchain and tokenisation. BlockDown Dubai 2027 planned at Uptown Dubai.",
+      "chunkCount": 2,
+      "pdfFile": "DMCC_Cyber_Digital_Assets_2026.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "DMCC Cyber Strategy 2026 | DMCC"
     },
     {
       "id": "hive-loyalty programme",
       "docId": "d10",
       "handle": "KB-005",
-      "title": "Club Apparel — Loyalty programme Operations & Community Model",
-      "pdfName": "Club Apparel_Operations_2026.pdf",
+      "title": "Diamonds — Dubai Diamond Exchange Review",
+      "pdfName": "DMCC_Diamonds_DDE_Review_2025.pdf",
       "date": "2026-04-01",
       "category": "performance",
-      "pageEstimate": 14,
-      "summary": "Hive Coliv offers flexible, furnished living for creatives and professionals with shared spaces and built-in amenities, supporting a connected community-first lifestyle in Dubai.",
-      "chunkCount": 3,
-      "pdfFile": "Club Apparel_Operations_2026.pdf",
-      "externalUrl": "https://www.apparelgroup.com/",
-      "publicUrl": "https://www.apparelgroup.com/",
-      "citation": "Club Apparel Operations 2026 | Apparel Group"
+      "pageEstimate": 36,
+      "summary": "Record USD 41.7B diamond trade through Dubai in 2025. Dubai Diamond Exchange and London Diamond Bourse MoU advancing global corridor.",
+      "chunkCount": 2,
+      "pdfFile": "DMCC_Diamonds_DDE_Review_2025.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "Dubai Diamond Exchange Review 2025 | DMCC"
     },
     {
       "id": "retailme-awards",
       "docId": "d11",
       "handle": "KB-006",
-      "title": "Images RetailME Awards — Images RetailME Sculpture Commission",
-      "pdfName": "RetailME_Awards_Commission_Brief.pdf",
+      "title": "Dubai Diamond Conference 2026 — CEO Keynote Brief",
+      "pdfName": "Dubai_Diamond_Conference_Keynote_2026.pdf",
       "date": "2026-06-17",
       "category": "strategy",
       "pageEstimate": 12,
-      "summary": "Open call for a permanent public sculpture at 6thStreet loyalty programme at Dubai Hills Mall. Commission name from His Highness Sheikh Mohamed bin Zayed Al Nahyan — نظهر أقوى — resilience, renewal, and shared strength. Open 17 June to 25 July 2026.",
-      "chunkCount": 4,
-      "pdfFile": "RetailME_Awards_Commission_Brief.pdf",
-      "externalUrl": "https://www.apparelgroup.com/",
-      "publicUrl": "https://www.apparelgroup.com/",
-      "citation": "Images RetailME Awards Commission | Apparel Group × Images RetailME"
+      "summary": "Flagship diamonds event 26 Oct 2026. CEO speaking slot confirmation required. Aligns with Future of Trade and commodities thought leadership.",
+      "chunkCount": 2,
+      "pdfFile": "Dubai_Diamond_Conference_Keynote_2026.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "Dubai Diamond Conference Keynote Brief | DMCC"
     },
     {
       "id": "dubai-d33-alignment",
       "docId": "d12",
       "handle": "KB-007",
-      "title": "Dubai Economic Agenda GCC retail growth — Portfolio Alignment",
-      "pdfName": "AG_GCC_Expansion_Alignment_Tracker_2026.pdf",
+      "title": "Future of Trade 2026 — Portfolio Alignment Tracker",
+      "pdfName": "Future_of_Trade_Alignment_Tracker_2026.pdf",
       "date": "2026-05-15",
       "category": "strategy",
       "pageEstimate": 16,
-      "summary": "Tracks Apparel Group portfolio alignment with Dubai Economic Agenda GCC retail growth: trade growth, FDI, SMEs, talent attraction, and quality of life — mapped to R&B, 6thStreet, and Club Apparel initiatives.",
-      "chunkCount": 4,
-      "pdfFile": "AG_GCC_Expansion_Alignment_Tracker_2026.pdf",
-      "externalUrl": "https://www.apparelgroup.com/",
-      "publicUrl": "https://www.apparelgroup.com/",
-      "citation": "GCC retail growth Alignment Tracker 2026 | Apparel Group"
+      "summary": "Alignment score 86/100. UAE #2 in Commodity Trade Index. South-South trade at 35%. Maps commodities, members, Uptown Dubai, and DMCC Cyber to Future of Trade priorities.",
+      "chunkCount": 2,
+      "pdfFile": "Future_of_Trade_Alignment_Tracker_2026.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "Future of Trade Alignment Tracker 2026 | DMCC"
     },
     {
       "id": "rera-compliance",
       "docId": "d13",
       "handle": "KB-008",
-      "title": "UAE retail compliance & DED Compliance Framework — Group Policy",
-      "pdfName": "AG_Retail_Compliance_Compliance_Framework_2026.pdf",
+      "title": "UAE Corporate Tax — Free Zone Qualifying Income Framework",
+      "pdfName": "DMCC_Corporate_Tax_Advisory_Framework_2026.pdf",
       "date": "2026-02-10",
       "category": "policy",
-      "pageEstimate": 22,
-      "summary": "Group-wide compliance framework for Dubai retail operations: UAE retail compliance rental index, escrow, broker licensing, DED registration, and F&B permits across R&B and 6thStreet assets.",
-      "chunkCount": 4,
-      "pdfFile": "AG_Retail_Compliance_Compliance_Framework_2026.pdf",
-      "externalUrl": "https://www.rera.gov.ae",
-      "publicUrl": "https://www.rera.gov.ae",
-      "citation": "UAE retail compliance Compliance Framework 2026 | Apparel Group Legal"
+      "pageEstimate": 28,
+      "summary": "Federal Decree-Law No. 47 of 2022. DMCC qualified free zone status confirmed. Member advisory on qualifying income criteria due within 14 days.",
+      "chunkCount": 2,
+      "pdfFile": "DMCC_Corporate_Tax_Advisory_Framework_2026.pdf",
+      "externalUrl": "https://www.dmcc.ae/",
+      "publicUrl": "https://www.dmcc.ae/",
+      "citation": "Corporate Tax Free Zone Framework 2026 | DMCC Legal"
     }
   ],
   "chunks": [
@@ -136,151 +136,171 @@
       "sourceId": "ag-group-strategy",
       "docId": "d6",
       "docHandle": "KB-001",
-      "docTitle": "Apparel Group — Group Strategy & Investment Approach",
+      "docTitle": "DMCC Strategy 2025–2030",
       "docDate": "2026-05-01",
       "chunkIndex": 0,
       "handle": "KB-001-01",
-      "text": "Apparel Group is a UAE-based private investment and retail company focused on building scalable ventures with lasting social and economic value across diverse sectors. Our approach focuses on long-term, meaningful growth, backing companies that create tangible value for people, industries, and urban life."
+      "text": "DMCC is the world's premier commodities free zone, hosting 26,000+ member companies from 180+ countries with 900+ licensed activities. Headquartered at Almas Tower in Jumeirah Lake Towers (JLT), DMCC operates 87 towers and supports roughly 90,000 professionals."
     },
     {
       "sourceId": "ag-group-strategy",
       "docId": "d6",
       "docHandle": "KB-001",
-      "docTitle": "Apparel Group — Group Strategy & Investment Approach",
+      "docTitle": "DMCC Strategy 2025–2030",
       "docDate": "2026-05-01",
       "chunkIndex": 1,
       "handle": "KB-001-02",
-      "text": "Our portfolio spans early-stage to pre-IPO investments across retail, F&B, and banking, alongside future-focused industries like healthtech, sustainable food, mobility, fintech, and cultural initiatives. Investments aim to uplift communities, foster innovation, and build a more resilient future."
+      "text": "Strategic priorities 2025–2030: deepen commodities leadership (gold, diamonds, tea, coffee, agri), scale member services excellence, formalise DMCC Cyber and digital assets, activate Uptown Dubai, and lead global trade discourse through Future of Trade."
     },
     {
       "sourceId": "ag-group-strategy",
       "docId": "d6",
       "docHandle": "KB-001",
-      "docTitle": "Apparel Group — Group Strategy & Investment Approach",
+      "docTitle": "DMCC Strategy 2025–2030",
       "docDate": "2026-05-01",
       "chunkIndex": 2,
       "handle": "KB-001-03",
-      "text": "Retail portfolio companies include R&B (Dubai Retail Centre), 6thStreet (omnichannel developer), and Club Apparel (flexible loyalty programme). Culture is woven into everyday life — art should be part of public spaces, as reflected in the Images RetailME Awards awards acceptance at 6thStreet loyalty programme."
+      "text": "Ecosystems: Gold & Precious Metals, Diamonds, Crypto & Digital Assets, AI & Technology, and FinX / Foundations Framework for wealth structuring. Tagline: Where the world does business."
     },
     {
       "sourceId": "arm-values",
       "docId": "d7",
       "docHandle": "KB-002",
-      "docTitle": "Apparel Group — Values & Leadership",
+      "docTitle": "DMCC Leadership & Values",
       "docDate": "2026-05-01",
       "chunkIndex": 0,
       "handle": "KB-002-01",
-      "text": "Our values: Integrity — honesty and transparency. Cooperation — mutual respect across cultures. Agility — fast adaptation in a shifting world. Creativity — bold ideas turned into progress. Humility — grounded, open-minded leadership measured by value created for others."
+      "text": "Ahmed Bin Sulayem is Executive Chairman and Chief Executive Officer of DMCC. Leadership tone: authoritative, globally connected, trade-forward, and commercially precise."
     },
     {
       "sourceId": "arm-values",
       "docId": "d7",
       "docHandle": "KB-002",
-      "docTitle": "Apparel Group — Values & Leadership",
+      "docTitle": "DMCC Leadership & Values",
       "docDate": "2026-05-01",
       "chunkIndex": 1,
       "handle": "KB-002-02",
-      "text": "H.E. Mohammad Saeed Al Shehhi, CEO of Apparel Group: In a diverse community of over 200 nationalities, art is a bridge that connects us. We invest not just in businesses, but in the cultural fabric that binds us together. Meaningful progress happens when financial growth and cultural enrichment advance hand in hand."
+      "text": "DMCC values: integrity in member and regulatory dealings; cooperation across 180+ nationalities; agility in trade disruption; creativity in ecosystem design; humility measured by value created for members and Dubai."
     },
     {
       "sourceId": "drec-portfolio",
       "docId": "d8",
       "docHandle": "KB-003",
-      "docTitle": "R&B — Dubai Retail Centre Portfolio Review",
+      "docTitle": "Gold & Precious Metals Ecosystem Review",
       "docDate": "2026-04-15",
       "chunkIndex": 0,
       "handle": "KB-003-01",
-      "text": "R&B is a long-standing retail player in the UAE managing over 3,200 residential and commercial units. Portfolio includes Palm Spring Village and The Beach Centre. Q1 2026 store performance held at 94.2% across core assets with rental collections on track."
+      "text": "Gold ecosystem member growth +12% YoY. Dubai Precious Metals Conference remains a flagship convening platform. DMCC Good Delivery standards continue to underpin international market confidence."
     },
     {
       "sourceId": "drec-portfolio",
       "docId": "d8",
       "docHandle": "KB-003",
-      "docTitle": "R&B — Dubai Retail Centre Portfolio Review",
+      "docTitle": "Gold & Precious Metals Ecosystem Review",
       "docDate": "2026-04-15",
       "chunkIndex": 1,
       "handle": "KB-003-02",
-      "text": "R&B commercial sales pipeline: AED 124M active negotiations across three retail anchors. UAE retail compliance rental index update requires portfolio repricing review by Q3. Beach Centre footfall up 11% YoY following F&B recovery."
+      "text": "Active rough and polished trading corridors remain healthy. Leadership priority: reinforce precious metals custody and refining partnerships while monitoring lab-grown and digital gold product innovation."
     },
     {
       "sourceId": "huna-developments",
       "docId": "d9",
       "docHandle": "KB-004",
-      "docTitle": "6thStreet — Design-Led Development Strategy",
+      "docTitle": "Crypto & Digital Assets — DMCC Cyber Strategy",
       "docDate": "2026-03-20",
       "chunkIndex": 0,
       "handle": "KB-004-01",
-      "text": "6thStreet brings together architecture, culture, and commerce. Each development is curated with leading creatives and visionary brands to deliver refined living experiences. Dubai Hills Mall anchors the 6thStreet loyalty programme — site of the Images RetailME Awards permanent commission."
+      "text": "DMCC Cyber formalises a technology ecosystem of 4,000+ companies. The Tether MoU advances blockchain collaboration and tokenisation use cases for commodities and trade finance."
     },
     {
       "sourceId": "huna-developments",
       "docId": "d9",
       "docHandle": "KB-004",
-      "docTitle": "6thStreet — Design-Led Development Strategy",
+      "docTitle": "Crypto & Digital Assets — DMCC Cyber Strategy",
       "docDate": "2026-03-20",
       "chunkIndex": 1,
       "handle": "KB-004-02",
-      "text": "6thStreet competitive positioning: omnichannel differentiation vs volume developers. Next launch targets waterfront lifestyle district with pre-sales target AED 280M. Images RetailME partnership strengthens cultural narrative and international buyer appeal."
+      "text": "BlockDown Dubai 2027 is planned at Uptown Dubai with EAK Digital. Competitive context: ADGM and DIFC continue expanding digital asset frameworks — DMCC differentiates on commodities depth plus crypto licensing at member scale."
     },
     {
       "sourceId": "hive-loyalty programme",
       "docId": "d10",
       "docHandle": "KB-005",
-      "docTitle": "Club Apparel — Loyalty programme Operations & Community Model",
+      "docTitle": "Diamonds — Dubai Diamond Exchange Review",
       "docDate": "2026-04-01",
       "chunkIndex": 0,
       "handle": "KB-005-01",
-      "text": "Hive Coliv offers flexible furnished living for creatives and professionals. Shared spaces and built-in amenities support community-first lifestyle in Dubai. Store performance 91% with average stay length 8.4 months. Expansion pipeline: 2 new buildings under feasibility."
+      "text": "Dubai diamond trade reached a record USD 41.7B in 2025. Dubai Diamond Exchange hosted multiple rough tenders; lab-grown diamond share reached approximately 18% of traded volume."
+    },
+    {
+      "sourceId": "hive-loyalty programme",
+      "docId": "d10",
+      "docHandle": "KB-005",
+      "docTitle": "Diamonds — Dubai Diamond Exchange Review",
+      "docDate": "2026-04-01",
+      "chunkIndex": 1,
+      "handle": "KB-005-02",
+      "text": "London Diamond Bourse MoU strengthens Dubai–London corridor connectivity. Eight active rough tenders QTD. Dubai Diamond Conference remains the flagship annual convening for the ecosystem."
     },
     {
       "sourceId": "retailme-awards",
       "docId": "d11",
       "docHandle": "KB-006",
-      "docTitle": "Images RetailME Awards — Images RetailME Sculpture Commission",
+      "docTitle": "Dubai Diamond Conference 2026 — CEO Keynote Brief",
       "docDate": "2026-06-17",
       "chunkIndex": 0,
       "handle": "KB-006-01",
-      "text": "Images RetailME Awards is an open call for a permanent public sculpture at 6thStreet loyalty programme, Dubai Hills Mall. Apparel Group in collaboration with Images RetailME. Commission name from HH Sheikh Mohamed bin Zayed Al Nahyan — نظهر أقوى — resilience, renewal, shared strength. Submissions 17 June to 25 July 2026."
+      "text": "Dubai Diamond Conference 2026 is scheduled for 26 October. CEO keynote confirmation is a live leadership action. Talking points should align Future of Trade 2026 with Dubai's diamond trade leadership."
     },
     {
       "sourceId": "retailme-awards",
       "docId": "d11",
       "docHandle": "KB-006",
-      "docTitle": "Images RetailME Awards — Images RetailME Sculpture Commission",
+      "docTitle": "Dubai Diamond Conference 2026 — CEO Keynote Brief",
       "docDate": "2026-06-17",
       "chunkIndex": 1,
       "handle": "KB-006-02",
-      "text": "Culture is essential to how we build cities and communities. Art should be woven into everyday life, giving artists freedom to develop bold proposals while creating lasting public presence connected to environment. UAE-based, regional, and international artists invited."
+      "text": "Recommended narrative: Dubai as the world's leading diamond trading hub; USD 41.7B 2025 volume; South-South trade architecture; DMCC as convenor of markets, members, and policy."
     },
     {
       "sourceId": "dubai-d33-alignment",
       "docId": "d12",
       "docHandle": "KB-007",
-      "docTitle": "Dubai Economic Agenda GCC retail growth — Portfolio Alignment",
+      "docTitle": "Future of Trade 2026 — Portfolio Alignment Tracker",
       "docDate": "2026-05-15",
       "chunkIndex": 0,
       "handle": "KB-007-01",
-      "text": "GCC expansion alignment score 86/100 for Apparel Group portfolio. Strong fit: quality of life (6thStreet design), SME ecosystem (Club Apparel loyalty programme), FDI attraction (F&B assets), cultural tourism (Images RetailME Awards). Trade and logistics exposure moderate via R&B commercial."
+      "text": "Future of Trade alignment score 86/100 for DMCC initiatives. Strong fit: commodities depth, member network effects, FDI contribution (~15% of Dubai FDI), and thought leadership via the Commodity Trade Index — UAE ranked #2 globally."
     },
     {
       "sourceId": "dubai-d33-alignment",
       "docId": "d12",
       "docHandle": "KB-007",
-      "docTitle": "Dubai Economic Agenda GCC retail growth — Portfolio Alignment",
+      "docTitle": "Future of Trade 2026 — Portfolio Alignment Tracker",
       "docDate": "2026-05-15",
       "chunkIndex": 1,
       "handle": "KB-007-02",
-      "text": "Priority GCC retail growth initiatives mapped: double foreign trade, AED 100B annual FDI, 65,000 young Emiratis in private sector, top 3 global city. ARM actions: accelerate 6thStreet international marketing, expand Club Apparel for young professionals, R&B Emiratisation in property management."
+      "text": "Priority actions: Singapore Future of Trade launch 15 Jul; Uptown Dubai investor briefing; DMCC Cyber communications; corporate tax member advisory. South-South trade share at 35% is a core narrative point."
     },
     {
       "sourceId": "rera-compliance",
       "docId": "d13",
       "docHandle": "KB-008",
-      "docTitle": "UAE retail compliance & DED Compliance Framework — Group Policy",
+      "docTitle": "UAE Corporate Tax — Free Zone Qualifying Income Framework",
       "docDate": "2026-02-10",
       "chunkIndex": 0,
       "handle": "KB-008-01",
-      "text": "Group UAE retail compliance compliance: rental index updates require portfolio repricing within 30 days. Escrow accounts audited quarterly. Broker licences renewed annually. DED registration SLA 5 business days for new leases. Filing due 11 days for Q2 rental disclosure enhancement."
+      "text": "Under Federal Decree-Law No. 47 of 2022, DMCC holds confirmed qualified free zone status. Member communications on qualifying income criteria are due within 14 days. Finance and Legal must align advisory templates before release."
+    },
+    {
+      "sourceId": "rera-compliance",
+      "docId": "d13",
+      "docHandle": "KB-008",
+      "docTitle": "UAE Corporate Tax — Free Zone Qualifying Income Framework",
+      "docDate": "2026-02-10",
+      "chunkIndex": 1,
+      "handle": "KB-008-02",
+      "text": "0% corporate tax rate applies to qualifying free zone income when substance and qualifying activity tests are met. Non-qualifying income is taxed at the standard federal rate. Escalate unclear cases via Legal & Compliance."
     }
   ]
 }

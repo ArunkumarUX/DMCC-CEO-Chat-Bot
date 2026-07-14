@@ -1,10 +1,20 @@
 import type { KbCompanyId } from './kbCompanies';
 
-/** Department ids shown per company on the Performance page */
+/** Department ids shown per ecosystem on the Performance page */
 export const PERFORMANCE_COMPANY_DEPT_IDS: Record<KbCompanyId, readonly string[]> = {
-  arm: ['hr', 'sales', 'ops', 'it', 'finance', 'strategy', 'procurement', 'legal', 'marketing'],
-  drec: ['strategy', 'finance', 'sales', 'procurement', 'ops'],
-  huna: ['marketing', 'finance', 'strategy', 'legal'],
-  hive: ['ops', 'it', 'marketing', 'finance'],
-  capri: ['strategy', 'finance', 'legal', 'ops'],
+  arm: [
+    'members',
+    'commodities',
+    'bizdev',
+    'it',
+    'finance',
+    'strategy',
+    'events',
+    'legal',
+    'marketing',
+  ],
+  drec: ['commodities', 'finance', 'strategy', 'legal', 'members'],
+  huna: ['it', 'legal', 'strategy', 'marketing', 'bizdev'],
+  hive: ['commodities', 'events', 'marketing', 'finance', 'bizdev'],
+  capri: ['it', 'strategy', 'marketing', 'legal', 'bizdev'],
 };

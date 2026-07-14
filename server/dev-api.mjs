@@ -16,6 +16,7 @@ import {
   handleDeckPreviewTimings,
 } from './deckJobs.mjs';
 import { handleSlideAiRequest } from './slideAi.mjs';
+import { handleDocAiRequest } from './docAi.mjs';
 import { createExecutiveSnapshotResponse } from './executiveSnapshot.mjs';
 import { isValidEmailShape, isValidUaeMobileShape } from './authCredentials.mjs';
 
@@ -286,6 +287,21 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     sendJson(res, 200, { text: result.text });
+    return;
+  }
+
+  if (req.method === 'POST' && url.pathname === '/api/docai') {
+    const payload = await readJsonBody(req);
+    if (payload === null) {
+      sendJson(res, 400, { error: 'Invalid JSON' });
+      return;
+    }
+    const result = await handleDocAiRequest(payload);
+    if (!result.ok) {
+      sendJson(res, result.status || 500, { error: result.error });
+      return;
+    }
+    sendJson(res, 200, { text: result.text, ...(payload?.probe ? { ok: true } : {}) });
     return;
   }
 

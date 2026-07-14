@@ -44,7 +44,7 @@ function titleForKind(req: ParsedDeckRequest): string {
     case 'investor':
       return cap.includes('investor') ? cap : `${cap} — investor narrative`;
     case 'regulatory':
-      return cap.includes('UAE retail compliance') || cap.includes('regulat') ? cap : `${cap} — regulatory outlook`;
+      return cap.includes('UAE Corporate Tax / free zone') || cap.includes('regulat') ? cap : `${cap} — regulatory outlook`;
     case 'board':
       return cap.includes('board') ? cap : `${cap} — board pack`;
     case 'strategy':
@@ -68,7 +68,7 @@ function actionTitles(req: ParsedDeckRequest, keywords: string[]): string[] {
     regulatory: [
       `${k} shifts the supervisory landscape`,
       `Compliance gaps we must close first`,
-      `UAE retail compliance-aligned controls reduce execution risk`,
+      `UAE Corporate Tax / free zone-aligned controls reduce execution risk`,
       `Stakeholder map for ${k2} engagement`,
       `Regulatory roadmap with clear owners`,
     ],
@@ -130,7 +130,7 @@ function buildSlideList(
       id: 's1',
       layout: 'title',
       title: titleForKind(req),
-      eyebrow: req.deckKind === 'investor' ? 'INVESTOR · NARRATIVE' : 'Apparel Group · EXECUTIVE DECK',
+      eyebrow: req.deckKind === 'investor' ? 'INVESTOR · NARRATIVE' : 'DMCC · EXECUTIVE DECK',
       subtitle: req.audience || theme.tagline,
       useDarkBg: true,
       theme: { bg: navy, text: 'FFFFFF', accent: theme.accent },

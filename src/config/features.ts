@@ -6,8 +6,11 @@
  */
 const isProdBuild = import.meta.env.PROD;
 
-/** Create PPT / SlideAI — enabled for Apparel Group executive release */
+/** Create PPT / SlideAI — enabled for DMCC executive release */
 export const PPT_MASTER_ENABLED = true;
+
+/** Generate Document / DocAI — same surface as Presentations */
+export const DOC_MASTER_ENABLED = true;
 
 /** Architecture page — local/preview only by default */
 export const ARCHITECTURE_ENABLED =
@@ -20,6 +23,7 @@ export const PRESENTATION_BUILDER_ENABLED = false;
 export const BUILD_FEATURES = {
   production: isProdBuild,
   pptMaster: PPT_MASTER_ENABLED,
+  docMaster: DOC_MASTER_ENABLED,
   architecture: ARCHITECTURE_ENABLED,
   presentationBuilder: PRESENTATION_BUILDER_ENABLED,
 } as const;

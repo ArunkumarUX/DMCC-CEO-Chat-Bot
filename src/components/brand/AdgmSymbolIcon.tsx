@@ -1,8 +1,8 @@
 import type { SVGProps } from 'react';
-import { APPAREL_GROUP_BRAND } from '../../config/apparelGroupGuidelines';
+import { DMCC_BRAND } from '../../config/dmccGuidelines';
 
-const LIME = APPAREL_GROUP_BRAND.colors.lime;
-const NAVY = APPAREL_GROUP_BRAND.colors.navy;
+const ACCENT = DMCC_BRAND.colors.gold;
+const NAVY = DMCC_BRAND.colors.navy;
 
 function resolveStroke(color: string): string {
   const normalized = color.toLowerCase();
@@ -11,7 +11,7 @@ function resolveStroke(color: string): string {
   return color;
 }
 
-/** Apparel Group compact mark — calligraphic emblem with lime accent bars */
+/** DMCC compact mark — calligraphic emblem with gold accent bars */
 export function AdgmSymbolIcon({
   size = 36,
   className = '',
@@ -31,7 +31,7 @@ export function AdgmSymbolIcon({
       fill="none"
       className={className}
       role="img"
-      aria-label="Apparel Group"
+      aria-label="DMCC"
       {...props}
     >
       <g transform="translate(12 3) scale(1)">
@@ -57,8 +57,8 @@ export function AdgmSymbolIcon({
           fill="none"
         />
       </g>
-      <line x1="14" y1="52" x2="50" y2="52" stroke={LIME} strokeWidth="2" />
-      <rect x="14" y="55" width="36" height="3.5" rx="1" fill={LIME} />
+      <line x1="14" y1="52" x2="50" y2="52" stroke={ACCENT} strokeWidth="2" />
+      <rect x="14" y="55" width="36" height="3.5" rx="1" fill={ACCENT} />
     </svg>
   );
 }

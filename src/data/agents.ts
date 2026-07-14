@@ -32,11 +32,11 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     id: 'strategy',
     name: 'Strategy AI',
     shortName: 'Strategy',
-    role: 'Retail intelligence',
-    tagline: 'GCC retail trends, omnichannel performance, brand portfolio and competitor signals',
+    role: 'Commodities intelligence',
+    tagline: 'Global commodity flows, free zone competitiveness, member ecosystem and trade corridor signals',
     color: '#3D3D3D',
     colorMuted: '#FAF8F4',
-    tools: ['Market feed', 'Store scorecard', 'Brand radar'],
+    tools: ['Market feed', 'Commodity scorecard', 'Ecosystem radar'],
     focusAreas: ['Intelligence', 'Knowledge'],
   },
   {
@@ -44,7 +44,7 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     name: 'Policy AI',
     shortName: 'Policy',
     role: 'Regulatory',
-    tagline: 'UAE retail licensing, VAT, labour law and consumer protection frameworks',
+    tagline: 'UAE free zone licensing, AML/CFT, commodity trade rules and member compliance frameworks',
     color: '#B8924A',
     colorMuted: '#F0EDE6',
     tools: ['Regulatory monitor', 'Policy KB', 'Impact memos'],
@@ -55,7 +55,7 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     name: 'Relationship AI',
     shortName: 'CRM',
     role: 'Stakeholders',
-    tagline: 'Brand partners, mall operators, franchisees and pre-meeting stakeholder profiles',
+    tagline: 'Member companies, trading partners, government bodies and pre-meeting stakeholder profiles',
     color: '#157347',
     colorMuted: '#E8F5EE',
     tools: ['Executive CRM', 'Commitment tracker', 'Partnership map'],
@@ -66,7 +66,7 @@ export const EXECUTIVE_AGENTS: AgentDefinition[] = [
     name: 'Communications AI',
     shortName: 'Comms',
     role: 'Executive voice',
-    tagline: 'Arabic/English speeches, board notes, brand launch and award messaging',
+    tagline: 'Arabic/English speeches, board notes, member announcements and trade forum messaging',
     color: '#5B4FCF',
     colorMuted: '#EEECFA',
     tools: ['Voice learning', 'Bilingual drafts', 'Tone review'],
@@ -108,18 +108,18 @@ function isExplorerQuery(q: string): boolean {
     /\b(check the internet|search the internet|search online|search the web|look (it|this) up online|find (it|this) online|google|look up|search for|find (on|from) the (web|internet)|what does (google|the internet) say)\b/.test(q)
   ) return true;
 
-  const hasAgEntity =
-    /\b(apparel group|r&b fashion|\b6thstreet\b|club apparel|nysaa|tommy hilfiger|skechers|aldo|tim hortons|neeraj teckchandani|chief executive|ceo\b|board pack|action register|store kpi|market snapshot|2,?500\+?\s*stores|85\+?\s*brands)\b/.test(q);
-  if (hasAgEntity) return false;
+  const hasDmccEntity =
+    /\b(dmcc|dubai multi commodities|ahmed bin sulayem|chief executive|ceo\b|board pack|action register|member portal|free zone|commodit(y|ies)|gold centre|diamond exchange|tea centre|coffee centre|crypto centre|gaming centre|26,?000\+?\s*companies|180\+?\s*countries|jlt|jumeirah lakes)\b/.test(q);
+  if (hasDmccEntity) return false;
 
   const hasCeoRegContext =
-    /\b(dubai|uae|gcc).{0,40}(regulat|policy|polic|compliance|framework|law|vat|licensing)\b/.test(q) ||
-    /\b(regulat|policy|polic|compliance|framework|law|vat|licensing).{0,40}(dubai|uae|gcc)\b/.test(q);
+    /\b(dubai|uae|gcc).{0,40}(regulat|policy|polic|compliance|framework|law|licensing|aml|cft)\b/.test(q) ||
+    /\b(regulat|policy|polic|compliance|framework|law|licensing|aml|cft).{0,40}(dubai|uae|gcc)\b/.test(q);
   if (hasCeoRegContext) return false;
 
   const hasCeoBenchmark =
-    /\b(benchmark|compare|comparison|versus|\bvs\b).{0,50}(r&b|6thstreet|club apparel|retail|fashion|footwear|omnichannel|store network|portfolio)\b/.test(q) ||
-    /\b(r&b|6thstreet|club apparel|retail|fashion|portfolio).{0,50}(benchmark|compare|comparison)\b/.test(q);
+    /\b(benchmark|compare|comparison|versus|\bvs\b).{0,50}(dmcc|difc|adgm|jafza|free zone|commodit|gold|diamond|member ecosystem|trade corridor)\b/.test(q) ||
+    /\b(dmcc|difc|adgm|free zone|commodit|gold|diamond|member).{0,50}(benchmark|compare|comparison)\b/.test(q);
   if (hasCeoBenchmark) return false;
 
   const hasCeoTask =
@@ -172,14 +172,14 @@ export function routeAgentsForQuery(
   const routed: AgentType[] = [];
   if (/\b(meeting|brief|board|action|follow.?up|calendar|agenda|decision)\b/.test(q)) routed.push('cos');
   if (
-    /\b(market|competitor|benchmark|capital|sector|investment|retail|fashion|footwear|f&b|food|dubai|d33|portfolio|r&b|6thstreet|club apparel|compare|trend|intelligence|positioning|growth|landscape|gcc|mena|omnichannel|e-?commerce|store|brand)\b/.test(q)
+    /\b(market|competitor|benchmark|capital|sector|investment|commodit|gold|diamond|tea|coffee|crypto|gaming|ai|trade|free zone|dubai|d33|member|difc|adgm|compare|trend|intelligence|positioning|growth|landscape|gcc|mena|ecosystem|corridor|26,?000|180\+?\s*countries)\b/.test(q)
   ) {
     routed.push('strategy');
   }
-  if (/\b(regulat|policy|polic|compliance|framework|vat|licensing|labour|consumer protection|law|consultation)\b/.test(q)) {
+  if (/\b(regulat|policy|polic|compliance|framework|licensing|aml|cft|sanction|consultation|member compliance|free zone rule)\b/.test(q)) {
     routed.push('policy');
   }
-  if (/\b(stakeholder|partner|crm|commitment|relationship|franchise|mall|brand partner|investor)\b/.test(q)) {
+  if (/\b(stakeholder|partner|crm|commitment|relationship|member company|trading partner|government|investor)\b/.test(q)) {
     routed.push('relationship');
   }
   if (/\b(draft|speech|memo|arabic|english|communication|talking points|press release|note to)\b/.test(q)) {

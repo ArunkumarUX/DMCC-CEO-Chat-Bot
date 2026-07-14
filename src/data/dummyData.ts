@@ -50,7 +50,7 @@ export const WORKFLOWS: Workflow[] = [
     estimatedTime: '6 min',
     steps: [
       { id: 's1', title: 'Policy scope', description: 'UAE retail compliance, MAS, FCA, etc.' },
-      { id: 's2', title: 'Impact dimensions', description: 'Apparel Group operations and strategy' },
+      { id: 's2', title: 'Impact dimensions', description: 'DMCC operations and strategy' },
       { id: 's3', title: 'Review & output', description: 'Impact memo with citations' },
     ],
   },

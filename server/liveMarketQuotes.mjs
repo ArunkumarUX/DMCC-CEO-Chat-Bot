@@ -1,6 +1,6 @@
 /**
  * Public market quotes for production ticker (no API key required).
- * Apparel Group CEO: GCC indices + portfolio KPIs + retail competitors.
+ * DMCC CEO: GCC indices + free-zone / commodities KPIs.
  */
 
 /** @typedef {{ k: string; v: string; c: number }} TickerRow */
@@ -9,13 +9,13 @@
 const CEO_MARKET_TICKER = [
   { k: 'DFM', v: '5,318.2', c: 0.41 },
   { k: 'ADX', v: '9,742.6', c: 0.84 },
-  { k: 'GCC Retail', v: '+8.2%', c: 0.6 },
-  { k: 'R&B Stores', v: '100+', c: 2.1 },
-  { k: '6thStreet', v: '↑ 14%', c: 1.4 },
-  { k: 'Club Apparel', v: '10M+', c: 3.2 },
-  { k: 'Store Count', v: '2,500+', c: 1.8 },
-  { k: 'KSA Exp.', v: 'Active', c: 0 },
-  { k: 'Tim Hortons', v: '300+', c: 0.8 },
+  { k: 'DMCC Members', v: '26,000+', c: 0.6 },
+  { k: 'Diamond Trade', v: 'USD 41.7B', c: 2.1 },
+  { k: 'Gold Ecosystem', v: '+12% YoY', c: 1.4 },
+  { k: 'DMCC Cyber', v: '4,000+', c: 3.2 },
+  { k: 'Countries', v: '180+', c: 1.8 },
+  { k: 'Future of Trade', v: 'UAE #2', c: 0 },
+  { k: 'Licences QTD', v: '1,842', c: 0.8 },
   { k: 'USD/AED', v: '3.6725', c: 0 },
 ];
 

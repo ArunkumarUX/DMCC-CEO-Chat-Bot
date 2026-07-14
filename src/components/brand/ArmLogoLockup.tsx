@@ -3,7 +3,7 @@ import { AdgmWordmark } from './AdgmWordmark';
 
 type Variant = 'onLight' | 'onDark';
 
-/** Apparel Group horizontal logo lockup */
+/** DMCC horizontal logo lockup */
 export function ArmLogoLockup({
   height = 48,
   variant = 'onLight',
@@ -28,7 +28,7 @@ export function ArmLogoLockup({
       alt={ADGM_BRAND.logoAlt}
       width={width}
       height={height}
-      className={['apparel-logo-lockup', 'arm-logo-img', className].filter(Boolean).join(' ')}
+      className={['dmcc-logo-lockup', 'dmcc-logo-img', className].filter(Boolean).join(' ')}
       decoding="async"
       draggable={false}
       style={{ height, width: 'auto', maxWidth: '100%', objectFit: 'contain' }}

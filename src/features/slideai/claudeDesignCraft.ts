@@ -1,5 +1,5 @@
 /**
- * Claude Design + Apparel Group PPT Master craft — runtime prompt contract.
+ * Claude Design + DMCC PPT Master craft — runtime prompt contract.
  * Quality target: Perceptis.ai consulting-deck standard.
  *
  * Includes the Minto Pyramid Principle (Barbara Minto / McKinsey):
@@ -32,8 +32,8 @@ KEY LINE (slides 5+):
 - 3 to 5 parallel arguments that together PROVE the governing thought
 - Each argument is MECE (Mutually Exclusive, Collectively Exhaustive — no gaps, no overlaps)
 - Each argument appears as the slide title — a COMPLETE ACTION SENTENCE with a named metric:
-  GOOD: "Club Apparel's 91% store performance across 340 units validates co-living demand at scale"
-  BAD:  "Market validation" / "Co-living demand" / "Key finding"
+  GOOD: "USD 41.7B diamond trade through Dubai in 2025 validates accelerating the London corridor MoU now"
+  BAD:  "Market validation" / "Diamonds update" / "Key finding"
 - Each argument is supported by ONE data exhibit on that slide (table or stats)
 
 PYRAMID HIERARCHY (title → exhibit → so what):
@@ -53,14 +53,14 @@ ACTION TITLE RULES (McKinsey standard):
 - Always names a specific entity or metric
 - Always states the strategic implication (not just the data)
 - Examples by slide type:
-  Strategy:   "Entering co-living at scale gives R&B 18% IRR above portfolio average"
+  Strategy:   "Entering commodities cluster at scale gives Gold 18% IRR above portfolio average"
   Risk:       "FX headwinds cut projected net income by AED 12M unless hedged by Q3"
-  Benchmark:  "Club Apparel outperforms Dubai co-living peers on store performance, NPS, and RevPAR"
+  Benchmark:  "Dubai Diamond Exchange outperforms Dubai commodities cluster peers on member performance, NPS, and RevPAR"
   Roadmap:    "Three-phase delivery hits 1,000 units by Q4 2027 at current run rate"
   Decision:   "Board approval for Phase 2 capex unlocks 340 additional units by Q2 2026"
 `.trim();
 
-/** Perceptis-quality design craft — the default for all Apparel Group decks */
+/** Perceptis-quality design craft — the default for all DMCC decks */
 export const CLAUDE_DESIGN_CRAFT_PROMPT = `
 PERCEPTIS-QUALITY DESIGN CRAFT (mandatory — apply to every slide):
 
@@ -73,7 +73,7 @@ LAYOUT PHILOSOPHY:
 TITLE STANDARD (McKinsey Pyramid Principle):
 - Every title is a COMPLETE ACTION SENTENCE conveying the "So what" (≤12 words)
 - BAD: "Market Overview" / "Key Findings" / "Agenda" / "Introduction"
-- GOOD: "Club Apparel 91% store performance signals demand for 3 new Dubai co-living sites in 2026"
+- GOOD: "Dubai Diamond Exchange 91% member performance signals demand for 3 new Dubai commodities cluster sites in 2026"
 - Bold, large, left-aligned, dark ink — never a noun phrase alone
 
 DATA EXHIBIT — TABLE (use "table" field, never plain text for tabular data):
@@ -88,9 +88,9 @@ DATA EXHIBIT — TABLE (use "table" field, never plain text for tabular data):
 
 DATA EXHIBIT — CHART (use "chart" field with real numbers):
 Use chart instead of imagePrompt whenever you have actual numerical data:
-- "bar": single metric over time or across categories (market size, store performance, revenue)
+- "bar": single metric over time or across categories (market size, member performance, revenue)
 - "grouped-bar": compare multiple entities across same categories (sites × scenarios)
-- "line": trend with inflection points (store performance over months, CAGR trajectory)
+- "line": trend with inflection points (member performance over months, CAGR trajectory)
 - "waterfall": cumulative bridge / value build-up — signature McKinsey chart
   (portfolio value bridge, EBITDA bridge, capex waterfall)
   Last label MUST be "Total" or "Net" for the full-height total bar
@@ -127,18 +127,18 @@ INSIGHT PANEL (right dark sidebar — "insightPanel" field):
 "SO WHAT" CALLOUT ("soWhat" field):
 - Required on every table/chart/stat slide
 - Format: "So what: [one crisp sentence, named metric + strategic implication]"
-- Example: "So what: Club Apparel's 91% store performance across 340 units proves co-living demand — R&B can scale to 1,000+ units by 2027"
+- Example: "So what: USD 41.7B diamond trade through Dubai in 2025 proves corridor leadership — accelerate London MoU before Antwerp narrative resets"
 
 SOURCE NOTES ("sourceNote" field):
 - Required on every data slide
 - Format: "Sources: [Source 1 (month year)]; [Source 2]; [Source 3]"
-- Use credible sources: CBRE, JLL, UAE retail compliance, DED, Bloomberg, McKinsey, BCG, IMF, Knight Frank
+- Use credible sources: CBRE, JLL, UAE Corporate Tax / free zone, DED, Bloomberg, McKinsey, BCG, IMF, Knight Frank
 - If inferring: "Sources: [estimated — insert verified citation]"
 
-Apparel Group colour application:
-- Navy #1a2332: table headers, insight panels, title slides, closing slides
-- Clearsky #0087FF: accent bars, KPI values, bullet markers, highlights
-- Mint / cyan: KPI card fills on stat slides
+DMCC colour application:
+- Navy #0B1F3A: table headers, insight panels, title slides, closing slides
+- Sapphire #0F52BA / Gold #C9A84C: accent bars, KPI values, bullet markers, highlights
+- Canvas / light grey: KPI card fills on stat slides
 - White #FFFFFF: main canvas background on content slides
 - Gold #C9A84C: secondary chart line, comparison winner column
 
@@ -158,9 +158,9 @@ FINAL CHECKLIST before returning JSON:
 □ speakerNotes on every slide
 `.trim();
 
-/** Unified master — Minto Pyramid + McKinsey visual design + Apparel Group standard */
+/** Unified master — Minto Pyramid + McKinsey visual design + DMCC standard */
 export const ADGM_PPT_MASTER_CRAFT_PROMPT = `
-APPAREL GROUP PPT MASTER (Perceptis + McKinsey quality — apply all layers simultaneously):
+DMCC PPT MASTER (Perceptis + McKinsey quality — apply all layers simultaneously):
 
 LAYER 1 — MINTO PYRAMID NARRATIVE (deck structure):
 - Apply SCQA arc: Situation → Complication → Question → Answer (see MINTO PYRAMID PRINCIPLE above)
@@ -174,14 +174,14 @@ LAYER 2 — McKINSEY VISUAL STANDARD:
 - table field for tabular data — NEVER bullets for structured data
 - insightPanel with 3-5 bold-metric bullets on every exhibit slide
 - soWhat callout as one-sentence implication with a named metric
-- sourceNote citing CBRE / JLL / Bloomberg / UAE retail compliance / McKinsey / BCG etc.
+- sourceNote citing DMCC / Future of Trade / Bloomberg / UAE Corporate Tax / McKinsey / BCG etc.
 - Stat slide for all KPI moments (3–4 metrics with context)
 
-LAYER 3 — APPAREL GROUP DESIGN SYSTEM:
-- Navy #003399 + Lime #C5D92D, Gotham, tagline "Exceed Expectations Everyday"
+LAYER 3 — DMCC DESIGN SYSTEM:
+- Navy #0B1F3A + Sapphire #0F52BA + Gold #C9A84C, Gotham, tagline "Where the world does business"
 - Dark navy cover + dark closing; white/paper content slides ("sandwich")
-- Audience: Neeraj Teckchandani, CEO, Apparel Group
-- Portfolio: R&B Fashion, 6thStreet, Club Apparel, Nysaa; 2,500+ stores · 14 countries
+- Audience: Ahmed Bin Sulayem, Executive Chairman & CEO, DMCC
+- Ecosystems: Gold & Precious Metals, Diamonds, Crypto/Cyber, Tea/Coffee, Member Services · 26,000+ companies · 180+ countries
 
 SLIDE COUNT:
 - 8–10 slides: board update or strategy paper

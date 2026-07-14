@@ -1,25 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Personal AI ADGM">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="DMCC Executive OS">
   <defs>
-    <linearGradient id="pai-bg" x1="8" y1="6" x2="40" y2="42" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#005299"/>
-      <stop offset="0.5" stop-color="#001C7D"/>
-      <stop offset="1" stop-color="#00092A"/>
+    <linearGradient id="dmcc-pai-bg" x1="8" y1="6" x2="40" y2="42" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0A1640"/>
+      <stop offset="0.55" stop-color="#070047"/>
+      <stop offset="1" stop-color="#03051C"/>
     </linearGradient>
-    <linearGradient id="pai-wing" x1="24" y1="8" x2="24" y2="40" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#3EF0FF"/>
-      <stop offset="1" stop-color="#0087FF"/>
+    <linearGradient id="dmcc-pai-accent" x1="12" y1="10" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F06AA5"/>
+      <stop offset="1" stop-color="#E21F7B"/>
     </linearGradient>
   </defs>
-  <rect width="48" height="48" rx="12" fill="url(#pai-bg)"/>
-  <!-- ADGM-style symmetric emblem -->
-  <g fill="url(#pai-wing)">
-    <rect x="22" y="9" width="4" height="30" rx="2"/>
-    <path d="M22 13 9 20.5v5L22 35V13z"/>
-    <path d="M26 13 39 20.5v5L26 35V13z"/>
-    <path d="M22 22 9 28.5v3.5L22 31V22z"/>
-    <path d="M26 22 39 28.5v3.5L26 31V22z"/>
-  </g>
-  <!-- AI accent dot -->
-  <circle cx="37" cy="11" r="6" fill="#AFFAFF" stroke="#00092A" stroke-width="1"/>
-  <circle cx="37" cy="11" r="2.5" fill="#0087FF"/>
+  <rect width="48" height="48" rx="12" fill="url(#dmcc-pai-bg)"/>
+  <!-- Stylized DMCC “D” mark -->
+  <path
+    fill="url(#dmcc-pai-accent)"
+    d="M16 12h9.5c7.2 0 12.5 4.8 12.5 12s-5.3 12-12.5 12H16V12zm6.2 5.6v12.8h3.2c3.8 0 6.4-2.5 6.4-6.4s-2.6-6.4-6.4-6.4h-3.2z"
+  />
+  <!-- Live AI pulse -->
+  <circle cx="37" cy="12" r="5.5" fill="#E21F7B" opacity="0.95"/>
+  <circle cx="37" cy="12" r="2.4" fill="#FFFFFF"/>
 </svg>

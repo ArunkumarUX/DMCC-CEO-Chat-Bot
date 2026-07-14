@@ -14,27 +14,27 @@ export interface FocusArea {
   workflowIds: string[];
 }
 
-/** Core focus areas — Apparel Group CEO personal AI */
+/** Core focus areas — DMCC CEO personal AI */
 export const CORE_FOCUS_AREAS: FocusArea[] = [
   {
     id: 'strategic-intelligence',
     title: 'Strategic Intelligence & Briefings',
     shortTitle: 'Intelligence',
     description:
-      'Daily AI-generated briefings on GCC retail, fashion, footwear, F&B and e-commerce markets relevant to Apparel Group\'s portfolio (R&B, 6thStreet, Club Apparel), plus competitor and sector signals across 2,500+ stores and 85+ brands.',
+      'Daily AI-generated briefings on global commodity markets, free zone competitiveness, and ecosystem signals relevant to DMCC\'s 26,000+ member companies across gold, diamonds, tea, coffee, crypto, AI and gaming.',
     capabilities: [
-      'Daily briefings on retail markets, consumer trends and portfolio news',
-      'Sector intelligence across fashion, footwear, F&B and omnichannel',
-      'Real-time alerts on GCC and UAE developments affecting the group',
+      'Daily briefings on commodity flows, trade corridors and member ecosystem news',
+      'Sector intelligence across precious metals, agri-commodities, digital assets and emerging tech',
+      'Real-time alerts on GCC and global developments affecting DMCC and its members',
     ],
     icon: 'globe',
     agents: ['strategy', 'policy'],
     workflowIds: [],
     prompts: [
       'Give me my overnight intelligence briefing — what are the most important developments I need to know today?',
-      'What are the top retail expansion opportunities Apparel Group should prioritise from current GCC consumer trends?',
-      'How is 6thStreet\'s omnichannel positioning compared to regional e-commerce players this quarter?',
-      'What does the latest Dubai retail and tourism momentum mean for our store network?',
+      'What are the top trade and free zone opportunities DMCC should prioritise from current GCC commodity trends?',
+      'How does DMCC\'s member ecosystem compare to DIFC and ADGM on digital assets and AI this quarter?',
+      'What does the latest gold and diamond market momentum mean for our trading members?',
     ],
   },
   {
@@ -53,9 +53,9 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     workflowIds: ['w1', 'w2'],
     prompts: [
       'Brief me on my 3pm meeting tomorrow — attendees and context',
-      'Extract action items from my last Apparel Group leadership meeting notes',
-      'Executive summary of the Q2 board pack for the group',
-      'Draft follow-up email after today\'s R&B store expansion review',
+      'Extract action items from my last DMCC leadership meeting notes',
+      'Executive summary of the Q2 board pack for the authority',
+      'Draft follow-up email after today\'s gold centre member roundtable',
     ],
   },
   {
@@ -63,20 +63,20 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Regulatory & Policy Intelligence',
     shortTitle: 'Regulatory',
     description:
-      'Monitoring of UAE regulatory changes relevant to retail licensing (DED), VAT, labour law, consumer protection and sustainability. AI-assisted drafting of policy briefs and consultation responses.',
+      'Monitoring of UAE regulatory changes relevant to free zone licensing, AML/CFT, commodity trade rules, digital asset frameworks and member compliance. AI-assisted drafting of policy briefs and consultation responses.',
     capabilities: [
-      'Monitoring UAE regulation across retail, labour and consumer protection',
+      'Monitoring UAE regulation across free zones, AML/CFT and commodity trade',
       'AI-assisted drafting of policy documents and consultation responses',
-      'Cross-reference group policies against international retail best practice',
+      'Cross-reference DMCC policies against international free zone best practice',
     ],
     icon: 'scale',
     agents: ['policy', 'strategy'],
     workflowIds: ['w4'],
     prompts: [
-      'Assess impact of the latest UAE VAT changes on our F&B and retail operations',
-      'Compare GCC retail licensing frameworks against regional benchmarks',
-      'Draft an executive summary for a consumer protection consultation response',
-      'Which regulatory changes affect our Saudi Arabia expansion this quarter?',
+      'Assess impact of the latest UAE AML/CFT updates on our member onboarding',
+      'Compare GCC free zone licensing frameworks against regional benchmarks',
+      'Draft an executive summary for a digital asset consultation response',
+      'Which regulatory changes affect our crypto centre members this quarter?',
     ],
   },
   {
@@ -84,7 +84,7 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Correspondence & Communications',
     shortTitle: 'Communications',
     description:
-      'AI-assisted drafting of executive communications, speeches, and public statements — including brand launches, awards and sustainability messaging. Prioritisation and summarisation of inbound correspondence in Arabic and English.',
+      'AI-assisted drafting of executive communications, speeches, and public statements — including trade forum keynotes, member announcements and ecosystem launches. Prioritisation and summarisation of inbound correspondence in Arabic and English.',
     capabilities: [
       'AI-assisted drafting of speeches, statements, and executive letters',
       'Prioritisation and summarisation of inbound correspondence',
@@ -94,10 +94,10 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     agents: ['comms', 'cos'],
     workflowIds: ['w5'],
     prompts: [
-      'Draft a note on Apparel Group\'s Q2 portfolio performance in Arabic and English',
-      'Draft talking points for the Images RetailME Awards acceptance speech',
+      'Draft a note on DMCC\'s Q2 member ecosystem performance in Arabic and English',
+      'Draft talking points for the Global Trade Forum keynote — "Where the world does business"',
       'Summarise my priority inbound correspondence from the last 48 hours',
-      'Review this board note for tone and brand launch messaging',
+      'Review this board note for tone and crypto centre launch messaging',
     ],
   },
   {
@@ -105,20 +105,20 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Stakeholder & Relationship Management',
     shortTitle: 'Stakeholders',
     description:
-      'Intelligent CRM tracking relationships, interactions, commitments, and follow-ups. Briefing notes on key stakeholders before engagements. Tracking Apparel Group strategic partnerships with brand licensors, mall operators and franchise partners.',
+      'Intelligent CRM tracking relationships, interactions, commitments, and follow-ups. Briefing notes on key stakeholders before engagements. Tracking DMCC strategic partnerships with government bodies, commodity exchanges and global trade corridors.',
     capabilities: [
       'Track relationships, last interactions, commitments, and follow-ups',
       'Briefing notes on key stakeholders before engagements',
-      'Track strategic partnerships and global commitments across the portfolio',
+      'Track strategic partnerships and global commitments across the ecosystem',
     ],
     icon: 'users',
     agents: ['relationship', 'cos'],
     workflowIds: ['w3'],
     prompts: [
       'What did I commit to in my last leadership team meeting?',
-      'Stakeholder profile for a major mall operator partnership — history and sensitivities',
-      'Which 6thStreet brand partnerships have follow-ups due this month?',
-      'Open commitments with international brand licensors — status check',
+      'Stakeholder profile for a major gold trading house — history and sensitivities',
+      'Which crypto centre member partnerships have follow-ups due this month?',
+      'Open commitments with government trade bodies — status check',
     ],
   },
   {
@@ -126,7 +126,7 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     title: 'Knowledge Management',
     shortTitle: 'Knowledge',
     description:
-      'Instant access to Apparel Group institutional knowledge — group strategy, store performance reviews, board decisions, and precedents. AI-powered search across internal documents and correspondence.',
+      'Instant access to DMCC institutional knowledge — authority strategy, member performance reviews, board decisions, and precedents. AI-powered search across internal documents and correspondence.',
     capabilities: [
       'Instant access to reports, frameworks, decisions, and precedents',
       'AI-powered search across documents, contracts, and correspondence',
@@ -136,10 +136,10 @@ export const CORE_FOCUS_AREAS: FocusArea[] = [
     agents: ['policy', 'strategy', 'cos'],
     workflowIds: [],
     prompts: [
-      'What strategic decisions did Apparel Group make in 2025 and how do they track against expansion goals?',
-      'Find precedents on R&B franchise partnerships in our knowledge base',
-      'Summarise the Club Apparel loyalty programme review for a new board member',
-      'Search internal documents for Saudi Arabia expansion milestones',
+      'What strategic decisions did DMCC make in 2025 and how do they track against ecosystem growth goals?',
+      'Find precedents on diamond exchange member onboarding in our knowledge base',
+      'Summarise the tea and coffee centre review for a new board member',
+      'Search internal documents for AI and gaming centre milestones',
     ],
   },
 ];
@@ -175,12 +175,12 @@ export function matchFocusArea(query: string): FocusAreaId | null {
   if (
     (q.includes('daily') && (q.includes('brief') || q.includes('briefing'))) ||
     q.includes('competitor') ||
-    q.includes('retail') ||
-    q.includes('fashion') ||
-    q.includes('footwear') ||
-    q.includes('omnichannel') ||
-    q.includes('portfolio') ||
-    q.includes('store network')
+    q.includes('commodit') ||
+    q.includes('gold') ||
+    q.includes('diamond') ||
+    q.includes('free zone') ||
+    q.includes('member ecosystem') ||
+    q.includes('trade corridor')
   ) {
     return 'strategic-intelligence';
   }
@@ -195,7 +195,7 @@ export function matchFocusArea(query: string): FocusAreaId | null {
     return 'meetings';
   }
   if (
-    (q.includes('regulat') || q.includes('vat') || q.includes('licensing') || q.includes('consultation')) &&
+    (q.includes('regulat') || q.includes('licensing') || q.includes('consultation') || q.includes('aml')) &&
     !q.includes('inbound')
   ) {
     if (q.includes('policy') || q.includes('framework') || q.includes('best practice')) {
@@ -208,21 +208,21 @@ export function matchFocusArea(query: string): FocusAreaId | null {
     q.includes('talking points') ||
     q.includes('speech') ||
     (q.includes('arabic') && q.includes('draft')) ||
-    q.includes('brand launch') ||
+    q.includes('trade forum') ||
     q.includes('press release')
   ) {
     return 'correspondence';
   }
   if (
     q.includes('stakeholder') ||
-    q.includes('r&b') ||
-    q.includes('6thstreet') ||
-    q.includes('club apparel') ||
+    q.includes('dmcc') ||
+    q.includes('member portal') ||
+    q.includes('crypto centre') ||
     q.includes('commitment') ||
     q.includes('partnership') ||
     q.includes('crm') ||
-    q.includes('franchise') ||
-    q.includes('mall operator')
+    q.includes('trading partner') ||
+    q.includes('gold centre')
   ) {
     return 'stakeholders';
   }

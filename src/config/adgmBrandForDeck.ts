@@ -1,13 +1,13 @@
 /**
- * Apparel Group brand rules for all Presentation Builder exports.
- * @see src/config/apparelGroupGuidelines.ts
+ * DMCC brand rules for all Presentation Builder exports.
+ * @see src/config/dmccGuidelines.ts
  */
 import { ADGM_BRAND } from './brand';
 import {
-  APPAREL_GROUP_BRAND,
-  APPAREL_GROUP_DECK_FOOTER,
-  APPAREL_GROUP_DECK_BRAND_PROMPT,
-} from './apparelGroupGuidelines';
+  DMCC_BRAND,
+  DMCC_DECK_FOOTER,
+  DMCC_DECK_BRAND_PROMPT,
+} from './dmccGuidelines';
 
 /** pptxgenjs colours — no # prefix */
 export const ADGM_PPT_COLORS = {
@@ -37,21 +37,21 @@ export const ADGM_PPT_COLORS = {
 } as const;
 
 export const ADGM_PPT_FONTS = {
-  display: 'Gotham',
-  body: 'Gotham',
+  display: 'Montserrat',
+  body: 'Montserrat',
   mono: 'Consolas',
   arabic: 'Noto Naskh Arabic',
 } as const;
 
-export const ADGM_PPT_FOOTER = APPAREL_GROUP_DECK_FOOTER;
+export const ADGM_PPT_FOOTER = DMCC_DECK_FOOTER;
 
 export const ADGM_PPT_LOGO_LABEL = ADGM_BRAND.logoAlt;
 
 export const ADGM_DEFAULT_BRAND_CHECK = [
-  `Apparel Group Executive Standard: Navy ${APPAREL_GROUP_BRAND.colors.navy} + Lime ${APPAREL_GROUP_BRAND.colors.lime}`,
-  `Typography: Gotham display/body · 16:9 widescreen`,
-  `Naming: "Apparel Group" on title/close; portfolio (R&B, 6thStreet, Club Apparel, Nysaa) on relevant slides`,
-  `Surfaces: white canvas, #F4F7F9 section backgrounds, navy headings, lime accents`,
+  `DMCC Executive Standard: Navy ${DMCC_BRAND.colors.navy} + Gold ${DMCC_BRAND.colors.gold}`,
+  `Typography: Montserrat display/body · 16:9 widescreen`,
+  `Naming: "DMCC" on title/close; ecosystems (Gold, Diamonds, Crypto, AI, Tea) on relevant slides`,
+  `Surfaces: white canvas, ${DMCC_BRAND.colors.canvas} section backgrounds, navy headings, gold accents`,
   `Tagline "${ADGM_BRAND.tagline}" on title or closing slide where appropriate`,
 ] as const;
 
@@ -83,4 +83,4 @@ export function adgmDeckCssVars(): Record<string, string> {
   };
 }
 
-export const ADGM_PPT_BRAND_PROMPT = APPAREL_GROUP_DECK_BRAND_PROMPT;
+export const ADGM_PPT_BRAND_PROMPT = DMCC_DECK_BRAND_PROMPT;

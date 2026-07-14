@@ -124,7 +124,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
           snapLive
             ? 'Live price feeds partially unavailable. Scenario fallback hidden for GCC percentages.'
             : `GCC ${snap.gccEquities}; digital ${snap.digitalAssetsWoW}.`,
-          'https://www.apparelgroup.com',
+          'https://www.dmcc.ae',
           date,
           0.4,
         ),
@@ -147,7 +147,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
         feed('src-competitor-scenario', 'Competitor intelligence — scenario',
           'Market scenario snapshot (prototype)',
           `${snap.competitorNote || 'Scenario data only.'}`,
-          'https://www.apparelgroup.com', date, 0.4),
+          'https://www.dmcc.ae', date, 0.4),
       ];
     }
 
@@ -168,7 +168,7 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
         feed('src-investment-scenario', 'Investment signals — scenario data',
           'Market scenario snapshot (prototype)',
           `Sector focus: ${snap.topSector}. Scenario data only.`,
-          'https://www.apparelgroup.com', date, 0.4),
+          'https://www.dmcc.ae', date, 0.4),
       ];
     }
 
@@ -207,10 +207,10 @@ function realtimeFeedsForSignal(signalId: string, state: ExecutiveState): Source
       // Always add official portal reference links
       return [
         ...liveSources,
-        feed('src-fsra-portal', 'Apparel Group UAE retail compliance — Official Portal',
-          'Apparel Group UAE retail compliance (official public portal)',
-          'Visit apparelgroup.com/fsra for the latest Apparel Group UAE retail compliance rules, guidance, consultation papers and regulatory announcements.',
-          'https://www.apparelgroup.com/fsra', date, 0.95),
+        feed('src-dmcc-portal', 'DMCC — Official Authority Portal',
+          'DMCC (official public portal)',
+          'Visit dmcc.ae for the latest free zone rules, member guidance, consultation papers and regulatory announcements.',
+          'https://www.dmcc.ae', date, 0.95),
         feed('src-mas-portal', 'MAS Singapore — Consultations',
           'MAS Singapore (official public portal)',
           'Visit mas.gov.sg for the latest MAS consultation papers, digital asset regulations and policy publications.',

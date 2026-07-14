@@ -5,7 +5,7 @@ import type { Deck } from './slideTypes';
 export function slideAiDeckToPresentationDeck(deck: Deck): PresentationDeck {
   return {
     title: deck.title,
-    theme: 'adgm-brand-2025',
+    theme: 'dmcc-executive',
     brandCheck: deck.brandCheck,
     slides: deck.slides.map((s, i) => ({
       id: s.id || `slide-${i + 1}`,

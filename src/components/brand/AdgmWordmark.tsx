@@ -1,5 +1,4 @@
 import { ADGM_BRAND } from '../../config/brand';
-import { AdgmSymbolIcon } from './AdgmSymbolIcon';
 
 export const ADGM_LOGO_ASPECT = ADGM_BRAND.logoAspect;
 
@@ -23,6 +22,7 @@ export function AdgmWordmark({
       className={['adgm-logo-img', 'arm-logo-img', className].filter(Boolean).join(' ')}
       decoding="async"
       draggable={false}
+      style={{ width: 'auto', height, maxWidth: '100%', objectFit: 'contain' }}
     />
   );
 }
@@ -41,32 +41,28 @@ export function AdgmEmblem({
   display?: 'badge' | 'symbol' | 'inline';
 }) {
   const px = Math.round(size);
-  const ink = variant === 'onDark' ? '#FFFFFF' : '#003399';
+  const src = variant === 'onDark' ? ADGM_BRAND.logoOnDarkSrc : ADGM_BRAND.logoMarkSrc;
 
   if (display === 'symbol' || display === 'badge' || display === 'inline') {
     return (
-      <span
-        className={['adgm-app-mark', display === 'symbol' ? 'adgm-app-mark--symbol' : '', className]
-          .filter(Boolean)
-          .join(' ')}
+      <img
+        src={src}
+        alt={decorative ? '' : ADGM_BRAND.logoAlt}
+        width={Math.round(px * ADGM_LOGO_ASPECT)}
+        height={px}
+        className={['adgm-app-mark', 'adgm-logo-img', 'dmcc-logo-img', className].filter(Boolean).join(' ')}
+        decoding="async"
+        draggable={false}
+        aria-hidden={decorative || undefined}
         style={{
-          width: display === 'symbol' ? px : px,
           height: px,
+          width: 'auto',
+          maxWidth: Math.round(px * ADGM_LOGO_ASPECT),
+          objectFit: 'contain',
           flexShrink: 0,
-          color: ink,
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}
         title={ADGM_BRAND.logoAlt}
-      >
-        <AdgmSymbolIcon
-          size={Math.round(px * 0.92)}
-          className="adgm-logo-emblem"
-          color={ink}
-          aria-hidden={decorative ? true : undefined}
-        />
-      </span>
+      />
     );
   }
 

@@ -1,43 +1,47 @@
 @import "tailwindcss";
 
-/* Apparel Group — apparelgroup.com brand tokens */
+/* DMCC — dmcc.ae brand tokens */
 @theme {
-  --font-sans: 'Gotham', 'Gotham Book', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
-  --font-display: var(--font-sans);
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  --font-display: 'Gotham A', 'Gotham B', 'Gotham', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
   --font-arabic: "Noto Naskh Arabic", serif;
   --font-numeric: var(--font-sans);
   --tracking-body: 0.01em;
 
-  --color-adgm-primary: #003399;
-  --color-adgm-primary-hover: #002b7a;
+  --color-adgm-primary: #070047;
+  --color-adgm-primary-hover: #050033;
   --color-adgm-primary-light: #e8eef8;
+  --color-adgm-sapphire: #070047;
   --color-adgm-sky-200: #dde4ea;
 
-  --color-adgm-navy: #003399;
-  --color-adgm-navy-mid: #002b7a;
-  --color-adgm-navy-deep: #001f5c;
+  --color-adgm-navy: #070047;
+  --color-adgm-navy-mid: #0A1640;
+  --color-adgm-navy-deep: #03051C;
 
   --color-adgm-white: #ffffff;
-  --color-adgm-ivory: #f4f7f9;
+  --color-adgm-ivory: #eef3f6;
   --color-adgm-sand: #e8eef4;
   --color-adgm-champagne: #e8eef4;
-  --color-adgm-sky-bg: #f4f7f9;
-  --color-adgm-cyan-50: #f4f7f9;
+  --color-adgm-sky-bg: #eef3f6;
+  --color-adgm-cyan-50: #eef3f6;
   --color-adgm-cyan-border: #dde4ea;
   --color-adgm-mint: #f4f7f9;
   --color-adgm-slate: #6f7a85;
 
-  --color-adgm-gold: #c5d92d;
-  --color-adgm-gold-deep: #003399;
+  --color-adgm-gold: #C9A84C;
+  --color-adgm-pink: #E21F7B;
+  --color-adgm-pink-hover: #C41868;
+  --color-adgm-info-bg: #EEF3F6;
+  --color-adgm-gold-deep: #0B1F3A;
 
-  --color-adgm-charcoal: #4d4d4d;
-  --color-adgm-mist: #6f7a85;
+  --color-adgm-charcoal: #3D4F63;
+  --color-adgm-mist: #6B7A8F;
   --color-adgm-line: #dde4ea;
 
   --color-adgm-success: #157347;
   --color-adgm-warning: #b8860b;
   --color-adgm-error: #eb5757;
-  --color-adgm-info: #003399;
+  --color-adgm-info: #070047;
 
   --shadow-adgm-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
   --shadow-adgm-md: 0 4px 24px rgba(0, 0, 0, 0.08);
@@ -94,7 +98,7 @@ body {
 }
 
 .font-display {
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: var(--tracking-body);
 }
@@ -159,7 +163,7 @@ a.bg-adgm-primary:hover {
 }
 
 .adgm-hero-band {
-  background: linear-gradient(135deg, #001f5c 0%, #003399 55%, #335cad 100%);
+  background: linear-gradient(135deg, #050f1c 0%, #0B1F3A 55%, #335cad 100%);
 }
 
 .glass-panel-dark {
@@ -238,13 +242,18 @@ a.bg-adgm-primary:hover {
 }
 
 .command-hero {
-  background: linear-gradient(135deg, #001f5c 0%, #003399 50%, #335cad 100%);
+  background: linear-gradient(135deg, #050f1c 0%, #0B1F3A 50%, #335cad 100%);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
 /* Home dashboard — executive command deck */
 .home-hero {
-  background: linear-gradient(145deg, #001f5c 0%, #003399 42%, #335cad 100%);
+  background: linear-gradient(
+    145deg,
+    var(--dmcc-panel, #050533) 0%,
+    var(--dmcc-panel-mid, #0A1640) 42%,
+    var(--dmcc-panel-deep, #03051C) 100%
+  );
   box-shadow:
     0 24px 64px rgba(0, 0, 0, 0.22),
     0 0 0 1px rgba(255, 255, 255, 0.06) inset;
@@ -254,8 +263,8 @@ a.bg-adgm-primary:hover {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 60% at 100% 0%, rgba(74, 74, 74, 0.22), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(36, 35, 33, 0.12), transparent 50%);
+    radial-gradient(ellipse 70% 60% at 100% 0%, rgba(226, 31, 123, 0.14), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(15, 82, 186, 0.16), transparent 50%);
 }
 
 /* Home page rhythm — consistent spacing scale (4px base) */

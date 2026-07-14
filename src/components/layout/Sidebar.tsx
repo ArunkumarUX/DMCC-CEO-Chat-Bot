@@ -326,7 +326,7 @@ export function Sidebar() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-xs font-medium text-adgm-navy">{settings.name.split(' ')[0]}</p>
-              <p className="truncate text-[10px] text-adgm-mist">CSO</p>
+              <p className="truncate text-[10px] text-adgm-mist">CEO</p>
             </div>
             <Link
               to="/settings"

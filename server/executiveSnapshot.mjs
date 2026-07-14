@@ -35,26 +35,26 @@ const MARKET_ROTATION = [
   {
     gccEquities: '+0.8%',
     digitalAssetsWoW: '+4.2%',
-    competitorNote: 'Noon accelerates fashion and beauty category investment',
-    topSector: 'Omnichannel fashion (6thStreet fit 92)',
+    competitorNote: 'ADGM accelerates digital asset and tokenisation licensing',
+    topSector: 'Crypto & blockchain (DMCC Crypto Centre · Tether MoU)',
   },
   {
     gccEquities: '+1.1%',
     digitalAssetsWoW: '+3.8%',
-    competitorNote: 'Namshi launches same-day delivery in KSA',
-    topSector: 'Value retail (R&B 100+ stores)',
+    competitorNote: 'DIFC expands precious metals custody framework',
+    topSector: 'Gold & precious metals (Dubai Precious Metals Conference)',
   },
   {
     gccEquities: '+0.4%',
     digitalAssetsWoW: '+2.9%',
-    competitorNote: 'UAE VAT guidance update for F&B operators',
-    topSector: 'F&B expansion (Tim Hortons 300+ stores)',
+    competitorNote: 'UAE Corporate Tax qualifying income guidance update for free zones',
+    topSector: 'Member services (26,000+ companies · 180+ countries)',
   },
   {
     gccEquities: '+0.6%',
     digitalAssetsWoW: '+3.1%',
-    competitorNote: 'Images RetailME Awards — Apparel Group headline partner',
-    topSector: 'Loyalty & CRM (Club Apparel 10M+ members)',
+    competitorNote: 'Future of Trade 2026 — UAE #2 Commodity Trade Index',
+    topSector: 'Diamonds (USD 41.7B trade through Dubai in 2025)',
   },
 ];
 
@@ -77,26 +77,26 @@ export async function buildExecutiveSnapshotPatch(cycle) {
   const meetings = [
     {
       id: 'mtg1',
-      title: 'Apparel Group leadership — Q2 store network review',
+      title: 'DMCC leadership — Q2 member services & licence review',
       time: meetingIso(today, 10, 0),
-      attendees: 'Kamal Kotak (CBO), Amit Samdaria (CFO), country heads',
-      location: 'Apparel Group HQ, Jebel Ali, Dubai',
+      attendees: 'Member Services, Legal, Finance leadership',
+      location: 'Almas Tower, JLT, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg2',
-      title: '6thStreet omnichannel strategy working session',
+      title: 'Future of Trade Singapore launch — executive alignment',
       time: meetingIso(addDays(today, 1), 14, 0),
-      attendees: 'Vivek Rajukumar (CEO 6thStreet), Marketing, IT',
-      location: 'Apparel Group HQ, Dubai',
+      attendees: 'Strategy, Marketing, Events teams',
+      location: 'Almas Tower, JLT, Dubai',
       prepStatus: 'pending',
     },
     {
       id: 'mtg3',
-      title: 'KSA expansion — Arabian Alesaar partnership review',
+      title: 'Uptown Dubai investor briefing — milestone review',
       time: meetingIso(addDays(today, 2), 11, 0),
-      attendees: 'Dheeraj Kalwani (VP KSA), Retail, Brand partners',
-      location: 'Apparel Group HQ, Dubai',
+      attendees: 'BizDev, Strategy, Finance',
+      location: 'Almas Tower, JLT, Dubai',
       prepStatus: 'ready',
     },
   ];
@@ -104,34 +104,35 @@ export async function buildExecutiveSnapshotPatch(cycle) {
   const actionRegister = [
     {
       id: 'a1',
-      title: 'Approve KSA expansion milestone plan — Arabian Alesaar',
-      owner: 'Neeraj',
+      title: 'Approve corporate tax member advisory resourcing — due in 14 days',
+      owner: 'Ahmed',
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
       departmentId: 'legal',
     },
     {
       id: 'a2',
-      title: 'Approve retention packages — 3 store operations roles',
-      owner: 'Neeraj',
+      title: 'Clear 12 pending licence renewals — member services escalation',
+      owner: 'Ahmed',
       due: dateOnly(addDays(today, 3)),
       status: 'open',
-      departmentId: 'hr',
+      departmentId: 'members',
     },
     {
       id: 'a3',
-      title: 'Club Apparel 10M member campaign sign-off',
-      owner: 'Policy AI → Neeraj',
+      title: 'DMCC Cyber launch communications — CEO sign-off',
+      owner: 'Marketing → Ahmed',
       due: dateOnly(addDays(today, 9)),
       status: 'open',
-      departmentId: 'policy',
+      departmentId: 'marketing',
     },
     {
       id: 'a4',
-      title: 'Review Images RetailME Awards acceptance speech',
-      owner: 'Neeraj',
+      title: 'Confirm CEO keynote — Dubai Diamond Conference (26 Oct)',
+      owner: 'Ahmed',
       due: dateOnly(addDays(today, 2)),
       status: 'open',
+      departmentId: 'events',
     },
   ];
 
@@ -236,7 +237,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       const competitor = getNewsByTag('competitor', liveNewsItems, 1)[0];
       if (competitor) return `${competitor.source}: ${competitor.title.slice(0, 120)}`;
       const gccComp = filterGccRelevant(liveNewsItems, 3).find((i) =>
-        /namshi|noon|centrepoint|landmark|e-commerce|omnichannel|competitor|rival|retail/i.test(i.title),
+        /adgm|difc|free.?zone|competitor|rival|commodity|crypto|vasp|trade/i.test(i.title),
       );
       if (gccComp) return `${gccComp.source}: ${gccComp.title.slice(0, 120)}`;
       return gccLive || digitalLive || newsLead
@@ -247,7 +248,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       bloomberg?.headline ||
         getNewsByTag('competitor', liveNewsItems, 1)[0] ||
         filterGccRelevant(liveNewsItems, 3).find((i) =>
-          /namshi|noon|centrepoint|landmark|e-commerce|omnichannel|retail/i.test(i.title),
+          /adgm|difc|free.?zone|competitor|rival|commodity|crypto|trade/i.test(i.title),
         ),
     ),
 
@@ -303,7 +304,7 @@ export async function buildExecutiveSnapshotPatch(cycle) {
       ?? signalNews.market.find((i) => /regulat|fsra|mas|fatf|policy|compliance/i.test(i.title))?.title
       ?? (gccLive || digitalLive || newsLead
         ? 'Regulatory wire unavailable at refresh'
-        : 'Visit UAE DED and FTA portals for latest retail and F&B compliance guidance'),
+        : 'Visit UAE FTA and DMCC portals for latest free zone and corporate tax guidance'),
     regulatoryHeadlineLive: Boolean(
       signalNews.regulatory[0] ||
         (bloomberg?.headline && /regulat|policy|crypto|stablecoin|vasp/i.test(bloomberg.headline)),
@@ -311,13 +312,13 @@ export async function buildExecutiveSnapshotPatch(cycle) {
     liveTicker: liveTicker?.length ? liveTicker : [
       { k: 'DFM', v: '5,318.2', c: 0.41 },
       { k: 'ADX', v: '9,742.6', c: 0.84 },
-      { k: 'GCC Retail', v: '+8.2%', c: 0.6 },
-      { k: 'R&B Stores', v: '100+', c: 2.1 },
-      { k: '6thStreet', v: '↑ 14%', c: 1.4 },
-      { k: 'Club Apparel', v: '10M+', c: 3.2 },
-      { k: 'Store Count', v: '2,500+', c: 1.8 },
-      { k: 'KSA Exp.', v: 'Active', c: 0 },
-      { k: 'Tim Hortons', v: '300+', c: 0.8 },
+      { k: 'DMCC Members', v: '26,000+', c: 0.6 },
+      { k: 'Diamond Trade', v: 'USD 41.7B', c: 2.1 },
+      { k: 'Gold Ecosystem', v: '+12% YoY', c: 1.4 },
+      { k: 'DMCC Cyber', v: '4,000+', c: 3.2 },
+      { k: 'Countries', v: '180+', c: 1.8 },
+      { k: 'Future of Trade', v: 'UAE #2', c: 0 },
+      { k: 'Licences QTD', v: '1,842', c: 0.8 },
       { k: 'USD/AED', v: '3.6725', c: 0 },
     ],
     liveTickerFetchedAt: new Date().toISOString(),

@@ -91,7 +91,7 @@ export function WelcomePage() {
             target="_blank"
             rel="noreferrer"
           >
-            Apparel Group — apparelgroup.com
+            DMCC — dmcc.ae
           </a>
         </p>
       </section>

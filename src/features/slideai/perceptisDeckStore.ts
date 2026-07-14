@@ -83,7 +83,7 @@ function friendlyJobMessage(status: DeckJobResponse): string {
   if (status.status === 'generating') {
     return status.message?.includes('structure')
       ? 'Selecting the best slide structures…'
-      : 'Designing slides with Apparel Group branding…';
+      : 'Designing slides with DMCC branding…';
   }
   if (status.status === 'analysing') {
     return 'Reading your brief and shaping the storyline…';
@@ -169,7 +169,7 @@ async function runDeckBuild(
   const title =
     displayPrompt.split('\n')[0]?.trim().slice(0, 80) ||
     payload.prompt?.trim().slice(0, 80) ||
-    'Apparel Group Presentation';
+    'DMCC Presentation';
 
   if (attempt === 0) {
     set(() => ({

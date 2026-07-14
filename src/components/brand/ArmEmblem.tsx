@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-/** Apparel Group calligraphic emblem — three vertical strokes */
+/** DMCC emblem mark */
 export function ArmEmblem({
   size = 48,
   className = '',

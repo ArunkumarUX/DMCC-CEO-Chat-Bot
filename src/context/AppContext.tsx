@@ -876,7 +876,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
                   summary:
                     'Ingested into knowledge base · RAG + Knowledge Graph indexing complete.',
                   keyInsights: [
-                    'Cross-linked with R&B portfolio review',
+                    'Cross-linked with commodities trade review',
                     'Available to Policy and Strategy agents immediately',
                   ],
                   clauses: [

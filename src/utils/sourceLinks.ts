@@ -4,18 +4,18 @@ import type { ExecutiveState } from '../data/executiveStore';
 import { kbHandle } from './sourceHandles';
 
 const DOC_EXTERNAL_URL: Record<string, string> = {
-  d2: 'https://www.apparelgroup.com/',
-  d4: 'https://www.rera.gov.ae',
-  d1: 'https://www.apparelgroup.com/',
-  d5: 'https://www.apparelgroup.com/',
+  d2: 'https://www.dmcc.ae/',
+  d4: 'https://www.dmcc.ae/',
+  d1: 'https://www.dmcc.ae/',
+  d5: 'https://www.dmcc.ae/',
 };
 
 const CRM_EXTERNAL_URL: Record<string, string> = {
-  'CRM-artdubai': 'https://www.artdubai.ae',
-  'CRM-drec': 'https://www.apparelgroup.com/',
+  'CRM-artdubai': 'https://www.dmcc.ae/',
+  'CRM-drec': 'https://www.dmcc.ae/',
 };
 
-const MARKET_FEED_URL = 'https://www.cbre.ae/insights';
+const MARKET_FEED_URL = 'https://www.dmcc.ae/';
 
 /**
  * Real external URLs for every KB source document.
@@ -23,44 +23,44 @@ const MARKET_FEED_URL = 'https://www.cbre.ae/insights';
  */
 export const KB_SOURCE_URLS: Record<string, { url: string; label: string; pdfPath: string }> = {
   'ag-group-strategy': {
-    url: 'https://www.apparelgroup.com/',
-    label: 'Apparel Group — Group Strategy',
-    pdfPath: '/kb/Apparel_Group_Strategy_2026.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'DMCC Strategy 2025–2030',
+    pdfPath: '/kb/DMCC_Strategy_2025_2030.pdf',
   },
   'arm-values': {
-    url: 'https://www.apparelgroup.com/',
-    label: 'Apparel Group — Values & Leadership',
-    pdfPath: '/kb/ARM_Values_Leadership_2026.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'DMCC Leadership & Values',
+    pdfPath: '/kb/DMCC_Leadership_Values_2026.pdf',
   },
   'drec-portfolio': {
-    url: 'https://www.apparelgroup.com/',
-    label: 'R&B — Portfolio Review',
-    pdfPath: '/kb/R&B_Portfolio_Review_Q1_2026.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'Gold & Precious Metals Ecosystem Review',
+    pdfPath: '/kb/DMCC_Gold_Precious_Metals_Q1_2026.pdf',
   },
   'huna-developments': {
-    url: 'https://www.apparelgroup.com/',
-    label: '6thStreet — Development Strategy',
-    pdfPath: '/kb/6thStreet_Development_Strategy_2026.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'Crypto & Digital Assets — DMCC Cyber',
+    pdfPath: '/kb/DMCC_Cyber_Digital_Assets_2026.pdf',
   },
   'hive-loyalty programme': {
-    url: 'https://www.apparelgroup.com/',
-    label: 'Club Apparel — Loyalty programme Operations',
-    pdfPath: '/kb/Club Apparel_Operations_2026.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'Diamonds — Dubai Diamond Exchange Review',
+    pdfPath: '/kb/DMCC_Diamonds_DDE_Review_2025.pdf',
   },
   'retailme-awards': {
-    url: 'https://www.apparelgroup.com/',
-    label: 'Images RetailME Awards — Commission Brief',
-    pdfPath: '/kb/RetailME_Awards_Commission_Brief.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'Dubai Diamond Conference 2026 — CEO Keynote Brief',
+    pdfPath: '/kb/Dubai_Diamond_Conference_Keynote_2026.pdf',
   },
   'dubai-d33-alignment': {
-    url: 'https://www.apparelgroup.com/',
-    label: 'GCC retail growth Portfolio Alignment Tracker',
-    pdfPath: '/kb/AG_GCC_Expansion_Alignment_Tracker_2026.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'Future of Trade 2026 — Alignment Tracker',
+    pdfPath: '/kb/Future_of_Trade_Alignment_Tracker_2026.pdf',
   },
   'rera-compliance': {
-    url: 'https://www.rera.gov.ae',
-    label: 'UAE retail compliance & DED Compliance Framework',
-    pdfPath: '/kb/AG_Retail_Compliance_Compliance_Framework_2026.pdf',
+    url: 'https://www.dmcc.ae/',
+    label: 'UAE Corporate Tax — Free Zone Qualifying Income',
+    pdfPath: '/kb/DMCC_Corporate_Tax_Advisory_Framework_2026.pdf',
   },
 };
 

@@ -12,7 +12,6 @@ import {
   saveVerifiedSession,
 } from '../../auth/authStorage';
 import { PRODUCT_NAME } from '../../config/user';
-import { AuthMilestoneTimeline } from '../../components/auth/AuthMilestoneTimeline';
 import '../../styles/auth-gate.css';
 
 type Channel = 'mobile' | 'email';
@@ -60,12 +59,8 @@ export function LoginPage() {
   };
 
   return (
-    <div className="auth-gate auth-gate--login">
-      <div className="auth-gate__login-layout">
-        <aside className="auth-gate__login-visual">
-          <AuthMilestoneTimeline />
-        </aside>
-
+    <div className="auth-gate auth-gate--login auth-gate--login-solo">
+      <div className="auth-gate__login-layout auth-gate__login-layout--solo">
         <div className="auth-gate__login-panel">
           <div className="auth-gate__login-card">
             <div className="auth-gate__brand auth-gate__brand--above">
@@ -74,7 +69,7 @@ export function LoginPage() {
 
             <main className="auth-gate__main">
               <h1 className="auth-gate__title">{PRODUCT_NAME}</h1>
-              <p className="auth-gate__subtitle">Secure access · Apparel Group</p>
+              <p className="auth-gate__subtitle">Secure access · DMCC</p>
 
               <p className="auth-gate__instruction">
                 Enter any UAE mobile number or work email, then tap Continue to start your onboarding.
@@ -150,3 +145,4 @@ export function LoginPage() {
     </div>
   );
 }
+

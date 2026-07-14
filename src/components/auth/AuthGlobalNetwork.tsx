@@ -11,25 +11,25 @@ type Marker = {
 
 const MARKERS: Marker[] = [
   { id: 'egypt', label: 'Egypt', cx: 49, cy: 41, color: '#d946a8' },
-  { id: 'uae', label: 'UAE', cx: 57, cy: 40, color: '#c5d92d' },
+  { id: 'uae', label: 'UAE', cx: 57, cy: 40, color: '#C9A84C' },
   { id: 'ksa', label: 'Saudi Arabia', cx: 54, cy: 42, color: '#22d3ee' },
-  { id: 'qatar', label: 'Qatar', cx: 56, cy: 41, color: '#003399' },
+  { id: 'qatar', label: 'Qatar', cx: 56, cy: 41, color: '#0B1F3A' },
   { id: 'bahrain', label: 'Bahrain', cx: 57.5, cy: 41.5, color: '#f97316' },
   { id: 'kuwait', label: 'Kuwait', cx: 56.5, cy: 39.5, color: '#facc15' },
   { id: 'oman', label: 'Oman', cx: 59, cy: 43, color: '#7c2d12' },
   { id: 'india', label: 'India', cx: 64, cy: 44, color: '#ec4899' },
   { id: 'south-africa', label: 'South Africa', cx: 52, cy: 76, color: '#d946a8' },
-  { id: 'singapore', label: 'Singapore', cx: 73, cy: 52, color: '#003399' },
+  { id: 'singapore', label: 'Singapore', cx: 73, cy: 52, color: '#0B1F3A' },
   { id: 'malaysia', label: 'Malaysia', cx: 72, cy: 50, color: '#7c3aed' },
   { id: 'indonesia', label: 'Indonesia', cx: 76, cy: 54, color: '#166534' },
-  { id: 'thailand', label: 'Thailand', cx: 71, cy: 47, color: '#003399' },
+  { id: 'thailand', label: 'Thailand', cx: 71, cy: 47, color: '#0B1F3A' },
 ];
 
 export function AuthGlobalNetwork() {
   return (
-    <section className="auth-global-network" aria-label="Apparel Group global footprint">
+    <section className="auth-global-network" aria-label="DMCC global footprint">
       <div className="auth-global-network__copy">
-        <p className="auth-global-network__eyebrow">Apparel Group</p>
+        <p className="auth-global-network__eyebrow">DMCC</p>
         <h2 className="auth-global-network__title">Our Global Network</h2>
         <p className="auth-global-network__hint">
           {APPAREL_GROUP_FACTS.countries} countries · {APPAREL_GROUP_FACTS.brands} brands ·{' '}
@@ -42,7 +42,7 @@ export function AuthGlobalNetwork() {
           className="auth-global-network__map"
           viewBox="0 0 100 80"
           role="img"
-          aria-label="World map showing Apparel Group store locations across the Middle East, Africa, and Asia"
+          aria-label="World map showing DMCC store locations across the Middle East, Africa, and Asia"
         >
           <defs>
             <linearGradient id="auth-map-sky" x1="0%" y1="0%" x2="100%" y2="100%">

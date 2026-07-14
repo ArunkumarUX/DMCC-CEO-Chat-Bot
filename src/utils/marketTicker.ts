@@ -14,7 +14,7 @@ export function isLegacyLiveTicker(ticker: TickerRow[] | undefined): boolean {
   return ticker.some((t) => LEGACY_TICKER_KEYS.has(t.k) || LEGACY_ARM_TICKER_KEYS.has(t.k));
 }
 
-/** Apparel Group CEO ticker — live Yahoo quotes overlay DFM/ADX when available. */
+/** DMCC CEO ticker — live Yahoo quotes overlay DFM/ADX when available. */
 export function resolveMarketTicker(live?: TickerRow[]): TickerRow[] {
   if (!live?.length || isLegacyLiveTicker(live)) return TICKER;
 

@@ -1,5 +1,5 @@
 /**
- * Apparel Group — board-ready strategy deck prompt (McKinsey / BCG / Bain standard).
+ * DMCC — board-ready strategy deck prompt (McKinsey / BCG / Bain standard).
  * Used by Presentation Builder, SlideAI system prompts, and Perceptis API generation.
  */
 
@@ -11,26 +11,26 @@ import {
   extractObjective,
 } from './apparelGroupDeckConfig.mjs';
 
-const APPAREL_CONTEXT = `Organisation: Apparel Group — multinational fashion and lifestyle retail conglomerate across 14 countries, 85+ brands, 2,500+ stores, 27,000+ team members.
-Portfolio: R&B Fashion, 6thStreet (omnichannel · 90-min delivery), Club Apparel (10M+ loyalty members), Nysaa (beauty), plus international brands (Tommy Hilfiger, Skechers, ALDO, Crocs, and others).
-Leadership: Neeraj Teckchandani (CEO), Sima Ganwani Ved (Founder & Chairwoman), Nilesh Ved (Chairman).
-Brand: Navy #003399, Lime #C5D92D, Gotham typography, tagline "Exceed Expectations Everyday".`;
+const APPAREL_CONTEXT = `Organisation: DMCC (Dubai Multi Commodities Centre) — world's leading commodities free zone; 26,000+ member companies from 180+ countries; 900+ licensed activities; 87 towers across JLT & Uptown Dubai.
+Ecosystems: Gold & Precious Metals, Diamonds (Dubai Diamond Exchange), Lab-grown diamonds, Tea, Coffee, Cacao, Crypto (DMCC Cyber), AI, Gaming, Energy, FinX, Maritime.
+Leadership: Ahmed Bin Sulayem — Executive Chairman and Chief Executive Officer.
+Brand: Navy #0B1F3A, Sapphire #0F52BA, Gold #C9A84C, Pink CTA #E21F7B, Gotham typography, tagline "Where the world does business".`;
 
 /**
  * Visual style — minimal numbered-card look (reference: "EcoTransit" pitch-deck PDF)
  * combined with the layout variety of the "Inaamajay" infographic pack, reskinned to
- * Apparel Group's own navy/lime brand instead of either reference's original colours.
+ * DMCC's own navy/gold brand instead of either reference's original colours.
  * Injected into every Perceptis prompt so the look survives even if template_name
  * isn't configured on the Perceptis side.
  */
 const APPAREL_VISUAL_STYLE = `VISUAL STYLE (apply to every slide, this is not optional):
 - Background: off-white/light neutral, never stark white. Generous whitespace and margins.
 - Headlines: bold, large, near-black or navy, left-aligned. Small rounded pill "eyebrow" label above the headline on context slides (e.g. "About Us", "Our Vision").
-- Sequential or list content (steps, options, features, risks, pillars): render as numbered rounded-corner cards labelled 01, 02, 03... Exactly ONE card per group is the lead/primary item — filled solid Navy #003399 with white text; every other card in that group is light neutral grey (~#F0F0F0) with dark text. Never make more than one card solid-navy in the same group.
-- Process flows, roadmaps, world maps, or multi-metric exhibits: use icon-badge diagrams, ring/donut segments, or map fills as the content calls for — but colour them with Navy #003399 as the primary and Lime #C5D92D as the one secondary accent only. Do not introduce purple, pink, cyan, teal, amber, or any other accent colour.
+- Sequential or list content (steps, options, features, risks, pillars): render as numbered rounded-corner cards labelled 01, 02, 03... Exactly ONE card per group is the lead/primary item — filled solid Navy #0B1F3A with white text; every other card in that group is light neutral grey (~#F0F0F0) with dark text. Never make more than one card solid-navy in the same group.
+- Process flows, roadmaps, world maps, or multi-metric exhibits: use icon-badge diagrams, ring/donut segments, or map fills as the content calls for — but colour them with Navy #0B1F3A as the primary and Gold #C9A84C as the one secondary accent only. Do not introduce purple, pink, cyan, teal, amber, or any other accent colour.
 - Photography: inset with rounded corners; full-bleed photography only on the cover and closing slides.
-- Icons: simple flat white icon on a solid Navy or Lime badge — never multi-colour, never outline-only.
-- Footer: "Apparel Group · Confidential" bottom-left, current year bottom-right.`;
+- Icons: simple flat white icon on a solid Navy or Gold badge — never multi-colour, never outline-only.
+- Footer: "DMCC · Confidential" bottom-left, current year bottom-right.`;
 
 export function buildApparelGroupPptPrompt({
   topic = '[INSERT TOPIC]',
@@ -39,19 +39,19 @@ export function buildApparelGroupPptPrompt({
   inputs = '[INSERT REPORTS, DATA, DOCUMENTS, LINKS, PERFORMANCE METRICS, RESEARCH OR NOTES]',
   slideCount = 14,
 } = {}) {
-  return `Create a world-class, board-ready strategy presentation for Apparel Group, using the analytical rigour, storyline discipline and visual clarity expected from a top-tier McKinsey, BCG or Bain engagement.
+  return `Create a world-class, board-ready strategy presentation for DMCC, using the analytical rigour, storyline discipline and visual clarity expected from a top-tier McKinsey, BCG or Bain engagement.
 
 1. PRESENTATION CONTEXT
 
 ${APPAREL_CONTEXT}
 
-The business context may include: fashion and lifestyle retail; footwear and accessories; beauty; F&B; entertainment; e-commerce; omnichannel; loyalty; physical stores and malls; franchise and brand partnerships; supply chain and inventory; digital platforms; international expansion; customer experience; workforce productivity.
+The business context may include: commodities free zone strategy; gold & precious metals; diamonds & lab-grown; tea/coffee/agri corridors; crypto & digital assets (DMCC Cyber); member onboarding & licensing; corporate tax qualifying income; Uptown Dubai activation; Future of Trade thought leadership; FDI pipeline; free zone competition (ADGM, DIFC, JAFZA).
 
 Presentation topic: ${topic}
 
 Core business question: ${coreQuestion}
 
-Audience: Apparel Group CEO; Group leadership; Board members; Business-unit CEOs; Brand leaders; Functional executives; Investors or strategic partners.
+Audience: DMCC Executive Chairman & CEO; leadership team; Board; ecosystem heads; Functional executives; Investors or strategic partners.
 
 Required decision: ${decision}
 
@@ -60,14 +60,14 @@ ${inputs}
 
 2. QUALITY STANDARD
 
-Create at senior McKinsey engagement standard for a global retail CEO. Boardroom-ready, decision-oriented, insight-led, commercially rigorous, evidence-based, MECE, concise but complete, visually premium, easy to scan, fully editable, suitable for senior executive presentation.
+Create at senior McKinsey engagement standard for a free-zone / commodities trade CEO. Boardroom-ready, decision-oriented, insight-led, commercially rigorous, evidence-based, MECE, concise but complete, visually premium, easy to scan, fully editable, suitable for senior executive presentation.
 
 Do not create a generic corporate deck, marketing brochure, or decorative slides without analytical value. No excessive text, generic icons, or unsupported claims. Every slide must help understand the problem, evaluate evidence, or make a decision.
 
 3. STORYLINE METHODOLOGY
 
 Use Pyramid Principle and Situation–Complication–Resolution:
-- Situation: What is happening in Apparel Group, portfolio, brands, customers, markets or operations?
+- Situation: What is happening in DMCC ecosystems, members, trade corridors or operations?
 - Complication: What changed, underperformed or created urgency?
 - Key question: What decision must leadership make?
 - Answer: What is the recommended direction?
@@ -83,15 +83,15 @@ Lead with the answer — do not force the audience to discover it at the end.
 3. Key findings
 4. Why action is required now
 5. Current-state assessment
-6. Customer and market insight
-7. Brand and portfolio analysis
+6. Market and corridor insight
+7. Ecosystem analysis (gold / diamonds / crypto / members)
 8. Performance diagnosis
 9. Root causes
 10. Strategic options
 11. Option evaluation
 12. Recommended strategy
 13. Business and financial impact
-14. Target operating model or future-state experience
+14. Target operating model
 15. Implementation roadmap
 16. Governance and accountability
 17. Risks and mitigations
@@ -100,39 +100,39 @@ Lead with the answer — do not force the audience to discover it at the end.
 
 Core presentation: approximately ${slideCount} slides (12–18). Appendix for detailed calculations and supporting analysis.
 
-5. APPAREL GROUP ANALYTICAL LENSES
+5. DMCC ANALYTICAL LENSES
 
-Assess across: Group, Brand, Country, Region, Store, Category, Channel, Customer segment, Digital platform, Partner, Product/SKU. Do not analyse one brand in isolation when the recommendation affects the portfolio.
+Assess across: Free zone, Ecosystem, Corridor, Country, Member segment, Licence type, Partnership, Event / Conference. Do not analyse one ecosystem in isolation when the recommendation affects the portfolio.
 
-Commercial: revenue, LFL sales, gross margin, EBITDA, ATV, UPT, footfall, conversion, sales density, promotion effectiveness.
-Inventory: sell-through, stock cover, ageing, markdown exposure, turnover, stockout rate, forecast accuracy.
-Digital: traffic, conversion, CAC, ROAS, cart abandonment, repeat purchase, fulfilment, returns, app engagement, omnichannel penetration.
-Customer: CSAT, NPS, loyalty participation, retention, CLV, complaints, cross-brand shopping.
-Store portfolio: productivity, sales per sq ft, rent-to-sales, labour productivity, mall performance, expansion economics.
-People: revenue per employee, attrition, productivity, decision speed, accountability.
-Market: category growth, competitor performance, digital disruption, macro and regulatory factors.
+Commercial: member growth, licence revenue, event contribution, FDI pipeline value, EBITDA, SLA attainment.
+Trade: gold volumes, diamond trade value, agri origin flows, tokenisation pilots, Good Delivery standards.
+Digital: Cyber member growth, VASP licensing competitiveness, portal engagement, uptime.
+Member experience: onboarding SLA, NPS, renewal rate, licence turnaround, complaints.
+Estate: tower occupancy, Uptown Dubai activation economics, campus utilisation.
+People: revenue per FTE, attrition, productivity, decision speed, accountability.
+Market: free zone competition, regulatory shifts, macro trade and sanctions risk.
 
 6. SLIDE CONSTRUCTION
 
 Every slide: action title (complete conclusion, not topic label); supporting evidence; "so what"; implication. One primary question per slide.
 
-Weak title: "Customer Experience"
-Strong title: "Fragmented customer journeys are reducing conversion and weakening cross-brand loyalty"
+Weak title: "Member Experience"
+Strong title: "Member onboarding at 4.2 days threatens Uptown Dubai activation unless SLA hits 3.0 days by Q4"
 
 7. CONSULTING-GRADE ACTION TITLES
 
 Communicate conclusion; understandable without body; business implication; precise language. Examples:
-- "Inventory is growing faster than sales, creating avoidable markdown and working-capital exposure"
-- "Three markets account for most near-term growth, but store economics vary significantly"
-- "Cross-brand loyalty can unlock higher CLV without increasing acquisition cost"
+- "USD 41.7B diamond trade through Dubai justifies accelerating the London corridor MoU now"
+- "ADGM digital-asset licensing pace narrows DMCC Cyber's first-mover window to 6 months"
+- "Corporate tax qualifying-income clarity can unlock member advisory attach without raising base fees"
 
 8. VISUAL DESIGN SYSTEM
 
-Premium Apparel Group design: sophisticated, modern, global, retail-focused, minimal, executive. Strong grid, generous whitespace, clear hierarchy, restrained colour.
+Premium DMCC design: sophisticated, modern, global, trade-focused, minimal, executive. Strong grid, generous whitespace, clear hierarchy, restrained colour.
 
 Typography: professional sans-serif (Gotham); large concise action titles; readable chart labels.
 
-Colour: deep navy #003399 for authority; white/warm neutral backgrounds; lime #C5D92D accent; light grey structure; green/amber/red only for status. No unnecessary gradients or neon.
+Colour: deep navy #0B1F3A for authority; white/warm neutral backgrounds; gold #C9A84C accent; light grey structure; green/amber/red only for status. No unnecessary gradients or neon.
 
 9. CHART AND FRAMEWORK STANDARD
 
@@ -140,11 +140,11 @@ Use appropriate visuals: waterfall, heatmap, 2×2, funnel, Sankey, timeline, Gan
 
 10. STRATEGIC OPTIONS
 
-At least three credible options. Evaluate: strategic fit, revenue, margin, customer impact, investment, time to value, complexity, capability, risk, scalability, reversibility. Weighted decision matrix with stated criteria.
+At least three credible options. Evaluate: strategic fit to Future of Trade, member growth, trade corridor impact, free-zone competitiveness vs ADGM/DIFC/JAFZA, investment, time to value, complexity, capability, risk, scalability, reversibility. Weighted decision matrix with stated criteria.
 
 11. FINANCIAL AND BUSINESS IMPACT
 
-Quantify when credible: revenue, gross margin, EBITDA, cost reduction, working capital, capex, payback, ROI, customer impact, productivity. Base / upside / downside cases. Label assumptions.
+Quantify when credible: licence / fee revenue, member growth, diamond or gold trade value, event contribution, FDI pipeline, cost to serve, capex, payback, ROI, SLA impact, productivity. Base / upside / downside cases. Label assumptions.
 
 12. RECOMMENDATION STANDARD
 
@@ -156,11 +156,11 @@ Phase 1 Diagnose and align · Phase 2 Design and pilot · Phase 3 Scale · Phase
 
 14. GOVERNANCE MODEL
 
-Group CEO, executive sponsor, BU CEOs, brand leaders, transformation office, technology, finance, operations. Decision rights, accountability, escalation, reporting rhythm, KPI ownership. Named owners only.
+Executive Chairman & CEO, ecosystem leads (Gold, Diamonds, Cyber, Members), strategy, technology, finance, legal/compliance, marketing/events. Decision rights, accountability, escalation, reporting rhythm, KPI ownership. Named owners only.
 
 15. RISK AND MITIGATION
 
-Material risks only: strategic, financial, customer, brand, operational, technology, data, people, partner, regulatory, execution. Probability, impact, early warning, mitigation, owner. No generic "monitor closely."
+Material risks only: strategic, financial, member, trade-corridor, operational, technology, data, people, partner, regulatory (corporate tax / AML), sanctions, execution. Probability, impact, early warning, mitigation, owner. No generic "monitor closely."
 
 16. EXECUTIVE SUMMARY
 
@@ -172,7 +172,7 @@ Decision Required · We recommend [ONE CLEAR RECOMMENDATION] · Why (3 reasons) 
 
 18. SOURCE AND EVIDENCE
 
-Cite material facts: Apparel Group official sources, internal documents, audited reports, government data, credible market research. Distinguish verified fact, estimate, assumption, hypothesis, recommendation. Do not fabricate data.
+Cite material facts: DMCC official sources, internal documents, audited reports, government data, credible market research. Distinguish verified fact, estimate, assumption, hypothesis, recommendation. Do not fabricate data.
 
 19. OUTPUT REQUIREMENTS
 
@@ -180,15 +180,20 @@ Fully editable PowerPoint; ${slideCount} core slides; detailed appendix; consult
 
 20. FINAL QUALITY GATE
 
-Verify: clear business question answered; recommendation in first three slides; action titles on every slide; MECE structure; evidence supports conclusions; impact quantified; assumptions visible; alternatives evaluated; counterargument addressed; implementation realistic; accountability clear; decision explicit; CEO understands in three minutes; specific to Apparel Group; board-ready.
+Verify: clear business question answered; recommendation in first three slides; action titles on every slide; MECE structure; evidence supports conclusions; impact quantified; assumptions visible; alternatives evaluated; counterargument addressed; implementation realistic; accountability clear; decision explicit; CEO understands in three minutes; specific to DMCC; board-ready.
 
-Final instruction: Create a decision-grade Apparel Group strategy deck — not merely attractive — that helps senior leadership understand the issue, evaluate evidence, align on direction and approve a clear course of action.`;
+Final instruction: Create a decision-grade DMCC strategy deck — not merely attractive — that helps senior leadership understand the issue, evaluate evidence, align on direction and approve a clear course of action.`;
 }
 
 /** Default system prompt for JSON-based presentation builder (Claude outline/slides). */
 export const PRESENTATION_BUILDER_SYSTEM = `${buildApparelGroupPptPrompt()}
 
-When returning JSON for outline or slides, follow McKinsey action titles, SCQA storyline, insightPanel on data slides, and Apparel Group navy/lime visual standard. Return ONLY valid JSON per the user request schema.`;
+COMPANY LOCK (non-negotiable):
+- This product is only for DMCC (Dubai Multi Commodities Centre) and CEO Ahmed Bin Sulayem.
+- Never invent Apparel Group, ADGM banking, retail fashion brands, co-living, mall/store KPIs, or "Path to Forward" branding.
+- Use DMCC facts: commodities free zone, 26,000+ members, gold/diamonds/crypto/tea/coffee, Uptown Dubai, Future of Trade, JLT.
+
+When returning JSON for outline or slides, follow McKinsey action titles, SCQA storyline, insightPanel on data slides, and DMCC navy/gold visual standard. Return ONLY valid JSON per the user request schema.`;
 
 /** Format one slide for Perceptis — preserves SlideAI + Presentation Builder fields. */
 function formatSlideForPerceptis(slide, index) {
@@ -312,7 +317,7 @@ export function buildPerceptisImplementationPrompt(payload = {}) {
   const deck = payload.deck;
   const slides = (deck?.slides ?? []).map(compactSlide);
   const slideCount = slides.length || payload.slideCount || 10;
-  const title = deck?.title?.trim() || payload.prompt?.trim() || 'Apparel Group Strategy Deck';
+  const title = deck?.title?.trim() || payload.prompt?.trim() || 'DMCC Strategy Deck';
 
   let deckJson = JSON.stringify({ title, brandCheck: deck?.brandCheck, slides }, null, 2);
   if (deckJson.length > 28000) {
@@ -338,7 +343,7 @@ export function buildPerceptisImplementationPrompt(payload = {}) {
     );
   }
 
-  return `Build a native editable PowerPoint (.pptx) for Apparel Group at McKinsey / Perceptis consulting-deck standard.
+  return `Build a native editable PowerPoint (.pptx) for DMCC at McKinsey / Perceptis consulting-deck standard.
 
 TASK: Implement the approved deck specification below EXACTLY.
 - EXACTLY ${slideCount} slides — same order, same titles, same data
@@ -349,9 +354,9 @@ TASK: Implement the approved deck specification below EXACTLY.
 DECK TITLE: ${title}
 
 BRAND (mandatory on every slide):
-- Apparel Group · Navy #003399 · Lime accent #C5D92D · Gotham headings · Aptos/Calibri body
+- DMCC · Navy #0B1F3A · Gold accent #C9A84C · Gotham headings · Aptos/Calibri body
 - 16:9 widescreen · premium executive whitespace · boardroom-ready
-- Footer: Apparel Group · Confidential
+- Footer: DMCC · Confidential
 
 ${APPAREL_VISUAL_STYLE}
 
@@ -366,7 +371,7 @@ QUALITY BAR (every slide):
 ${context.length ? `CONTEXT:\n${context.join('\n\n')}\n\n` : ''}APPROVED DECK SPECIFICATION (JSON — implement faithfully):
 ${deckJson}
 
-Final verification: ${slideCount} slides delivered · titles match JSON · chart/table data matches JSON · Apparel Group brand applied · fully editable native PowerPoint output.`;
+Final verification: ${slideCount} slides delivered · titles match JSON · chart/table data matches JSON · DMCC brand applied · fully editable native PowerPoint output.`;
 }
 
 /** Compose Perceptis API prompt from presentation builder payload. */
@@ -392,7 +397,7 @@ export function buildPerceptisPromptFromPayload(payload = {}) {
   }
 
   const brandRules =
-    'Apparel Group · Navy #003399 · Lime #C5D92D · Gotham · action titles · native charts/tables · speaker notes · 16:9';
+    'DMCC · Navy #0B1F3A · Gold #C9A84C · Gotham · action titles · native charts/tables · speaker notes · 16:9';
 
   // Detailed user briefs already specify structure — avoid duplicating a long template wrapper.
   if (userPrompt.length > 350) {
@@ -405,14 +410,14 @@ ${userPrompt}
 ${context.length ? `CONTEXT:\n${context.join('\n\n')}\n\n` : ''}Deliver fully editable .pptx.`;
   }
 
-  const topic = userPrompt || 'Apparel Group strategy update';
+  const topic = userPrompt || 'DMCC strategy update';
 
-  return `Create a native editable PowerPoint deck for Apparel Group at McKinsey consulting standard.
+  return `Create a native editable PowerPoint deck for DMCC at McKinsey consulting standard.
 
 TOPIC: ${topic}
 SLIDES: exactly ${slideCount} slides, 16:9, board-ready
 
-BRAND: ${brandRules} · footer "Apparel Group · Confidential"
+BRAND: ${brandRules} · footer "DMCC · Confidential"
 
 ${APPAREL_VISUAL_STYLE}
 
@@ -461,12 +466,12 @@ export function buildCompactPerceptisPrompt(payload = {}) {
   const { primary, accent, headingFont, bodyFont, footer } = APPAREL_GROUP_DECK_CONFIG.brand;
 
   return [
-    templateId ? `Apparel Group executive deck · template: ${templateId}` : 'Apparel Group executive deck',
+    templateId ? `DMCC executive deck · template: ${templateId}` : 'DMCC executive deck',
     `Slides: exactly ${slideCount} · Format: ${APPAREL_GROUP_DECK_CONFIG.format}`,
     // Spelled out explicitly so the brand still applies even if the named
     // template above isn't found or configured on the Perceptis side —
     // don't rely on template_name alone to carry the brand.
-    `Brand (mandatory on every slide): ${primary} navy + ${accent} lime accent · ${headingFont} headings / ${bodyFont} body · footer "${footer}"`,
+    `Brand (mandatory on every slide): ${primary} navy + ${accent} gold accent · ${headingFont} headings / ${bodyFont} body · footer "${footer}"`,
     APPAREL_VISUAL_STYLE,
     `Topic: ${topic}`,
     `Audience: ${audience}`,

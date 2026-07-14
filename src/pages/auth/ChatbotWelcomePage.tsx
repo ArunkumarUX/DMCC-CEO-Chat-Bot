@@ -40,7 +40,7 @@ function WelcomeContent() {
   const [phase, setPhase] = useState(0);
   const [exiting, setExiting] = useState(false);
 
-  const agentLine = `${greetingForTime()}, ${EXECUTIVE_USER.firstName}. I'm ${PRODUCT_AGENT_NAME} — your executive copilot at Apparel Group.`;
+  const agentLine = `${greetingForTime()}, ${EXECUTIVE_USER.firstName}. I'm ${PRODUCT_AGENT_NAME} — your executive copilot at DMCC.`;
   const typedLine = useTypewriter(agentLine, phase >= 2);
 
   useEffect(() => {
@@ -99,7 +99,7 @@ function WelcomeContent() {
           transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
           aria-hidden
         />
-        <Sparkles className="h-10 w-10 text-[#003399]" aria-hidden />
+        <Sparkles className="h-10 w-10 text-[#0B1F3A]" aria-hidden />
       </motion.div>
 
       <AnimatePresence>
@@ -116,7 +116,7 @@ function WelcomeContent() {
               Welcome, {EXECUTIVE_USER.firstName}
             </h1>
             <p className="auth-welcome__role">
-              {EXECUTIVE_USER.title} · Apparel Group
+              {EXECUTIVE_USER.title} · DMCC
             </p>
           </motion.div>
         )}

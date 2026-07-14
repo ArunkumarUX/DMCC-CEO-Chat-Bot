@@ -84,14 +84,14 @@ export function PresentationBuilderPage() {
     ? {
         eyebrow: 'العروض التقديمية',
         title: 'منشئ العروض بالذكاء الاصطناعي',
-        sub: 'عرض استثنائي لمجلس Apparel Group — McKinsey + Executive Design',
+        sub: 'عرض استثنائي لمجلس DMCC — McKinsey + Executive Design',
         craftLabel: 'حرفة التصميم',
         exportUnified: 'جميع المهارات (Cursor)',
         badge: 'McKinsey · Opus 4.8',
         statusOffline: 'التوليف بالذكاء الاصطناعي غير متصل — تحقق من الخادم وANTHROPIC_API_KEY.',
         steps: ['المدخلات', 'توضيح', 'المخطط', 'معاينة', 'تصدير'],
         prompt: 'صف العرض',
-        promptPh: 'مثال: عرض توسع Club Apparel — 3 مواقع كوليفينغ، نموذج مالي بثلاثة سيناريوهات، قرارات المجلس',
+        promptPh: 'مثال: عرض مؤتمر دبي للماس — ممرات التجارة، مقارنة أنتويرب/مومباي، قرارات الرئيس التنفيذي',
         notes: 'ملاحظات أو أفكار خام',
         link: 'رابط (اختياري)',
         doc: 'لصق نص مستند',
@@ -128,14 +128,15 @@ export function PresentationBuilderPage() {
     : {
         eyebrow: 'Presentations',
         title: 'AI Presentation Builder',
-        sub: 'Outstanding board decks for Apparel Group — McKinsey SCQA + Executive Design.',
+        sub: 'Outstanding board decks for DMCC — McKinsey SCQA + Executive Design.',
         craftLabel: 'Design craft',
         exportUnified: 'All skills (Cursor)',
         badge: 'McKinsey · Opus 4.8',
         statusOffline: 'AI synthesis offline — check server connection and ANTHROPIC_API_KEY.',
         steps: ['Input', 'Clarify', 'Outline', 'Preview', 'Export'],
         prompt: 'Describe your presentation',
-        promptPh: 'e.g. Club Apparel expansion board pack — 3 co-living sites, 3-scenario model, CEO decisions required',
+        promptPh:
+          'e.g. Dubai Diamond Conference board pack — corridor MoU, Antwerp/Mumbai benchmark, 3-scenario investment case, CEO decisions',
         notes: 'Notes or rough ideas',
         link: 'Website link (optional)',
         doc: 'Paste document text',
@@ -263,7 +264,7 @@ export function PresentationBuilderPage() {
     try {
       downloadPerceptisBlob(
         perceptisBlob,
-        `${(deck?.title || prompt || 'apparel-group-deck').replace(/[^\w.-]+/g, '-').slice(0, 60)}.pptx`,
+        `${(deck?.title || prompt || 'dmcc-deck').replace(/[^\w.-]+/g, '-').slice(0, 60)}.pptx`,
       );
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Perceptis download failed');
@@ -564,7 +565,7 @@ export function PresentationBuilderPage() {
               ) : currentSlide ? (
                 <article className="cc-pres-builder__slide cc-pres-builder__slide--wow cc-pres-builder__slide--inline">
                   <header className="cc-pres-builder__slide-header">
-                    <span className="cc-pres-builder__slide-brand">Apparel Group</span>
+                    <span className="cc-pres-builder__slide-brand">DMCC</span>
                     <span className="cc-pres-builder__slide-meta">
                       {t.slideOf} {previewIndex + 1} / {deck.slides.length}
                     </span>

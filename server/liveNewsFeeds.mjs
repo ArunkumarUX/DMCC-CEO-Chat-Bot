@@ -11,7 +11,7 @@ const FEEDS = [
     label: 'Google News — GCC Finance',
     siteUrl: 'https://news.google.com',
     rssUrl:
-      'https://news.google.com/rss/search?q=%22Apparel+Group%22+OR+%22GCC+retail%22+OR+%22Dubai+retail%22+OR+%226thStreet%22+OR+%22Club+Apparel%22+OR+Namshi+OR+Noon+OR+%22Tim+Hortons%22&hl=en-AE&gl=AE&ceid=AE:en',
+      'https://news.google.com/rss/search?q=DMCC+OR+%22Dubai+Multi+Commodities%22+OR+%22free+zone%22+OR+%22commodity+trade%22+OR+ADGM+OR+DIFC+OR+%22Future+of+Trade%22+OR+crypto+OR+diamonds+OR+%22precious+metals%22&hl=en-AE&gl=AE&ceid=AE:en',
     tags: ['market', 'competitor', 'investment', 'regulatory', 'followup'],
   },
   {
@@ -202,38 +202,32 @@ export async function fetchAllNewsFeeds() {
 }
 
 /**
- * Apparel Group CEO relevance — article must match retail/portfolio keywords
- * and must NOT match property/real-estate exclusions.
+ * DMCC CEO relevance — article must match free-zone / commodities / trade keywords.
  */
 const CEO_RELEVANCE_KEYWORDS = [
-  'apparel group', 'r&b', '6thstreet', '6th street', 'club apparel', 'nysaa',
-  'neeraj teckchandani', 'retail', 'fashion', 'mall', 'footfall', 'consumer',
-  'store', 'omnichannel', 'e-commerce', 'ecommerce', 'loyalty', 'namshi', 'noon',
-  'centrepoint', 'landmark', 'tim hortons', 'cold stone', 'aldo', 'charles keith',
-  'ksa', 'saudi retail', 'uae retail', 'gcc retail', 'arabian alesaar', 'heydude',
-  'barbour', 'forever new', 'images retailme', 'vat', 'ded', 'mohre', 'fta', 'f&b',
-  'franchise', 'brand launch', 'store opening', 'value retail', 'athleisure',
-  'beauty retail', 'lifestyle', 'dubai retail',
+  'dmcc', 'dubai multi commodities', 'free zone', 'freezone', 'commodity', 'commodities',
+  'gold', 'diamond', 'diamonds', 'precious metals', 'tea', 'coffee', 'crypto', 'blockchain',
+  'tokenisation', 'tokenization', 'vasp', 'tether', 'fintech', 'adgm', 'difc',
+  'future of trade', 'jlt', 'jumeirah lake towers', 'uptown dubai', 'almas',
+  'member compan', 'licence', 'license', 'corporate tax', 'qualifying income',
+  'trade corridor', 'fdi', 'ahmed bin sulayem', 'uae trade', 'gcc trade',
 ];
 
 const CEO_EXCLUDE_KEYWORDS = [
-  'property market', 'real estate', 'townhouse', 'townhouses', 'apartment',
-  'villa sales', 'off-plan', 'off plan', 'data center', 'data centre', 'ai infra',
-  'masterplan', 'racecourse', 'drec', 'huna sculpture', 'arm holding', 'a.r.m.',
-  'difc', 'fsra', 'rental index', 'ejari', 'rera', 'dld', 'damac', 'nakheel',
-  'meraas', 'sobha', 'ellington', 'emaar', 'aldar', 'jebel ali racecourse',
-  'sold for $', 'homes sold', 'units sold', 'coingecko', 'bitcoin', 'ethereum',
+  'townhouse', 'townhouses', 'villa sales', 'off-plan', 'off plan',
+  'racecourse', 'sold for $', 'homes sold', 'units sold',
+  'fast fashion', 'athleisure', 'mall footfall', 'apparel group',
 ];
 
 /**
  * Per-signal keyword classifiers — routes articles to the most relevant CEO card.
  */
 const SIGNAL_KEYWORDS = {
-  market: ['retail', 'fashion', 'mall', 'footfall', 'consumer', 'tourism', 'gcc retail', 'uae retail', 'ksa retail', 'lifestyle', 'spending'],
-  competitor: ['namshi', 'noon', 'centrepoint', 'landmark', 'e-commerce', 'omnichannel', 'delivery', 'fast fashion', 'marketplace', 'competitor', 'rival'],
-  investment: ['apparel group', 'store opening', 'expansion', 'ksa', 'saudi', 'franchise', 'heydude', 'barbour', 'forever new', 'arabian alesaar', 'new store', 'flagship'],
-  regulatory: ['vat', 'ded', 'mohre', 'fta', 'retail license', 'labour', 'labor', 'visa', 'compliance', 'f&b', 'tim hortons', 'cold stone'],
-  followup: ['images retailme', 'club apparel', 'loyalty', 'award', 'sustainability', 'brand', 'campaign', 'nysaa', 'ceo', 'apparel group'],
+  market: ['commodity', 'commodities', 'gold', 'diamond', 'trade', 'fdi', 'gcc', 'uae', 'market', 'crypto'],
+  competitor: ['adgm', 'difc', 'free zone', 'competitor', 'rival', 'licensing', 'incentive'],
+  investment: ['uptown dubai', 'expansion', 'partnership', 'ecosystem', 'investment', 'pipeline', 'campus'],
+  regulatory: ['corporate tax', 'qualifying income', 'fta', 'compliance', 'regulation', 'vasp', 'licensing'],
+  followup: ['future of trade', 'dmcc', 'ceo', 'summit', 'conference', 'launch', 'announcement'],
 };
 
 function itemText(item) {
@@ -259,7 +253,7 @@ function signalScore(tag, item) {
 }
 
 /**
- * Get news items for a given signal tag — Apparel Group CEO retail intelligence only.
+ * Get news items for a given signal tag — DMCC CEO trade & free-zone intelligence only.
  */
 export function getNewsByTag(tag, allItems, limit = 3) {
   const tagged = allItems.filter((i) => i.tags?.includes(tag));

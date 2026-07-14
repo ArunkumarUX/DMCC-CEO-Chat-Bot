@@ -51,7 +51,7 @@ export function SlideAIPage() {
     if (!deck?.slides?.length || exportBusy) return;
     setExportBusy(true);
     try {
-      const name = (deck.title || 'apparel-group-deck').replace(/[^\w.-]+/g, '-').slice(0, 60);
+      const name = (deck.title || 'dmcc-deck').replace(/[^\w.-]+/g, '-').slice(0, 60);
       await exportToPptx(deck, `${name}.pptx`);
       showToast(ar ? 'تم تنزيل PowerPoint' : 'PowerPoint downloaded', 'success');
     } catch (err) {

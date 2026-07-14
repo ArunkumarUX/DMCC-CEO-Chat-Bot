@@ -1,22 +1,22 @@
 /**
- * Apparel Group deck generation — permanent rules live here, not in every request.
+ * DMCC deck generation — permanent rules live here, not in every request.
  */
 export const APPAREL_GROUP_DECK_CONFIG = {
-  // No verified Apparel Group template exists in the Perceptis org yet — sending a
+  // No verified DMCC template exists in the Perceptis org yet — sending a
   // guessed template_name risks a 409 (no/ambiguous match) or silently skipping the
   // brand. Leave unset until PERCEPTIS_TEMPLATE_NAME is configured with a name that
   // exactly matches a template in the Perceptis app's Templates page (case-sensitive).
   // Branding is still enforced via the explicit Brand line in buildCompactPerceptisPrompt.
   brandTemplateId: process.env.PERCEPTIS_TEMPLATE_NAME?.trim() || '',
-  company: 'Apparel Group',
+  company: 'DMCC',
   audience: 'Group CEO and senior leadership',
   format: '16:9 pptx',
   brand: {
-    primary: '#003399',
-    accent: '#C5D92D',
+    primary: '#0B1F3A',
+    accent: '#C9A84C',
     headingFont: 'Gotham',
     bodyFont: 'Aptos',
-    footer: 'Apparel Group · Confidential',
+    footer: 'DMCC · Confidential',
   },
   rules: [
     'Action titles only — complete insight sentences',
@@ -53,7 +53,7 @@ export function inferSlideCountFromText(text, fallback = APPAREL_GROUP_DECK_CONF
 /** Extract a concise topic from a long brief (first sentence or line). */
 export function extractTopic(prompt = '') {
   const trimmed = String(prompt).trim();
-  if (!trimmed) return 'Apparel Group strategy update';
+  if (!trimmed) return 'DMCC strategy update';
   const firstLine = trimmed.split('\n')[0]?.trim() || trimmed;
   const firstSentence = firstLine.split(/(?<=[.!?])\s+/)[0] || firstLine;
   return firstSentence.slice(0, 280);

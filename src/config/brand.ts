@@ -1,32 +1,32 @@
 /**
- * Apparel Group brand tokens — sourced from apparelgroup.com
- * @see https://www.apparelgroup.com/en/about-us/
- * @see src/config/apparelGroupGuidelines.ts
+ * DMCC brand tokens — sourced from dmcc.ae
+ * @see https://dmcc.ae
+ * @see src/config/dmccGuidelines.ts
  */
-import { APPAREL_GROUP_BRAND } from './apparelGroupGuidelines';
+import { DMCC_BRAND } from './dmccGuidelines';
 
 export const ADGM_BRAND = {
   version: '2026',
-  tagline: APPAREL_GROUP_BRAND.tagline,
-  siteUrl: APPAREL_GROUP_BRAND.siteUrl,
-  logoSrc: '/apparel-group-logo.svg',
-  logoOnDarkSrc: '/apparel-group-logo-white.svg',
-  logoLockupSrc: '/apparel-group-logo-lockup.svg',
-  logoSymbolSrc: '/apparel-group-mark.svg',
-  logoMarkSrc: '/apparel-group-mark.svg',
-  logoAlt: APPAREL_GROUP_BRAND.name,
-  productMarkAlt: `Personal AI — ${APPAREL_GROUP_BRAND.name}`,
+  tagline: DMCC_BRAND.tagline,
+  siteUrl: DMCC_BRAND.siteUrl,
+  logoSrc: DMCC_BRAND.logos.sapphireBlueLarge,
+  logoOnDarkSrc: DMCC_BRAND.logos.onDark,
+  logoLockupSrc: DMCC_BRAND.logos.lockup,
+  logoSymbolSrc: DMCC_BRAND.logos.mark,
+  logoMarkSrc: DMCC_BRAND.logos.mark,
+  logoAlt: DMCC_BRAND.nameFull,
+  productMarkAlt: `Personal AI — ${DMCC_BRAND.name}`,
 
-  logoAspect: 420 / 88,
+  logoAspect: 402 / 127,
 
   typography: {
-    primary: APPAREL_GROUP_BRAND.typography.primary,
-    secondary: APPAREL_GROUP_BRAND.typography.primary,
-    arabic: APPAREL_GROUP_BRAND.typography.arabic,
-    sans: APPAREL_GROUP_BRAND.typography.primary,
-    display: APPAREL_GROUP_BRAND.typography.primary,
-    trackingBody: APPAREL_GROUP_BRAND.typography.trackingBody,
-    trackingLogo: APPAREL_GROUP_BRAND.typography.trackingLogo,
+    primary: DMCC_BRAND.typography.primary,
+    secondary: DMCC_BRAND.typography.primary,
+    arabic: DMCC_BRAND.typography.arabic,
+    sans: DMCC_BRAND.typography.primary,
+    display: DMCC_BRAND.typography.primary,
+    trackingBody: DMCC_BRAND.typography.trackingBody,
+    trackingLogo: DMCC_BRAND.typography.trackingLogo,
     numeric: 'var(--font-sans)',
     weights: {
       regular: 400,
@@ -39,63 +39,66 @@ export const ADGM_BRAND = {
   appleGreySecondary: '#F2F2F2',
 
   primary: {
-    clearsky: APPAREL_GROUP_BRAND.colors.lime,
-    slate: APPAREL_GROUP_BRAND.colors.slate,
+    clearsky: DMCC_BRAND.colors.gold,
+    slate: DMCC_BRAND.colors.slate,
     cyan: '#E8EEF4',
-    black: APPAREL_GROUP_BRAND.colors.black,
+    black: DMCC_BRAND.colors.black,
   },
 
   secondary: {
-    royal: APPAREL_GROUP_BRAND.colors.navy,
-    mint: APPAREL_GROUP_BRAND.colors.canvas,
+    royal: DMCC_BRAND.colors.sapphire,
+    mint: DMCC_BRAND.colors.canvas,
     sand: '#E8EEF4',
   },
 
   blue: {
-    50: APPAREL_GROUP_BRAND.colors.canvas,
+    50: DMCC_BRAND.colors.canvas,
     100: '#E8EEF8',
-    200: '#DDE4EA',
-    300: '#B8C5D9',
-    400: '#335CAD',
-    500: APPAREL_GROUP_BRAND.colors.navy,
-    600: '#002B7A',
-    700: '#001F5C',
+    200: '#D8DEE8',
+    300: '#9AADBE',
+    400: '#2D6BB5',
+    500: DMCC_BRAND.colors.sapphire,
+    600: '#0C4599',
+    700: '#083670',
   },
 
   navy: {
-    DEFAULT: APPAREL_GROUP_BRAND.colors.navy,
-    mid: '#002B7A',
-    deep: '#001F5C',
+    DEFAULT: DMCC_BRAND.colors.sapphire,
+    mid: '#0A1640',
+    deep: '#03051C',
   },
 
   cyan: {
-    50: '#F5F5F5',
-    border: APPAREL_GROUP_BRAND.colors.line,
+    50: '#F5F7FA',
+    border: DMCC_BRAND.colors.line,
   },
 
   neutral: {
-    50: APPAREL_GROUP_BRAND.colors.canvas,
+    50: DMCC_BRAND.colors.canvas,
     100: '#E8EEF4',
-    200: '#DDE4EA',
-    300: '#C5CED8',
-    400: APPAREL_GROUP_BRAND.colors.slate,
-    500: APPAREL_GROUP_BRAND.colors.body,
-    600: '#3D3D3D',
+    200: '#D8DEE8',
+    300: '#B8C5D4',
+    400: DMCC_BRAND.colors.slate,
+    500: DMCC_BRAND.colors.body,
+    600: '#2D3E52',
   },
 
   surface: {
-    mint: APPAREL_GROUP_BRAND.colors.canvas,
+    mint: DMCC_BRAND.colors.canvas,
     sand: '#E8EEF4',
     sky: '#FFFFFF',
-    white: APPAREL_GROUP_BRAND.colors.white,
+    white: DMCC_BRAND.colors.white,
   },
 
   semantic: {
-    success: APPAREL_GROUP_BRAND.colors.success,
-    warning: APPAREL_GROUP_BRAND.colors.warning,
-    error: APPAREL_GROUP_BRAND.colors.error,
-    info: APPAREL_GROUP_BRAND.colors.navy,
+    success: DMCC_BRAND.colors.success,
+    warning: DMCC_BRAND.colors.warning,
+    error: DMCC_BRAND.colors.error,
+    info: DMCC_BRAND.colors.sapphire,
   },
 } as const;
 
 export const ARM_BRAND = ADGM_BRAND;
+
+/** Canonical DMCC brand — prefer importing from dmccGuidelines.ts */
+export { DMCC_BRAND, DMCC_DECK_BRAND_PROMPT, DMCC_DECK_FOOTER } from './dmccGuidelines';

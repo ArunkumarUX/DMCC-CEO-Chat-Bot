@@ -315,13 +315,13 @@ export function CapitalFlow({
       viewBox={`0 0 ${w} ${h}`}
       style={{ width: '100%', maxWidth: 420, height: 'auto', overflow: 'visible' }}
       role="img"
-      aria-label={ar ? 'تدفقات رأس المال نحو Apparel Group' : 'Capital flows toward Apparel Group'}
+      aria-label={ar ? 'تدفقات رأس المال نحو مركز دبي للسلع المتعددة' : 'Capital flows toward DMCC'}
     >
         <defs>
           <radialGradient id={`cfCore${gid}`} cx="42%" cy="38%" r="62%">
-            <stop offset="0%" stopColor="#4a4a4a" />
-            <stop offset="55%" stopColor="var(--arm-ink, #242321)" />
-            <stop offset="100%" stopColor="var(--arm-black, #000000)" />
+            <stop offset="0%" stopColor="#1a2a6c" />
+            <stop offset="55%" stopColor="var(--dmcc-panel-mid, #0A1640)" />
+            <stop offset="100%" stopColor="var(--dmcc-panel, #050533)" />
           </radialGradient>
         </defs>
 
@@ -353,12 +353,30 @@ export function CapitalFlow({
           );
         })}
 
-        <circle cx={cx} cy={cy} r="32" fill={`url(#cfCore${gid})`} />
-        <text x={cx} y={cy - 4} textAnchor="middle" dominantBaseline="middle" fontSize="10" fontWeight="700" fill="#fff">
-          {ar ? 'Apparel Group' : 'Apparel Group'}
+        <circle cx={cx} cy={cy} r="36" fill={`url(#cfCore${gid})`} stroke="rgba(226,31,123,0.45)" strokeWidth="1.5" />
+        <text
+          x={cx}
+          y={cy - 5}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize="12"
+          fontWeight="800"
+          fill="#FFFFFF"
+          style={{ fontFamily: "'Montserrat', system-ui, sans-serif" }}
+        >
+          <tspan>DMCC</tspan>
         </text>
-        <text x={cx} y={cy + 10} textAnchor="middle" dominantBaseline="middle" fontSize="7.5" fontWeight="600" fill="rgba(255,255,255,0.88)" letterSpacing="0.08em">
-          {ar ? 'محفظة التجزئة' : 'Retail portfolio'}
+        <text
+          x={cx}
+          y={cy + 11}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fontSize="7"
+          fontWeight="600"
+          fill="rgba(255,255,255,0.92)"
+          letterSpacing="0.04em"
+        >
+          <tspan>{ar ? 'منطقة حرة للسلع' : 'Free zone'}</tspan>
         </text>
     </svg>
   );

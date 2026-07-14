@@ -23,7 +23,7 @@ export function PerceptisDeckSync({ payload, sourceKey, enabled = true }: Props)
     const displayPrompt =
       payloadRef.current.prompt?.trim() ||
       payloadRef.current.deck?.title?.trim() ||
-      'Apparel Group Presentation';
+      'DMCC Presentation';
     startFromPrompt(payloadRef.current, sourceKey, displayPrompt);
   }, [enabled, sourceKey, startFromPrompt, reset]);
 

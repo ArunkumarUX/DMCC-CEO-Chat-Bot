@@ -5,8 +5,13 @@ import { AdgmLogo } from '../brand/AdgmLogo';
 import { useApp } from '../../context/AppContext';
 import { needsTour } from '../../auth/authStorage';
 import { EXECUTIVE_USER } from '../../config/user';
-import { ARCHITECTURE_ENABLED, PPT_MASTER_ENABLED, PRESENTATION_BUILDER_ENABLED } from '../../config/features';
+import {
+  ARCHITECTURE_ENABLED,
+  PPT_MASTER_ENABLED,
+  PRESENTATION_BUILDER_ENABLED,
+} from '../../config/features';
 
+/** Sidebar — Generate Document is always listed (next to Presentations). */
 const NAV = [
   {
     group: 'Overview',
@@ -45,7 +50,7 @@ const NAV = [
                   {
                     id: 'presentation-builder',
                     path: '/presentation-builder',
-                    icon: 'file-text',
+                    icon: 'layers',
                     label: 'Deck Builder',
                     labelAr: 'منشئ العروض',
                   },
@@ -53,6 +58,13 @@ const NAV = [
               : []),
           ]
         : []),
+      {
+        id: 'create-doc',
+        path: '/create-doc',
+        icon: 'file-plus',
+        label: 'Documents',
+        labelAr: 'المستندات',
+      },
       ...(ARCHITECTURE_ENABLED
         ? [
             {
@@ -78,6 +90,7 @@ function pathToView(pathname: string) {
   if (pathname.startsWith('/briefings')) return 'briefings';
   if (pathname.startsWith('/create-ppt') || pathname.startsWith('/deck-builder')) return 'create-ppt';
   if (pathname.startsWith('/presentation-builder')) return 'presentation-builder';
+  if (pathname.startsWith('/create-doc') || pathname.startsWith('/generate-document')) return 'create-doc';
   if (pathname.startsWith('/architecture')) return 'architecture';
   if (pathname.startsWith('/settings')) return 'settings';
   return 'dashboard';
@@ -118,7 +131,8 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
   const ar = settings.language === 'ar';
   const view = pathToView(location.pathname);
   const isChat = view === 'chat';
-  const isSlideAi = view === 'create-ppt' || view === 'presentation-builder';
+  const isSlideAi =
+    view === 'create-ppt' || view === 'presentation-builder' || view === 'create-doc';
 
   /** Icon-only rail on desktop; mobile drawer always shows labels */
   const showSidebarText = tourActive || !effectiveCollapsed || mobileOpen;
@@ -195,8 +209,13 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
             className="sb-user-avatar sb-user-avatar--initials"
             aria-label={EXECUTIVE_USER.fullName}
             title={EXECUTIVE_USER.fullName}
+            style={{
+              borderRadius: '50%',
+              overflow: 'hidden',
+              aspectRatio: '1 / 1',
+            }}
           >
-            {EXECUTIVE_USER.initials}
+            {(EXECUTIVE_USER.initials || 'AS').slice(0, 2)}
           </div>
           {showSidebarText && (
             <div className="sb-user-meta">

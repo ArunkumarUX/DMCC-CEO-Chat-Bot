@@ -66,57 +66,57 @@ function buildSourceBlock(payload) {
   }
   if (payload.slideCount) parts.push(`Target slide count: ~${payload.slideCount}`);
   if (payload.tone) parts.push(`Tone: ${payload.tone}`);
-  return parts.join('\n\n') || 'General Apparel Group executive strategy deck';
+  return parts.join('\n\n') || 'General DMCC executive strategy deck';
 }
 
 function demoClarifications() {
   return {
     questions: [
-      'Who is the primary audience — board, UAE retail compliance, or external investors?',
-      'Should the deck emphasise GCC expansion alignment alignment and Abu Dhabi positioning?',
+      'Who is the primary audience — board, member companies, or external partners?',
+      'Should the deck emphasise gold, diamonds, DMCC Cyber, or member services?',
       'Do you need bilingual (Arabic + English) speaker notes on any slides?',
     ],
   };
 }
 
 function demoOutline(prompt) {
-  const topic = (prompt || 'Apparel Group strategy update').slice(0, 80);
+  const topic = (prompt || 'DMCC strategy update').slice(0, 80);
   return {
     title: topic,
-    theme: 'arm-executive',
+    theme: 'dmcc-executive',
     estimatedSlides: 10,
     storyline: 'SCQA — Situation → Complication → Question → Answer (Pyramid Principle)',
     outline: [
-      { type: 'title', title: topic, summary: 'Board-ready opening — Images RetailME Awards' },
+      { type: 'title', title: topic, summary: 'Board-ready opening — DMCC executive' },
       {
         type: 'executive-summary',
-        title: 'Approve [recommendation] — three decisions unlock AED [X]M value by [date]',
+        title: 'Approve [recommendation] — three decisions unlock [X] in member / trade value by [date]',
         summary: 'Answer upfront — Pyramid Principle',
       },
       {
         type: 'context-problem',
-        title: 'Portfolio context sets the stakes — R&B, 6thStreet, and Club Apparel face [complication]',
+        title: 'Free-zone context sets the stakes — Gold, Diamonds, and Cyber face [complication]',
         summary: 'Situation + complication',
       },
       {
         type: 'key-insights',
-        title: 'Dubai market signals confirm [insight] — window closes in [N] months',
+        title: 'Commodity corridor signals confirm [insight] — window closes in [N] months',
         summary: 'Evidence-led insights',
       },
       {
         type: 'data-metrics',
-        title: 'Market sizing supports AED [X]B addressable pool in [segment]',
+        title: 'Trade and member metrics support [X] addressable opportunity in [ecosystem]',
         summary: 'Table exhibit + insightPanel',
       },
       {
         type: 'framework-model',
-        title: 'Strategic options score highest on [criterion] — Option [A] leads on IRR and risk',
+        title: 'Strategic options score highest on [criterion] — Option [A] leads on impact and risk',
         summary: 'Competitive benchmark / options matrix',
       },
       {
         type: 'strategy-recommendation',
-        title: 'Base case delivers break-even at month [N] with 22% IRR under disciplined phasing',
-        summary: '3-scenario financial model',
+        title: 'Base case delivers [outcome] under disciplined phasing with decision gates at 6/12/18 months',
+        summary: '3-scenario impact model',
       },
       {
         type: 'visual-infographic',
@@ -125,12 +125,12 @@ function demoOutline(prompt) {
       },
       {
         type: 'action-roadmap',
-        title: '12-month roadmap gates capital at months 6, 12, and 18 — no commitment without KPI proof',
+        title: '12-month roadmap gates investment at months 6, 12, and 18 — no commitment without KPI proof',
         summary: 'Timeline with decision gates',
       },
       {
         type: 'conclusion-next-steps',
-        title: 'CEO must approve [3 items] today to protect first-mover advantage',
+        title: 'CEO must approve [3 items] today to protect corridor leadership',
         summary: 'Decisions required',
       },
     ],
@@ -140,15 +140,15 @@ function demoOutline(prompt) {
 function demoSlides(outline) {
   return applyBrandToDeck({
     title: outline.title,
-    theme: 'adgm-brand-2025',
+    theme: 'dmcc-executive',
     brandCheck: ['McKinsey action titles on every slide', 'KPI towers + exhibit panels enabled'],
     slides: outline.outline.map((o, i) => ({
       id: `slide-${i + 1}`,
       type: o.type,
       title: o.title,
       bullets: [
-        'Lead with one crisp insight',
-        'Support with approved institutional data where available',
+        'Lead with one crisp insight for Ahmed Bin Sulayem / DMCC leadership',
+        'Support with approved DMCC institutional data where available',
         'Mark inferred points as analysis',
       ],
       visualHint: o.type === 'data-metrics' ? 'Score bar + 3-row metric table' : 'Icon-led layout, minimal text',
@@ -156,8 +156,9 @@ function demoSlides(outline) {
       metrics:
         o.type === 'data-metrics'
           ? [
-              { label: 'GCC expansion alignment alignment', value: '82/100' },
-              { label: 'Licence growth YoY', value: '+12%' },
+              { label: 'Future of Trade alignment', value: '86/100' },
+              { label: 'Diamond trade through Dubai', value: 'USD 41.7B' },
+              { label: 'Member companies', value: '26,000+' },
             ]
           : undefined,
     })),
@@ -195,7 +196,7 @@ export async function handlePresentationRequest(payload) {
       const data = await claudeJson(
         `${source}\n${answerBlock}\n\nReturn JSON:\n{
   "title": string,
-  "theme": "adgm-executive",
+  "theme": "dmcc-executive",
   "estimatedSlides": number,
   "storyline": string,
   "outline": [{ "type": string, "title": string, "summary": string }]
@@ -215,7 +216,7 @@ export async function handlePresentationRequest(payload) {
       const data = await claudeJson(
         `${source}\n\nApproved outline JSON:\n${JSON.stringify(outline)}\n\nReturn JSON:\n{
   "title": string,
-  "theme": "adgm-executive",
+  "theme": "dmcc-executive",
   "brandCheck": string[],
   "slides": [{
     "id": string,

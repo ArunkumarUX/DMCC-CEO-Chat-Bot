@@ -40,8 +40,14 @@ import {
 } from '../utils/executiveAnswerVisuals';
 import { isLegacyLiveTicker } from '../utils/marketTicker';
 
-const STORAGE_KEY = 'apparel-group-executive-state-v3';
-const LEGACY_STORAGE_KEYS = ['arm-executive-state-v1', 'arm-executive-state-v2', 'arm-executive-state-v3'] as const;
+const STORAGE_KEY = 'dmcc-executive-state-v4';
+const LEGACY_STORAGE_KEYS = [
+  'arm-executive-state-v1',
+  'arm-executive-state-v2',
+  'arm-executive-state-v3',
+  'apparel-group-executive-state-v3',
+  'dmcc-executive-state-v3',
+] as const;
 
 /** Drop stale ADGM-era cache; use in DevTools for a full reset with STORAGE_KEY too. */
 export function clearExecutiveStateCache() {
@@ -67,26 +73,26 @@ const MARKET_ROTATION: ExecutiveState['marketSnapshot'][] = [
   {
     gccEquities: '+0.8%',
     digitalAssetsWoW: '+4.2%',
-    competitorNote: 'Noon accelerates fashion and beauty category investment',
-    topSector: 'Omnichannel fashion (6thStreet · 90-min delivery)',
+    competitorNote: 'DIFC accelerates digital asset and tokenisation licensing',
+    topSector: 'Crypto & blockchain (DMCC Crypto Centre · Tether MoU)',
   },
   {
     gccEquities: '+1.1%',
     digitalAssetsWoW: '+3.8%',
-    competitorNote: 'Namshi launches same-day delivery in KSA',
-    topSector: 'Value retail (R&B 100+ stores across GCC)',
+    competitorNote: 'ADGM expands precious metals custody framework',
+    topSector: 'Gold & precious metals (Dubai Precious Metals Conference)',
   },
   {
     gccEquities: '+0.4%',
     digitalAssetsWoW: '+2.9%',
-    competitorNote: 'UAE VAT guidance update for F&B operators',
-    topSector: 'F&B expansion (Tim Hortons 300+ stores in GCC & India)',
+    competitorNote: 'UAE Corporate Tax qualifying income guidance update for free zones',
+    topSector: 'Member services (26,000+ companies · 180+ countries)',
   },
   {
     gccEquities: '+0.6%',
     digitalAssetsWoW: '+3.1%',
-    competitorNote: 'Images RetailME Awards — Apparel Group headline partner',
-    topSector: 'Loyalty & CRM (Club Apparel 10M+ members)',
+    competitorNote: 'Future of Trade 2026 — UAE #2 Commodity Trade Index',
+    topSector: 'Diamonds (USD 41.7B trade through Dubai in 2025)',
   },
 ];
 
@@ -116,34 +122,34 @@ function buildDynamicMeetings(today: Date): Meeting[] {
   return [
     {
       id: 'mtg1',
-      title: 'Apparel Group leadership — Q2 store network review',
+      title: 'DMCC leadership — Q2 member services & licence review',
       time: meetingIso(today, 10, 0),
-      attendees: 'Kamal Kotak (CBO), Amit Samdaria (CFO), country heads',
-      location: 'Apparel Group HQ, Jebel Ali, Dubai',
+      attendees: 'Member Services, Legal, Finance leadership',
+      location: 'Almas Tower, JLT, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg2',
-      title: '6thStreet omnichannel strategy working session',
+      title: 'Future of Trade Singapore launch — executive alignment',
       time: meetingIso(addDays(today, 1), 14, 0),
-      attendees: 'Vivek Rajukumar (CEO 6thStreet), Marketing, IT',
-      location: 'Apparel Group HQ, Dubai',
+      attendees: 'Strategy, Marketing, Events teams',
+      location: 'Almas Tower, JLT, Dubai',
       prepStatus: 'pending',
     },
     {
       id: 'mtg3',
-      title: 'KSA expansion — Arabian Alesaar partnership review',
+      title: 'Uptown Dubai investor briefing — milestone review',
       time: meetingIso(addDays(today, 2), 11, 0),
-      attendees: 'Dheeraj Kalwani (VP KSA), Retail, Brand partners',
-      location: 'Apparel Group HQ, Dubai',
+      attendees: 'BizDev, Strategy, Finance',
+      location: 'Almas Tower, JLT, Dubai',
       prepStatus: 'ready',
     },
     {
       id: 'mtg4',
-      title: 'Images RetailME Awards — CEO speaking slot prep',
+      title: 'Dubai Diamond Conference — CEO keynote prep',
       time: meetingIso(addDays(today, 7), 9, 30),
-      attendees: 'Anda Dalati (CMO), Communications team',
-      location: 'Apparel Group HQ, Dubai',
+      attendees: 'Marketing, Communications, Events',
+      location: 'Almas Tower, JLT, Dubai',
       prepStatus: 'pending',
     },
   ];
@@ -153,41 +159,43 @@ function buildDynamicActions(today: Date): ActionItem[] {
   return [
     {
       id: 'a1',
-      title: 'Approve KSA expansion milestone plan — Arabian Alesaar partnership',
-      owner: 'Neeraj',
+      title: 'Approve corporate tax member advisory resourcing — due in 14 days',
+      owner: EXECUTIVE_USER.shortName,
       due: dateOnly(addDays(today, -1)),
       status: 'overdue',
       departmentId: 'legal',
     },
     {
       id: 'a2',
-      title: 'Approve retention packages — 3 store operations roles (attrition at 18%)',
-      owner: 'Neeraj',
+      title: 'Clear 12 pending licence renewals — member services escalation',
+      owner: EXECUTIVE_USER.shortName,
       due: dateOnly(addDays(today, 3)),
       status: 'open',
-      departmentId: 'hr',
+      departmentId: 'members',
     },
     {
       id: 'a3',
-      title: 'Club Apparel 10M member campaign sign-off',
-      owner: 'Marketing → Neeraj',
+      title: 'DMCC Cyber launch communications — CEO sign-off',
+      owner: 'Marketing → ' + EXECUTIVE_USER.shortName,
       due: dateOnly(addDays(today, 9)),
       status: 'open',
       departmentId: 'marketing',
     },
     {
       id: 'a4',
-      title: 'Confirm CEO speaking slot — Images RetailME Awards (14 days left)',
-      owner: 'Neeraj',
+      title: 'Confirm CEO keynote — Dubai Diamond Conference (26 Oct)',
+      owner: EXECUTIVE_USER.shortName,
       due: dateOnly(addDays(today, 2)),
       status: 'open',
+      departmentId: 'events',
     },
     {
       id: 'a5',
-      title: 'R&B 100-store milestone celebration — board visibility with Arun Pagarani',
-      owner: 'Neeraj',
+      title: 'Tether partnership announcement — executive approval',
+      owner: EXECUTIVE_USER.shortName,
       due: dateOnly(addDays(today, 7)),
       status: 'open',
+      departmentId: 'bizdev',
     },
   ];
 }
@@ -262,65 +270,65 @@ const SEED_DOCUMENTS: DocumentFile[] = [
     uploadedAt: '2026-06-01',
     status: 'ready',
     summary:
-      'Q2 board materials: R&B store performance, 6thStreet launch, Images RetailME Awards commission. Three board decisions flagged.',
+      'Q2 board materials: member services performance, Uptown Dubai activation, Dubai Diamond Conference keynote. Three board decisions flagged.',
     keyInsights: [
-      '6thStreet omnichannel launch — board decision required',
-      'R&B store performance 94.2%',
-      'Namshi waterfront competitive pressure — proactive 6thStreet positioning recommended',
+      'Uptown Dubai investor briefing — board decision required',
+      'Member onboarding SLA at 4.2 days',
+      'Future of Trade Singapore launch 15 Jul — executive alignment needed',
     ],
     focusAreaIds: ['meetings', 'knowledge'],
     clauses: [
       {
         title: 'Section 2 — Executive summary',
-        text: 'Apparel Group continues to strengthen its Dubai retail and investment portfolio across R&B, 6thStreet and Club Apparel...',
+        text: 'DMCC continues to strengthen its commodities free zone portfolio across member services, gold & diamonds, crypto, and Uptown Dubai...',
       },
     ],
   },
   {
     id: 'd2',
-    name: 'AG_Retail_Compliance_Compliance_Framework_2026.pdf',
+    name: 'DMCC_Corporate_Tax_Advisory_Framework_2026.pdf',
     type: 'PDF',
     size: '2.8 MB',
     uploadedAt: '2026-05-29',
     status: 'ready',
-    summary: 'Group UAE retail compliance/DED compliance framework — rental index, escrow, broker licensing across portfolio.',
-    keyInsights: ['Rental repricing within 30 days', 'Escrow audited quarterly', 'Filing due in 11 days'],
+    summary: 'Free zone qualifying income guidance for 26,000+ member companies under UAE Corporate Tax Law.',
+    keyInsights: ['Qualified free zone status confirmed', 'Member advisory templates due in 14 days', 'Finance–Legal alignment required'],
     focusAreaIds: ['regulatory', 'knowledge'],
     clauses: [],
   },
   {
     id: 'd3',
-    name: 'RetailME_Awards_Talking_Points.docx',
+    name: 'Dubai_Diamond_Conference_Keynote_Talking_Points.docx',
     type: 'DOCX',
     size: '620 KB',
     uploadedAt: '2026-05-28',
     status: 'ready',
-    summary: 'Bilingual talking points — Images RetailME Awards awards acceptance with Images RetailME.',
-    keyInsights: ['Formal register verified', 'Cultural initiative messaging aligned'],
+    summary: 'Bilingual talking points — Dubai Diamond Conference CEO keynote (26 Oct 2026).',
+    keyInsights: ['Formal register verified', 'Commodities trade narrative aligned with Future of Trade 2026'],
     focusAreaIds: ['correspondence'],
     clauses: [],
   },
   {
     id: 'd4',
-    name: 'R&B_Portfolio_Review_Q1_2026.pdf',
+    name: 'Commodities_Trade_Review_Q1_2026.pdf',
     type: 'PDF',
     size: '1.1 MB',
     uploadedAt: '2026-06-02',
     status: 'ready',
-    summary: 'R&B Q1 review — 3,200+ units, Palm Spring Village, The Beach Centre.',
-    keyInsights: ['Store performance 94.2%', 'Sales pipeline AED 124M', 'Beach Centre footfall +11% YoY'],
+    summary: 'Commodities Q1 review — USD 41.7B diamond trade, gold ecosystem +12% YoY, 8 active rough tenders.',
+    keyInsights: ['Diamond trade USD 41.7B', 'London Diamond Bourse MoU advancing', 'Lab-grown share at 18%'],
     focusAreaIds: ['strategic-intelligence', 'knowledge'],
     clauses: [],
   },
   {
     id: 'd5',
-    name: 'AG_GCC_Expansion_Alignment_Tracker_2026.xlsx',
+    name: 'Future_of_Trade_Alignment_Tracker_2026.xlsx',
     type: 'XLSX',
     size: '890 KB',
     uploadedAt: '2026-05-20',
     status: 'ready',
-    summary: 'Portfolio alignment with Dubai Economic Agenda GCC retail growth — mapped to R&B, 6thStreet, Club Apparel.',
-    keyInsights: ['Alignment score 86/100', '6thStreet launch on track Q3', 'Images RetailME Awards launched'],
+    summary: 'Portfolio alignment with Future of Trade 2026 — mapped to commodities, member services, Uptown Dubai, DMCC Cyber.',
+    keyInsights: ['Alignment score 86/100', 'Uptown Dubai briefing on track Q3', 'Singapore launch 15 Jul confirmed'],
     focusAreaIds: ['knowledge', 'strategic-intelligence'],
     clauses: [],
   },
@@ -333,7 +341,16 @@ function kbSeedSizeMb(src: { pageEstimate?: number; id: string }): string {
   return `${mb.toFixed(1)} MB`;
 }
 
-/** Indexed institutional PDFs — Apparel Group corporate KB */
+function kbCompanyIdForSource(srcId: string): 'arm' | 'drec' | 'huna' | 'hive' | 'capri' {
+  if (srcId === 'drec-portfolio') return 'drec';
+  if (srcId === 'huna-developments') return 'huna';
+  if (srcId === 'hive-loyalty programme' || srcId === 'retailme-awards') return 'hive';
+  if (srcId === 'dubai-d33-alignment') return 'arm';
+  if (srcId === 'rera-compliance') return 'arm';
+  return 'arm';
+}
+
+/** Indexed institutional PDFs — DMCC corporate KB */
 const FALCON_SEED_DOCUMENTS: DocumentFile[] = FALCON_KB_SOURCES.map((src) => ({
   id: src.docId,
   name: src.pdfName,
@@ -344,25 +361,32 @@ const FALCON_SEED_DOCUMENTS: DocumentFile[] = FALCON_KB_SOURCES.map((src) => ({
   inKnowledgeBase: true,
   kbCategory: src.category,
   kbDocumentDate: src.date,
-  kbCompanyId: src.category === 'strategy' ? 'drec' : 'arm',
+  kbCompanyId: kbCompanyIdForSource(src.id),
   summary: src.summary.replace(/\s+/g, ' ').slice(0, 500),
   keyInsights: [
     src.title,
     `Knowledge base · ${src.handle} · ${src.chunkCount} indexed sections`,
     src.category === 'policy'
-      ? 'UAE retail compliance/DED compliance — cite KB handles in answers'
-      : 'Apparel Group group strategy — cite KB handles in answers',
+      ? 'UAE Corporate Tax / free zone qualifying income — cite KB handles in answers'
+      : 'DMCC strategy & commodities — cite KB handles in answers',
   ],
   focusAreaIds: ['knowledge', src.category === 'policy' ? 'regulatory' : 'strategic-intelligence'],
   clauses: [],
 }));
 
+/** Always overwrite institutional seed docs so refreshed DMCC titles replace stale Apparel cache. */
 function ensureFalconKbDocuments(docs: DocumentFile[]): DocumentFile[] {
   const byId = new Map(docs.map((d) => [d.id, d]));
   for (const seed of FALCON_SEED_DOCUMENTS) {
-    if (!byId.has(seed.id)) byId.set(seed.id, seed);
+    byId.set(seed.id, seed);
   }
-  return Array.from(byId.values());
+  return Array.from(byId.values()).filter((d) => {
+    const n = `${d.name} ${d.summary ?? ''}`.toLowerCase();
+    if (/\b(apparel group|club apparel|6thstreet|r&b fashion|neeraj teckchandani)\b/.test(n)) {
+      return false;
+    }
+    return true;
+  });
 }
 
 function buildSeedConversations(today: Date): Conversation[] {
@@ -372,20 +396,20 @@ function buildSeedConversations(today: Date): Conversation[] {
   return [
     {
       id: 'c1',
-      title: 'R&B board brief — Q2',
+      title: 'Member Services leadership brief — Q2',
       category: 'Meetings',
       updatedAt: stamp,
       pinned: true,
-      preview: 'Brief me on my R&B board meeting',
+      preview: 'Brief me on my Member Services leadership meeting',
       messages: [],
     },
     {
       id: 'c2',
-      title: '6thStreet vs Namshi — design positioning',
+      title: 'DMCC vs ADGM — free zone positioning',
       category: 'Intelligence',
       updatedAt: stamp,
       pinned: false,
-      preview: "How does 6thStreet's omnichannel positioning compare to Namshi?",
+      preview: 'How does DMCC free zone positioning compare to ADGM?',
       messages: [],
     },
   ];
@@ -526,9 +550,9 @@ export function getDepartment(state: ExecutiveState, id: string) {
 }
 
 export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
-  const hr = getDepartment(state, 'hr');
-  const sales = getDepartment(state, 'sales');
-  const ops = getDepartment(state, 'ops');
+  const members = getDepartment(state, 'members');
+  const bizdev = getDepartment(state, 'bizdev');
+  const it = getDepartment(state, 'it');
   const m = state.marketSnapshot;
   const overdue = state.actionRegister.filter((a) => a.status === 'overdue').length;
 
@@ -537,9 +561,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'overnight',
       pillar: '01',
       title: 'Overnight intelligence',
-      summary: `Dubai portfolio priorities · GCC ${m.gccEquities} · ${m.topSector}.`,
+      summary: `DMCC priorities · GCC ${m.gccEquities} · ${m.topSector}.`,
       detail:
-        'Daily summary of major developments across Apparel Group, R&B, 6thStreet, Club Apparel and Dubai retail markets.',
+        'Daily summary across member services, commodities trade, crypto, diamonds, Uptown Dubai, and regional free zone competition.',
       icon: 'overnight',
       priority: 'normal',
       href: '/chat',
@@ -548,9 +572,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'market',
       pillar: '02',
       title: 'Market signals',
-      summary: `GCC retail pulse · ${m.topSector} momentum.`,
+      summary: `Commodity trade pulse · ${m.topSector} momentum.`,
       detail:
-        'GCC consumer demand, mall footfall, and category trends across R&B, 6thStreet, Club Apparel and F&B.',
+        'GCC equities, digital assets, gold & diamond flows, and competitor free zone positioning (ADGM, DIFC).',
       icon: 'market',
       priority: 'medium',
       href: '/chat',
@@ -561,7 +585,7 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       title: 'Competitor moves',
       summary: m.competitorNote,
       detail:
-        'Namshi, Noon, Centrepoint and regional omnichannel players — delivery, pricing and positioning.',
+        'ADGM, DIFC, and regional free zones — fintech licensing, crypto frameworks, and commodities incentives.',
       icon: 'competitor',
       priority: 'high',
       href: '/chat',
@@ -570,9 +594,9 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'regulatory',
       pillar: '04',
       title: 'Regulatory shifts',
-      summary: 'UAE retail compliance rental index update · DED registration streamlining · Images RetailME partnership.',
+      summary: 'UAE Corporate Tax qualifying income · free zone status · member advisory update.',
       detail:
-        'Dubai retail regulation, F&B permits and compliance relevant to R&B, 6thStreet and Club Apparel.',
+        'Federal Decree-Law No. 47 of 2022, DMCC qualified free zone status, and member communications on corporate tax.',
       icon: 'regulatory',
       priority: 'high',
       href: '/chat?focus=regulatory',
@@ -581,8 +605,8 @@ export function deriveMorningSignals(state: ExecutiveState): MorningSignal[] {
       id: 'performance-risk',
       pillar: '05',
       title: 'Performance & risk alerts',
-      summary: `HR attrition ${hr?.kpis.find((k) => k.label.includes('Attrition'))?.value ?? '—'} · Sales ${sales?.kpis.find((k) => k.label.includes('Revenue'))?.value ?? '—'} · Ops SLA ${ops?.kpis.find((k) => k.label.includes('SLA'))?.value ?? '—'} · ${overdue} overdue actions`,
-      detail: hr?.leadershipActions[0] ?? 'Departmental risks, blockers and leadership attention areas.',
+      summary: `Members setup ${members?.kpis.find((k) => k.label.includes('setup'))?.value ?? '—'} · BizDev pipeline ${bizdev?.kpis.find((k) => k.label.includes('pipeline'))?.value ?? '—'} · IT uptime ${it?.kpis.find((k) => k.label.includes('uptime'))?.value ?? '—'} · ${overdue} overdue actions`,
+      detail: members?.leadershipActions[0] ?? 'Departmental risks, blockers and leadership attention areas.',
       icon: 'performance-risk',
       priority: 'high',
       href: '/performance',
@@ -724,12 +748,12 @@ export function buildIntelligentResponse(query: string, state: ExecutiveState): 
     };
   }
 
-  const hr = getDepartment(state, 'hr')!;
-  const sales = getDepartment(state, 'sales')!;
-  const ops = getDepartment(state, 'ops')!;
-  const attrition = hr.kpis.find((k) => k.label.includes('Attrition'))?.value ?? '16.2% YTD';
-  const revenue = sales.kpis.find((k) => k.label.includes('Revenue'))?.value ?? '93% of target';
-  const sla = ops.kpis.find((k) => k.label.includes('SLA'))?.value ?? '94.1%';
+  const members = getDepartment(state, 'members')!;
+  const bizdev = getDepartment(state, 'bizdev')!;
+  const it = getDepartment(state, 'it')!;
+  const setupTime = members.kpis.find((k) => k.label.includes('setup'))?.value ?? '4.2 days';
+  const pipeline = bizdev.kpis.find((k) => k.label.includes('pipeline'))?.value ?? 'AED 2.1B';
+  const uptime = it.kpis.find((k) => k.label.includes('uptime'))?.value ?? '99.97%';
 
   if (q.includes('huna') && (q.includes('emaar') || q.includes('compare') || q.includes('design'))) {
     return {
@@ -737,26 +761,26 @@ export function buildIntelligentResponse(query: string, state: ExecutiveState): 
       confidence: 0.92,
       sourceDocIds: ['d9', 'd4'],
       followUps: [
-        'Show 6thStreet omnichannel launch timeline',
-        'Open R&B portfolio review for context',
-        'Draft board narrative on design differentiation',
+        'Show Uptown Dubai investor briefing timeline',
+        'Open commodities trade review for context',
+        'Draft board narrative on free zone differentiation',
       ],
-      content: `## 6thStreet vs Namshi — design positioning
+      content: `## DMCC vs ADGM — free zone positioning
 
-${plainTerms('6thStreet leads on cultural curation and design; Namshi leads on scale and distribution.')}
+${plainTerms('DMCC leads on commodities depth and member scale; ADGM leads on financial services and digital asset licensing.')}
 ${metricTable(
   ['What it means', 'Score', 'Signal'],
   [
-    ['6thStreet design differentiation', '96/100', `${signalEmoji('good')} Strong`],
-    ['Namshi brand & scale', '94/100', `${signalEmoji('good')} Strong`],
-    ['R&B store performance (income base)', '94.2%', signalEmoji('good')],
+    ['DMCC member companies', '26,000+', `${signalEmoji('good')} Strong`],
+    ['Commodity trade index (UAE)', '#2 globally', `${signalEmoji('good')} Strong`],
+    ['Diamond trade through Dubai', 'USD 41.7B', signalEmoji('good')],
     ['GCC markets today', state.marketSnapshot.gccEquities, signalEmoji('good')],
   ],
 )}
-**GCC expansion alignment**
+**Future of Trade alignment**
 ${scoreBar(86)}
 
-${actionNow('Accelerate 6thStreet omnichannel launch narrative before competitor announcement.')}
+${actionNow('Accelerate Uptown Dubai investor narrative before competitor free zone announcement.')}
 ${agentTag(['Strategy AI'])}`,
     };
   }
@@ -775,13 +799,13 @@ ${agentTag(['Strategy AI'])}`,
         confidence: 0.94,
         sourceDocIds: ['d6', 'd12'],
         followUps: [
-          'Summarise GCC expansion alignment for R&B, 6thStreet and Club Apparel',
-          'Compare group strategy vs current portfolio priorities',
-          'Which initiatives need UAE retail compliance alignment first?',
+          'Summarise Future of Trade alignment for commodities, members, and Uptown Dubai',
+          'Compare group strategy vs current ecosystem priorities',
+          'Which initiatives need corporate tax advisory alignment first?',
         ],
-        content: `## Apparel Group portfolio & GCC retail growth — knowledge base
+        content: `## DMCC portfolio & Future of Trade — knowledge base
 
-${plainTerms('Answer grounded in approved Apparel Group corporate documents in the knowledge base.')}
+${plainTerms('Answer grounded in approved DMCC corporate documents in the knowledge base.')}
 
 ${excerptBlock}
 
@@ -794,13 +818,13 @@ ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
       confidence: 0.89,
       sourceDocIds: ['d6', 'd12', 'd5'],
       followUps: [
-        'Open GCC retail growth Alignment Tracker in Knowledge Base',
-        'Which portfolio companies lead on GCC retail growth priorities?',
-        'Prepare board narrative on Images RetailME Awards',
+        'Open Future of Trade Alignment Tracker in Knowledge Base',
+        'Which portfolio companies lead on Future of Trade priorities?',
+        'Prepare board narrative on Dubai Diamond Conference Awards',
       ],
-      content: `## Portfolio strategy & GCC retail growth
+      content: `## Portfolio strategy & Future of Trade
 
-${plainTerms('Apparel Group documents are in the knowledge base — ask about R&B, 6thStreet, Club Apparel or Images RetailME Awards for cited excerpts.')}
+${plainTerms('DMCC documents are in the knowledge base — ask about commodities trade, member services, Uptown Dubai, or Dubai Diamond Conference for cited excerpts.')}
 ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
     };
   }
@@ -813,19 +837,19 @@ ${agentTag(['Strategy AI', 'Chief of Staff AI'])}`,
       confidence: 0.91,
       sourceDocIds: ['d11', 'd3'],
       followUps: [
-        'Draft talking points for Images RetailME Awards',
+        'Draft talking points for Dubai Diamond Conference Awards',
         'Log follow-up in action register',
         'Open full CRM record',
       ],
       content: `## Stakeholder — ${mtg.title}
 
-${plainTerms('Strong Images RetailME partnership; awards acceptance open call is live until 25 July.')}
+${plainTerms('Strong Dubai Diamond Conference partnership; awards acceptance open call is live until 25 July.')}
 ${metricTable(
   ['CRM fact', 'Detail', 'Signal'],
   [
-    ['Partnership', 'Images RetailME × Apparel Group', signalEmoji('good')],
-    ['Commission', 'Images RetailME Awards — open call', signalEmoji('good')],
-    ['Location', '6thStreet loyalty programme, Dubai Hills Mall', signalEmoji('good')],
+    ['Partnership', 'Dubai Diamond Conference × DMCC', signalEmoji('good')],
+    ['Commission', 'Dubai Diamond Conference Awards — open call', signalEmoji('good')],
+    ['Location', 'Uptown Dubai loyalty programme, Dubai Hills Mall', signalEmoji('good')],
   ],
 )}
 ${metricTable(
@@ -836,7 +860,7 @@ ${metricTable(
     a.status === 'overdue' ? signalEmoji('risk') : signalEmoji('watch'),
   ]),
 )}
-${actionNow('Confirm CEO speaking slot for Images RetailME commission announcement.')}
+${actionNow('Confirm CEO speaking slot for Dubai Diamond Conference commission announcement.')}
 ${agentTag(['Relationship AI', 'Chief of Staff AI'])}`,
     };
   }
@@ -848,13 +872,13 @@ ${agentTag(['Relationship AI', 'Chief of Staff AI'])}`,
       confidence: 0.94,
       sourceDocIds: ['d8', 'd13'],
       followUps: [
-        'Draft talking points for R&B board',
-        'Show open UAE retail compliance commitments',
+        'Draft talking points for member services review',
+        'Show open corporate tax advisory commitments',
         'Add to action register',
       ],
       content: `## Pre-meeting — ${mtg.title}
 
-${plainTerms('You are ready for the R&B board; UAE retail compliance filing still due in 11 days.')}
+${plainTerms('You are ready for the member services review; corporate tax member advisory due in 14 days.')}
 ${metricTable(
   ['Meeting fact', 'Detail', 'Signal'],
   [
@@ -867,16 +891,16 @@ ${metricTable(
 ${metricTable(
   ['Agenda item', 'Detail', 'Signal'],
   [
-    ['R&B store performance', '94.2%', signalEmoji('good')],
-    ['Sales pipeline', 'AED 124M', signalEmoji('good')],
-    ['UAE retail compliance filing', 'Due in 11 days', signalEmoji('watch')],
+    ['Member onboarding SLA', setupTime, signalEmoji('watch')],
+    ['BizDev pipeline', pipeline, signalEmoji('good')],
+    ['Corporate tax advisory', 'Due in 14 days', signalEmoji('watch')],
   ],
 )}
 | Metric | Value | Signal |
 |--------|-------|--------|
 | Competitor headline | ${state.marketSnapshot.competitorNote} | ${signalEmoji('watch')} |
-| HR attrition | ${attrition} | ${signalEmoji('watch')} |
-| Ops SLA | ${sla} | ${signalEmoji('good')} |
+| Member setup time | ${setupTime} | ${signalEmoji('watch')} |
+| IT uptime | ${uptime} | ${signalEmoji('good')} |
 ${agentTag(['Chief of Staff', 'Relationship', 'Strategy', 'Comms'])}`,
     };
   }
@@ -889,33 +913,33 @@ ${agentTag(['Chief of Staff', 'Relationship', 'Strategy', 'Comms'])}`,
       confidence: 0.93,
       sourceDocIds: ['d1', 'd8'],
       followUps: [
-        'What did we commit to at the last R&B board?',
-        'Draft talking points on store performance and leasing',
+        'What did we commit to at the last member services review?',
+        'Draft talking points on licence renewals and onboarding',
         'Flag action register items',
       ],
       content: `## Pre-meeting — ${mtg.title}
 
-${plainTerms('R&B board today — clear the overdue UAE retail compliance repricing approval before new asks.')}
+${plainTerms('Member services review today — clear the overdue corporate tax advisory approval before new asks.')}
 ${metricTable(
   ['Meeting', 'Detail', 'Signal'],
   [
     ['Time', '10:00 UAE today', signalEmoji('good')],
     ['With', mtg.attendees, '—'],
-    ['Store performance', '94.2%', signalEmoji('good')],
+    ['Active members', '26,142', signalEmoji('good')],
   ],
 )}
 ${overdue ? actionNow(`Send overdue item: ${overdue.title} (was due ${overdue.due}).`) : `${signalEmoji('good')} No overdue actions.`}
 ${metricTable(
   ['Talking point', 'Why', ''],
   [
-    ['Store performance 94.2%', 'Income stability', '—'],
-    ['Beach Centre footfall +11%', 'F&B recovery', '—'],
-    ['UAE retail compliance repricing plan', 'Compliance deadline', '—'],
+    ['12 licence renewals pending', 'SLA escalation', '—'],
+    ['Onboarding at 4.2 days', 'Peak season pressure', '—'],
+    ['Corporate tax advisory', 'Member communications deadline', '—'],
   ],
 )}
 | Metric | Value | Signal |
 |--------|-------|--------|
-| Sales vs target | ${revenue} | ${signalEmoji('watch')} |
+| BizDev pipeline | ${pipeline} | ${signalEmoji('good')} |
 | Open actions | ${state.metrics.openActions} | ${signalEmoji('watch')} |
 ${agentTag(['Chief of Staff', 'Relationship', 'Strategy'])}`,
     };
@@ -927,20 +951,20 @@ ${agentTag(['Chief of Staff', 'Relationship', 'Strategy'])}`,
       confidence: 0.9,
       sourceDocIds: ['d5', 'd8'],
       followUps: [
-        'Deep dive 6thStreet waterfront pre-sales',
-        'Images RetailME Awards talking points',
-        'Compare vs Namshi positioning',
+        'Deep dive Uptown Dubai investor briefing',
+        'Dubai Diamond Conference keynote talking points',
+        'Compare DMCC vs ADGM free zone positioning',
       ],
-      content: `## Dubai retail — top opportunities
+      content: `## DMCC — top opportunities
 
-${plainTerms('Omnichannel residential and F&B recovery score highest for the Apparel Group portfolio.')}
+${plainTerms('Commodities trade, member services scale, and Uptown Dubai activation score highest for DMCC.')}
 ${metricTable(
-  ['Sector', 'GCC retail growth score', 'Signal'],
+  ['Sector', 'Future of Trade score', 'Signal'],
   [
-    ['Omnichannel fashion (6thStreet)', '90/100', signalEmoji('good')],
-    ['F&B recovery (R&B)', '88/100', signalEmoji('good')],
-    ['Loyalty programme (Club Apparel)', '84/100', signalEmoji('good')],
-    ['Commercial retail (R&B)', '82/100', signalEmoji('good')],
+    ['Diamonds (USD 41.7B trade)', '96/100', signalEmoji('good')],
+    ['Gold & precious metals', '92/100', signalEmoji('good')],
+    ['Crypto & digital assets', '88/100', signalEmoji('good')],
+    ['Member services (26,000+)', '90/100', signalEmoji('good')],
   ],
 )}
 **Top pick**
@@ -949,10 +973,10 @@ ${state.marketSnapshot.topSector}
 
 | Market signal | Value |
 |---------------|-------|
-| GCC retail growth | +8.2% |
+| Future of Trade | UAE #2 Commodity Trade Index |
 | GCC equities | ${state.marketSnapshot.gccEquities} |
 
-${actionNow('Prioritise 6thStreet omnichannel GMV targets and R&B same-store sales review.')}
+${actionNow('Prioritise Uptown Dubai investor briefing and Tether partnership announcement.')}
 ${agentTag(['Strategy AI', 'Policy AI'])}`,
     };
   }
@@ -965,17 +989,17 @@ ${agentTag(['Strategy AI', 'Policy AI'])}`,
       followUps: [
         'Open full bilingual draft in Documents',
         'Adjust cultural initiative messaging',
-        'Schedule Images RetailME announcement',
+        'Schedule Dubai Diamond Conference announcement',
       ],
-      content: `## Images RetailME Awards — communications draft
+      content: `## Dubai Diamond Conference Awards — communications draft
 
-${plainTerms('Culture woven into everyday life; permanent sculpture at 6thStreet loyalty programme with Images RetailME.')}
+${plainTerms('Culture woven into everyday life; permanent sculpture at Uptown Dubai loyalty programme with Dubai Diamond Conference.')}
 ${metricTable(
   ['Theme', 'Message', 'Signal'],
   [
     ['Commission', 'Open call 17 Jun – 25 Jul 2026', signalEmoji('good')],
     ['Inspiration', 'نظهر أقوى — resilience & renewal', signalEmoji('good')],
-    ['Location', '6thStreet loyalty programme', signalEmoji('good')],
+    ['Location', 'Uptown Dubai loyalty programme', signalEmoji('good')],
   ],
 )}
 ### English (short)
@@ -984,26 +1008,26 @@ Culture is essential to how we build cities and communities. Art should be woven
 ### العربية (مختصر)
 الثقافة أساسية في بناء مدننا ومجتمعاتنا. يجب أن يكون الفن جزءاً من الحياة اليومية.
 
-*Full draft: RetailME_Awards_Talking_Points.docx*
+*Full draft: Dubai_Diamond_Conference_Keynote_Talking_Points.docx*
 ${agentTag(['Communications AI', 'Strategy AI'])}`,
     };
   }
 
-  if (q.includes('performance') || q.includes('hr') || q.includes('attrition')) {
+  if (q.includes('performance') || q.includes('members') || q.includes('renewal')) {
     return {
       agents: ['cos', 'strategy'],
       confidence: 0.9,
       sourceDocIds: ['d1'],
-      followUps: ['Open HR department detail', 'Show leadership actions', 'Compare Sales pipeline'],
+      followUps: ['Open Member Services detail', 'Show leadership actions', 'Compare BizDev pipeline'],
       content: `## Performance snapshot
 
-${plainTerms('Most teams are performing; HR attrition is the main metric that needs leadership attention.')}
+${plainTerms('Most departments are on track; member onboarding SLA and licence renewals need leadership attention.')}
 ${metricTable(
   ['Department', 'Key metric', 'Signal'],
   [
-    ['HR', `Attrition ${attrition}`, hr.rag === 'green' ? signalEmoji('good') : hr.rag === 'red' ? signalEmoji('risk') : signalEmoji('watch')],
-    ['Sales', revenue, sales.rag === 'green' ? signalEmoji('good') : sales.rag === 'red' ? signalEmoji('risk') : signalEmoji('watch')],
-    ['Operations', `SLA ${sla}`, ops.rag === 'green' ? signalEmoji('good') : ops.rag === 'red' ? signalEmoji('risk') : signalEmoji('watch')],
+    ['Member Services', `Setup ${setupTime}`, members.rag === 'green' ? signalEmoji('good') : members.rag === 'red' ? signalEmoji('risk') : signalEmoji('watch')],
+    ['BizDev', pipeline, bizdev.rag === 'green' ? signalEmoji('good') : bizdev.rag === 'red' ? signalEmoji('risk') : signalEmoji('watch')],
+    ['IT', `Uptime ${uptime}`, it.rag === 'green' ? signalEmoji('good') : it.rag === 'red' ? signalEmoji('risk') : signalEmoji('watch')],
   ],
 )}
 | Org view | Value | Signal |
@@ -1032,7 +1056,7 @@ ${agentTag(['Chief of Staff AI', 'Strategy AI'])}`,
       sourceDocIds: [],
       followUps: [
         'Search online for latest UAE climate policy',
-        'Compare 6thStreet design positioning vs Namshi',
+        'Compare DMCC free zone positioning vs ADGM',
         nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
       ],
       content: `**Explorer AI**
@@ -1050,7 +1074,7 @@ Please try again. If you see this repeatedly, hard-refresh the page (**Cmd+Shift
     confidence: 0.82,
     sourceDocIds: ['d1'],
     followUps: [
-      'Compare 6thStreet design positioning vs Namshi',
+      'Compare DMCC free zone positioning vs ADGM',
       nextMeeting ? `Brief me on ${nextMeeting.title}` : 'Brief me on my next meeting',
       'Show department performance snapshot',
     ],

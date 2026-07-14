@@ -573,6 +573,7 @@ export function CommandCentreChatPage() {
                       onClick={() => send(s.q)}
                     >
                       <span className={`cc-chat-prompt-row__icon cc-chat-prompt-row__icon--${i + 1}`} aria-hidden>
+                        <span className="cc-chat-prompt-row__icon-ping" />
                         <CcIcon name={corePromptIcons[i] ?? 'sparkles'} size={18} />
                       </span>
                       <span className="cc-chat-prompt-row__text">{s.q}</span>

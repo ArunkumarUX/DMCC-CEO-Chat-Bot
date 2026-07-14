@@ -1,6 +1,6 @@
 export type MilestoneVisual = 'founding' | 'growth' | 'global' | 'digital' | 'awards' | 'future';
 
-export type ApparelMilestone = {
+export type DmccMilestone = {
   year: number;
   headline: string;
   items: string[];
@@ -8,104 +8,109 @@ export type ApparelMilestone = {
   stat?: string;
 };
 
-export const MILESTONE_START_YEAR = 1996;
+/** @deprecated Use DmccMilestone */
+export type ApparelMilestone = DmccMilestone;
+
+export const MILESTONE_START_YEAR = 2002;
 export const MILESTONE_END_YEAR = 2026;
 
-export const APPAREL_MILESTONES: ApparelMilestone[] = [
+export const DMCC_MILESTONES: DmccMilestone[] = [
   {
-    year: 1996,
-    headline: 'Apparel Group begins its journey towards success',
+    year: 2002,
+    headline: 'DMCC established — Where the world does business',
     items: [
-      'Founded in Dubai with a vision to bring world-class brands to the Middle East',
-      'First steps in Jebel Ali Free Zone — building a retail platform for the region',
-      'Where dreams come alive — the foundation of a global fashion house',
+      'Founded by Dubai Government as the Dubai Multi Commodities Centre',
+      'Created to drive commodity trade through Dubai and establish a world-class free zone',
+      'Laid the foundation for what would become the region\'s leading trade hub',
     ],
     visual: 'founding',
     stat: 'Year one',
   },
   {
-    year: 1999,
-    headline: 'From one store to a regional retail platform',
+    year: 2005,
+    headline: 'Gold & Diamond Centre launches',
     items: [
-      'Opened the first Apparel Group store — the start of multi-brand retail in the GCC',
-      'Established partnerships with international fashion and lifestyle brands',
-      'Built the operating model that would scale across 14 countries',
+      'Opened the DMCC Gold & Diamond Centre in Jumeirah Lakes Towers',
+      'Attracted global bullion and diamond trading houses to Dubai',
+      'Built the infrastructure for regulated precious metals trade',
     ],
     visual: 'growth',
-    stat: '1 store',
+    stat: 'Precious metals',
   },
   {
-    year: 2010,
-    headline: 'Accelerating GCC footprint and brand portfolio',
+    year: 2012,
+    headline: 'Global recognition as a commodity hub',
     items: [
-      'Expanded across UAE, Saudi Arabia, Qatar, Bahrain, and Kuwait',
-      'Scaled Tommy Hilfiger, Skechers, ALDO, and Charles & Keith across the region',
-      'Grew team strength to support multi-country operations',
+      'Named Global Free Zone of the Year by fDi Magazine',
+      'Expanded member base across gold, diamonds, energy and agri-commodities',
+      'Strengthened trade corridors connecting Asia, Africa and Europe through Dubai',
     ],
-    visual: 'growth',
-    stat: 'GCC scale',
+    visual: 'global',
+    stat: 'fDi Award',
   },
   {
     year: 2018,
-    headline: 'Digital commerce and loyalty take centre stage',
+    headline: 'Tea, Coffee and digital ecosystems take shape',
     items: [
-      '6thStreet omnichannel platform gains momentum across the GCC',
-      'Club Apparel loyalty programme scales member engagement',
-      'R&B Fashion strengthens homegrown value fashion leadership',
+      'DMCC Tea Centre and Coffee Centre deepen origin-to-market trade links',
+      'Crypto Centre established — early mover in regulated digital asset trade',
+      'Member ecosystem surpasses 15,000 companies across 170+ countries',
     ],
     visual: 'digital',
-    stat: 'Omnichannel',
+    stat: 'Ecosystems',
   },
   {
-    year: 2024,
-    headline: 'Industry recognition and responsible retail leadership',
+    year: 2023,
+    headline: 'AI, Gaming and next-generation trade infrastructure',
     items: [
-      'MENA Retail Partner of the Year — RLI MENA Awards 2024',
-      'Most Admired Responsible Retailer of the Year 2023',
-      'Gulf Sustainability Award — Waste & Water Management',
-      'Arabian Alesaar partnership accelerates Saudi Arabia expansion',
+      'AI Centre launched to support member innovation and sandbox pilots',
+      'Gaming Centre opens — connecting creators, publishers and investors',
+      'Renewed Global Free Zone of the Year recognition',
+      'Member portal and digital services scaled for 20,000+ companies',
     ],
     visual: 'awards',
-    stat: 'Award-winning',
+    stat: 'Innovation',
   },
   {
     year: 2025,
-    headline: 'A landmark year of launches and industry dominance',
+    headline: 'A landmark year of ecosystem growth and global trade leadership',
     items: [
-      'Wins big at the Images RetailME Awards 2025',
-      'Launches HEYDUDE in KSA, UAE, Bahrain, Kuwait, Egypt, and Oman',
-      'Launches Martha Stewart and Sur La Table in KSA',
-      'Launches Barbour in the UAE; Forever New in KSA',
-      'Launches MLB and BCBG in Qatar',
+      '26,000+ member companies across 180+ countries',
+      'Crypto Centre VASP licensing framework scales member onboarding',
+      'AI & Gaming centres attract global ecosystem partnerships',
+      'Ahmed Bin Sulayem leads authority through record member growth',
     ],
     visual: 'awards',
-    stat: 'RetailME 2025',
+    stat: '26,000+',
   },
   {
     year: 2026,
-    headline: '2,500+ stores · 85+ brands · 27,000+ team members',
+    headline: '26,000+ companies · 180+ countries · Where the world does business',
     items: [
-      '14 countries across Middle East, Africa, and Asia',
-      'R&B, 6thStreet, Club Apparel, and Nysaa driving portfolio growth',
-      '90-minute fashion delivery and phygital retail at scale',
-      'Exceed Expectations Everyday — the journey continues',
+      'Leading global hub for gold, diamonds, tea, coffee, crypto, AI and gaming',
+      'Trade corridors connecting every major commodity market through Dubai',
+      'Member portal, compliance and ecosystem services at scale',
+      'Where the world does business — the journey continues under Ahmed Bin Sulayem',
     ],
     visual: 'future',
-    stat: '2,500+ stores',
+    stat: '180+ countries',
   },
 ];
 
-export const MILESTONE_YEARS = APPAREL_MILESTONES.map((m) => m.year);
+/** @deprecated Use DMCC_MILESTONES */
+export const APPAREL_MILESTONES = DMCC_MILESTONES;
+
+export const MILESTONE_YEARS = DMCC_MILESTONES.map((m) => m.year);
 
 export const ALL_MILESTONE_YEARS = Array.from(
   { length: MILESTONE_END_YEAR - MILESTONE_START_YEAR + 1 },
   (_, i) => MILESTONE_START_YEAR + i,
 );
 
-export function getMilestoneForYear(year: number): ApparelMilestone {
+export function getMilestoneForYear(year: number): DmccMilestone {
   return (
-    APPAREL_MILESTONES.find((m) => m.year === year) ??
-    APPAREL_MILESTONES[APPAREL_MILESTONES.length - 1]
+    DMCC_MILESTONES.find((m) => m.year === year) ??
+    DMCC_MILESTONES[DMCC_MILESTONES.length - 1]
   );
 }
 

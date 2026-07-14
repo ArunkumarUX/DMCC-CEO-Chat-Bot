@@ -1,11 +1,7 @@
-# Gotham (Apparel Group / Elevate brand)
+# Header fonts (Gotham A / B)
 
-Drop official Gotham webfont files here from your brand team:
+Cloud.typography (dmcc.ae kit) is **domain-locked** and returns **403 on localhost**, so headers fell back to Montserrat and looked broken.
 
-- `Gotham-Book.woff2` / `Gotham-Book.woff` (400)
-- `Gotham-Medium.woff2` / `Gotham-Medium.woff` (500)
-- `Gotham-Bold.woff2` / `Gotham-Bold.woff` (700)
+**Local fix:** `GothamA-latin.woff2` + `GothamA-latin-ext.woff2` are self-hosted and registered as `font-family: 'Gotham A'` / `'Gotham B'` in `src/styles/arm-fonts.css`.
 
-The app loads these via `src/styles/arm-fonts.css`.
-
-**Until files are added:** Montserrat (Google Fonts) renders as the web fallback in the Gotham stack.
+When licensed Gotham webfonts are available from brand, replace these files with the real Gotham files and keep the same family names.

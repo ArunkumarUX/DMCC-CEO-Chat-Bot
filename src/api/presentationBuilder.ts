@@ -121,9 +121,9 @@ export async function fetchPerceptisDeck(input: PerceptisDeckPayload): Promise<P
 
 export async function downloadPerceptisPptx(
   input: Parameters<typeof fetchPerceptisDeck>[0],
-  filename = 'apparel-group-strategy-deck.pptx',
+  filename = 'dmcc-strategy-deck.pptx',
 ): Promise<void> {
-  const displayPrompt = input.prompt || 'Apparel Group presentation';
+  const displayPrompt = input.prompt || 'DMCC presentation';
   const sourceKey = `pb-${displayPrompt.slice(0, 80)}`;
   const idempotencyKey = buildDeckIdempotencyKey(sourceKey, 'deck-generation-pb');
 

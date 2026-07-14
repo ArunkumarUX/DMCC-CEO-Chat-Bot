@@ -4,88 +4,85 @@
  */
 
 export const CEO_INTELLIGENCE_PROFILE = {
-  productName: 'AGI Executive OS',
-  ceoName: 'Neeraj Teckchandani',
-  ceoRole: 'Chief Executive Officer',
-  organisation: 'Apparel Group',
+  productName: 'DMCC Executive OS',
+  ceoName: 'Ahmed Bin Sulayem',
+  ceoRole: 'Executive Chairman and Chief Executive Officer',
+  organisation: 'DMCC',
   businessScope:
-    'Multinational fashion and lifestyle retail — 85+ brands, 2,500+ stores, 27,000+ employees, operations across 14 countries. Integrated omnichannel portfolio spanning global and homegrown brands.',
+    "World's premier commodities free zone — 26,000+ member companies from 180+ countries, 900+ licensed activities, headquartered at Almas Tower in Jumeirah Lake Towers (JLT) with Uptown Dubai mega-development.",
   footprint: {
-    brands: 85,
-    stores: 2500,
-    employees: 27000,
-    countries: 14,
+    memberCompanies: 26000,
+    countries: 180,
+    licensedActivities: 900,
+    towers: 87,
+    professionals: 90000,
   },
-  flagshipBrands: [
-    'ALDO',
-    'Tommy Hilfiger',
-    'Skechers',
-    "Charles & Keith",
-    'Tim Hortons',
-    'R&B',
-    '6thStreet',
-    'Club Apparel',
-    'Crocs',
-    'Cold Stone Creamery',
-    'Rituals',
-    'Forever New',
-    'Nysaa',
+  flagshipEcosystems: [
+    'Gold & Precious Metals',
+    'Diamonds',
+    'Lab-Grown Diamonds',
+    'Tea',
+    'Coffee',
+    'Cacao',
+    'Crypto & Digital Assets',
+    'AI & Technology',
+    'Gaming',
+    'Energy',
+    'FinX & Wealth Hub',
+    'Maritime',
   ],
   markets: [
     'UAE',
-    'Saudi Arabia',
-    'Qatar',
-    'Bahrain',
-    'Kuwait',
-    'Oman',
-    'India',
-    'South Africa',
-    'Singapore',
-    'Indonesia',
-    'Thailand',
-    'Malaysia',
-    'Egypt',
+    'GCC',
+    'South Asia',
+    'East Asia',
+    'Europe',
+    'Africa',
+    'North America',
   ],
   categories: [
-    'Fashion',
-    'Footwear',
-    'Accessories',
-    'Beauty and cosmetics',
-    "Children's retail",
-    'Food and beverage',
-    'Lifestyle retail',
-    'E-commerce',
-    'Omnichannel retail',
-    'Loyalty',
-    'Logistics and distribution',
-    'Franchise operations',
+    'Commodities trading',
+    'Free zone licensing',
+    'Precious metals',
+    'Diamonds & gemstones',
+    'Agri commodities',
+    'Crypto & blockchain',
+    'AI & technology',
+    'Gaming',
+    'Energy trading',
+    'Financial services',
+    'Member services',
+    'Real estate (JLT & Uptown Dubai)',
   ],
   strategicPriorities: [
-    'Saudi Arabia expansion',
-    'Omnichannel and digital growth (6thStreet)',
-    'Comparable-store and margin improvement',
-    'Inventory productivity and full-price sell-through',
-    'Club Apparel loyalty growth',
-    'Sustainability and Gulf Sustainability Awards positioning',
-    'New brand launches across fashion, footwear and F&B',
-    'Cross-brand synergies without weakening brand differentiation',
+    'Future of Trade 2026 — Rebuilding Through Rupture',
+    'DMCC Campus & DMCC Intelligence unified knowledge platform',
+    'DMCC Cyber — formalising 4,000+ tech companies',
+    'Uptown Dubai activation',
+    'Foundations Framework — wealth and structuring solutions',
+    'South-South trade growth to 35% (Commodity Trade Index)',
+    'Strategic partnerships — Tether, London Diamond Bourse, Naturalim France Miel',
   ],
   financialTargets: 'Use approved board and internal performance data only — never invent targets.',
   briefingStyle: 'Verdict first. Tables for comparisons and actions. Five sentences max for executive verdict.',
   riskTolerance: 'Material risks surfaced early; constructive challenge welcomed.',
   decisionStyle: 'Evidence-driven recommendations with explicit decision labels (APPROVE, PILOT, ESCALATE, etc.).',
   communicationPreferences: 'Board-ready English by default; formal Modern Standard Arabic when requested.',
-  keyStakeholders: 'Board, brand licensors, mall operators, franchise partners, regional leadership, government and regulatory bodies in operating markets.',
-  delegatedAuthorities: 'CEO retains authority for enterprise strategy, major partnerships, market entry, capital allocation above delegated thresholds, and material reputational issues.',
-  restrictedTopics: 'Unreleased results, acquisition discussions, confidential contracts, employee personal data, credentials, and unapproved external commitments.',
+  keyStakeholders:
+    'Board, member companies, commodity exchanges, government partners (UAE MoF, DED), strategic partners (Tether, London Diamond Bourse), ecosystem leaders, international trade bodies.',
+  delegatedAuthorities:
+    'CEO retains authority for free zone strategy, major partnerships, ecosystem launches, capital allocation above delegated thresholds, and material reputational issues.',
+  restrictedTopics:
+    'Unreleased results, acquisition discussions, confidential member contracts, employee personal data, credentials, and unapproved external commitments.',
   escalationThresholds:
-    'Fraud, data breach, customer harm, employee safety, regulatory breach, material reputational risk, unauthorised transactions, sanctions exposure.',
+    'Fraud, data breach, member harm, employee safety, regulatory breach, material reputational risk, sanctions exposure, commodities market integrity issues.',
   leadership: {
-    founderChairwoman: 'Sima Ganwani Ved',
-    chairman: 'Nilesh Ved',
+    coo: 'Feryal Ahmadi',
+    cfo: 'Gautam Sashittal',
   },
-  headquarters: 'Dubai, UAE',
-  founded: 1996,
+  headquarters: 'Almas Tower, JLT, Dubai, UAE',
+  founded: 2002,
+  tagline: 'Where the world does business',
 };
 
 export function formatCeoProfileBlock(profile = CEO_INTELLIGENCE_PROFILE) {
@@ -93,10 +90,11 @@ export function formatCeoProfileBlock(profile = CEO_INTELLIGENCE_PROFILE) {
 
 CEO name: ${profile.ceoName}
 Role: ${profile.ceoRole}
-Organisation: ${profile.organisation}
+Organisation: ${profile.organisation} (Dubai Multi Commodities Centre)
+Tagline: ${profile.tagline}
 Business scope: ${profile.businessScope}
-Countries: ${profile.markets.join(', ')}
-Key brands: ${profile.flagshipBrands.join(', ')}
+Member companies: ${profile.footprint.memberCompanies}+ · Countries: ${profile.footprint.countries}+ · Licensed activities: ${profile.footprint.licensedActivities}+
+Trade ecosystems: ${profile.flagshipEcosystems.join(', ')}
 Strategic priorities: ${profile.strategicPriorities.join(' · ')}
 Financial targets: ${profile.financialTargets}
 Preferred briefing style: ${profile.briefingStyle}

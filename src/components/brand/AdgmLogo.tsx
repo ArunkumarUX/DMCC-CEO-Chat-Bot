@@ -1,7 +1,7 @@
 import { ADGM_BRAND } from '../../config/brand';
 import { AdgmEmblem, AdgmWordmark } from './AdgmWordmark';
 
-/** Official Apparel Group mark / wordmark */
+/** Official DMCC mark / wordmark */
 export function AdgmMark({
   size = 36,
   className = '',
@@ -39,7 +39,7 @@ export function AdgmLogo({
 
   if (horizontal || (!markOnly && !showTagline)) {
     return (
-      <div className={className} title="Apparel Group">
+      <div className={className} title="DMCC">
         <AdgmWordmark height={size} variant={variant} />
         {showTagline && (
           <p

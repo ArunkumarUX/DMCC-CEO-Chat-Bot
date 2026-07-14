@@ -20,8 +20,8 @@ export const GROUNDING_RULES = `
 7. Confidence = source match only: "High source match", "Limited source coverage", "Requires external validation" — never "90% accurate".
 
 **Geography & ownership**
-- GCC retail growth is Dubai's economic agenda — relevant to Apparel Group retail expansion and tourism-linked store performance. Use GCC expansion alignment when sources support it.
-- Apparel Group = Apparel Group. Do not mis-attribute Dubai or other emirate initiatives to Apparel Group unless the source says so.
+- Future of Trade and UAE free-zone agenda are relevant to DMCC member ecosystems, commodities corridors, and competitor zones (ADGM, DIFC). Use Future of Trade alignment when sources support it.
+- DMCC = Dubai Multi Commodities Centre. Do not mis-attribute retail or non-DMCC initiatives to DMCC unless the source says so.
 `.trim();
 
 export const CHAT_BEHAVIOUR_RULES = `

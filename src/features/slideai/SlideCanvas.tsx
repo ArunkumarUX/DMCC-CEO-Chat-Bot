@@ -287,9 +287,9 @@ function SlideCanvasFooter({
   deckTheme: Deck['theme'];
 }) {
   const footer =
-    deckTheme.tagline === 'Path to Forward'
+    deckTheme.tagline === 'Where the world does business' || !deckTheme.tagline
       ? ADGM_PPT_FOOTER
-      : `${deckTheme.tagline || 'Forward'} · Confidential`;
+      : `DMCC · ${deckTheme.tagline} · Confidential`;
   return (
     <footer className={`cc-slideai__canvas-foot${light ? ' cc-slideai__canvas-foot--light' : ''}`}>
       <span>{footer}</span>
@@ -300,7 +300,7 @@ function SlideCanvasFooter({
 
 // ─── SVG Chart Components ────────────────────────────────────────────────────
 
-const CHART_COLORS = ['#0087FF', '#1A2332', '#C9A84C', '#44D7B6', '#9CA3AF'];
+const CHART_COLORS = ['#0F52BA', '#0B1F3A', '#C9A84C', '#E21F7B', '#9CA3AF'];
 
 function seriesColor(series: SlideChart['series'], i: number): string {
   return series[i]?.color ? `#${series[i].color}` : CHART_COLORS[i % CHART_COLORS.length];

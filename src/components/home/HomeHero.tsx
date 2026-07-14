@@ -48,9 +48,9 @@ export function HomeHero({ onDailyBriefing }: { onDailyBriefing: () => void }) {
               <button
                 type="button"
                 onClick={onDailyBriefing}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-adgm-navy shadow-lg shadow-black/20 hover:bg-adgm-sky-bg transition-colors"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-[var(--dmcc-pink,#E21F7B)] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 hover:bg-[var(--dmcc-pink-hover,#C41868)] transition-colors"
               >
-                <Sparkles className="h-4 w-4 shrink-0 text-adgm-primary" />
+                <Sparkles className="h-4 w-4 shrink-0 text-white" />
                 Overnight intelligence briefing
               </button>
               <button

@@ -1,5 +1,5 @@
 // @ts-nocheck — performance dept views use legacy mock data shapes
-import { useCallback, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { CcIcon } from '../../command-centre/CcIcon';
 import { AnimatedNumber, Sparkline, RagPill } from '../../command-centre/CcPrimitives';
 import { Donut, MomentumChart } from '../../command-centre/CcCharts';
@@ -100,7 +100,7 @@ function DeptDetail({ d, lang, onBack }) {
         <IntelCardBody className="perf-dept-hero" style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
           <div style={{ width: 52, height: 52, borderRadius: 14, display: 'grid', placeItems: 'center', background: 'color-mix(in oklab,' + toneColor + ' 13%, transparent)', color: toneColor, flex: 'none' }}><CcIcon name={d.icon} size={26} /></div>
           <div className="perf-dept-hero__copy" style={{ flex: 1, minWidth: 0 }}>
-            <div className="muted-3 mono" style={{ fontSize: 11 }}>DEPT {d.n} · {ar ? 'يرفع إلى كبير مسؤولي الاستراتيجية' : 'Reports to CSO'}</div>
+            <div className="muted-3 mono" style={{ fontSize: 11 }}>DEPT {d.n} · {ar ? 'يرفع إلى الرئيس التنفيذي' : 'Reports to CEO'}</div>
             <h2 style={{ fontSize: 24 }}>{ar ? d.nameAr : d.name}</h2>
           </div>
           <RagPill rag={d.rag} lang={lang} />
@@ -255,6 +255,10 @@ export function PerformanceCommandPage() {
 
   const clearCompanyFilter = useCallback(() => setCompany('all'), []);
 
+  useEffect(() => {
+    setSelected(null);
+  }, [company]);
+
   const scopeEyebrow =
     company === 'all'
       ? ar
@@ -294,14 +298,8 @@ export function PerformanceCommandPage() {
       <EscalationBanner items={escalations} ar={ar} onOpen={setSelected} />
 
       {/* Scenario data disclaimer */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        background: 'color-mix(in oklab, var(--warn) 8%, transparent)',
-        border: '1px solid color-mix(in oklab, var(--warn) 25%, transparent)',
-        borderRadius: 10, padding: '10px 16px', fontSize: 13,
-        color: 'var(--fg-muted)',
-      }}>
-        <CcIcon name="flask-conical" size={16} style={{ color: 'var(--warn)', flexShrink: 0 }} />
+      <div className="perf-disclaimer">
+        <CcIcon name="flask-conical" size={16} className="perf-disclaimer__icon" />
         <span>
           {ar
             ? 'بيانات توضيحية · تكامل ERP مخطط (الأسبوع السابع) · ستُستبدل بالبيانات الحية عند الاتصال'

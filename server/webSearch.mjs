@@ -35,7 +35,7 @@ export async function braveSearch(query, count = 5) {
   const apiKey = process.env.BRAVE_SEARCH_API_KEY?.trim();
   if (!apiKey) return null;
 
-  // Scope the query to relevant domains for CSO/Apparel Group context
+  // Scope the query to relevant domains for CEO/DMCC context
   const scopedQuery = `${query} site:apparelgroup.com OR site:mas.gov.sg OR site:reuters.com OR site:bloomberg.com OR site:arabianbusiness.com OR site:gulfnews.com OR site:fatf-gafi.org OR site:added.gov.ae OR site:zawya.com OR site:khaleejitimes.com`;
 
   try {

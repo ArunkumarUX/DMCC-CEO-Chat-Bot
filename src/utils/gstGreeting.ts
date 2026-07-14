@@ -107,13 +107,13 @@ export const CSO_PERSONA_PROMPTS: {
     agents: ['cos'],
   },
   {
-    en: "Compare R&B's residential pipeline against the Dubai market.",
-    ar: 'قارن خط أنابيب R&B السكني مع سوق دبي.',
+    en: "Compare Gold Centre's residential pipeline against the Dubai market.",
+    ar: 'قارن خط أنابيب Gold Centre السكني مع سوق دبي.',
     agents: ['strategy', 'policy'],
   },
   {
-    en: 'Top investment opportunities Apparel Group should prioritise from current Dubai capital flows?',
-    ar: 'ما أبرز فرص الاستثمار التي ينبغي لـ Apparel Group إعطاؤها الأولوية من تدفقات رأس المال في دبي؟',
+    en: 'Top investment opportunities DMCC should prioritise from current Dubai capital flows?',
+    ar: 'ما أبرز فرص الاستثمار التي ينبغي لـ DMCC إعطاؤها الأولوية من تدفقات رأس المال في دبي؟',
     agents: ['strategy'],
   },
   {
@@ -122,13 +122,13 @@ export const CSO_PERSONA_PROMPTS: {
     agents: ['policy'],
   },
   {
-    en: 'Brief me on Images RetailME before the Images RetailME Awards commission review.',
-    ar: 'أطلعني على Images RetailME قبل مراجعة عمولة Images RetailME Awards.',
+    en: 'Brief me on Dubai Diamond Conference before the Dubai Diamond Conference Awards commission review.',
+    ar: 'أطلعني على Dubai Diamond Conference قبل مراجعة عمولة Dubai Diamond Conference Awards.',
     agents: ['relationship'],
   },
   {
-    en: "Draft a note on Apparel Group's Q2 portfolio performance in Arabic.",
-    ar: 'صِغ مذكرة حول أداء محفظة Apparel Group في الربع الثاني باللغة العربية.',
+    en: "Draft a note on DMCC's Q2 portfolio performance in Arabic.",
+    ar: 'صِغ مذكرة حول أداء محفظة DMCC في الربع الثاني باللغة العربية.',
     agents: ['comms'],
   },
 ];

@@ -1,20 +1,20 @@
 import '../../styles/auth-gate.css';
-import { APPAREL_GROUP_PORTFOLIO } from '../../config/apparelGroupGuidelines';
+import { DMCC_ECOSYSTEMS } from '../../config/dmccGuidelines';
 
-const PORTFOLIO = APPAREL_GROUP_PORTFOLIO.map((p) => ({
-  name: p.name,
-  tagline: p.tagline,
+const ECOSYSTEMS = DMCC_ECOSYSTEMS.slice(0, 4).map((e) => ({
+  name: e.name,
+  tagline: e.tagline,
 }));
 
 export function AuthPortfolioBand() {
   return (
-    <section className="auth-portfolio-band" aria-label="Apparel Group retail portfolio">
-      <p className="auth-portfolio-band__eyebrow">Our Retail Portfolio</p>
+    <section className="auth-portfolio-band" aria-label="DMCC trade ecosystems">
+      <p className="auth-portfolio-band__eyebrow">Trade Ecosystems</p>
       <div className="auth-portfolio-band__logos auth-portfolio-band__logos--text">
-        {PORTFOLIO.map((brand) => (
-          <div key={brand.name} className="auth-portfolio-band__brand">
-            <span className="auth-portfolio-band__brand-name">{brand.name}</span>
-            <span className="auth-portfolio-band__brand-tag">{brand.tagline}</span>
+        {ECOSYSTEMS.map((eco) => (
+          <div key={eco.name} className="auth-portfolio-band__brand">
+            <span className="auth-portfolio-band__brand-name">{eco.name}</span>
+            <span className="auth-portfolio-band__brand-tag">{eco.tagline}</span>
           </div>
         ))}
       </div>

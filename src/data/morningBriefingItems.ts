@@ -1,5 +1,5 @@
 /**
- * Apparel Group CEO — morning briefing rows (Intel → Market Intelligence).
+ * DMCC CEO — morning briefing rows (Intel → Market Intelligence).
  */
 import type { LiveNewsItem, SignalNewsBundle } from '../types/marketIntel';
 import type { ExecutiveState } from './executiveStore';
@@ -39,7 +39,7 @@ function fallbackBriefing(id: BriefingNewsSlot, ar: boolean): MorningBriefingIte
   const fb = ar ? CEO_SIGNAL_FALLBACKS.ar[id] : CEO_SIGNAL_FALLBACKS.en[id];
   return {
     text: `${fb.headline} — ${fb.body}`,
-    source: ar ? 'ملخص المدير التنفيذي · Apparel Group' : 'CEO briefing · Apparel Group',
+    source: ar ? 'ملخص المدير التنفيذي · DMCC' : 'CEO briefing · DMCC',
   };
 }
 
@@ -63,7 +63,7 @@ export function buildCeoMorningBriefingItems(
 
   if (m?.gccEquitiesLive && m.gccEquities && !/unavailable/i.test(m.gccEquities)) {
     items.push({
-      text: ar ? `أسواق التجزئة في الخليج — ${m.gccEquities}` : `GCC retail equities — ${m.gccEquities}`,
+      text: ar ? `أسواق السلع في الخليج — ${m.gccEquities}` : `GCC commodity equities — ${m.gccEquities}`,
       source: 'Yahoo Finance',
       sourceUrl: m.gccEquitiesSourceUrl ?? undefined,
     });

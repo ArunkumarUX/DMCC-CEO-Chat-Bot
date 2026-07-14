@@ -31,7 +31,7 @@ export function CommandDeck() {
   };
 
   const dailyBriefing =
-    'Give me my overnight intelligence briefing — what are the most important developments I need to know today for Apparel Group and Dubai retail?';
+    'Give me my overnight intelligence briefing — what are the most important developments I need to know today for DMCC and Dubai retail?';
 
   return (
     <div className="flex-1 overflow-y-auto scrollbar-thin bg-mesh-ivory">

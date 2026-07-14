@@ -56,11 +56,7 @@ function GreetingHero({ lang, setView }) {
   const { executiveState } = useApp();
   const falcon = useMemo(() => computeFalconScore(executiveState), [executiveState]);
   return (
-    <div
-      className="card rise greeting-hero"
-      style={{ background: 'linear-gradient(135deg, var(--adgm-navy) 0%, var(--adgm-navy-mid) 55%, var(--adgm-navy-deep) 100%)', border: 'none', color: '#fff', overflow: 'hidden' }}
-    >
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(70% 120% at 100% -10%, rgba(197,217,45,0.18), transparent 55%), radial-gradient(50% 80% at 90% 120%, rgba(0,51,153,0.22), transparent)', pointerEvents: 'none' }}></div>
+    <div className="card rise greeting-hero">
       <div className="card-pad" style={{ position: 'relative', padding: 30, display: 'flex', flexWrap: 'wrap', gap: 24, alignItems: 'flex-end', justifyContent: 'space-between' }}>
         <div className="greeting-hero__copy">
           <div className="greeting-hero__meta">
@@ -78,8 +74,8 @@ function GreetingHero({ lang, setView }) {
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 16, maxWidth: 560, lineHeight: 1.5, margin: 0 }}>
             {ar
-              ? 'إليك ما حدث بين عشية وضحاها عبر أولوياتك الاستراتيجية، و4 شركات محفظة، و9 فرق.'
-              : "Here's what happened overnight across your strategic priorities, 4 portfolio companies (R&B · 6thStreet · Club Apparel · Nysaa), and 9 teams."}
+              ? 'إليك ما حدث بين عشية وضحاها عبر أولوياتك الاستراتيجية، و5 منظومات تجارية، و9 فرق.'
+              : "Here's what happened overnight across your strategic priorities, 5 trade ecosystems (Gold · Crypto · Diamonds · AI · FinX), and 9 teams."}
             <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, display: 'block', marginTop: 4 }}>{dateStr}</span>
           </p>
           <div style={{ display: 'flex', gap: 10, marginTop: 20, flexWrap: 'wrap' }}>
@@ -89,9 +85,9 @@ function GreetingHero({ lang, setView }) {
         </div>
         <div className="greeting-hero__stats">
           {[
-            { n: 4, l: ar ? 'شركات المحفظة' : 'portfolio companies', t: undefined },
+            { n: 5, l: ar ? 'منظومات تجارية' : 'trade ecosystems', t: undefined },
             { n: 9, l: ar ? 'إدارات مباشرة' : 'live departments', t: undefined },
-            { n: falcon.score, l: ar ? 'توافق المحفظة' : 'Portfolio health', t: ar ? falcon.tooltipAr : falcon.tooltip },
+            { n: falcon.score, l: ar ? 'صحة المنظومة' : 'Ecosystem health', t: ar ? falcon.tooltipAr : falcon.tooltip },
           ].map((s) => (
             <div key={s.l} style={{ textAlign: 'center' }} title={s.t}>
               <div className="kpi-num" style={{ fontSize: 38, color: '#fff' }}><AnimatedNumber value={s.n} /></div>
@@ -105,8 +101,8 @@ function GreetingHero({ lang, setView }) {
 }
 
 const SIGNAL_TONES: Record<string, { color: string; stripe: string }> = {
-  market: { color: '#003399', stripe: '#003399' },
-  competitor: { color: '#8B6914', stripe: '#C5D92D' },
+  market: { color: '#0B1F3A', stripe: '#0B1F3A' },
+  competitor: { color: '#8B6914', stripe: '#C9A84C' },
   investment: { color: '#1A6B4A', stripe: '#1A6B4A' },
   performance: { color: '#4338CA', stripe: '#4338CA' },
   regulatory: { color: '#B42318', stripe: '#B42318' },
@@ -211,8 +207,8 @@ export function ExecutiveHomePage() {
             </h2>
             <p className="cc-signals-section__desc">
               {ar
-                ? 'إشارات مخصصة لرئيس تنفيذي Apparel Group — تجزئة الخليج، المنافسون، التوسع، المحفظة، والامتثال — تحديث 08:00 و22:00.'
-                : 'CEO-tailored signals for Apparel Group — GCC retail, competitors, expansion, portfolio health, and compliance — refreshed 08:00 & 22:00 GST.'}
+                ? 'إشارات مخصصة لرئيس تنفيذي DMCC — السلع، المنافسون، التجارة، المنظومة، والامتثال — تحديث 08:00 و22:00.'
+                : 'CEO-tailored signals for DMCC — commodities, competitors, trade corridors, ecosystem health, and compliance — refreshed 08:00 & 22:00 GST.'}
             </p>
           </div>
           <span className="pill cc-signals-section__pill" role="status">
@@ -269,7 +265,7 @@ export function ExecutiveHomePage() {
               الردود المعروضة مستمدة من قواعد المعرفة المعتمدة ومحادثات تنفيذية نموذجية. الهدف
               توضيحي ولا يُعدّ استشارة قانونية أو تنظيمية.
             </p>
-            <p>عند التعارض مع اللوائح أو السياسات الرسمية لـ Apparel Group، تسود الوثائق الرسمية.</p>
+            <p>عند التعارض مع اللوائح أو السياسات الرسمية لـ DMCC، تسود الوثائق الرسمية.</p>
           </>
         ) : (
           <>
@@ -278,7 +274,7 @@ export function ExecutiveHomePage() {
               records. They aim to offer clarity and do not constitute legal or regulatory advice.
             </p>
             <p>
-              If there is any conflict with official Apparel Group regulations, rules, or guidance, the
+              If there is any conflict with official DMCC regulations, rules, or guidance, the
               official documents prevail.
             </p>
           </>

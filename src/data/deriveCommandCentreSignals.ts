@@ -1,5 +1,5 @@
 /**
- * Apparel Group CEO — priority signal derivation
+ * DMCC CEO — priority signal derivation
  */
 import type { LiveNewsItem } from '../types/marketIntel';
 import type { ExecutiveState } from './executiveStore';

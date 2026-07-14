@@ -1,110 +1,145 @@
 /**
- * Apparel Group brand overrides — Elevate palette + Gotham
+ * DMCC brand overrides — navy + pink CTA + Gotham headers / Montserrat body
+ * @see https://dmcc.ae
  */
 :root {
-  --ag-navy: #003399;
-  --ag-lime: #c5d92d;
-  --ag-body: #4d4d4d;
-  --ag-canvas: #f4f7f9;
+  --dmcc-pink: #e21f7b;
+  --dmcc-pink-hover: #c41868;
+  --dmcc-pink-active: #a81458;
+  --dmcc-info-bg: #eef3f6;
+  --dmcc-panel: #050533;
+  --dmcc-panel-mid: #0a1640;
+  --dmcc-panel-deep: #03051c;
 
-  --arm-ink: var(--ag-navy);
+  --ag-navy: #0f52ba;
+  --ag-lime: var(--dmcc-pink);
+  --ag-body: #3d4f63;
+  --ag-canvas: var(--dmcc-info-bg);
+
+  --arm-ink: #0b1f3a;
   --arm-black: #000000;
   --arm-white: #ffffff;
-  --arm-canvas: var(--ag-canvas);
-  --arm-line: #dde4ea;
+  --arm-canvas: var(--dmcc-info-bg);
+  --arm-line: #d8dee8;
   --arm-sidebar: #ffffff;
-  --arm-portfolio-bg: var(--ag-canvas);
+  --arm-portfolio-bg: var(--dmcc-info-bg);
 
-  --adgm-clearsky: var(--ag-lime);
-  --adgm-slate: #6f7a85;
+  --adgm-clearsky: var(--dmcc-pink);
+  --adgm-slate: #6b7a8f;
   --adgm-cyan: #e8eef4;
   --adgm-royal: var(--ag-navy);
-  --adgm-mint: var(--ag-canvas);
+  --adgm-mint: var(--dmcc-info-bg);
   --adgm-sand: #e8eef4;
 
   --adgm-blue-500: var(--ag-navy);
-  --adgm-blue-600: #002b7a;
-  --adgm-blue-400: #335cad;
+  --adgm-blue-600: #081829;
+  --adgm-blue-400: #2d4a6e;
   --adgm-blue-100: #e8eef8;
-  --adgm-cyan-50: var(--ag-canvas);
+  --adgm-cyan-50: var(--dmcc-info-bg);
   --adgm-cyan-border: var(--arm-line);
   --adgm-navy: var(--ag-navy);
-  --adgm-navy-mid: #002b7a;
-  --adgm-navy-deep: #001f5c;
+  --adgm-navy-mid: var(--dmcc-panel-mid);
+  --adgm-navy-deep: var(--dmcc-panel-deep);
 
   --petrol-900: var(--ag-navy);
-  --petrol-800: #002b7a;
-  --petrol-700: #002b7a;
+  --petrol-800: #081829;
+  --petrol-700: #081829;
   --petrol-600: var(--ag-navy);
   --petrol-500: var(--ag-navy);
-  --teal-400: var(--ag-lime);
-  --teal-300: #d4e84a;
+  --teal-400: var(--dmcc-pink);
+  --teal-300: #f04d98;
   --aqua: var(--ag-navy);
-  --aqua-soft: var(--ag-canvas);
+  --aqua-soft: var(--dmcc-info-bg);
 
   --gold-700: var(--ag-navy);
   --gold-600: var(--ag-navy);
-  --gold-500: var(--ag-lime);
-  --gold-300: #6f7a85;
-  --gold-100: var(--ag-canvas);
+  --gold-500: #c9a84c;
+  --gold-300: #6b7a8f;
+  --gold-100: var(--dmcc-info-bg);
 
-  --sun-1: #6f7a85;
+  --sun-1: #6b7a8f;
   --sun-2: var(--ag-navy);
-  --sun-3: #001f5c;
+  --sun-3: #050f1c;
 
   --status-info: var(--ag-navy);
-  --status-info-bg: var(--ag-canvas);
+  --status-info-bg: var(--dmcc-info-bg);
 
-  --canvas: var(--ag-canvas);
+  --canvas: var(--dmcc-info-bg);
   --canvas-2: #ffffff;
-  --surface-2: var(--ag-canvas);
-  --ink: var(--ag-navy);
+  --surface-2: var(--dmcc-info-bg);
+  --ink: #0B1F3A;
   --ink-2: var(--ag-body);
   --line: var(--arm-line);
-  --line-strong: #c5ced8;
-  --sidebar-ink: var(--ag-navy);
-  --font-sans: 'Gotham', 'Gotham Book', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
-  --font-display: var(--font-sans);
+  --line-strong: #b8c5d4;
+  --sidebar-ink: #0b1f3a;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  --font-display: 'Gotham A', 'Gotham B', 'Gotham', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
   --font-numeric: var(--font-sans);
   --tracking-body: 0.01em;
   --sidebar-bg: var(--arm-sidebar);
   --sidebar-border: var(--arm-line);
-  --sidebar-active: linear-gradient(135deg, #003399 0%, #002b7a 100%);
-  --sidebar-hover: rgba(0, 51, 153, 0.06);
-  --accent: var(--ag-lime);
-  --accent-foreground: rgba(4, 42, 110, 1);
-  --accent-bright: #d4e84a;
+  --sidebar-active: linear-gradient(135deg, #e21f7b 0%, #c41868 100%);
+  --sidebar-hover: rgba(11, 31, 58, 0.06);
+  --accent: var(--dmcc-pink);
+  --accent-foreground: #ffffff;
+  --accent-bright: #f04d98;
 }
 
 [data-theme='dark'] {
-  --sidebar-active: linear-gradient(135deg, #335cad 0%, var(--ag-navy) 100%);
-  --accent: var(--ag-lime);
+  --sidebar-active: linear-gradient(135deg, #2d4a6e 0%, var(--ag-navy) 100%);
 }
 
-html,
-body,
-#root,
-.command-centre-app,
-.auth-gate {
-  font-family: var(--font-sans);
+/* Pink CTA — primary actions */
+.btn-primary,
+.btn-aqua,
+.auth-gate__submit,
+.auth-welcome__cta,
+.auth-welcome--light .auth-welcome__cta,
+.auth-welcome__cta--elegant {
+  background: var(--dmcc-pink) !important;
+  color: #ffffff !important;
+  border: none;
 }
 
-.brand-logo-full .arm-logo-img,
-.brand-logo-full .adgm-logo-img,
-.apparel-logo-lockup {
-  width: auto !important;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: center center;
+.btn-primary:hover,
+.btn-aqua:hover,
+.auth-gate__submit:hover:not(:disabled),
+.auth-welcome__cta:hover:not(:disabled),
+.auth-welcome--light .auth-welcome__cta:hover:not(:disabled),
+.auth-welcome__cta--elegant:hover:not(:disabled) {
+  background: var(--dmcc-pink-hover) !important;
+  color: #ffffff !important;
 }
 
-.auth-gate--login .auth-gate__brand--above .arm-logo-img,
-.auth-gate--login .auth-gate__brand--above .adgm-logo-img {
-  height: 56px;
-  width: auto;
-  max-width: min(320px, 90vw);
+.btn-primary:active,
+.btn-aqua:active,
+.auth-gate__submit:active:not(:disabled),
+.auth-welcome__cta:active:not(:disabled),
+.auth-welcome--light .auth-welcome__cta:active:not(:disabled),
+.auth-welcome__cta--elegant:active:not(:disabled) {
+  background: var(--dmcc-pink-active) !important;
+  color: #ffffff !important;
 }
 
-.adgm-logo-img--on-dark {
-  filter: none;
+.btn-primary .ic,
+.btn-aqua .ic,
+.auth-welcome__cta .ic {
+  color: #ffffff !important;
+}
+
+/* Pink links — dmcc.ae info panels */
+.adgm-info-panel__body a,
+.chat-api-notice__body a,
+.command-centre-app .chat-ai-message a,
+.auth-gate a:not(.btn) {
+  color: var(--dmcc-pink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.adgm-info-panel__body a:hover,
+.chat-api-notice__body a:hover,
+.command-centre-app .chat-ai-message a:hover,
+.auth-gate a:not(.btn):hover {
+  color: var(--dmcc-pink-hover);
 }

@@ -18,19 +18,19 @@ const QUICK_PROMPTS_EN = [
     id: 'ceo-board',
     label: 'CEO board pack',
     prompt:
-      'Use Command Centre context — 8-slide Apparel Group CEO board pack: portfolio performance, KSA expansion, UAE retail compliance, Images RetailME Awards',
+      'Use Command Centre context — 8-slide DMCC CEO board pack: member services, gold & diamonds, free zone compliance, Dubai Diamond Conference',
   },
   {
     id: 'strategy-update',
     label: 'Leadership strategy update',
     prompt:
-      '8-slide McKinsey-style strategy update for Apparel Group leadership — navy hero, KPI slides, R&B/6thStreet/Club Apparel benchmarks',
+      '8-slide McKinsey-style strategy update for DMCC leadership — sapphire/navy hero, KPI slides, Gold · Diamonds · Cyber · Member Services benchmarks',
   },
   {
-    id: 'nysaa-investor',
-    label: 'Nysaa beauty expansion deck',
+    id: 'fot-investor',
+    label: 'Future of Trade deck',
     prompt:
-      'Create an investor deck for Nysaa: Nykaa GCC partnership, beauty retail expansion, omnichannel growth strategy',
+      'Create an investor/partner deck for Future of Trade 2026: commodities corridors, Singapore launch, DMCC Commodity Trade Index',
   },
 ];
 
@@ -39,17 +39,17 @@ const QUICK_PROMPTS_AR = [
     id: 'ceo-board',
     label: 'حزمة مجلس الرئيس التنفيذي',
     prompt:
-      'أنشئ عرضاً من 10 شرائح لمجلس Apparel Group: أداء المحفظة، توسع السعودية، امتثال التجزئة في الإمارات، Images RetailME Awards',
+      'أنشئ عرضاً من 8 شرائح لمجلس DMCC: خدمات الأعضاء، الذهب والماس، امتثال المنطقة الحرة، مؤتمر دبي للماس',
   },
   {
-    id: 'nysaa-investor',
-    label: 'عرض توسع Nysaa',
-    prompt: 'عرض لتوسع Nysaa وجمال التجزئة في الخليج وشراكة Nykaa',
+    id: 'fot-investor',
+    label: 'عرض مستقبل التجارة',
+    prompt: 'عرض لمستقبل التجارة 2026 وممرات السلع وإطلاق سنغافورة',
   },
 ];
 
 /**
- * Consulting-grade deck templates — full prompts adapted to Apparel Group context.
+ * Consulting-grade deck templates — full prompts adapted to DMCC context.
  * These populate the input field (not auto-sent) so the user can review before generating.
  */
 export const DECK_TEMPLATES = [
@@ -57,19 +57,19 @@ export const DECK_TEMPLATES = [
     id: 'ai-platform',
     icon: 'cpu',
     label: 'AI Decision Support Platform',
-    description: '8-slide McKinsey-grade strategy deck — building the Personal AI for Apparel Group CEO',
-    prompt: `Create an 8-slide consulting-grade, board-ready strategy presentation for Apparel Group CEO Neeraj Teckchandani.
+    description: '8-slide McKinsey-grade strategy deck — building the Personal AI for DMCC CEO',
+    prompt: `Create an 8-slide consulting-grade, board-ready strategy presentation for DMCC CEO Ahmed Bin Sulayem.
 
-Topic: Building an AI-powered Executive Decision Support Platform for Apparel Group
-Audience: CEO and Apparel Group senior leadership team — commercially sharp, time-poor, decision-oriented
-Context: Apparel Group (2,500+ stores, 85+ brands, R&B 100+ stores, 6thStreet omnichannel, Club Apparel 10M+ members, Nysaa beauty retail) needs a governed AI intelligence layer for CEO decision-making.
+Topic: Building an AI-powered Executive Decision Support Platform for DMCC
+Audience: CEO and DMCC senior leadership team — commercially sharp, time-poor, decision-oriented
+Context: DMCC (26,000+ companies, 900+ activities, gold & diamonds ecosystems, DMCC Cyber, Uptown Dubai, Member Services) needs a governed AI intelligence layer for CEO decision-making.
 
 Required 8-slide structure:
 1. Title slide — premium navy hero
 2. Executive summary — recommendation first: pilot the AI platform starting with 3 high-value use cases
-3. Strategic context and current pain points — information fragmentation, inconsistent briefing quality, fragmented portfolio signals across 14 countries
-4. Strategic positioning — intelligence layer (not chatbot): GCC retail signals, store performance, KSA expansion, board briefings
-5. Priority use cases 2×2 matrix — CEO meeting briefings, GCC market signals, R&B store tracker, board pack generation
+3. Strategic context and current pain points — information fragmentation, inconsistent briefing quality, fragmented signals across commodities and member services
+4. Strategic positioning — intelligence layer (not chatbot): trade corridors, member SLAs, FDI pipeline, board briefings
+5. Priority use cases 2×2 matrix — CEO meeting briefings, GCC commodity signals, Diamond Conference prep, board pack generation
 6. Target platform model and governance — Executive Home + AI Strategy Agent + Briefings + Knowledge Base + Governance Layer; source control, permissioning, audit trail
 7. Pilot roadmap — 3 phases: design → build → launch
 8. Decisions required — what CEO must approve, pilot scope, success metrics, next milestone
@@ -77,25 +77,25 @@ Required 8-slide structure:
 Rules: Answer-first, action slide titles (full sentence insight), one message per slide, MECE structure, exhibit on every slide, no generic AI language, separate facts/assumptions/recommendations. Deep navy hero title and close, white content slides. Use Command Centre context.`,
   },
   {
-    id: 'omnichannel-growth',
+    id: 'commodities-growth',
     icon: 'trending-up',
-    label: 'Omnichannel Growth Strategy',
-    description: '8-slide exhibit-led deck — 6thStreet, Club Apparel and KSA expansion for Apparel Group',
-    prompt: `Create an 8-slide consulting-grade, chart-led, board-ready strategy presentation for Apparel Group CEO Neeraj Teckchandani.
+    label: 'Commodities Growth Strategy',
+    description: '8-slide exhibit-led deck — gold, diamonds, Cyber and member growth for DMCC',
+    prompt: `Create an 8-slide consulting-grade, chart-led, board-ready strategy presentation for DMCC CEO Ahmed Bin Sulayem.
 
-Topic: Omnichannel Growth & KSA Expansion Strategy for Apparel Group
-Audience: CEO Neeraj and Apparel Group senior leadership — institutional, evidence-focused
-Context: Apparel Group (6thStreet omnichannel, Club Apparel 10M+ loyalty members, R&B 100+ stores, 2,500+ stores in 14 countries) is accelerating KSA expansion via Arabian Alesaar partnership and 90-minute fashion delivery.
+Topic: Commodities Ecosystems & Free Zone Growth Strategy for DMCC
+Audience: CEO Ahmed Bin Sulayem and DMCC senior leadership — institutional, evidence-focused
+Context: DMCC (Gold & Precious Metals, Dubai Diamond Exchange, DMCC Cyber, Tea/Coffee, Member Services, Uptown Dubai) is accelerating trade corridors and member acquisition vs ADGM/DIFC/JAFZA.
 
 Required 8-slide structure:
-1. Title slide — "Omnichannel delivery and KSA expansion are Apparel Group's highest-growth vectors in 2026"
-2. Executive summary — recommended posture: prioritise 6thStreet delivery scale, Club Apparel engagement, KSA store rollout
-3. Market momentum — GCC retail sales growth chart (+8.2% YoY, e-commerce penetration 22%)
-4. Omnichannel opportunity — 6thStreet 90-min delivery vs Namshi/Noon benchmark (bar chart)
-5. GCC market entry benchmark — UAE/KSA/Qatar/Bahrain licensing, VAT, labour law maturity table + KSA expansion heatmap vs competitor mall openings
-6. Opportunity prioritisation 2×2 matrix — strategic value vs feasibility: 6thStreet KSA, Club Apparel campaigns, R&B new stores, Nysaa beauty
-7. Strategic options matrix and risk — 4 options scored with IRR and risk; labour attrition, mall lease terms, brand partner dependencies
-8. Decisions required — approve KSA milestones, 6thStreet delivery expansion, Club Apparel campaign, next milestone
+1. Title slide — "Gold, diamonds and Cyber are DMCC's highest-growth vectors in 2026"
+2. Executive summary — recommended posture: prioritise diamond corridor MoU, Cyber member growth, Uptown Dubai activation
+3. Market momentum — commodity trade growth chart (diamond trade USD 41.7B, gold ecosystem +12% YoY)
+4. Competitive opportunity — DMCC vs ADGM/DIFC free-zone benchmarks (bar chart)
+5. Corridor benchmark — Antwerp/Mumbai/Singapore vs Dubai Diamond Exchange + Future of Trade index
+6. Opportunity prioritisation 2×2 matrix — strategic value vs feasibility: Diamond MoU, Cyber/Tether, Uptown, Member SLA
+7. Strategic options matrix and risk — 4 options scored with impact and risk; sanctions, licensing, competitor free zones
+8. Decisions required — approve MoU spend, Cyber launch comms, Uptown Phase 1, next milestone
 
 Rules: Chart-led (6+ exhibits), at least 4 quantitative charts, action titles, source notes on every chart. Deep navy executive theme.`,
   },
@@ -105,14 +105,14 @@ const LOADING_STEPS_EN = [
   'Sending your brief to SlideAI…',
   'Structuring the executive storyline…',
   'Building slides with charts & exhibits…',
-  'Applying Apparel Group brand…',
+  'Applying DMCC brand…',
 ];
 
 const LOADING_STEPS_AR = [
   'إرسال الموجز إلى SlideAI…',
   'هيكلة القصة التنفيذية…',
   'بناء الشرائح بالرسوم والجداول…',
-  'تطبيق هوية Apparel Group…',
+  'تطبيق هوية DMCC…',
 ];
 
 export default function SlideAIChat() {
@@ -251,8 +251,8 @@ export default function SlideAIChat() {
           <div className="cc-slideai__empty">
             <p className="cc-slideai__empty-title">
               {ar
-                ? 'صف عرضك — SlideAI · Apparel Group'
-                : 'Describe your deck — SlideAI · Apparel Group'}
+                ? 'صف عرضك — SlideAI · DMCC'
+                : 'Describe your deck — SlideAI · DMCC'}
             </p>
             <p className="cc-slideai__empty-sub">
               {ar
@@ -262,7 +262,7 @@ export default function SlideAIChat() {
 
             <section className="cc-slideai__prompt-section" aria-label={ar ? 'قوالب العروض' : 'Deck templates'}>
               <h3 className="cc-slideai__prompt-section-title">
-                {ar ? 'قوالب المحفظة' : 'Portfolio deck templates'}
+                {ar ? 'قوالب منظومات DMCC' : 'DMCC ecosystem templates'}
               </h3>
               <ul className="cc-slideai__prompt-list">
                 {PORTFOLIO_QUICK_STARTS.map((tpl) => (

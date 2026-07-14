@@ -21,7 +21,7 @@ export type SlideAiUserMessageOptions = {
   slideCount?: number;
 };
 
-/** ADGM Brand Book 2025 — default Create PPT theme (Claude Design craft) */
+/** DMCC Brand Book — default Create PPT theme (Claude Design craft) */
 export const ADGM_DECK_THEME = {
   bg: ADGM_BRAND.surface.white.replace('#', ''),
   darkBg: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
@@ -33,13 +33,13 @@ export const ADGM_DECK_THEME = {
   tagline: ADGM_BRAND.tagline,
 } as const;
 
-/** Default SlideAI theme — ADGM + Claude Design (Command Centre Create PPT) */
+/** Default SlideAI theme — DMCC + Claude Design (Command Centre Create PPT) */
 export const DEFAULT_DECK_THEME = ADGM_DECK_THEME;
 
-/** ADGM-compliant theme presets — users can say "use the executive theme" */
+/** DMCC-compliant theme presets — users can say "use the executive theme" */
 export const THEME_PRESETS = {
   executive: {
-    name: 'ADGM Midnight Executive',
+    name: 'DMCC Midnight Executive',
     bg: ADGM_BRAND.surface.white.replace('#', ''),
     darkBg: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
@@ -49,7 +49,7 @@ export const THEME_PRESETS = {
     mood: 'Premium, authoritative, board and investor-ready',
   },
   bold: {
-    name: 'ADGM Bold Forward',
+    name: 'DMCC Bold Forward',
     bg: ADGM_BRAND.secondary.sand.replace('#', ''),
     darkBg: ADGM_BRAND.navy.deep.replace('#', ''),
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
@@ -59,7 +59,7 @@ export const THEME_PRESETS = {
     mood: 'Energetic, confident, high-impact strategy narrative',
   },
   minimal: {
-    name: 'ADGM Clean Minimal',
+    name: 'DMCC Clean Minimal',
     bg: ADGM_BRAND.neutral[50].replace('#', ''),
     darkBg: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
@@ -69,7 +69,7 @@ export const THEME_PRESETS = {
     mood: 'Clean, Apple-like clarity — one idea per slide, lots of white space',
   },
   nature: {
-    name: 'ADGM Impact & ESG',
+    name: 'DMCC Impact & ESG',
     bg: ADGM_BRAND.secondary.mint.replace('#', ''),
     darkBg: ADGM_BRAND.navy.mid.replace('#', ''),
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
@@ -79,7 +79,7 @@ export const THEME_PRESETS = {
     mood: 'Sustainability, health, ESG, and impact storytelling',
   },
   finance: {
-    name: 'ADGM Navy Trust',
+    name: 'DMCC Navy Trust',
     bg: ADGM_BRAND.neutral[50].replace('#', ''),
     darkBg: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
@@ -89,7 +89,7 @@ export const THEME_PRESETS = {
     mood: 'Finance, legal, regulatory, enterprise consulting',
   },
   creative: {
-    name: 'ADGM Innovation',
+    name: 'DMCC Cyber Innovation',
     bg: ADGM_BRAND.blue[50].replace('#', ''),
     darkBg: ADGM_BRAND.navy.deep.replace('#', ''),
     text: ADGM_BRAND.navy.DEFAULT.replace('#', ''),
@@ -118,7 +118,7 @@ function detectThemeContext(userText: string): string | null {
   return named ? getThemeContext(named[0] as ThemePresetKey) : null;
 }
 
-export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using Executive Design + Apparel Group PPT Master craft (do not change core facts):
+export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using Executive Design + DMCC PPT Master craft (do not change core facts):
 1. Vary layouts — no two consecutive slides share a layout
 2. Action titles on every slide (complete insight, max 8 words)
 3. Convert 5+ bullet slides to icon-grid or two-col with exhibit/callout
@@ -126,7 +126,7 @@ export const DESIGN_BOOST_PROMPT = `Review all slides and improve design using E
 5. Add quote slide if missing and a compelling line exists
 6. Dark/light sandwich: title=dark navy hero, content=paper, closing=dark
 7. Speaker notes: 60–90s executive talk track with [pause]; imagePrompt on ≥50% slides
-8. Apparel Group Executive Standard: Navy + Lime accent, Gotham, footer "${ADGM_PPT_FOOTER}"
+8. DMCC Executive Standard: Navy + Gold accent, Gotham, footer "${ADGM_PPT_FOOTER}"
 Return action "update" with updatedSlides. Message: one short sentence — no template or branding mentions.`;
 
 function userRequestsBccTemplate(userText: string): boolean {
@@ -151,14 +151,16 @@ export function buildSystemPrompt(userText = ''): string {
     ? `${BCC_PORTFOLIO_TEMPLATE_PROMPT}\n\nBCC portfolio is active because the user requested it.`
     : `${ADGM_PPT_BRAND_PROMPT}\n\n${APPAREL_GROUP_PPT_STANDARD}\n\n${MINTO_PYRAMID_PROMPT}\n\n${CLAUDE_DESIGN_CRAFT_PROMPT}\n\n${ADGM_PPT_MASTER_CRAFT_PROMPT}`;
 
-  return `You are SlideAI — McKinsey consulting clarity, Executive Design craft, Apparel Group executive standard.
-Integrated into the Apparel Group Command Centre for CEO Neeraj and leadership board decks.
-Portfolio context: R&B (3,200+ residential units, Dubai), 6thStreet (omnichannel residential, Images RetailME Awards, Dubai Hills Mall), Club Apparel (loyalty programme 91% store performance), Nysaa (UAE & international investment arm), KSA expansion (5km² BIG+WSP masterplan, ground-break 2026).
+  return `You are SlideAI — McKinsey consulting clarity, Executive Design craft, DMCC executive standard.
+Integrated into the DMCC Command Centre for CEO Ahmed Bin Sulayem and leadership board decks.
+Portfolio context: Gold & Precious Metals, Dubai Diamond Exchange (USD 41.7B trade 2025), DMCC Cyber (4,000+ tech companies · Tether MoU), Member Services (26,000+ companies), Uptown Dubai activation, Future of Trade thought leadership.
+
+COMPANY LOCK: Always DMCC commodities free zone. Never Apparel Group retail, ADGM "Path to Forward", co-living, mall/store KPIs, or fashion brands unless the user explicitly asks.
 
 ${visualBlock}
 
 You generate beautiful, opinionated slide decks. Never produce generic slides.
-${useBcc ? '' : 'Default: Apparel Group navy/lime, Gotham, Executive Design exhibit + KPI patterns.'}
+${useBcc ? '' : 'Default: DMCC navy/gold, Gotham, Executive Design exhibit + KPI patterns.'}
 
 STORYLINE — Minto Pyramid Principle (apply to EVERY deck):
 - Governing thought on slide 2 (the answer first, always)
@@ -185,7 +187,7 @@ DESIGN RULES (always follow)
 COLOR — active theme (apply first):
 - Theme: bg ${theme.bg}, darkBg ${theme.darkBg}, text ${theme.text}, accent ${theme.accent}
 - Dark navy hero for title/close; white/mint paper for content ("sandwich" pattern)
-- Primary accent: Clearsky ${theme.accent}; mint/cyan-soft for KPI card fills
+- Primary accent: Gold ${theme.accent}; sapphire soft for KPI card fills
 ${useBcc ? '- BCC chapter accents: hands teal, luna blue, mlink terracotta for multi-case decks' : '- Footer every slide: ' + ADGM_PPT_FOOTER}
 
 LAYOUT VARIETY:
@@ -437,10 +439,10 @@ export function buildUserMessage(
   const useBcc = userRequestsBccTemplate(userText);
   const templateBlock = useBcc
     ? '\n\nVisual override: BCC Senior Service Designer portfolio template.'
-    : '\n\nDesign stack: Apparel Group Executive Standard + Executive Design craft + McKinsey action titles.';
+    : '\n\nDesign stack: DMCC Executive Standard + Executive Design craft + McKinsey action titles.';
   const themeBlock = themeHint ? `\n\nTheme direction: ${themeHint}` : '';
   const contextBlock = options?.executiveBrief
-    ? `\n\n${options.executiveBrief}\n\nApply Apparel Group Executive Standard + Executive Design craft. Ground metrics in handles above; label inference.`
+    ? `\n\n${options.executiveBrief}\n\nApply DMCC Executive Standard + Executive Design craft. Ground metrics in handles above; label inference.`
     : '';
 
   const focus = deckForPrompt ? detectSlideFocus(userText, deckForPrompt) : null;
