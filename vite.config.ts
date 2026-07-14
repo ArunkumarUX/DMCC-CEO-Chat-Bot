@@ -115,8 +115,7 @@ const apiProxy: Record<string, ProxyOptions> = {
   '/api': {
     target: apiTarget(),
     changeOrigin: true,
-    // Keep as fallback for preview; configureServer above handles `vite` itself.
-    router: () => apiTarget(),
+    // Fallback for `vite preview`; `liveApiProxy` handles `vite` itself.
   },
 }
 

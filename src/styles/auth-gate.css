@@ -141,14 +141,14 @@ html:has(.auth-gate--login) {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.55;
+  opacity: 0.72;
 }
 
 .auth-gate__login-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(5, 5, 51, 0.28);
+  background: rgba(5, 5, 51, 0.22);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -216,11 +216,18 @@ html:has(.auth-gate--login) {
   width: min(24rem, 100%);
   padding: clamp(1.5rem, 3vw, 2rem);
   border-radius: 1.25rem;
-  background: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(5, 5, 51, 0.52);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
-    0 28px 64px rgba(0, 0, 0, 0.35),
-    0 8px 24px rgba(5, 5, 51, 0.4);
+    0 28px 64px rgba(0, 0, 0, 0.4),
+    0 8px 24px rgba(5, 5, 51, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.auth-gate--login-solo .auth-gate__login-card {
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .auth-gate--login .auth-gate__login-shell {
@@ -627,7 +634,7 @@ html:has(.auth-gate--login) {
 }
 
 .auth-gate--login .auth-gate__title {
-  color: #050533;
+  color: #ffffff;
   font-family: "Gotham B", var(--font-display, var(--font-sans));
   font-size: 1.5rem;
   font-weight: 600;
@@ -637,7 +644,7 @@ html:has(.auth-gate--login) {
 
 .auth-gate--login .auth-gate__subtitle,
 .auth-gate--login .auth-gate__instruction {
-  color: var(--adgm-slate, #6f7a85);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .auth-gate--login .auth-gate__subtitle {
@@ -650,35 +657,58 @@ html:has(.auth-gate--login) {
 }
 
 .auth-gate--login .auth-gate__channel {
-  background: var(--adgm-cyan-50, #f4f7f9);
-  border-color: rgba(0, 51, 153, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.auth-gate--login .auth-gate__channel button {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .auth-gate--login .auth-gate__channel button.on {
-  background: var(--dmcc-pink, #e21f7b);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(226, 31, 123, 0.28);
+  background: #ffffff;
+  color: #050533;
+  box-shadow: 0 4px 14px rgba(5, 5, 51, 0.18);
+}
+
+.auth-gate--login .auth-gate__channel button.on svg {
+  color: #050533;
+}
+
+.auth-gate--login .auth-gate__field-label {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.auth-gate--login .auth-gate__error {
+  color: #ff8ab8;
 }
 
 .auth-gate--login .auth-gate__text-input {
-  border-color: rgba(0, 51, 153, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
   border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.auth-gate--login .auth-gate__text-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .auth-gate--login .auth-gate__text-input:focus {
-  border-color: var(--adgm-navy, #0B1F3A);
-  box-shadow: 0 0 0 3px rgba(0, 51, 153, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(226, 31, 123, 0.22);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .auth-gate__submit--login {
-  background: var(--adgm-navy, #0B1F3A);
-  box-shadow: 0 8px 22px rgba(0, 51, 153, 0.22);
+  background: var(--dmcc-pink, #e21f7b);
+  box-shadow: 0 8px 22px rgba(226, 31, 123, 0.28);
   transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 .auth-gate__submit--login:hover:not(:disabled) {
-  background: var(--adgm-blue-600, #081829);
-  box-shadow: 0 10px 26px rgba(0, 51, 153, 0.28);
+  background: var(--dmcc-pink-hover, #c41868);
+  box-shadow: 0 10px 26px rgba(226, 31, 123, 0.36);
   transform: translateY(-1px);
 }
 

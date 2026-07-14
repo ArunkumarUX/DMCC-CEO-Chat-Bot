@@ -76,7 +76,7 @@ export function LoginPage() {
         <div className="auth-gate__login-panel">
           <div className="auth-gate__login-card">
             <div className="auth-gate__brand auth-gate__brand--above">
-              <AdgmLogo variant="onLight" horizontal size={72} showTagline={false} />
+              <AdgmLogo variant="onDark" horizontal size={72} showTagline={false} />
             </div>
 
             <main className="auth-gate__main">
