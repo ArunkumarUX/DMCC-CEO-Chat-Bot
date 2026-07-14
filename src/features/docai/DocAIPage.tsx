@@ -4,7 +4,7 @@ import { CcIcon } from '../../command-centre/CcIcon';
 import { useApp } from '../../context/AppContext';
 import DocAIChat from './DocAIChat';
 import { DocAiHistorySheet } from './DocAiHistorySheet';
-import { downloadMarkdown, printDocumentAsPdf } from './docExporter';
+import { downloadWordDocument, printDocumentAsPdf } from './docExporter';
 import { DocPreviewPanel } from './DocPreviewPanel';
 import { useDocStore } from './useDocStore';
 
@@ -44,12 +44,12 @@ export function DocAIPage() {
     showToast(ar ? 'ابدأ مستنداً جديداً' : 'Start a new document', 'success');
   };
 
-  const onDownloadMd = () => {
+  const onDownloadWord = () => {
     if (!document?.sections?.length || exportBusy) return;
     setExportBusy(true);
     try {
-      downloadMarkdown(document);
-      showToast(ar ? 'تم تنزيل Markdown' : 'Markdown downloaded', 'success');
+      downloadWordDocument(document);
+      showToast(ar ? 'تم تنزيل مستند Word' : 'Word document downloaded', 'success');
     } catch (err) {
       showToast(
         ar ? 'فشل التنزيل' : `Download failed: ${err instanceof Error ? err.message : 'unknown'}`,
@@ -135,7 +135,11 @@ export function DocAIPage() {
         <header className="cc-slideai__panel-head">
           <div className="cc-slideai__preview-title">
             <span className="cc-slideai__preview-title-text" title={previewTitle}>
-              {previewTitle || (ar ? 'معاينة المستند' : 'Document preview')}
+              {previewTitle
+                ? `${previewTitle}.docx`
+                : ar
+                  ? 'معاينة مستند Word'
+                  : 'Word document preview'}
             </span>
           </div>
           {hasDoc && (
@@ -147,11 +151,11 @@ export function DocAIPage() {
               <button
                 type="button"
                 className="btn-primary cc-slideai__export"
-                onClick={onDownloadMd}
+                onClick={onDownloadWord}
                 disabled={exportBusy}
               >
                 <CcIcon name="download" size={16} />
-                {exportBusy ? (ar ? 'جاري…' : 'Exporting…') : ar ? 'تنزيل .md' : 'Download .md'}
+                {exportBusy ? (ar ? 'جاري…' : 'Exporting…') : ar ? 'تنزيل Word' : 'Download Word'}
               </button>
             </div>
           )}

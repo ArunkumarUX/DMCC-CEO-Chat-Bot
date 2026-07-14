@@ -36,7 +36,7 @@ export function AgentCard({
               {agent.name}
             </h3>
             {selected && (
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-adgm-primary text-white">
+              <span className="flex h-5 w-5 items-center justify-center rounded-none bg-adgm-primary text-white">
                 <Check className="h-3 w-3" />
               </span>
             )}
@@ -75,7 +75,7 @@ export function AgentCard({
               onDelegate();
             }
           }}
-          className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-full bg-adgm-primary py-2.5 text-xs font-semibold text-white hover:bg-adgm-primary-hover opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+          className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-none bg-adgm-primary py-2.5 text-xs font-semibold text-white hover:bg-adgm-primary-hover opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
         >
           <Zap className="h-3.5 w-3.5" />
           Delegate task

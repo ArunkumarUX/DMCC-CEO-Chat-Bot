@@ -519,21 +519,36 @@ export async function streamChat(payload, writeEvent) {
     { role: 'user', content: message.trim() },
   ];
 
-  const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model,
-      max_tokens: 4096,
-      stream: true,
-      system: systemPrompt,
-      messages,
-    }),
-  });
+  let anthropicRes;
+  try {
+    anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 4096,
+        stream: true,
+        system: systemPrompt,
+        messages,
+      }),
+    });
+  } catch (err) {
+    const cause = err && typeof err === 'object' && 'cause' in err ? err.cause : null;
+    const causeMsg =
+      cause instanceof Error
+        ? cause.message
+        : cause && typeof cause === 'object' && 'code' in cause
+          ? String(cause.code)
+          : '';
+    const base = err instanceof Error ? err.message : String(err);
+    throw new Error(
+      [base, causeMsg].filter(Boolean).join(': ') || 'fetch failed reaching Anthropic API',
+    );
+  }
 
   if (!anthropicRes.ok) {
     const errText = await anthropicRes.text();

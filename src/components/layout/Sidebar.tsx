@@ -174,7 +174,7 @@ export function Sidebar() {
             createConversation();
             navigate('/chat');
           }}
-          className="mx-2 mb-2 flex items-center justify-center rounded-full bg-adgm-primary p-2.5 text-white hover:bg-adgm-primary-hover"
+          className="mx-2 mb-2 flex items-center justify-center rounded-none bg-adgm-primary p-2.5 text-white hover:bg-adgm-primary-hover"
         >
           <Plus className="h-[18px] w-[18px]" />
         </button>
@@ -209,7 +209,7 @@ export function Sidebar() {
                     createConversation();
                     navigate('/chat');
                   }}
-                  className="mb-2 flex w-full items-center justify-center gap-1.5 rounded-full border border-dashed border-adgm-primary/40 py-2 text-xs font-medium text-adgm-primary hover:bg-adgm-sky-bg transition-colors"
+                  className="mb-2 flex w-full items-center justify-center gap-1.5 rounded-none border border-dashed border-adgm-primary/40 py-2 text-xs font-medium text-adgm-primary hover:bg-adgm-sky-bg transition-colors"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   New chat

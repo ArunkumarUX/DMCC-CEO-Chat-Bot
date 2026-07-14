@@ -1,4 +1,4 @@
-import { useEffect, useMemo, type ReactNode } from 'react';
+import { useEffect, useMemo, type CSSProperties, type ReactNode } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { CcIcon } from '../../command-centre/CcIcon';
 import { labelFor, DOC_AUDIENCES, DOC_STYLES, DOC_TYPES } from './documentCatalog';
@@ -145,6 +145,92 @@ function MarkdownBlock({ text }: { text: string }) {
   return <div className="cc-docai__md">{elements}</div>;
 }
 
+const DOC_STEPS_EN = [
+  'Analysing purpose and audience',
+  'Structuring the executive narrative',
+  'Drafting Word document sections',
+  'Finalising Word preview',
+];
+
+const DOC_STEPS_AR = [
+  'تحليل الغرض والجمهور',
+  'هيكلة السرد التنفيذي',
+  'صياغة أقسام مستند Word',
+  'إنهاء معاينة Word',
+];
+
+function DocPageStackPreview({ pageCount, activeIndex }: { pageCount: number; activeIndex: number }) {
+  const total = Math.min(Math.max(pageCount, 4), 6);
+  return (
+    <div className="cc-slideai__progress-slides cc-docai__progress-pages" aria-hidden>
+      {Array.from({ length: total }, (_, i) => (
+        <div
+          key={i}
+          className={[
+            'cc-slideai__progress-slide',
+            'cc-docai__progress-page',
+            i <= activeIndex ? 'cc-slideai__progress-slide--built' : '',
+            i === activeIndex ? 'cc-slideai__progress-slide--active' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          style={{ '--slide-i': i } as CSSProperties}
+        >
+          <span className="cc-slideai__progress-slide-bar" />
+          <span className="cc-slideai__progress-slide-line" />
+          <span className="cc-slideai__progress-slide-line cc-slideai__progress-slide-line--short" />
+          <span className="cc-slideai__progress-slide-line" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function OpusDocProgressPanel({
+  ar,
+  pageCount,
+  loadingStep,
+}: {
+  ar: boolean;
+  pageCount: number;
+  loadingStep: number;
+}) {
+  const steps = ar ? DOC_STEPS_AR : DOC_STEPS_EN;
+  const activeStep = Math.min(loadingStep, steps.length - 1);
+
+  return (
+    <div className="cc-slideai__perceptis-progress cc-slideai__perceptis-progress--opus cc-docai__progress">
+      <div className="cc-slideai__perceptis-progress-hero">
+        <DocPageStackPreview pageCount={pageCount} activeIndex={activeStep} />
+        <div className="cc-slideai__perceptis-progress-icon-wrap">
+          <span className="cc-slideai__perceptis-progress-ring" aria-hidden />
+          <div className="cc-slideai__perceptis-progress-icon">
+            <CcIcon name="file-text" size={26} />
+          </div>
+        </div>
+      </div>
+      <div className="cc-slideai__perceptis-progress-body">
+        <span className="cc-slideai__perceptis-progress-live">
+          <span className="cc-slideai__perceptis-progress-live-dot" aria-hidden />
+          DocAI · Word
+        </span>
+        <h3 className="cc-slideai__perceptis-progress-title">{steps[activeStep]}</h3>
+        <p className="cc-slideai__perceptis-progress-msg">
+          {ar ? 'عادةً 15–45 ثانية' : 'Typically 15–45 seconds'}
+        </p>
+        <div
+          className="cc-slideai__perceptis-progress-bar cc-slideai__perceptis-progress-bar--indeterminate"
+          role="progressbar"
+          aria-busy="true"
+        >
+          <span className="cc-slideai__perceptis-progress-fill" />
+          <span className="cc-slideai__perceptis-progress-shimmer" aria-hidden />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 type Props = { ar: boolean };
 
 export function DocPreviewPanel({ ar }: Props) {
@@ -153,6 +239,8 @@ export function DocPreviewPanel({ ar }: Props) {
     activeSectionIndex,
     previewFlash,
     contentKey,
+    isLoading,
+    loadingStep,
     setActiveSection,
     clearPreviewFlash,
   } = useDocStore(
@@ -161,10 +249,15 @@ export function DocPreviewPanel({ ar }: Props) {
       activeSectionIndex: s.activeSectionIndex,
       previewFlash: s.previewFlash,
       contentKey: s.contentKey,
+      isLoading: s.isLoading,
+      loadingStep: s.loadingStep,
       setActiveSection: s.setActiveSection,
       clearPreviewFlash: s.clearPreviewFlash,
     })),
   );
+
+  const hasDoc = Boolean(document?.sections?.length);
+  const pageCount = document?.estimatedPages || document?.sections?.length || 5;
 
   useEffect(() => {
     if (!previewFlash) return;
@@ -172,92 +265,176 @@ export function DocPreviewPanel({ ar }: Props) {
     return () => window.clearTimeout(t);
   }, [previewFlash, clearPreviewFlash, contentKey]);
 
-  if (!document?.sections?.length) {
+  useEffect(() => {
+    if (!hasDoc) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActiveSection(Math.min(activeSectionIndex + 1, (document?.sections.length ?? 1) - 1));
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveSection(Math.max(activeSectionIndex - 1, 0));
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [hasDoc, activeSectionIndex, document?.sections.length, setActiveSection]);
+
+  useEffect(() => {
+    if (!hasDoc || !document?.sections?.length) return;
+    const section = document.sections[activeSectionIndex];
+    if (!section) return;
+    window.document
+      .getElementById(`doc-section-${section.id}`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [activeSectionIndex, hasDoc, document?.sections]);
+
+  if (!hasDoc && !isLoading) {
     return (
       <div className="cc-docai__preview-empty">
-        <CcIcon name="file-text" size={36} />
-        <p>{ar ? 'معاينة المستند تظهر هنا' : 'Document preview appears here'}</p>
-        <span className="muted-3">
+        <CcIcon name="file-text" size={40} className="cc-slideai__preview-icon" />
+        <p>{ar ? 'سيُنشأ مستند Word هنا' : 'Your Word document will appear here'}</p>
+        <span className="cc-slideai__preview-empty-hint muted-3">
           {ar
-            ? 'اختر قالباً أو أجب عن الأسئلة لبدء الإنشاء'
-            : 'Pick a template or answer the essentials to generate'}
+            ? 'أرسل موجزك في المحادثة لبدء توليد المستند'
+            : 'Send your brief in chat to generate a Word document'}
         </span>
       </div>
     );
   }
 
-  const section = document.sections[activeSectionIndex] ?? document.sections[0];
-
   return (
-    <div className={`cc-docai__preview${previewFlash ? ' cc-docai__preview--flash' : ''}`} key={contentKey}>
-      <div className="cc-docai__meta-card">
-        <div className="cc-docai__meta-row">
-          <span className="cc-docai__meta-label">{ar ? 'النوع' : 'Type'}</span>
-          <span>{labelFor(DOC_TYPES, document.docType, ar)}</span>
-        </div>
-        <div className="cc-docai__meta-row">
-          <span className="cc-docai__meta-label">{ar ? 'الجمهور' : 'Audience'}</span>
-          <span>{labelFor(DOC_AUDIENCES, document.audience, ar)}</span>
-        </div>
-        <div className="cc-docai__meta-row">
-          <span className="cc-docai__meta-label">{ar ? 'الأسلوب' : 'Style'}</span>
-          <span>{labelFor(DOC_STYLES, document.style, ar)}</span>
-        </div>
-        <div className="cc-docai__meta-row">
-          <span className="cc-docai__meta-label">{ar ? 'الصفحات' : 'Est. pages'}</span>
-          <span>{document.estimatedPages}</span>
-        </div>
-        <div className="cc-docai__meta-row">
-          <span className="cc-docai__meta-label">{ar ? 'الحالة' : 'Status'}</span>
-          <span className="cc-docai__status">{document.status}</span>
-        </div>
-      </div>
+    <div
+      className={`cc-docai__preview${isLoading ? ' cc-slideai__preview--busy' : ''}${previewFlash ? ' cc-docai__preview--flash' : ''}`}
+    >
+      <div className="cc-slideai__theater cc-docai__theater">
+        <div
+          className={`cc-slideai__canvas-wrap cc-docai__canvas-wrap${previewFlash ? ' cc-slideai__canvas-wrap--flash' : ''}`}
+        >
+          {!hasDoc ? (
+            <OpusDocProgressPanel ar={ar} pageCount={pageCount} loadingStep={loadingStep} />
+          ) : (
+            <div className="cc-docai__word-stage" key={contentKey}>
+              <div className="cc-docai__word-chrome" aria-hidden>
+                <span className="cc-docai__word-dot cc-docai__word-dot--r" />
+                <span className="cc-docai__word-dot cc-docai__word-dot--y" />
+                <span className="cc-docai__word-dot cc-docai__word-dot--g" />
+                <span className="cc-docai__word-chrome-title">
+                  {(document!.title || 'Document').slice(0, 48)}.docx
+                </span>
+              </div>
 
-      {document.summary ? (
-        <div className="cc-docai__summary-card">
-          <h3>{ar ? 'الملخص التنفيذي' : 'Executive summary'}</h3>
-          <p>{document.summary}</p>
+              <div className="cc-docai__word-ribbon">
+                <span>{labelFor(DOC_TYPES, document!.docType, ar)}</span>
+                <span aria-hidden>·</span>
+                <span>{labelFor(DOC_AUDIENCES, document!.audience, ar)}</span>
+                <span aria-hidden>·</span>
+                <span>{labelFor(DOC_STYLES, document!.style, ar)}</span>
+                <span aria-hidden>·</span>
+                <span>
+                  {document!.estimatedPages} {ar ? 'صفحات' : 'pages'}
+                </span>
+                <span className="cc-docai__status">{document!.status}</span>
+              </div>
+
+              <article className="cc-docai__word-sheet" aria-label={document!.title}>
+                <header className="cc-docai__page-head">
+                  <img src="/dmcc-logo.png" alt="DMCC" className="cc-docai__page-logo" />
+                  <div>
+                    <p className="cc-docai__page-kicker">DMCC · Confidential · Word</p>
+                    <h1 className="cc-docai__word-title">{document!.title}</h1>
+                    {document!.summary ? (
+                      <p className="cc-docai__word-summary">{document!.summary}</p>
+                    ) : null}
+                  </div>
+                </header>
+
+                {document!.sections.map((section, i) => (
+                  <section
+                    key={section.id}
+                    id={`doc-section-${section.id}`}
+                    className={`cc-docai__word-section${i === activeSectionIndex ? ' cc-docai__word-section--active' : ''}`}
+                    onClick={() => setActiveSection(i)}
+                  >
+                    <h2 className="cc-docai__word-section-title">
+                      <span className="cc-docai__toc-num">{i + 1}</span>
+                      {section.title}
+                    </h2>
+                    <MarkdownBlock text={section.body} />
+                  </section>
+                ))}
+
+                <footer className="cc-docai__page-foot">
+                  <span>
+                    DMCC · v{document!.version}
+                    {document!.sources?.length ? ` · ${document!.sources.slice(0, 2).join(' · ')}` : ''}
+                  </span>
+                  <span>
+                    {document!.sections.length} {ar ? 'أقسام' : 'sections'}
+                  </span>
+                </footer>
+              </article>
+            </div>
+          )}
+
+          {isLoading && hasDoc && (
+            <div className="cc-slideai__canvas-loading-overlay" aria-live="polite" aria-busy="true">
+              <span className="cc-slideai__preview-busy-pulse" />
+              <p>{ar ? 'جاري تحديث مستند Word…' : 'Updating Word document…'}</p>
+            </div>
+          )}
         </div>
-      ) : null}
 
-      {document.sources?.length ? (
-        <p className="cc-docai__sources">
-          <strong>{ar ? 'المصادر:' : 'Sources:'}</strong> {document.sources.join(' · ')}
-        </p>
-      ) : null}
-
-      <div className="cc-docai__toc" role="tablist" aria-label={ar ? 'أقسام المستند' : 'Document sections'}>
-        {document.sections.map((s, i) => (
-          <button
-            key={s.id}
-            type="button"
-            role="tab"
-            aria-selected={i === activeSectionIndex}
-            className={`cc-docai__toc-item${i === activeSectionIndex ? ' cc-docai__toc-item--on' : ''}`}
-            onClick={() => setActiveSection(i)}
-          >
-            <span className="cc-docai__toc-num">{i + 1}</span>
-            {s.title}
-          </button>
-        ))}
-      </div>
-
-      <article className="cc-docai__page" aria-label={section.title}>
-        <header className="cc-docai__page-head">
-          <img src="/dmcc-logo.png" alt="DMCC" className="cc-docai__page-logo" />
-          <div>
-            <p className="cc-docai__page-kicker">DMCC · Confidential</p>
-            <h2 className="cc-docai__page-title">{section.title}</h2>
+        {hasDoc && (
+          <div className="cc-slideai__stage-nav cc-docai__stage-nav">
+            <button
+              type="button"
+              className="icon-btn"
+              disabled={activeSectionIndex <= 0 || isLoading}
+              onClick={() => setActiveSection(activeSectionIndex - 1)}
+              aria-label={ar ? 'القسم السابق' : 'Previous section'}
+            >
+              <CcIcon name="chevron-left" size={18} />
+            </button>
+            <span className="cc-slideai__stage-counter">
+              {activeSectionIndex + 1} / {document!.sections.length}
+            </span>
+            <button
+              type="button"
+              className="icon-btn"
+              disabled={activeSectionIndex >= document!.sections.length - 1 || isLoading}
+              onClick={() => setActiveSection(activeSectionIndex + 1)}
+              aria-label={ar ? 'القسم التالي' : 'Next section'}
+            >
+              <CcIcon name="chevron-right" size={18} />
+            </button>
           </div>
-        </header>
-        <MarkdownBlock text={section.body} />
-        <footer className="cc-docai__page-foot">
-          <span>v{document.version}</span>
-          <span>
-            {activeSectionIndex + 1} / {document.sections.length}
-          </span>
-        </footer>
-      </article>
+        )}
+      </div>
+
+      {hasDoc && (
+        <div className="cc-docai__toc" role="tablist" aria-label={ar ? 'أقسام المستند' : 'Document sections'}>
+          {document!.sections.map((s, i) => (
+            <button
+              key={s.id}
+              type="button"
+              role="tab"
+              aria-selected={i === activeSectionIndex}
+              className={`cc-docai__toc-item${i === activeSectionIndex ? ' cc-docai__toc-item--on' : ''}`}
+              onClick={() => {
+                setActiveSection(i);
+                window.document
+                  .getElementById(`doc-section-${s.id}`)
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+            >
+              <span className="cc-docai__toc-num">{i + 1}</span>
+              {s.title}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

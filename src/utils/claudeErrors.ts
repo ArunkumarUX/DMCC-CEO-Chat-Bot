@@ -25,7 +25,18 @@ export function shouldFallbackToOfflineKb(message: string): boolean {
     m.includes('overloaded') ||
     m.includes('529') ||
     m.includes('empty response from claude') ||
-    m.includes('empty response from ai service')
+    m.includes('empty response from ai service') ||
+    // Transient network / DNS / upstream outages — keep Chief of Staff usable offline
+    m.includes('fetch failed') ||
+    m.includes('network') ||
+    m.includes('enotfound') ||
+    m.includes('econnrefused') ||
+    m.includes('econnreset') ||
+    m.includes('etimedout') ||
+    m.includes('timed out') ||
+    m.includes('socket hang up') ||
+    m.includes('unavailable') ||
+    m.includes('api unreachable')
   );
 }
 
@@ -48,6 +59,23 @@ export function formatClaudeErrorForUser(message: string, ar = false): string {
   }
   if (/jwt|sk-ant-/i.test(message) && message.includes('ANTHROPIC_API_KEY')) {
     return anthropicKeySetupHint(ar);
+  }
+  const m = message.toLowerCase();
+  if (m.includes('credit') || m.includes('billing') || m.includes('purchase credits') || m.includes('too low')) {
+    return ar
+      ? 'رصيد Anthropic منخفض. أضف رصيداً من console.anthropic.com → Plans & Billing، أو سأعرض إجابة من قاعدة المعرفة.'
+      : 'Anthropic credit balance is too low. Add credits at console.anthropic.com → Plans & Billing (offline knowledge-base answers still work).';
+  }
+  if (
+    m.includes('fetch failed') ||
+    m.includes('enotfound') ||
+    m.includes('econnrefused') ||
+    m.includes('network') ||
+    m.includes('timed out')
+  ) {
+    return ar
+      ? 'تعذّر الاتصال بخدمة الذكاء الاصطناعي. تحقق من الشبكة أو أعد تشغيل npm run dev.'
+      : 'Could not reach the AI service (network). Check connectivity or restart npm run dev.';
   }
   return message;
 }

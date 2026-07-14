@@ -43,7 +43,7 @@ export function MobileDrawer() {
               createConversation();
               setMobileDrawerOpen(false);
             }}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-adgm-primary py-3 text-sm font-medium text-white hover:bg-adgm-primary-hover"
+            className="flex w-full items-center justify-center gap-2 rounded-none bg-adgm-primary py-3 text-sm font-medium text-white hover:bg-adgm-primary-hover"
           >
             <Plus className="h-4 w-4" />
             New chat

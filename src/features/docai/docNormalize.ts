@@ -1,4 +1,5 @@
 import type { DocSection, GeneratedDocument } from './docTypes';
+import { buildDocumentTitle } from './fallbackDocumentBuilder';
 
 function sid(i: number) {
   return `sec-${i + 1}`;
@@ -25,9 +26,19 @@ export function cloneDocument(doc: GeneratedDocument): GeneratedDocument {
 export function normalizeDocument(doc: GeneratedDocument): GeneratedDocument {
   const now = new Date().toISOString();
   const sections = (doc.sections || []).map((s, i) => normalizeSection(s, i));
+  let title = (doc.title || 'Untitled document').trim();
+  // Repair titles that are raw wizard prompts
+  if (/^generate\b/i.test(title) || /\bpurpose:\s*/i.test(title) || title.length > 90) {
+    title = buildDocumentTitle({
+      userMessage: title,
+      docType: doc.docType,
+      purpose: doc.purpose,
+      audience: doc.audience,
+    });
+  }
   return {
     id: doc.id || `doc-${Date.now()}`,
-    title: (doc.title || 'Untitled document').trim(),
+    title,
     docType: doc.docType || 'custom',
     purpose: doc.purpose || '',
     audience: doc.audience || '',

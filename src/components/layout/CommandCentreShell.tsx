@@ -210,12 +210,18 @@ export function CommandCentreShell({ children }: { children: ReactNode }) {
             aria-label={EXECUTIVE_USER.fullName}
             title={EXECUTIVE_USER.fullName}
             style={{
-              borderRadius: '50%',
+              width: 40,
+              height: 40,
+              borderRadius: 9999,
               overflow: 'hidden',
               aspectRatio: '1 / 1',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
             }}
           >
-            {(EXECUTIVE_USER.initials || 'AS').slice(0, 2)}
+            AS
           </div>
           {showSidebarText && (
             <div className="sb-user-meta">

@@ -87,7 +87,7 @@ export function CcChatAiMessage({
     <div className="chat-ai-msg mi-chat-in">
       <div className="chat-ai-msg__avatar" aria-hidden>
         <img
-          src="/personal-ai-mark.svg"
+          src="/personal-ai-mark.svg?v=3"
           alt=""
           width={34}
           height={34}

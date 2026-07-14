@@ -60,6 +60,18 @@ export function LoginPage() {
 
   return (
     <div className="auth-gate auth-gate--login auth-gate--login-solo">
+      <div className="auth-gate__login-bg" aria-hidden="true">
+        <video
+          className="auth-gate__login-bg-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src="/videos/vid-home-hero-desktop-1.webm" type="video/webm" />
+        </video>
+      </div>
       <div className="auth-gate__login-layout auth-gate__login-layout--solo">
         <div className="auth-gate__login-panel">
           <div className="auth-gate__login-card">

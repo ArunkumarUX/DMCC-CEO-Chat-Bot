@@ -455,9 +455,9 @@ a.bg-adgm-primary:hover {
   }
 }
 
-/* Fully rounded (pill) buttons — app-wide */
+/* Square CTAs — no radius (DMCC brand) */
 :root {
-  --radius-button: 9999px;
+  --radius-button: 0;
 }
 
 button:not(.intel-card) {
@@ -471,7 +471,8 @@ button.intel-card {
 /* CTA links styled as buttons (not card-width block links) */
 a.inline-flex[class*="rounded-xl"],
 a.inline-flex[class*="rounded-lg"],
-a.inline-flex[class*="rounded-md"] {
+a.inline-flex[class*="rounded-md"],
+a.inline-flex[class*="rounded-full"] {
   border-radius: var(--radius-button) !important;
 }
 

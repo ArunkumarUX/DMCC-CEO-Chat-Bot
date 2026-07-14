@@ -205,7 +205,7 @@ export function DocumentsPage() {
                       showToast('Question ready — open Chat to send', 'info');
                       setQuestion('');
                     }}
-                    className="flex items-center gap-1 rounded-full bg-adgm-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-adgm-primary-hover"
+                    className="flex items-center gap-1 rounded-none bg-adgm-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-adgm-primary-hover"
                   >
                     <MessageSquare className="h-4 w-4" />
                     Ask

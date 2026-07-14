@@ -23,7 +23,7 @@ export function WelcomePage() {
           <AdgmLogo variant="onDark" showTagline />
           <Link
             to="/dashboard"
-            className="inline-flex items-center rounded-full border border-white/25 px-4 py-2 text-sm font-medium hover:bg-white/10"
+            className="inline-flex items-center rounded-none border border-white/25 px-4 py-2 text-sm font-medium hover:bg-white/10"
           >
             Enter workspace
           </Link>
@@ -39,7 +39,7 @@ export function WelcomePage() {
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/70 md:mx-0">{PRODUCT_TAGLINE}</p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
             <MagneticButton
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-adgm-primary px-8 py-3.5 font-semibold text-white"
+              className="inline-flex items-center justify-center gap-2 rounded-none bg-adgm-primary px-8 py-3.5 font-semibold text-white"
               onClick={() => {
                 window.location.href = '/dashboard';
               }}
@@ -49,7 +49,7 @@ export function WelcomePage() {
             </MagneticButton>
             <Link
               to="/chat"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 px-8 py-3.5 font-medium hover:bg-white/10"
+              className="inline-flex items-center justify-center gap-2 rounded-none border border-white/30 px-8 py-3.5 font-medium hover:bg-white/10"
             >
               Ask a question
               <ArrowRight className="h-5 w-5" />

@@ -133,7 +133,7 @@ export function CommandDeck() {
             action={
               <Link
                 to="/performance"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-adgm-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-adgm-primary-hover whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 rounded-none bg-adgm-primary px-4 py-2.5 text-sm font-semibold text-white hover:bg-adgm-primary-hover whitespace-nowrap"
               >
                 Full dashboard
                 <ArrowRight className="h-4 w-4 shrink-0" />

@@ -48,7 +48,7 @@ export function HomeHero({ onDailyBriefing }: { onDailyBriefing: () => void }) {
               <button
                 type="button"
                 onClick={onDailyBriefing}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-[var(--dmcc-pink,#E21F7B)] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 hover:bg-[var(--dmcc-pink-hover,#C41868)] transition-colors"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-none bg-[var(--dmcc-pink,#E21F7B)] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 hover:bg-[var(--dmcc-pink-hover,#C41868)] transition-colors"
               >
                 <Sparkles className="h-4 w-4 shrink-0 text-white" />
                 Overnight intelligence briefing
@@ -56,7 +56,7 @@ export function HomeHero({ onDailyBriefing }: { onDailyBriefing: () => void }) {
               <button
                 type="button"
                 onClick={() => navigate('/chat')}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-5 py-3 text-sm font-medium backdrop-blur-sm hover:bg-white/15 transition-colors"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-none border border-white/25 bg-white/10 px-5 py-3 text-sm font-medium backdrop-blur-sm hover:bg-white/15 transition-colors"
               >
                 <MessageSquare className="h-4 w-4 shrink-0" />
                 Ask a strategic question

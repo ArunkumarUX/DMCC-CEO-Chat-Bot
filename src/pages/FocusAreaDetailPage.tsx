@@ -106,7 +106,7 @@ export function FocusAreaDetailPage() {
             ))}
           </ul>
           <MagneticButton
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-adgm-primary px-7 py-3 text-sm font-semibold text-white hover:bg-adgm-primary-hover"
+            className="mt-6 inline-flex items-center gap-2 rounded-none bg-adgm-primary px-7 py-3 text-sm font-semibold text-white hover:bg-adgm-primary-hover"
             onClick={() => startPrompt(area.prompts[0])}
           >
             <MessageSquare className="h-4 w-4" />

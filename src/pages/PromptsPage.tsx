@@ -65,7 +65,7 @@ export function PromptsPage() {
                 <button
                   type="button"
                   onClick={() => insertPrompt(p.prompt)}
-                  className="flex-1 rounded-full bg-adgm-primary py-2.5 text-xs font-medium text-white hover:bg-adgm-primary-hover"
+                  className="flex-1 rounded-none bg-adgm-primary py-2.5 text-xs font-medium text-white hover:bg-adgm-primary-hover"
                 >
                   Use in chat
                 </button>

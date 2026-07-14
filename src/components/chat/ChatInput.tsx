@@ -75,7 +75,7 @@ export function ChatInput() {
               type="button"
               onClick={() => inputDraft.trim() && sendMessage(inputDraft)}
               disabled={!inputDraft.trim()}
-              className="shrink-0 rounded-full bg-adgm-primary px-4 py-2.5 text-white hover:bg-adgm-primary-hover disabled:opacity-40"
+              className="shrink-0 rounded-none bg-adgm-primary px-4 py-2.5 text-white hover:bg-adgm-primary-hover disabled:opacity-40"
               aria-label="Send"
             >
               <Send className="h-5 w-5" />

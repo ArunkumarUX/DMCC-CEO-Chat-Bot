@@ -172,7 +172,7 @@ function WorkflowRunner({
               <button
                 type="button"
                 onClick={onNext}
-                className="flex items-center gap-1 rounded-full bg-adgm-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-adgm-primary-hover"
+                className="flex items-center gap-1 rounded-none bg-adgm-primary px-6 py-2.5 text-sm font-medium text-white hover:bg-adgm-primary-hover"
               >
                 Continue
                 <ChevronRight className="h-4 w-4" />
@@ -210,7 +210,7 @@ function WorkflowRunner({
             <button
               type="button"
               onClick={onComplete}
-              className="mt-6 w-full rounded-full bg-adgm-primary py-3 text-sm font-medium text-white hover:bg-adgm-primary-hover"
+              className="mt-6 w-full rounded-none bg-adgm-primary py-3 text-sm font-medium text-white hover:bg-adgm-primary-hover"
             >
               Save output & close
             </button>

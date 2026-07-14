@@ -89,7 +89,7 @@
   --sidebar-active: linear-gradient(135deg, #2d4a6e 0%, var(--ag-navy) 100%);
 }
 
-/* Pink CTA — primary actions */
+/* Pink CTA — primary actions (square / no radius) */
 .btn-primary,
 .btn-aqua,
 .auth-gate__submit,
@@ -99,6 +99,7 @@
   background: var(--dmcc-pink) !important;
   color: #ffffff !important;
   border: none;
+  border-radius: 0 !important;
 }
 
 .btn-primary:hover,
